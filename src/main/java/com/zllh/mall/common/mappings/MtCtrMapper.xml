@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtCtrMapper">
+	<resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtCtr">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="bus_type" property="busType" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="flow_type" property="flowType" jdbcType="INTEGER" />
+		<result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+		<result column="delay_date" property="delayDate" jdbcType="INTEGER" />
+		<result column="sendgoods_type" property="sendgoodsType" jdbcType="INTEGER" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="pay_type" property="payType" jdbcType="INTEGER" />
+		<result column="payer_code" property="payerCode" jdbcType="VARCHAR" />
+		<result column="payer_name" property="payerName" jdbcType="VARCHAR" />
+		<result column="getmoney_code" property="getmoneyCode" jdbcType="VARCHAR" />
+		<result column="getmoney_name" property="getmoneyName" jdbcType="VARCHAR" />
+		<result column="first_mmb_id" property="firstMmbId" jdbcType="VARCHAR" />
+		<result column="second_mmb_id" property="secondMmbId" jdbcType="VARCHAR" />
+		<result column="create_user" property="createUser" jdbcType="VARCHAR" />
+		<result column="contract_status" property="contractStatus" jdbcType="INTEGER" />
+		<result column="contract_title" property="contractTitle" jdbcType="VARCHAR" />
+		<result column="beizhu" property="beizhu" jdbcType="VARCHAR" />
+		<result column="text" property="text" jdbcType="VARCHAR" />
+
+		<result column="sendgoods_address" property="sendgoodsAddress" jdbcType="VARCHAR" />
+		<result column="getgoods_address" property="getgoodsAddress" jdbcType="VARCHAR" />
+
+		<result column="operate_user" property="operateUser" jdbcType="VARCHAR" />
+		<result column="operateUserName" property="operateUserName" jdbcType="VARCHAR" />
+		<result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap type="com.zllh.mall.common.model.MtCtr" id="resultMap1" extends="BaseResultMap">
+		<result column="flow_type_" property="flow_type_" jdbcType="VARCHAR" />
+		<result column="sendgoods_type_" property="sendgoods_type_" jdbcType="VARCHAR" />
+		<result column="pay_type_" property="pay_type_" jdbcType="VARCHAR" />
+		<result column="mmbName" property="mmbName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="insert" parameterType="com.zllh.mall.common.model.MtCtr">
+		insert into mt_ctr (id, bus_type, create_time,
+		start_time, end_time, flow_type,
+		mmb_id, delay_date, sendgoods_type,
+		pay_time, pay_type, payer_code,
+		payer_name, getmoney_code,
+		getmoney_name,sendgoods_address,getgoods_address,first_mmb_id,second_mmb_id,create_user,contract_status,contract_title
+		)
+		values (#{id,jdbcType=VARCHAR}, #{busType,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{flowType,jdbcType=INTEGER},
+		#{mmbId,jdbcType=VARCHAR}, #{delayDate,jdbcType=INTEGER},
+		#{sendgoodsType,jdbcType=INTEGER},
+		#{payTime,jdbcType=TIMESTAMP}, #{payType,jdbcType=INTEGER}, #{payerCode,jdbcType=VARCHAR},
+		#{payerName,jdbcType=VARCHAR}, #{getmoneyCode,jdbcType=VARCHAR},
+		#{getmoneyName,jdbcType=VARCHAR},#{sendgoodsAddress,jdbcType=VARCHAR},#{getgoodsAddress,jdbcType=VARCHAR},
+		#{firstMmbId,jdbcType=VARCHAR},
+		#{secondMmbId,jdbcType=VARCHAR},#{createUser,jdbcType=VARCHAR},#{contractStatus,jdbcType=INTEGER},#{contractTitle,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtCtr">
+		insert into mt_ctr
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="busType != null">
+				bus_type,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="startTime != null">
+				start_time,
+			</if>
+			<if test="endTime != null">
+				end_time,
+			</if>
+			<if test="flowType != null">
+				flow_type,
+			</if>
+			<if test="mmbId != null">
+				mmb_id,
+			</if>
+			<if test="delayDate != null">
+				delay_date,
+			</if>
+			<if test="sendgoodsType != null">
+				sendgoods_type,
+			</if>
+			<if test="payTime != null">
+				pay_time,
+			</if>
+			<if test="payType != null">
+				pay_type,
+			</if>
+			<if test="payerCode != null">
+				payer_code,
+			</if>
+			<if test="payerName != null">
+				payer_name,
+			</if>
+			<if test="getmoneyCode != null">
+				getmoney_code,
+			</if>
+			<if test="getmoneyName != null">
+				getmoney_name,
+			</if>
+
+			<if test="sendgoodsAddress != null">
+				sendgoods_address,
+			</if>
+			<if test="getgoodsAddress != null">
+				getgoods_address,
+			</if>
+
+			<if test="contractTitle != null">
+				contract_title,
+			</if>
+			<if test="firstMmbId != null">
+				first_mmb_id,
+			</if>
+			<if test="secondMmbId != null">
+				second_mmb_id,
+			</if>
+			<if test="createUser != null">
+				create_user,
+			</if>
+			<if test="contractStatus != null">
+				contract_status,
+			</if>
+			<if test="beizhu != null">
+				beizhu,
+			</if>
+
+			<if test="operateUser != null">
+				operate_user,
+			</if>
+			<if test="operateTime != null">
+				operate_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="busType != null">
+				#{busType,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="startTime != null">
+				#{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endTime != null">
+				#{endTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="flowType != null">
+				#{flowType,jdbcType=INTEGER},
+			</if>
+			<if test="mmbId != null">
+				#{mmbId,jdbcType=VARCHAR},
+			</if>
+			<if test="delayDate != null">
+				#{delayDate,jdbcType=INTEGER},
+			</if>
+			<if test="sendgoodsType != null">
+				#{sendgoodsType,jdbcType=INTEGER},
+			</if>
+			<if test="payTime != null">
+				#{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payType != null">
+				#{payType,jdbcType=INTEGER},
+			</if>
+			<if test="payerCode != null">
+				#{payerCode,jdbcType=VARCHAR},
+			</if>
+			<if test="payerName != null">
+				#{payerName,jdbcType=VARCHAR},
+			</if>
+			<if test="getmoneyCode != null">
+				#{getmoneyCode,jdbcType=VARCHAR},
+			</if>
+			<if test="getmoneyName != null">
+				#{getmoneyName,jdbcType=VARCHAR},
+			</if>
+
+			<if test="sendgoodsAddress != null">
+				#{sendgoodsAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="getgoodsAddress != null">
+				#{getgoodsAddress,jdbcType=VARCHAR},
+			</if>
+
+			<if test="contractTitle != null">
+				#{contractTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="firstMmbId != null">
+				#{firstMmbId,jdbcType=VARCHAR},
+			</if>
+			<if test="secondMmbId != null">
+				#{secondMmbId,jdbcType=VARCHAR},
+			</if>
+			<if test="createUser != null">
+				#{createUser,jdbcType=VARCHAR},
+			</if>
+			<if test="contractStatus != null">
+				#{contractStatus,jdbcType=INTEGER},
+			</if>
+			<if test="beizhu != null">
+				#{beizhu,jdbcType=VARCHAR},
+			</if>
+			<if test="operateUser != null">
+				#{operateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="operateTime != null">
+				#{operateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateContracts" parameterType="com.zllh.mall.common.model.MtCtr">
+		update mt_ctr
+		<set>
+			<if test="id != null">
+				id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="busType != null">
+				bus_type = #{busType,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="startTime != null">
+				start_time = #{startTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endTime != null">
+				end_time = #{endTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="flowType != null">
+				flow_type = #{flowType,jdbcType=INTEGER},
+			</if>
+			<if test="mmbId != null">
+				mmb_id = #{mmbId,jdbcType=VARCHAR},
+			</if>
+			<if test="delayDate != null">
+				delay_date = #{delayDate,jdbcType=INTEGER},
+			</if>
+			<if test="sendgoodsType != null">
+				sendgoods_type = #{sendgoodsType,jdbcType=INTEGER},
+			</if>
+			<if test="payTime != null">
+				pay_time =#{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payType != null">
+				pay_type=#{payType,jdbcType=INTEGER},
+			</if>
+			<if test="payerCode != null">
+				payer_code =#{payerCode,jdbcType=VARCHAR},
+			</if>
+			<if test="payerName != null">
+				payer_name =#{payerName,jdbcType=VARCHAR},
+			</if>
+			<if test="getmoneyCode != null">
+				getmoney_code = #{getmoneyCode,jdbcType=VARCHAR},
+			</if>
+			<if test="getmoneyName != null">
+				getmoney_name = #{getmoneyName,jdbcType=VARCHAR},
+			</if>
+			<if test="sendgoodsAddress != null">
+				sendgoods_address = #{sendgoodsAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="getgoodsAddress != null">
+				getgoods_address = #{getgoodsAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="contractTitle != null">
+				contract_title = #{contractTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="contractStatus != null">
+				contract_status = #{contractStatus,jdbcType=INTEGER},
+			</if>
+			<if test="beizhu != null">
+				beizhu = #{beizhu,jdbcType=INTEGER},
+			</if>
+
+			<if test="operateUser != null">
+				operate_user = #{operateUser,jdbcType=VARCHAR},
+			</if>
+			<if test="operateTime != null">
+				operate_time =#{operateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<!--根据条件查询待审核以及处理中合同 -->
+	<select id="queryContractByCondition" resultMap="resultMap1" parameterType="java.util.Map">
+		SELECT
+		ctr.id,
+		ctr.bus_type,
+		ctr.create_time,
+		ctr.start_time,
+		ctr.end_time,
+		ctr.contract_title,
+		CASE
+		WHEN ctr.flow_type = 0 THEN
+		'自取'
+		WHEN ctr.flow_type = 1 THEN
+		'免费配送'
+		WHEN ctr.flow_type = 2 THEN
+		'有偿配送(1%)'
+		END AS flow_type_,
+		ctr.mmb_id,
+		ctr.delay_date,
+		CASE
+		WHEN ctr.sendgoods_type = 0 THEN
+		'行运'
+		WHEN ctr.sendgoods_type = 1 THEN
+		'空运'
+		END AS sendgoods_type_,
+		ctr.pay_time,
+		CASE
+		WHEN ctr.pay_type = 0 THEN
+		'每月'
+		WHEN ctr.pay_type = 1 THEN
+		'每季'
+		WHEN ctr.pay_type = 2 THEN
+		'六个月'
+		WHEN ctr.pay_type = 3 THEN
+		'每年'
+		WHEN ctr.pay_type = 4 THEN
+		'其他'
+		END AS pay_type_,
+		ctr.payer_code,
+		ctr.payer_name,
+		ctr.getmoney_code,
+		ctr.getmoney_name,
+		ctr.sendgoods_address,
+		ctr.getgoods_address,
+		ctr.first_mmb_id,
+		ctr.second_mmb_id,
+		ctr.create_user,
+		ctr.contract_status,
+		ctr.beizhu,
+		mmb.mmb_fname  mmbName
+		FROM
+		mt_ctr ctr,mt_member mmb
+		WHERE
+		1 = 1
+		<!--如果是采购协议，那么买方为当前登录mmbId, 如果是销售协议，反之，卖方是当前登录用户 -->
+		<if test="type!=null and type==1">
+			and ctr.second_mmb_id = mmb.id
+			AND ctr.first_mmb_id = #{mmbId,jdbcType=VARCHAR}
+		</if>
+
+		<if test="type!=null and type==2">
+			and ctr.first_mmb_id = mmb.id
+			AND ctr.second_mmb_id = #{mmbId,jdbcType=VARCHAR}
+
+		</if>
+
+		<if test="pendingStatus!=null">
+			AND ctr.contract_status = #{pendingStatus,jdbcType=VARCHAR}
+		</if>
+
+		<if test="pendingStatusList!=null">
+			AND ctr.contract_status in
+			<foreach collection="pendingStatusList" item="pengingStatus" index="currentIndex" open="(" separator="," close=")">
+				  #{pengingStatus,jdbcType=VARCHAR}
+			</foreach>
+		</if>
+
+		<if test='name!=null and name !=""'>
+			AND mmb.mmb_fname like  CONCAT('%',#{name,jdbcType=VARCHAR},'%')
+		</if>
+
+		order by ctr.operate_time desc
+		<if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+		</if>
+	</select>
+
+	<!--计算查询总数 -->
+	<select id="countContracts" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT
+		count(1)
+		FROM
+		mt_ctr ctr
+		WHERE
+		1 = 1
+		<!--如果是采购协议，那么甲方为当前登录mmbId,乙方为传参mmbId,如果是销售，反之，审核人都是当前登录用户 -->
+		<if test="type!=null and type==1">
+			AND ctr.first_mmb_id = #{mmbId,jdbcType=VARCHAR} and ctr.second_mmb_id = #{relaMmbId,jdbcType=VARCHAR}
+			and ctr.bus_type = 1
+			<!-- 审核中，需要明确审核人为当前登录会员 -->
+			<if test="pendingStatus!=null and pendingStatus==0">
+				AND ctr.contract_status = #{pendingStatus,jdbcType=VARCHAR}
+				and ctr.create_user = #{mmbId,jdbcType=VARCHAR}
+			</if>
+			<!--执行中合同，只需要传入状态就行 -->
+			<if test="pendingStatus!=null and pendingStatus==1">
+				AND ctr.contract_status = #{pendingStatus,jdbcType=VARCHAR}
+			</if>
+		</if>
+		<if test="type!=null and type==2">
+			AND ctr.first_mmb_id = #{relaMmbId,jdbcType=VARCHAR} and ctr.second_mmb_id = #{mmbId,jdbcType=VARCHAR}
+			and ctr.bus_type = 2
+			<!-- 审核中，需要明确审核人为当前登录会员 -->
+			<if test="pendingStatus!=null and pendingStatus==0">
+				AND ctr.contract_status = #{pendingStatus,jdbcType=VARCHAR}
+				and ctr.create_user = #{mmbId,jdbcType=VARCHAR}
+			</if>
+			<!--执行中合同，只需要传入状态就行 -->
+			<if test="pendingStatus!=null and pendingStatus==1">
+				AND ctr.contract_status = #{pendingStatus,jdbcType=VARCHAR}
+			</if>
+		</if>
+	</select>
+	<select id="getTradeNameByFir" resultMap="resultMap1" parameterType="com.zllh.mall.common.model.MtCtr">
+		select * from mt_ctr
+		where
+		<if test="text !=null">
+			first_mmb_id = #{text,jdbcType=VARCHAR}
+			group by second_mmb_id
+		</if>
+		OR
+		<if test="text !=null">
+			second_mmb_id = #{text,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<select id="getTradeName" resultMap="resultMap1" parameterType="com.zllh.mall.common.model.MtCtr">
+		select * from mt_ctr
+		where
+		<if test="text !=null">
+			first_mmb_id = #{text,jdbcType=VARCHAR}
+		</if>
+		OR
+		<if test="text !=null">
+			second_mmb_id = #{text,jdbcType=VARCHAR}
+		</if>
+		and first_mmb_id is not null and second_mmb_id is not null
+	</select>
+	<select id="getTradeNameByOne" resultMap="resultMap1" parameterType="com.zllh.mall.common.model.MtCtr">
+				SELECT
+		ctr.id,
+		ctr.bus_type,
+		ctr.create_time,
+		ctr.start_time,
+		ctr.end_time,
+		ctr.contract_title,
+		CASE
+		WHEN ctr.flow_type = 0 THEN
+		'自取'
+		WHEN ctr.flow_type = 1 THEN
+		'免费配送'
+		WHEN ctr.flow_type = 2 THEN
+		'有偿配送(1%)'
+		END AS flow_type_,
+		ctr.mmb_id,
+		ctr.delay_date,
+		CASE
+		WHEN ctr.sendgoods_type = 0 THEN
+		'行运'
+		WHEN ctr.sendgoods_type = 1 THEN
+		'空运'
+		END AS sendgoods_type_,
+		ctr.pay_time,
+		CASE
+		WHEN ctr.pay_type = 0 THEN
+		'每月'
+		WHEN ctr.pay_type = 1 THEN
+		'每季'
+		WHEN ctr.pay_type = 2 THEN
+		'六个月'
+		WHEN ctr.pay_type = 3 THEN
+		'每年'
+		WHEN ctr.pay_type = 4 THEN
+		'其他'
+		END AS pay_type_,
+		ctr.payer_code,
+		ctr.payer_name,
+		ctr.getmoney_code,
+		ctr.getmoney_name,
+		ctr.sendgoods_address,
+		ctr.getgoods_address,
+		ctr.first_mmb_id,
+		ctr.second_mmb_id,
+		ctr.create_user,
+		ctr.contract_status,
+		ctr.beizhu,
+		ctr.text
+		FROM
+		mt_ctr ctr
+		where
+		<if test="firstMmbId !=null">
+			second_mmb_id = #{firstMmbId,jdbcType=VARCHAR} and first_mmb_id = #{secondMmbId,jdbcType=VARCHAR}
+		</if>
+		OR
+		<if test="secondMmbId !=null">
+			first_mmb_id = #{firstMmbId,jdbcType=VARCHAR} and second_mmb_id = #{secondMmbId,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 合作协议进入下一状态-->
+	<update id="updateContractToNextStatus" parameterType="java.util.HashMap">
+		update mt_ctr ctr
+		set ctr.contract_status = #{nextStatus,jdbcType=INTEGER}
+		where id = #{id,jdbcType=VARCHAR}
+
+	</update>
+
+	<!--双方均同意后 修改 收发货地址、收发款账号-->
+	<update id="agreeContract" parameterType="java.util.HashMap">
+		update mt_ctr ctr
+		<!--如果是采购协议，修改 -->
+		<if test="contractType!=null and contractType==1">
+			set ctr.payer_code = #{bankAccountCode,jdbcType=VARCHAR},
+			ctr.payer_name = #{bankAccountName,jdbcType=VARCHAR},
+			ctr.getgoods_address = #{address,jdbcType=VARCHAR},
+		</if>
+		<if test="contractType!=null and contractType==2">
+			set ctr.getmoney_code = #{bankAccountCode,jdbcType=VARCHAR},
+				ctr.getmoney_name = #{bankAccountName,jdbcType=VARCHAR},
+				ctr.sendgoods_address = #{address,jdbcType=VARCHAR},
+		</if>
+		 ctr.contract_status = #{nextStatus,jdbcType=INTEGER}
+		where id = #{id,jdbcType=VARCHAR}
+
+	</update>
+
+	<!--根据ID 得到协议详情  DATE_FORMAT(ctr.start_time, '%Y-%m-%d') start_time,
+		DATE_FORMAT(ctr.end_time, '%Y-%m-%d') end_time,-->
+	<select id="getContractById"  resultMap="resultMap1">
+		SELECT
+			ctr.id,
+			ctr.bus_type,
+			ctr.create_time,
+			ctr.start_time,
+			ctr.end_time,
+			ctr.contract_title,
+			ctr.flow_type,
+			ctr.mmb_id,
+			ctr.delay_date,
+			ctr.sendgoods_type,
+			ctr.pay_type,
+			ctr.payer_code,
+			ctr.payer_name,
+			ctr.getmoney_code,
+			ctr.getmoney_name,
+			ctr.sendgoods_address,
+			ctr.getgoods_address,
+			ctr.first_mmb_id,
+			ctr.second_mmb_id,
+			ctr.create_user,
+			ctr.contract_status,
+			ctr.beizhu,
+			mmb.mmb_fname  mmbName,
+			ctr.operate_user,
+			ctr.operate_time,
+		    muser.mmb_name operateUserName
+			FROM
+			mt_ctr ctr,mt_member mmb,mt_muser muser
+			WHERE  1 = 1
+			and ctr.operate_user = muser.id
+
+			<!--如果是采购协议，那么买方为当前登录mmbId, 如果是销售协议，反之，卖方是当前登录用户 -->
+			<if test="type!=null and type==1">
+				and ctr.second_mmb_id = mmb.id
+			</if>
+
+			<if test="type!=null and type==2">
+				and ctr.first_mmb_id = mmb.id
+			</if>
+
+			<if test="id != null">
+				and ctr.id = #{id,jdbcType=VARCHAR}
+			</if>
+
+
+	</select>
+
+	<!--手机APP 根据用户角色列表 得到app权限列表 -->
+	<select id="getAppMenusByRoles" resultType="java.lang.String" parameterType="java.util.HashMap">
+		SELECT
+			a.app_menu  from  app_menu_role_rel a
+		where 1=1
+		<if test="roles !=null and roles.size()>0">
+			AND a.role_id in
+				<foreach collection="roles" item="role" index="index" open="(" separator="," close=")">
+					#{role.roleId}
+				</foreach>
+		</if>
+		<if test="parentMenu !=null">
+			and a.parent_menu = #{parentMenu}
+		</if>
+
+	</select>
+	
+	<!-- 得到app最新版本信息-->
+	<select id="getAppVersion" resultType="java.util.HashMap" >
+		SELECT
+			version,
+			url,
+			content,
+			create_date
+		FROM
+			app_version_info
+	</select>
+
+</mapper>

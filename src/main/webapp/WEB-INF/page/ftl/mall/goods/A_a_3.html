@@ -1,0 +1,553 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<link href="css/pulic.css" rel="stylesheet" type="text/css">
+<link href="css/theme.css" rel="stylesheet" type="text/css">
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(e) {
+    $('.A_b_2_nav_left>li').click(function(){
+		$('.A_b_2_subnav').slideUp()
+		$(this).next('ul').stop().slideDown()
+		})
+	$('.A_b_2_subnav li a').click(function(){
+		$('.A_b_2_subnav li a').css('color','#333')
+		$(this).css('color','#4aa3df')
+		$($(this).attr('href')).show()
+		})
+});
+</script>
+</head>
+
+<body>
+<div class="panel panel-default" style=" margin-left:240px; margin-top:10px; box-shadow:3px 3px 8px rgba(0,0,0,0.1); margin-right:1%; height:auto;">
+<!---------------------------------------con top  start-------------------------------------------------------------->
+    <div class="con_top">
+        <p>商品管理</p>
+    </div>
+<!---------------------------------------con top  over--------------------------------------------------------------->
+<!---------------------------------------nav start--------------------------------------------------------------->
+<div>
+<ul class="A_b_2_nav_left" style=" float:left;">
+	<li>粮食食品</li>
+    	<ul class="A_b_2_subnav" style="display:block;">
+        	<li><a href="#A_b_2_right_jq">面类</a></li>
+        	<li><a href="#">米类</a></li>
+        	<li><a href="#">油类</a></li>
+        	<li><a href="#">豆类</a></li>
+        </ul>
+	<li>果蔬</li>
+    	<ul class="A_b_2_subnav">
+        	<li><a href="#">水果类</a></li>
+        	<li><a href="#">蔬菜类</a></li>
+        	<li><a href="#">瓜类</a></li>
+        </ul>
+	<li>肉类</li>
+    	<ul class="A_b_2_subnav">
+        	<li><a href="#">鱼肉</a></li>
+        	<li><a href="#">猪肉</a></li>
+        	<li><a href="#">鲜虾</a></li>
+        </ul>
+	<li>调料</li>
+    	<ul class="A_b_2_subnav">
+        	<li><a href="#">酱油</a></li>
+        	<li><a href="#">盐</a></li>
+        	<li><a href="#">燃料</a></li>
+        	<li><a href="#">日常用品</a></li>
+        	<li><a href="#">熟食</a></li>
+        </ul>
+</ul>
+<!--商品信息-->
+<div class="container-fluid" style="float:left; width:80%">
+    <div class="row-fluid">
+        <!-- col-sm-12 -->
+        <div class="col-sm-12 ">
+        	<div class="panel panel-default article-bj">
+                <div class="panel-heading">
+                商品信息
+                </div>
+                    <div class="table-responsive panel-table-body ">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>图片</th>
+                                    <th>商品名称</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                	<td><img src="images/contentp.png" style="height:50px; width:50px;"></td>
+                                    <td style="vertical-align:middle">苹果</td>
+                                    <td style="vertical-align:middle">
+                                    	<a href="#" data-toggle="modal"; data-target="#edit" >编辑</a>
+                                    	<a href="#" >停用</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> 
+                    <footer class="panel-footer text-right bg-light lter">
+                    <input type="button" class="btn btn-warning btn-s-xs" data-toggle="modal" data-target="#add" value="添加"/>
+                    </footer>
+        		</div>
+       		 </div>
+        </div>
+    </div> 
+</div>
+
+<div class="clear"></div>
+<!---------------------------------------nav  over--------------------------------------------------------------->
+</div>
+<!--编辑订单-->
+<div class="modal fade" id="edit" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div class="modal-dialog tanchu-box" role="document" style="width:65%"> 
+        <div class="container-fluid container-margin">
+            <div class="row-fluid">
+                <!-- col-sm-12 -->
+                <div class="col-sm-12 ">
+                    <div class="panel panel-default article-bj">
+                        <div class="panel-heading box-shodm">
+                        编辑商品
+                        </div>
+                        	<div class="row wrapper form-margin" style="margin:20px 40px;">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">名称:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">标题图片:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <img src="images/contentp.png" style="height:30px; width:30px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-success btn-s-xs btn-xs aa3_btn" type="file" data-toggle="modal" data-target="#addTitlePic">选择</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">保质期:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div> 
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">生产地址:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div> 
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">生产产家:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">生产编号:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">品牌:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">规格:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">库存:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">价格:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="ui_timepicker form-control"  name="datetime" >
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 style="margin-right:19px;">至</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="ui_timepicker form-control"  name="datetime" >
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                    	 <div class="input-group-btn">
+                                          <h5 style="margin-right:10px;"></h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <select class="form-control" name="selecter_basic" tabindex="-1">
+                                            <option value="1">￥</option>
+                                            <option value="2">$</option>
+                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="margin-top:15px;">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">描述:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <textarea rows="3" cols="60%">
+                                         </textarea>
+                                    </div>
+                                </div>
+                             </div>
+                             <div class="row wrapper form-margin aa3_check_bg" style="margin-left:8%">
+                             	<div class="row" style="padding-left:20px; padding-right:20px;">
+                                    <div class="col-md-12">
+                                        <h5 style="margin-bottom:25px;"><strong>轮播图片：</strong></h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="images/contentp.png" class="img-thumbnail">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="images/contentp.png" class="img-thumbnail" >
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="images/contentp.png" class="img-thumbnail">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="images/contentp.png" class="img-thumbnail">
+                                    </div>
+                                </div>
+                                <div class="row wrapper" style="margin-left:40%;">
+                                    <div class="col-md-6">
+                                             <button class="btn btn-success btn-s-xs aa3_btn" type="file"  data-toggle="modal" data-target="#addCarousel">添加</button>
+                                             <button class="btn btn-info btn-s-xs aa3_btn" type="file">清空</button>
+                                    </div>
+                            	</div>
+                            </div>
+                            <footer class="panel-footer text-right bg-light lter">
+                                 <button class="btn btn-warning btn-s-xs" type="submit" data-dismiss="modal">修改</button>
+                            </footer>
+                        </div>
+                     </div>
+                </div>
+            </div> 
+        </div>
+	</div> 
+</div>
+<!--增加商品-->
+<div class="modal fade" id="add" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div class="modal-dialog tanchu-box" role="document" style="width:65%"> 
+        <div class="container-fluid container-margin">
+            <div class="row-fluid">
+                <!-- col-sm-12 -->
+                <div class="col-sm-12 ">
+                    <div class="panel panel-default article-bj">
+                        <div class="panel-heading box-shodm">
+                        编辑商品
+                        </div>
+                        	<div class="row wrapper form-margin" style="margin:20px 40px;">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">名称:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">标题图片:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <img src="images/contentp.png" style="height:30px; width:30px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-success btn-s-xs btn-xs aa3_btn" type="file" data-toggle="modal" data-target="#addTitlePic">选择</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">保质期:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div> 
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">生产地址:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div> 
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">生产产家:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">生产编号:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">品牌:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">规格:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">库存:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="form-control" name="input1-group3" id="input1-group3">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">价格:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="ui_timepicker form-control"  name="datetime" >
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 style="margin-right:19px;">至</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <input type="text" placeholder="" class="ui_timepicker form-control"  name="datetime" >
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="input-group">
+                                    	 <div class="input-group-btn">
+                                          <h5 style="margin-right:10px;"></h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <select class="form-control" name="selecter_basic" tabindex="-1">
+                                            <option value="1">￥</option>
+                                            <option value="2">$</option>
+                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="margin-top:15px;">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                          <h5 class="h5-margin">描述:</h5>
+                                          <!--   <button class="btn" type="button"></button> -->
+                                         </div>
+                                         <textarea rows="3" cols="60%">
+                                         </textarea>
+                                    </div>
+                                </div>
+                             </div>
+                             <div class="row wrapper form-margin aa3_check_bg" style="margin-left:8%;">
+                             	<div class="row" style="padding-left:20px; padding-right:20px;">
+                                    <div class="col-md-12">
+                                        <h5 style="margin-bottom:25px;"><strong>轮播图片：</strong></h5>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="images/contentp.png" class="img-thumbnail">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="images/contentp.png" class="img-thumbnail" >
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="images/contentp.png" class="img-thumbnail">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="images/contentp.png" class="img-thumbnail">
+                                    </div>
+                                </div>
+                                <div class="row wrapper" style="margin-left:40%;">
+                                    <div class="col-md-6">
+                                             <button class="btn btn-success btn-s-xs aa3_btn" type="file"  data-toggle="modal" data-target="#addCarousel">添加</button>
+                                             <button class="btn btn-info btn-s-xs aa3_btn" type="file">清空</button>
+                                    </div>
+                            	</div>
+                            </div>
+                            <footer class="panel-footer text-right bg-light lter">
+                                 <button class="btn btn-warning btn-s-xs" type="submit" data-dismiss="modal">保存</button>
+                            </footer>
+                        </div>
+                     </div>
+                </div>
+            </div> 
+        </div>
+	</div> 
+</div>
+<!--添加轮播图片-->
+<div class="modal fade" id="addCarousel" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div class="modal-dialog tanchu-box" role="document" style="width:50%"> 
+        <div class="container-fluid container-margin">
+            <div class="row-fluid">
+                <!-- col-sm-12 -->
+                <div class="col-sm-12 ">
+                    <div class="panel panel-default article-bj">
+                        <div class="panel-heading box-shodm">
+                        添加轮播图片
+                        </div>
+                        <div class="row wrapper form-margin" style="margin:20px 40px;">
+                            <div class="col-md-4">
+                                <img src="images/contentp.png" class="img-thumbnail">
+                            </div>
+                            <div class="col-md-4">
+                                <img src="images/contentp.png" class="img-thumbnail" >
+                            </div>
+                            <div class="col-md-4">
+                                <img src="images/contentp.png" class="img-thumbnail">
+                            </div>
+                            <div class="col-md-4">
+                                <img src="images/contentp.png" class="img-thumbnail aa3_img_margin">
+                            </div>
+                            <div class="col-md-4">
+                                <img src="images/contentp.png" class="img-thumbnail aa3_img_margin" >
+                            </div>
+                            <div class="col-md-4">
+                                <img src="images/contentp.png" class="img-thumbnail aa3_img_margin">
+                            </div>
+                            <div class="col-md-4">
+                                <img src="images/contentp.png" class="img-thumbnail aa3_img_margin">
+                            </div>
+                            <div class="col-md-4">
+                                <img src="images/contentp.png" class="img-thumbnail aa3_img_margin">
+                            </div>
+                            <div class="col-md-4">
+                                <img src="images/contentp.png" class="img-thumbnail aa3_img_margin">
+                            </div>
+                        </div>
+                        <footer class="panel-footer text-right bg-light lter">
+                             <button class="btn btn-warning btn-s-xs" type="submit" data-dismiss="modal">确定</button>
+                        </footer>
+                     </div>
+                </div>
+            </div> 
+        </div>
+	</div> 
+</div>
+<!--添加标题图片-->
+<div class="modal fade" id="addTitlePic" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div class="modal-dialog s-tanchu-box" role="document" style="width:20%"> 
+        <div class="container-fluid container-margin">
+            <div class="row-fluid">
+                <!-- col-sm-12 -->
+                <div class="col-sm-12 ">
+                    <div class="panel panel-default article-bj">
+                        <div class="panel-heading box-shodm">
+                        添加标题图片
+                        </div>
+                        <div class="row wrapper form-margin" style="margin:20px 20px;">
+                            <div class="col-md-4">
+                                <span  class="glyphicon glyphicon-leaf aa3_title_pic"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <span  class="glyphicon glyphicon-tint aa3_title_pic"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <span  class="glyphicon glyphicon-star-empty aa3_title_pic"></span>
+                            </div>
+                         </div>
+                         <div class="row wrapper form-margin" style="margin:20px 20px;">
+                            <div class="col-md-4">
+                                <span  class="glyphicon glyphicon-star aa3_title_pic"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <span  class="glyphicon glyphicon-send aa3_title_pic"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <span  class="glyphicon glyphicon-shopping-cart aa3_title_pic"></span>
+                            </div>
+                        </div>
+                        <div class="row wrapper form-margin" style="margin:20px 20px;">
+                            <div class="col-md-4">
+                                <span  class="glyphicon glyphicon-leaf aa3_title_pic"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <span  class="glyphicon glyphicon-tint aa3_title_pic"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <span  class="glyphicon glyphicon-star-empty aa3_title_pic"></span>
+                            </div>
+                        </div>
+                        <footer class="panel-footer text-right bg-light lter">
+                             <button class="btn btn-warning btn-s-xs" type="submit" data-dismiss="modal">确定</button>
+                        </footer>
+                     </div>
+                </div>
+            </div> 
+        </div>
+	</div> 
+</div>
+</body>
+</html>

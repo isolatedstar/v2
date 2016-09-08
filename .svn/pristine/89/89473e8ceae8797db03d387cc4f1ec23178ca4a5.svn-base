@@ -1,0 +1,227 @@
+package com.zllh.mall.settle.service.impl;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import net.sf.json.JSONObject;
+
+import com.zllh.base.controller.BaseController;
+import com.zllh.mall.common.dao.MtGetpaymoneyMapper;
+import com.zllh.mall.common.dao.MtOrderMapper;
+import com.zllh.mall.common.dao.MtSettleMapper;
+import com.zllh.mall.common.dao.MtSettleOrderMapper;
+import com.zllh.mall.common.model.MtGetpaymoney;
+import com.zllh.mall.common.model.MtOrder;
+import com.zllh.mall.common.model.MtSettle;
+import com.zllh.mall.common.model.MtSettleOrder;
+import com.zllh.mall.order.service.IOrderService;
+import com.zllh.mall.settle.service.ISettleService;
+import com.zllh.utils.common.UUIDCreater;
+
+@Service
+public class SettleServiceImpl implements ISettleService {
+	
+	public final Logger logger = LoggerFactory.getLogger(BaseController.class);
+	
+	@Resource
+	private IOrderService orderService;
+	
+	@Resource
+	private MtSettleMapper mtSettleMapper;
+	
+	@Resource
+	private MtOrderMapper mtOrderMapper;
+	
+	@Resource
+	private MtGetpaymoneyMapper mtGetpaymoneyMapper;
+	
+	@Resource
+	private MtSettleOrderMapper mtSettleOrderMapper;
+
+	@Override
+	public List<MtSettle> queryPendingSettleList(Map<String, Object> map) {
+		List<MtSettle> pendingSettleList = mtSettleMapper.searchPendingSettle(map);
+		return pendingSettleList;
+	}
+	
+	@Override
+	public List<MtSettle> queryMyPendingSettleList(Map<String, Object> map) {
+		List<MtSettle> pendingSettleList = mtSettleMapper.searchMyPendingSettle(map);
+		return pendingSettleList;
+	}
+	
+	@Override
+	public List<MtSettle> querySttleManage(Map<String, Object> map) {
+		List<MtSettle> settleList = mtSettleMapper.searchSettleManage(map);
+		return settleList;
+	}
+
+	@Override
+	public List<MtOrder> queryOppositeList(Map<String, Object> map) {
+		List<MtOrder> oppositeList = mtOrderMapper.selectOppositeList(map);
+		return oppositeList;
+	}
+	
+	@Override
+	public List<MtSettle> querySttleSignature(Map<String, Object> map) {
+		List<MtSettle> settleSignatureList = mtSettleMapper.searchSettleSignature(map);
+		return settleSignatureList;
+	}
+
+	@Override
+	public List<MtSettle> querySttleRegist(Map<String, Object> map) {
+		List<MtSettle> settleRegistList = mtSettleMapper.searchSettleRegist(map);
+		return settleRegistList;
+	}
+
+	@Override
+	public List<String> getOrderIdByBalanceId(String guaranteetId) {
+		return null;
+	}
+	
+	public String disposeMallRefundCallback(JSONObject json) {
+		logger.info("支付回调" + json);
+		return "200";
+	}
+
+	@Override
+	public String createSettle(MtSettle settle, List<MtOrder> orderList,String memberId,String userId,String userName) {
+		Double settleMoney = 0.0;
+		for(MtOrder order : orderList){
+			//收付款表一条记录
+			MtGetpaymoney mtGetpaymoney = new MtGetpaymoney();
+			mtGetpaymoney.setId(UUIDCreater.getUUID());
+			mtGetpaymoney.setOrderId(order.getId());
+			mtGetpaymoney.setOrdertitleId(order.getOredertitleCode());
+			mtGetpaymoney.setPaymoneyId(order.getBuyersId());
+			mtGetpaymoney.setPaymoneyName(order.getBuyersName());
+			mtGetpaymoney.setPaymoneyCode(settle.getMmbpayAccount());
+			mtGetpaymoney.setPaymoneyTime(new Date());
+			mtGetpaymoney.setPaymoneyType(1);
+			mtGetpaymoney.setGetmoneyId(order.getSellersId());
+			mtGetpaymoney.setGetmoneyName(order.getSellersName());
+			mtGetpaymoney.setGetmoneyCode(settle.getMmbgetAccount());
+			mtGetpaymoney.setGetmoneyTime(mtGetpaymoney.getPaymoneyTime());
+			mtGetpaymoney.setMoney(order.getNum());
+			mtGetpaymoney.setStatus(1);
+			mtGetpaymoney.setPayDirct(1);
+			mtGetpaymoney.setGetDirct(1);
+			mtGetpaymoney.setRemark(order.getGetPayRemark());
+			//操作员信息
+			if(memberId.equals(order.getBuyersId())){
+				mtGetpaymoney.setPayuserId(userId);
+				mtGetpaymoney.setPayuserName(userName);
+				settle.setStatus(2);
+			}else if(memberId.equals(order.getSellersId())){
+				mtGetpaymoney.setGetuserId(userId);
+				mtGetpaymoney.setGetuserName(userName);
+				settle.setStatus(3);
+			}
+			mtGetpaymoneyMapper.insert(mtGetpaymoney);
+			//结款单订单表一条记录
+			MtSettleOrder mtSettleOrder = new MtSettleOrder();
+			mtSettleOrder.setId(UUIDCreater.getUUID());
+			mtSettleOrder.setGetpaymoneyId(mtGetpaymoney.getId());
+			mtSettleOrder.setMoney(mtGetpaymoney.getMoney());
+			mtSettleOrder.setOrderId(mtGetpaymoney.getOrderId());
+			mtSettleOrder.setSettleId(settle.getId());
+			mtSettleOrderMapper.insert(mtSettleOrder);
+			orderService.calculateStatus(order);
+			orderService.calculateExecute(order);
+			mtOrderMapper.updateByObject(order);
+			settleMoney += order.getLockmoneyNum();
+		}
+		settle.setSettleMoney(settleMoney);
+		settle.setCtrMoney(settleMoney);
+		settle.setStatusSign(1);
+		settle.setStatusRegist(1);
+		mtSettleMapper.insert(settle);
+		return settle.getId();
+	}
+
+	@Override
+	public int modifySettle(MtSettle settle, String memberId) {
+		if(memberId!=null&&!"".equals(memberId)){
+			if(memberId.equals(settle.getMmbpayId())){
+				settle.setStatus(2);
+			}else if(memberId.equals(settle.getMmbgetId())){
+				settle.setStatus(3);
+			}
+		}else{
+			throw new RuntimeException("编辑待定结款单失败！");
+		}
+		int ret = mtSettleMapper.updateByPrimaryKey(settle);
+		if (ret == 0) {
+			throw new RuntimeException("编辑待定结款单失败！");
+		}
+		return ret;
+	}
+
+	public List<MtSettleOrder> querySttleOrderList(String id){
+		return mtSettleOrderMapper.queryForRefuse(id);
+	}
+	
+	@Override
+	public int modifySettle(MtSettle settle) {
+		int mo = 0;
+		int gpm = 0;
+		List<MtSettleOrder> settleOrderList = mtSettleOrderMapper.queryForRefuse(settle.getId());
+		for(MtSettleOrder settleOrder : settleOrderList){
+			MtGetpaymoney mtGetpaymoney = mtGetpaymoneyMapper.selectByPrimaryKey(settleOrder.getGetpaymoneyId());
+			mtGetpaymoney.setStatus(4);
+			gpm = mtGetpaymoneyMapper.updateByObject(mtGetpaymoney);
+			MtOrder order = mtOrderMapper.selectByPrimaryKey(settleOrder.getOrderId());
+			orderService.calculateStatus(order);
+			orderService.calculateExecute(order);
+			mo = mtOrderMapper.updateByObject(order);
+		}
+		settle.setStatus(4);
+		int ret = mtSettleMapper.updateByPrimaryKey(settle);
+		if (ret == 0||mo == 0||gpm == 0) {
+			throw new RuntimeException("同意待定结款单失败！");
+		}
+		return ret;
+	}
+	
+	@Override
+	public int deleteSettle(MtSettle settle) {
+		int gpm = 0;
+		int mo = 0;
+		int ms = 0;
+		int so = 0;
+		List<MtSettleOrder> settleOrderList = mtSettleOrderMapper.queryForRefuse(settle.getId());
+		for(MtSettleOrder settleOrder : settleOrderList){
+			gpm = mtGetpaymoneyMapper.deleteByPrimaryKey(settleOrder.getGetpaymoneyId());
+			MtOrder order = mtOrderMapper.selectByPrimaryKey(settleOrder.getOrderId());
+			orderService.calculateStatus(order);
+			orderService.calculateExecute(order);
+			mo = mtOrderMapper.updateByObject(order);
+			so = mtSettleOrderMapper.deleteByPrimaryKey(settleOrder.getId());
+		}
+		ms = mtSettleMapper.deleteByPrimaryKey(settle.getId());
+		if(gpm==0||mo==0||ms==0||so==0){
+			throw new RuntimeException("拒绝结款单失败！");
+		}
+		return ms;
+	}
+
+	@Override
+	public int updateStopSettle(MtSettle mtSettle) {
+		int ret = mtSettleMapper.updateByPrimaryKeySelective(mtSettle);
+		if(ret == 0){
+			throw new RuntimeException("变更结款单失败！");
+		}
+		return 0;
+	}
+
+    @Override
+    public MtSettle selectMtSettleById(String settleId) {
+        return mtSettleMapper.selectByPrimaryKey(settleId);
+    }
+}

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtGoods" >
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="described" property="described" jdbcType="VARCHAR" />
+    <result column="img_id" property="imgId" jdbcType="VARCHAR" />
+    <result column="max_price" property="maxPrice" jdbcType="DOUBLE" />
+    <result column="min_price" property="minPrice" jdbcType="DOUBLE" />
+    <result column="unit_price" property="unitPrice" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="product_num" property="productNum" jdbcType="VARCHAR" />
+    <result column="product_time" property="productTime" jdbcType="VARCHAR" />
+    <result column="factory" property="factory" jdbcType="VARCHAR" />
+    <result column="create_address" property="createAddress" jdbcType="VARCHAR" />
+    <result column="specification" property="specification" jdbcType="VARCHAR" />
+    <result column="stock_num" property="stockNum" jdbcType="INTEGER" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="unit_specification" property="unitSpecification" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="imgPath" property="imgPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.zllh.mall.common.model.MtGoods" >
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="described" property="described" jdbcType="VARCHAR" />
+    <result column="img_id" property="imgId" jdbcType="VARCHAR" />
+    <result column="max_price" property="maxPrice" jdbcType="DOUBLE" />
+    <result column="min_price" property="minPrice" jdbcType="DOUBLE" />
+    <result column="unit_price" property="unitPrice" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="product_num" property="productNum" jdbcType="VARCHAR" />
+    <result column="product_time" property="productTime" jdbcType="VARCHAR" />
+    <result column="factory" property="factory" jdbcType="VARCHAR" />
+    <result column="create_address" property="createAddress" jdbcType="VARCHAR" />
+    <result column="specification" property="specification" jdbcType="VARCHAR" />
+    <result column="stock_num" property="stockNum" jdbcType="INTEGER" />
+    <result column="brand" property="brand" jdbcType="VARCHAR" />
+    <result column="unit_specification" property="unitSpecification" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="imgPath" property="imgPath" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMap2" type="com.zllh.mall.common.model.MtCategory">
+		<result column="goods_id" property="id" jdbcType="VARCHAR" />
+		<result column="name" property="text" jdbcType="VARCHAR" />
+		<result column="mmb_id" property="typeId" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="table_name" property="tableName" jdbcType="VARCHAR" />
+		<result column="category_id" property="parentId" jdbcType="VARCHAR" />
+		<result column="iconCls" property="iconCls" jdbcType="VARCHAR" />
+	</resultMap>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtGoods" >
+    insert into mt_goods (goods_id, mmb_id, category_id, 
+      name, described, img_id, 
+      max_price, min_price, unit_price, 
+      status, product_num, product_time, factory, create_address, specification, stock_num,  brand,unit_specification,create_time,imgPath)
+    values (#{goodsId,jdbcType=VARCHAR}, #{mmbId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{described,jdbcType=VARCHAR}, #{imgId,jdbcType=VARCHAR}, 
+      #{maxPrice,jdbcType=DOUBLE}, #{minPrice,jdbcType=DOUBLE}, #{unitPrice,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}}, #{productNum,jdbcType=VARCHAR}, #{productTime,jdbcType=VARCHAR}, 
+      #{factory,jdbcType=VARCHAR}, #{createAddress,jdbcType=VARCHAR}, #{specification,jdbcType=VARCHAR}, 
+      #{stockNum,jdbcType=INTEGER}, #{brand,jdbcType=VARCHAR}),#{unitSpecification,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP}
+      ,#{imgPath,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtGoods" >
+    insert into mt_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="mmbId != null" >
+        mmb_id,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="described != null" >
+        described,
+      </if>
+      <if test="imgId != null" >
+        img_id,
+      </if>
+      <if test="maxPrice != null" >
+        max_price,
+      </if>
+      <if test="minPrice != null" >
+        min_price,
+      </if>
+      <if test="unitPrice != null" >
+        unit_price,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+  
+       <if test="productNum != null" >
+        product_num,
+      </if>
+       <if test="productTime != null" >
+        product_time,
+      </if>
+       <if test="factory != null" >
+        factory,
+      </if>
+       <if test="createAddress!= null" >
+        create_address,
+      </if>
+       <if test="specification != null" >
+        specification,
+      </if>
+       <if test="stockNum != null" >
+        stock_num,
+      </if>
+       <if test="brand!= null" >
+        brand,
+      </if>
+      
+       <if test="unitSpecification!= null" >
+        unit_specification,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="imgPath != null" >
+        imgPath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbId != null" >
+        #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="described != null" >
+        #{described,jdbcType=VARCHAR},
+      </if>
+      <if test="imgId != null" >
+        #{imgId,jdbcType=VARCHAR},
+      </if>
+      <if test="maxPrice != null" >
+        #{maxPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="minPrice != null" >
+        #{minPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+       <if test="productNum != null" >
+        #{productNum,jdbcType=INTEGER},
+      </if>
+      <if test="productTime != null" >
+         #{productTime,jdbcType=VARCHAR},
+      </if>
+      <if test="factory != null" >
+        #{factory,jdbcType=VARCHAR},
+      </if>
+      <if test="createAddress != null" >
+        #{createAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="stockNum != null" >
+        #{stockNum,jdbcType=INTEGER},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="unitSpecification != null" >
+        #{unitSpecification,jdbcType=VARCHAR},
+      </if>
+       <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imgPath!= null" >
+        #{imgPath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+   <!-- 添加 -->
+ 
+   <!-- 根据商品Id修改商品状态 -->
+  <update id="updateByGoodId" parameterType="java.util.Map" >
+    update mt_goods
+    set 
+      status = #{status,jdbcType=INTEGER}
+      where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </update>
+  <!-- 修改商品数量 -->
+  
+  <update id="updateNum" parameterType="java.util.Map">
+  	update mt_goods  m
+    set 
+      m.stock_num = m.stock_num + #{number,jdbcType=INT}
+      where m.goods_id = #{goodsId,jdbcType=VARCHAR}
+  </update>
+  <!-- 根据商品Id修改商品对象 -->
+   <update id="updateGoods" parameterType="com.zllh.mall.common.model.MtGoods" >
+    update mt_goods
+    <set >
+      <if test="mmbId != null" >
+        mmb_id = #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+      name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="described != null" >
+         described = #{described,jdbcType=VARCHAR},
+      </if>
+      <if test="imgId != null" >
+       img_id =  #{imgId,jdbcType=VARCHAR},
+      </if>
+      <if test="maxPrice != null" >
+       max_price =  #{maxPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="minPrice != null" >
+        min_price = #{minPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+            <if test=" productNum != null" >
+        product_num = #{ productNum,jdbcType=VARCHAR},
+      </if>
+      <if test=" productTime != null" >
+        product_time = #{ productTime,jdbcType=VARCHAR},
+      </if>
+      <if test=" factory != null" >
+        factory = #{ factory,jdbcType=VARCHAR},
+      </if>
+      <if test=" createAddress != null" >
+        create_address = #{ createAddress,jdbcType=VARCHAR},
+      </if>
+      <if test=" specification != null" >
+        specification = #{ specification,jdbcType=VARCHAR},
+      </if>
+      <if test=" stockNum != null" >
+        stock_num = #{ stockNum,jdbcType=INTEGER},
+      </if>
+      <if test=" brand != null" >
+        brand = #{ brand,jdbcType=VARCHAR},
+      </if>
+      
+      <if test=" unitSpecification != null" >
+        unit_specification = #{ unitSpecification,jdbcType=VARCHAR},
+      </if>
+      
+        <if test="createTime != null" >
+       create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      
+      <if test=" imgPath != null" >
+        imgPath = #{ imgPath,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+  </update>
+  <!-- 查询商品 -->
+   <sql id="Base_Column_List">
+		goods_id, mmb_id, category_id,  name, described, img_id,  max_price, min_price, unit_price, status, product_num, product_time, factory, create_address, specification, stock_num, brand,unit_specification,create_time,imgPath
+  </sql>
+   <sql id="Mall_searchGoods">
+        <if test="categoryId!= null"><![CDATA[ AND category_id = #{categoryId,jdbcType=VARCHAR} ]]></if>
+        <if test="mmbId!= null"><![CDATA[ AND mmb_id = #{mmbId,jdbcType=VARCHAR} ]]></if>
+        <if test="goodName!= null"><![CDATA[  AND name like CONCAT(#{goodName,jdbcType=VARCHAR},'%') ]]></if>
+        <if test="goodName1!= null"><![CDATA[  AND name = #{goodName1,jdbcType=VARCHAR} ]]></if>
+        
+        <if test="goodStatus!= null"><![CDATA[ AND status = #{goodStatus,jdbcType=INTEGER} ]]></if>
+        <if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+		</if>
+  </sql>
+  <select id="searchGoods" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from mt_goods where 1=1 
+		 <include refid="Mall_searchGoods" /> 
+  </select>
+	 <!-- 查询商品数量 -->
+  <select id="searchGoodCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select 
+				count(*)
+		from mt_goods where 1=1 
+		 <include refid="Mall_searchGoods" /> 
+  </select>
+  <select id="searchGoodById" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from mt_goods where 1=1 
+		 and goods_id = #{goodsId,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="lookGoodById" resultMap="BaseResultMap1"
+		parameterType="java.lang.String">
+		select
+			gd.*,mc.name as category_name
+		from (select
+		    *
+		from mt_goods where 1=1 
+		 and goods_id = #{goodsId,jdbcType=VARCHAR}) gd
+		 inner join mt_category mc on gd.category_id = mc.id 
+		
+  </select>
+  <select id="searchGoodByCategoryId" resultMap="BaseResultMap2" parameterType="java.util.Map">
+		select
+		*
+		from mt_goods where 1=1
+		and mmb_id = #{mmbId,jdbcType=VARCHAR} and category_id = #{parentId,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>过期处理</title>
+<link rel="stylesheet" type="text/css" href="css/common.css"/>
+<link rel="stylesheet" type="text/css" href="css/factoring_list.css"/>
+<script type='text/javascript' src='js/jquery-1.4.2.min.js'></script>
+<script type="text/javascript">
+$(function(){
+	$('.rz_cont:gt(0)').hide();
+	var div_cont = $('.rz_div .rz_cont');
+	$('.rz_ul_all li').each(function(index){
+		$(this).click(function(){
+			$(this).addClass('rz_ul_one').siblings().removeClass();
+			div_cont.eq(index).show().siblings('.rz_cont').hide();
+		});
+		
+	});
+
+});
+</script>
+</head>
+<body>
+<div class="rz_div">
+	<!-- 选项菜单 -->
+	<ul class="rz_ul_all">
+		<li class="rz_ul_one">还款日期</li>
+		<li>担保资源过期</li>
+	</ul>
+	<!-- 选项菜单 over-->
+	<!-- 融资支付 -->
+	<div class="rz_cont">
+		<!-- 查询条件 -->
+		<div class="guoq_query_div">
+			<ul class="guoq_query">
+				<li><label>申请人：</label><input class="fac_input_max" type="text" value="" /></li>
+				<li><button class="fac_button">查询</button></li>
+			</ul>
+		</div>
+		<!-- 查询条件 over-->
+		<div class="clearfix"></div>
+		<table class="fac_table " cellspacing="0"  cellpadding="5">
+			<tr class="fac_tr_tab">
+				<td width="3%"><input type="checkbox" value="checkbox" /></td>
+				<td width="10%">还款单号</td>
+				<td width="17%">申请人</td>
+				<td width="20%">申请金额</td>
+				<td width="20%">还款日期</td>
+				<td width="10%">过期天数</td>
+				<td width="10%">滞纳金</td>
+				<td width="10%">利息</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="checkbox" /></td>
+				<td>10003</td>
+				<td>供应商1</td>
+				<td>1000</td>
+				<td>2015-10-31</td>
+				<td>5</td>
+				<td>100</td>
+				<td>10</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="checkbox" /></td>
+				<td>10003</td>
+				<td>供应商2</td>
+				<td>1000</td>
+				<td>2015-10-31</td>
+				<td>5</td>
+				<td>100</td>
+				<td>10</td>
+			</tr>
+		</table>
+		<div class="fac_fanh"><button class="fac_button">催款</button></div>
+	</div>
+	<!-- 融资支付 over -->
+	<!-- 融资查询 -->
+	<div class="rz_cont">
+		<!-- 查询条件 -->
+		<div class="guoq_query_div">
+			<ul class="guoq_query">
+				<li><label>还款人：</label><input class="fac_input_max" type="text" value="" /></li>
+				<li><button class="fac_button">查询</button></li>
+			</ul>
+		</div>
+		<!-- 查询条件 over-->
+		<table class="fac_table " cellspacing="0"  cellpadding="5">
+			<tr class="fac_tr_tab">
+				<td width="3%"><input type="checkbox" value="checkbox" /></td>
+				<td width="10%">结款单号</td>
+				<td width="20%">还款人</td>
+				<td width="17%">结款单金额</td>
+				<td width="20%">结款单还款日期</td>
+				<td width="10%">过期天数</td>
+				<td width="20%">已担保金额</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="checkbox" /></td>
+				<td>10001</td>
+				<td>供应商1</td>
+				<td>￥0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" value="checkbox" /></td>
+				<td>10001</td>
+				<td>供应商1</td>
+				<td>￥0</td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<div class="fac_fanh"><button class="fac_button">催款</button></div>
+	</div>
+	<!-- 融资查询 over -->
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0; padding:0;} li{ list-style:none;} a{ text-decoration:none;}
+
+body{ font-family: "微软雅黑", "宋体","黑体";}
+.clear{ clear:both;}
+<!---------------------------------------con top  start-------------------------------------------------------------->
+.con_top{ width:100%; height:60px;}
+.con_top p{width:100%; height:60px; font-size:16px; color:#333; line-height:60px; padding-left:20px; background-image:-moz-linear-gradient(top,#fdfdfd,#e6e6e6);
+			background-image:-ms-linear-gradient(top,#fdfdfd,#e6e6e6);
+			background-image:-webkit-linear-gradient(top,#fdfdfd,#e6e6e6);
+			background-image:-o-linear-gradient(top,#fdfdfd,#e6e6e6);}
+.con_top strong{  font-weight:normal;}
+.con_top strong:nth-child(2){ padding:0 50px;}
+<!---------------------------------------con top  over-------------------------------------------------------------->
+<!---------------------------------------a start-------------------------------------------------------------->
+.index_table_bot_p{height:40px; line-height:40px;}
+.index_table_bot_p>span{ color:red;}
+<!---------------------------------------a  over-------------------------------------------------------------->
+<!---------------------------------------A_a_3 start-------------------------------------------------------------->
+
+<!---------------------------------------A_a_3  over-------------------------------------------------------------->
+<!---------------------------------------B d start-------------------------------------------------------------->
+.form-group_onelabel{height:32px; line-height:32px; text-align:right; padding-right:10px;}
+.con_bot_ul{ padding-bottom:50px; padding-top:20px; }
+.con_bot_ul li{ float:left; margin-right:20px;}
+.con_bot_ul label{ float:left;}
+.con_bot_ul select{ float:right;}
+label{ width:80px; height:40px; line-height:36px;}
+.modal-dialog{ transform:translate(0,200px)}
+<!---------------------------------------B d  over-------------------------------------------------------------->
+<!---------------------------------------A_b_2 start-------------------------------------------------------------->
+.A_b_2_nav_left{width:200px;height:500px;}
+.A_b_2_nav_left>li{ width:200px; height:30px; color:#258cd1; line-height:30px; text-align:center; border:1px #ddd solid; margin-bottom:2px; font-size:14px; }
+.A_b_2_nav_left>li:hover{ background:#4aa3df; color:#fff;}
+.A_b_2_subnav{width:200px; height:auto; display:none;}
+.A_b_2_subnav>li{width:200px; height:40px;}
+.A_b_2_subnav>li>a{ display:block; width:200px; height:40px; text-align:center; color:#333;  background:url(../images/A_b_2_subnavbj_03.png) no-repeat 30px center; line-height:40px;}
+.A_b_2_subnav>li>a:hover{ color:#4aa3df;}
+
+.A_b_2_right{width:50%; height:158px; float:left; border:1px #ddd solid; border-radius:6px; margin-left:10%; padding:20px 0 0 20px;}
+.A_b_2_right li{ font-size:14px; height:30px; line-height:30px; }
+.A_b_2_right span{ padding-left:10px; color:#fd0003;}
+.A_b_2_right span a{ color:#258cd1; border-bottom:1px #258cd1 solid; text-decoration:none;}
+#A_b_2_right_jq{ display:block;}
+
+.Ab2_modal_top>p{height:30px; line-height:30px; font-size:16px; padding-left:20px; color:#fd0003; border-bottom:1px #ddd solid;}
+.Ab2_modal_center{width:270px; margin:50px auto; margin-bottom:50px;}
+.Ab2_modal_nav_c{ font-size:16px; color:#333; height:30px; width:70px; border:1px #000 solid; text-align:center; line-height:30px; margin-left:30px; margin-top:5px; float:left;}
+.Ab2_modal_nav_l{ width:70px; height:40px; float:left;}
+.Ab2_modal_nav_r{ width:70px; height:40px; float:right; }
+
+.Ab2_modal_in_c{width:150px; margin:0 auto;}
+<!---------------------------------------A_b_2 over-------------------------------------------------------------->
+<!---------------------------------------A_b_2 in start-------------------------------------------------------------->
+.A_b_3_in_title{width:100%;}
+.A_b_3_in_title p{ float:left; font-size:14px; color:#fff; height:30px; line-height:30px;}
+.A_b_3_in_title p:nth-child(2){ margin:0 50px;}
+.mall_form p{ font-size:16px; color:#333;}
+.ztree_nav{ float:left; margin-top:180px;}
+.ztree_nav_img2 img{ margin-bottom:10px;}
+.ztree_nav_right{padding-top:15px;}
+.ztree_nav_right p{ font-size:13px;color:#222;cursor:pointer; text-align:center;}
+<!---------------------------------------A_b_2 in over-------------------------------------------------------------->

@@ -1,0 +1,185 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<link href="css/pulic.css" rel="stylesheet" type="text/css">
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/SimpleTree.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js" type="text/javascript"></script>
+<script src="js/SimpleTree.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(e) {
+	$('.btn-primary').click(function(){
+		$($(this).attr('href').show())
+		})
+});
+</script>
+<script type="text/javascript">
+$(function(){
+	$(".st_tree").SimpleTree({
+		click:function(a){
+			if(!$(a).attr("hasChild"))
+				alert($(a).attr("ref"));
+		}
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="panel panel-default" style=" margin-left:240px; margin-top:10px; box-shadow:3px 3px 8px rgba(0,0,0,0.1); margin-right:1%; height:auto;">
+<!---------------------------------------con top  start-------------------------------------------------------------->
+    <div class="con_top">
+        <p>创建合作协议</p>
+    </div>
+<!---------------------------------------con top  over--------------------------------------------------------------->
+    <div class="A_b_3_in_title" style=" height:30px; background-color:#28b779;  padding-left:50px;">
+        <p>业务类型：采购</p>
+        <p>采购方：北方科技大学</p>
+        <p>业务类型：采购</p>
+    </div>
+    <div class="clear"></div>
+    <div style="padding-left:20px; width:60%; float:left; ">
+    <form class="form-horizontal" role="form">
+       <div class="form-group">
+          <label for="firstname" class="col-sm-2 control-label">操作人：</label>
+          <div class="form-group col-lg-3  input-lg">
+              <input type="text" class="form-control" id="firstname"/>
+          </div>
+          <label for="firstname" class="col-sm-2 control-label">操作时间：</label>
+          <div class="form-group col-lg-3  input-lg">
+              <input type="text" class="form-control" id="firstname"/>
+          </div>
+       </div>
+    </form>
+
+    <form class="form-horizontal" role="form">
+       <div class="form-group">
+          <label for="firstname" class="col-sm-2 control-label">标题：</label>
+          <div class="form-group col-lg-8 input-lg">
+              <input type="text" class="form-control" id="firstname"/>
+          </div>
+       </div>
+    </form>
+    <form class="form-horizontal" role="form">
+       <div class="form-group">
+          <label for="firstname" class="col-sm-2 control-label">有效时间：</label>
+          <div class="form-group col-lg-4  input-lg">
+              <input type="text" class="form-control" id="firstname"/>
+          </div>
+          <label for="firstname" class="col-sm-2 control-label">结款规则：</label>
+          <div class="form-group col-lg-3 input-lg">
+              <select class="form-control ">
+                 <option value="">每月</option>
+                 <option value="">每季</option>
+                 <option value="">6个月</option>
+                 <option value="">每年</option>
+                 <option value="">其他</option>
+              </select>
+          </div>
+       </div>
+    </form>
+    <form class="form-horizontal" role="form">
+       <div class="form-group">
+          <label for="firstname" class="col-sm-2 control-label">发货规则：</label>
+          <div class="form-group col-lg-4  input-lg">
+              <select class="form-control ">
+                 <option value="">自取</option>
+                 <option value="">免费配送</option>
+                 <option value="">有偿配送（1%）</option>
+              </select>
+          </div>
+          <label for="firstname" class="col-sm-2 control-label">运输方式：</label>
+          <div class="form-group col-lg-3  input-lg">
+              <select class="form-control ">
+                 <option value="">行运</option>
+                 <option value="">空运</option>
+              </select>
+          </div>
+       </div>
+    </form>
+    <form class="form-horizontal" role="form">
+       <div class="form-group">
+          <label for="firstname" class="col-sm-2 control-label">收款账号：</label>
+          <div class="form-group col-lg-8  input-lg">
+              <select class="form-control ">
+                 <option value="">中信银行：88888888888888888888888</option>
+                 <option value="">建设银行：88888888888888888888888</option>
+              </select>
+          </div>
+       </div>
+    </form>
+    <form class="form-horizontal" role="form">
+       <div class="form-group">
+          <label for="firstname" class="col-sm-2 control-label">发货地址：</label>
+          <div class="form-group col-lg-8  input-lg">
+              <select class="form-control ">
+                 <option value="">丰台北大地库</option>
+                 <option value="">朝阳新发地库</option>
+              </select>
+          </div>
+       </div>
+    </form>
+    
+    
+    
+    
+    <form class="form-horizontal" role="form">
+       <div class="form-group">
+          <label for="firstname" class="col-sm-2 control-label">备注：</label>
+          <div class="form-group col-lg-8  input-lg">
+			<textarea class="form-control" rows="3"></textarea>
+          </div>
+       </div>
+    </form>    
+        <div class="clear"></div>
+    </div>
+	<div class="A_b_3_in_right" style="width:40%;float:left;">
+    	<p>协议商品品类列表：</p>
+        <!--ztree start-->
+        <div class="st_tree" style="width:30%; height:450px; float:left; margin-right:6%;">
+            <ul>
+                <li><a href="#" ref="xtgl">粮油食品</a></li>
+                    <ul show="true">
+                        <li><a href="#" ref="yhgl">面类</a></li>
+                        <li><a href="#" ref="rzck">油类</a></li>
+                        <li><a href="#" ref="rzck">豆类</a></li>
+                    </ul>
+                <li><a href="#" ref="ckgl">果蔬</a></li>
+                    <ul>
+                        <li><a href="#" ref="kcgl">蔬菜</a></li>
+                        <li><a href="#" ref="shgl">水果</a></li>
+                    </ul>
+                <li><a href="#" ref="ckgl">调料</a></li>
+                    <ul>
+                        <li><a href="#" ref="kcgl">酱油</a></li>
+                        <li><a href="#" ref="shgl">花椒</a></li>
+                    </ul>
+                <li><a href="#" ref="ckgl">燃料</a></li>
+                    <ul>
+                        <li><a href="#" ref="kcgl">液化气</a></li>
+                        <li><a href="#" ref="shgl">煤</a></li>
+                    </ul>
+            </ul>
+        </div>
+        <!--ztree over-->
+        <div class="ztree_nav">
+        	<div class="ztree_nav_img2"><img src="images/Ab2_moble_bj_88_01.png"/></div>
+        	<div><img src="images/Ab2_moble_bj_88_03.png"/></div>
+        </div>
+        <div class="ztree_nav_right" style="width:30%; height:450px; border:1px #ddd solid; float:left; margin-left:20px;">
+        	<p>蔬菜</p>
+        	<p>油类</p>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div style="margin-left:40%; margin-top:80px; margin-bottom:22px;">
+       <button type="button" class="btn btn-primary" style=" margin-right:20px; width:100px;">确&nbsp;&nbsp;&nbsp;认</button>
+       <button type="button" class="btn btn-primary" style=" margin-right:20px; width:100px;">保&nbsp;&nbsp;&nbsp;存</button>
+       <a href="A_b_3.html"><button type="button" class="btn btn-primary" style=" margin-right:20px; width:100px;">返回上一级</button></a>
+    </div>
+</div>
+</body>
+</html>

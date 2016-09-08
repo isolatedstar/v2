@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
+<html>
+<head>
+<title>中国农校对接服务网</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <link href="../plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../plugins/jquery/jquery.min.js"></script>
+    <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+    <link href="../plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css" >
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+<div class="container ">
+        <div class="row">
+            <div class="col-xs-12">
+                <div style="clear:both"></div>
+                <div class="myCompanyDetail">
+                	<div class="row">
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company2.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">菜花</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company3.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">油菜</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company4.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">西红柿</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company5.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">黄瓜</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                     </div>
+                     <div class="row">
+                     	<div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company3.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">油菜</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company4.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">西红柿</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company5.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">黄瓜</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company7.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">扁豆</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company8.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">菜辣椒</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company3.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">油菜</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company4.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">西红柿</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company9.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">西蓝花</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                     </div>	
+                     <div class="row">
+                     	 <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company2.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">菜花</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company10.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">胡萝卜</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company3.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">油菜</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company4.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">西红柿</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                     </div>
+                     <div class="row">
+                     	<div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company3.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">油菜</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company4.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">西红柿</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company5.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">黄瓜</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="lovesContent">
+                              <dl>
+                                <dd><img src="../image/company7.png" alt="菜花"></dd>
+                              </dl> 
+                              <dl class="lovesContentshow">
+                                <dd class="loveTitle">扁豆</dd>
+                                <dd class="lovesLink"><a href="javascript:void(0);" target="_blank" title="进入查看">进入查看</a></dd>
+                              </dl> 
+                            </div> 
+                        </div>
+                     </div>
+               	</div>
+               	<div id="nongxiaoluntan" ><img src="../image/banner2.png"  style="width:100%;"/></div>
+                <div id="zhanxiaodahui" style="margin-top:30px;" ><img src="../image/banner2.png" style="width:100%;"/></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

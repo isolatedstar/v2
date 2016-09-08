@@ -1,0 +1,74 @@
+@charset "utf-8";
+/* CSS Document */
+*{margin:0; padding:0;} li{ list-style:none;} a{ text-decoration:none;}
+body{font-family: "微软雅黑", "宋体" ,"黑体";}
+.clear{ clear:both;}
+/****************************************header start****************************************************************/
+.a_header{ width:100%;position:absolute; height:60px;background:url(../images/header_bj_03.jpg) repeat-x left top;}
+.a_header img{padding:10px 0 0 20px; float:left; opacity:0.7;}
+.a_header p{ float:left; color:#dddbdc; font-size:20px; line-height:60px; padding-left:30px; }
+.a_header p i{ font-size:16px; padding-left:15px;}
+.a_header .header-right{ float:right; padding-right:50px; position:relative;}
+.a_header .header-right p a{ font-size:16px; color:#fff; opacity:0.7; }
+.a_header .header-right p a:hover{opacity:1;}
+.fa-user{padding-right:10px;}
+.header_sub{width:150px; height:40px; border:1px #ddd solid; font-size:14px;background-color:#ddd; position:absolute; 
+left:0; top:60px;border-radius:0 0 6px 6px;box-shadow:0 0 6px rgba(0,0,0,0.1); display:none;}
+.header_sub li{height：26px; line-height:26px; padding-left:30px;}
+.header_sub li:nth-child(3){border-bottom:1px #ddd solid;}
+.header_sub li:nth-child(4){line-height:40px;}
+.header_sub li:hover{ background:#f5f5f5;}
+/****************************************header over****************************************************************/
+/****************************************content start****************************************************************/
+.a_content{padding-top:60px;}
+/****************************************content over****************************************************************/
+/****************************************nav start****************************************************************/
+.a_nav_box{ width:225px; height:920px; position:absolute; background:#e4e3e1;}
+.a_nav{width:225px; height:auto;  border-top:1px #eff7fa solid;}
+.a_nav_li{width:225px; height:40px;border-bottom:1px #eff7fa solid;}
+.a_nav_li i{width:20px; padding-right:20px; color:#394553;}
+.a_nav_li>a{ font-size:16px; padding-left:25px;}
+.a_nav_li>a{ display:block; width:180px; height:40px; color:#394553;  line-height:40px; }
+.a_nav_li:hover{ background-color:#ccd1d5;}
+.a_moren{ background:#ccd1d5;}
+.a_moren i{  color:#53a0e4;}
+
+.a_subnav{width:225px;}
+.a_subnav>li{width:225px; height:30px;}
+.a_subnav>li>a{ display:block; width:159px; height:30px; font-size:14px; line-height:30px; padding-left:66px; background:url(../images/navbj_66_01.png) no-repeat 200px top; color:#394553;}
+.a_subnav>li>a:hover{ background-color:#ccd1d5;}
+.a_subnav .nav_bj_none{ background-image:none;}
+
+
+.b_subnav{width:225px; background-color:#e4e3e1; }
+.b_subnav>li{width:225px; height:30px;}
+.b_subnav>li>a{ display:block; width:150px; height:30px; line-height:30px; padding-left:75px; font-size:14px;color:#394553;}
+.b_subnav li:hover{ background-color:#ccd1d5;}
+.a_subnav{ display:none;}
+.b_subnav{ display:none;}
+.c_subnav{ display:none;}
+.c_active{ background:#ccd1d5;}
+/****************************************nav over****************************************************************/
+/****************************************ifmare start****************************************************************/
+
+.if_warp{height:920px; margin-left:225px;}
+/****************************************ifmare over****************************************************************/
+
+/****************************************footer start****************************************************************/
+.footer{width:100%; height:40px;background:#e4e3e1; position:absolute;}
+.footer>p{ font-size:12px; color:#394553; text-align:center; padding-left:50px; line-height:40px;}
+/****************************************footer over****************************************************************/
+
+.a_header .header-menu{
+	display:none;
+	}
+@media (max-width:1100px) {
+.a_nav_box{ 
+        display: none;
+		}
+.if_warp{
+  		height:920px;margin-left:10px;}
+.a_header .header-menu{
+	display:block;
+	}
+}

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtMmbWarehouseMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtMmbWarehouse" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="zipcode" property="zipcode" jdbcType="VARCHAR" />
+    <result column="contact" property="contact" jdbcType="VARCHAR" />
+    <result column="mobilephone" property="mobilephone" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="ExtendAreaResultMap" type="com.zllh.mall.common.model.MtMmbWarehouse" extends="BaseResultMap">
+    <result column="areaDesc" property="areaDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mmb_id, address, area_id, zipcode, contact, mobilephone, phone, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_mmb_warehouse
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mt_mmb_warehouse
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtMmbWarehouse" >
+    insert into mt_mmb_warehouse (id, mmb_id, address, 
+      area_id, zipcode, contact, 
+      mobilephone, phone, status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{mmbId,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{areaId,jdbcType=VARCHAR}, #{zipcode,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
+      #{mobilephone,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtMmbWarehouse" >
+    insert into mt_mmb_warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mmbId != null" >
+        mmb_id,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="zipcode != null" >
+        zipcode,
+      </if>
+      <if test="contact != null" >
+        contact,
+      </if>
+      <if test="mobilephone != null" >
+        mobilephone,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbId != null" >
+        #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        #{zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.MtMmbWarehouse" >
+    update mt_mmb_warehouse
+    <set >
+      <if test="mmbId != null" >
+        mmb_id = #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        zipcode = #{zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null" >
+        contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="mobilephone != null" >
+        mobilephone = #{mobilephone,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.MtMmbWarehouse" >
+    update mt_mmb_warehouse
+    set mmb_id = #{mmbId,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      area_id = #{areaId,jdbcType=VARCHAR},
+      zipcode = #{zipcode,jdbcType=VARCHAR},
+      contact = #{contact,jdbcType=VARCHAR},
+      mobilephone = #{mobilephone,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--根据会员ID 得到会员仓库地址-->
+  <select id="getMmbWareHouseByMmbId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from mt_mmb_warehouse
+    where mmb_id = #{mmbId,jdbcType=VARCHAR}
+
+
+  </select>
+
+  <!--根据会员ID 得到会员仓库地址-->
+  <select id="getMmbWareHouse" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select  ware.id, mmb_id, address, area_id,tree.AREA_NAME areaDesc, zipcode, contact, mobilephone, phone, status
+    from mt_mmb_warehouse ware
+    LEFT JOIN bus_area_tree tree ON ware.area_id = tree.ID
+    where mmb_id = #{mmbId,jdbcType=VARCHAR}
+    <if test="address != null ">
+      <![CDATA[
+      and address like  CONCAT ('%',#{address,jdbcType=VARCHAR},'%')
+      ]]>
+    </if>
+    <if test="startFirst != null and startEnd != ''" >
+      limit #{startFirst},#{startEnd}
+    </if>
+  </select>
+
+  <select id="getAddressIdByAddress" resultType="java.lang.String">
+    select id from mt_mmb_warehouse
+    where address = #{address,jdbcType=VARCHAR}
+    and mmb_id = #{mmbId,jdbcType=VARCHAR}
+    limit 1
+
+  </select>
+
+  <!-- 验证收发货地址唯一性-->
+  <select id="getNumByAddressAndId" resultType="java.lang.Integer">
+    select count(1) from mt_mmb_warehouse
+    where address = #{address,jdbcType=VARCHAR}
+    and mmb_id = #{mmbId,jdbcType=VARCHAR}
+    <if test="id != null and id != ''" >
+      and id != #{id,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+
+</mapper>

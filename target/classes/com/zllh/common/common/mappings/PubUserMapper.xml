@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.common.common.dao.PubUserMapper" >
+
+  <!-- 数据准备区 -->
+  <resultMap id="BaseResultMap" type="com.zllh.common.common.model.PubUser" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="acount_name" property="acountName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="createdatetime" property="createdatetime" jdbcType="TIMESTAMP" />
+    <result column="modifydatetime" property="modifydatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    user_id, user_name, acount_name, password, createdatetime, modifydatetime
+  </sql>
+  
+  <!-- 数据处理区 -->
+  <!-- 基本数据查询查询,通过ID  -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    	<include refid="Base_Column_List" />
+    from pub_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 通过ID删除指定会员 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from pub_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 添加操作员 -->
+  <insert id="insert" parameterType="com.zllh.common.common.model.PubUser" >
+    insert into pub_user (user_id, user_name, acount_name, 
+      password, createdatetime, modifydatetime
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, #{acountName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{createdatetime,jdbcType=TIMESTAMP}, #{modifydatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <!-- 按条件添加操作员 -->
+  <insert id="insertSelective" parameterType="com.zllh.common.common.model.PubUser" >
+    insert into pub_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="acountName != null" >
+        acount_name,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="createdatetime != null" >
+        createdatetime,
+      </if>
+      <if test="modifydatetime != null" >
+        modifydatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="acountName != null" >
+        #{acountName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createdatetime != null" >
+        #{createdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifydatetime != null" >
+        #{modifydatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 通过主键修改操作员信息 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.common.common.model.PubUser" >
+    update pub_user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="acountName != null" >
+        acount_name = #{acountName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="createdatetime != null" >
+        createdatetime = #{createdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifydatetime != null" >
+        modifydatetime = #{modifydatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 按主键修改操作员的信息 -->
+  <update id="updateByPrimaryKey" parameterType="com.zllh.common.common.model.PubUser" >
+    update pub_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      acount_name = #{acountName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      createdatetime = #{createdatetime,jdbcType=TIMESTAMP},
+      modifydatetime = #{modifydatetime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  
+  <resultMap type="com.zllh.common.common.model.model_extend.UserExtendBean" id="userResultMap3" extends="BaseResultMap">
+		<association property="muser" javaType="com.zllh.mall.common.model.model_extend.MtMuserEx">
+		    <result column="mus_id" property="id" jdbcType="VARCHAR" />
+		    <result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+		    <result column="mmb_name" property="mmbName" jdbcType="VARCHAR" />
+		    <result column="name" property="name" jdbcType="VARCHAR" />
+		    <result column="email" property="email" jdbcType="VARCHAR" />
+		    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		    <result column="account" property="account" jdbcType="VARCHAR" />
+		    <result column="mus_password" property="password" jdbcType="VARCHAR" />
+		    <result column="state" property="state" jdbcType="INTEGER" />
+			<association property="member" javaType="com.zllh.mall.common.model.MtMember" >
+				<result column="mm_id" property="id" jdbcType="VARCHAR" />
+				<result column="mmb_fname" property="mmbFname" jdbcType="VARCHAR" />
+				<result column="mmb_engSname" property="mmbEngSname" jdbcType="VARCHAR" />
+				<result column="mmb_sname" property="mmbSname" jdbcType="VARCHAR" />
+				<result column="mmb_type" property="mmbType" jdbcType="INTEGER" />
+				<result column="mmb_homePage" property="mmbHomepage" jdbcType="VARCHAR" />
+				<result column="mmb_email" property="mmbEmail" jdbcType="VARCHAR" />
+				<result column="mmb_phone" property="mmbPhone" jdbcType="VARCHAR" />
+				<result column="mmb_address" property="mmbAddress" jdbcType="VARCHAR" />
+				<result column="mmb_areaId" property="mmbAreaId" jdbcType="VARCHAR" />
+				<result column="mmb_status" property="mmbStatus" jdbcType="INTEGER" />
+				<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+			</association>
+		</association>
+		<collection property="roles" javaType="list" ofType="com.zllh.common.common.model.model_extend.RoleExtendBean">
+			    <id column="role_id" property="roleId" jdbcType="VARCHAR" />
+			    <result column="desription" property="desription" jdbcType="VARCHAR" />
+			    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+			    <result column="role_securitycode" property="roleSecuritycode" jdbcType="VARCHAR" />
+			    <result column="enable" property="enable" jdbcType="INTEGER" />
+			    <result column="type" property="type" jdbcType="INTEGER" />
+		</collection>
+	</resultMap>
+	<select id="findByUserName" resultMap="userResultMap3" parameterType="java.lang.String">
+		SELECT
+			us.user_id,
+			us.user_name,
+			us.acount_name,
+			us.`password`,
+			us.createdatetime,
+			us.modifydatetime,
+			ro.role_id,
+			ro.desription,
+			ro.role_name,
+			ro.role_securitycode,
+			ro.`enable`,
+			ro.type,
+			mus.id mus_id,
+			mus.mmb_id,
+			mus.mmb_name,
+			mus.`name`,
+			mus.email,
+			mus.telephone,
+			mus.account,
+			mus.`password` mus_password,
+			mus.state,
+			me.id mm_id,
+			me.mmb_fname,
+			me.mmb_engSname,
+			me.mmb_sname,
+			me.mmb_type,
+			me.mmb_homePage,
+			me.mmb_email,
+			me.mmb_phone,
+			me.mmb_address,
+			me.mmb_areaId,
+			me.mmb_status,
+			me.create_time
+			FROM     pub_user      us 
+				LEFT JOIN pub_role_user ur            ON  us.user_id = ur.user_id
+				LEFT JOIN pub_role      ro            ON  ro.role_id = ur.role_id
+				LEFT JOIN mt_muser      mus           ON  mus.id = us.user_id
+                LEFT JOIN mt_member     me            ON  mus.mmb_id = me.id
+		where us.acount_name = #{username,jdbcType=VARCHAR}
+	</select>
+    <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from auth_user where name = #{name,jdbcType=VARCHAR}
+  </select>
+
+  <!-- 验证唯一性-->
+  <select id="getNumByAccount"  resultType="java.lang.Integer">
+    select COUNT(1) from pub_user
+
+    <if test="account != null and account != ''">
+      where  acount_name = #{account,jdbcType=VARCHAR}
+    </if>
+    <if test="id != null and id != ''">
+      and  user_id  != #{id,jdbcType=VARCHAR}
+    </if>
+
+  </select>
+
+</mapper>

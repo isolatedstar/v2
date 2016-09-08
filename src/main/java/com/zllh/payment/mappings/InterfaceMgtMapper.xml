@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.front.dao.InterfaceMgtMapper">
+	<resultMap id="BaseResultMap" type="com.zllh.payment.model.InterfaceMgt">
+		<id column="INTERFACE_ID" property="interfaceId" jdbcType="VARCHAR" />
+		<result column="BANK_ID" property="bankId" jdbcType="VARCHAR" />
+		<result column="SERVER_TYPE" property="serverType" jdbcType="TINYINT" />
+		<result column="INTERFACE_CLASS" property="interfaceClass" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="TINYINT" />
+		<result column="LOCK_FLAG" property="lockFlag" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		INTERFACE_ID, BANK_ID, SERVER_TYPE, INTERFACE_CLASS, CREATE_TIME, STATUS, LOCK_FLAG
+	</sql>
+	<select id="selectByBankid" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select * from
+		interface_mgt
+		where BANK_ID = #{bankId,jdbcType=VARCHAR} order by CREATE_TIME desc
+		<if test="pageIndex != null">
+		limit #{pageIndex},#{pageSize}
+		</if>
+	</select>
+	<select id="selectByBankidCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(*)
+		from interface_mgt
+		where BANK_ID = #{bankId,jdbcType=VARCHAR} 
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from interface_mgt
+		where INTERFACE_ID = #{interfaceId,jdbcType=VARCHAR} 
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from interface_mgt
+		where INTERFACE_ID = #{interfaceId,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="deleteByBankId" parameterType="java.lang.String">
+		delete from interface_mgt
+		where BANK_ID = #{bankId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zllh.payment.model.InterfaceMgt">
+		insert into interface_mgt (INTERFACE_ID, BANK_ID, SERVER_TYPE,
+		INTERFACE_CLASS, CREATE_TIME, STATUS,
+		LOCK_FLAG)
+		values (#{interfaceId,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR}, #{serverType,jdbcType=TINYINT},
+		#{interfaceClass,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT},
+		#{lockFlag,jdbcType=TINYINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zllh.payment.model.InterfaceMgt" keyProperty="interfaceId">
+		insert into interface_mgt
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<!-- <if test="interfaceId != null"> INTERFACE_ID, </if> -->
+
+			<if test="bankId != null">
+				BANK_ID,
+			</if>
+			<if test="serverType != null">
+				SERVER_TYPE,
+			</if>
+			<if test="interfaceClass != null">
+				INTERFACE_CLASS,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="lockFlag != null">
+				LOCK_FLAG,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<!--  <if test="interfaceId != null"> #{interfaceId,jdbcType=VARCHAR}, </if> -->
+			<if test="bankId != null">
+				#{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="serverType != null">
+				#{serverType,jdbcType=TINYINT},
+			</if>
+			<if test="interfaceClass != null">
+				#{interfaceClass,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="lockFlag != null">
+				#{lockFlag,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zllh.payment.model.InterfaceMgt">
+		update interface_mgt
+		<set>
+			<if test="bankId != null">
+				BANK_ID = #{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="serverType != null">
+				SERVER_TYPE = #{serverType,jdbcType=TINYINT},
+			</if>
+			<if test="interfaceClass != null">
+				INTERFACE_CLASS = #{interfaceClass,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="lockFlag != null">
+				LOCK_FLAG = #{lockFlag,jdbcType=TINYINT},
+			</if>
+		</set>
+		where INTERFACE_ID = #{interfaceId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zllh.payment.model.InterfaceMgt">
+		update interface_mgt
+		set BANK_ID = #{bankId,jdbcType=VARCHAR},
+		SERVER_TYPE = #{serverType,jdbcType=TINYINT},
+		INTERFACE_CLASS = #{interfaceClass,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		STATUS = #{status,jdbcType=TINYINT},
+		LOCK_FLAG = #{lockFlag,jdbcType=TINYINT}
+		where INTERFACE_ID = #{interfaceId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByBankId" parameterType="com.zllh.payment.model.InterfaceMgt">
+		update interface_mgt
+		set INTERFACE_ID = #{interfaceId,jdbcType=VARCHAR},
+		SERVER_TYPE = #{serverType,jdbcType=TINYINT},
+		INTERFACE_CLASS = #{interfaceClass,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		STATUS = #{status,jdbcType=TINYINT},
+		LOCK_FLAG = #{lockFlag,jdbcType=TINYINT}
+		where BANK_ID = #{bankId,jdbcType=VARCHAR}
+	</update>
+</mapper>

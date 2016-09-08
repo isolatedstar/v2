@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtGetgoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtGetgoods" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ordertitle_id" property="ordertitleId" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="sendgoods_id" property="sendgoodsId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="DOUBLE" />
+    <result column="receiver_id" property="receiverId" jdbcType="VARCHAR" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="event_id" property="eventId" jdbcType="VARCHAR" />
+    <result column="getgoods_time" property="getgoodsTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="receive_dirct" property="receiveDirct" jdbcType="INTEGER" />
+    <result column="receive_address_id" property="receiveAddressId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+	id, ordertitle_id, order_id, 
+      sendgoods_id, goods_id, num, 
+      receiver_id, receiver_name, user_id, 
+      user_name, create_time, event_id, 
+      getgoods_time, status, receive_dirct, 
+      receive_address_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_getgoods
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectForwardSumGetGoods" parameterType="java.util.Map" resultType="double">
+  	select IFNULL(sum(num),0) from mt_getgoods where order_id = #{orderId,jdbcType=VARCHAR} and receiver_id = #{receiverId,jdbcType=VARCHAR} and receive_dirct = 1
+  </select>
+  <select id="selectReverseSumGetGoods" parameterType="java.util.Map" resultType="double">
+  	select IFNULL(sum(num),0) from mt_getgoods where order_id = #{orderId,jdbcType=VARCHAR} and receiver_id = #{shipperId,jdbcType=VARCHAR} and receive_dirct = 2
+  </select>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtGetgoods" >
+    insert into mt_getgoods (id, ordertitle_id, order_id, 
+      sendgoods_id, goods_id, num, 
+      receiver_id, receiver_name, user_id, 
+      user_name, create_time, event_id, 
+      getgoods_time, status, receive_dirct, 
+      receive_address_id)
+    values (#{id,jdbcType=VARCHAR}, #{ordertitleId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{sendgoodsId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{num,jdbcType=DOUBLE}, 
+      #{receiverId,jdbcType=VARCHAR}, #{receiverName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{eventId,jdbcType=VARCHAR}, 
+      #{getgoodsTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{receiveDirct,jdbcType=INTEGER}, 
+      #{receiveAddressId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtGetgoods" >
+    insert into mt_getgoods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ordertitleId != null" >
+        ordertitle_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="sendgoodsId != null" >
+        sendgoods_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="receiverId != null" >
+        receiver_id,
+      </if>
+      <if test="receiverName != null" >
+        receiver_name,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="eventId != null" >
+        event_id,
+      </if>
+      <if test="getgoodsTime != null" >
+        getgoods_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="receiveDirct != null" >
+        receive_dirct,
+      </if>
+      <if test="receiveAddressId != null" >
+        receive_address_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertitleId != null" >
+        #{ordertitleId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendgoodsId != null" >
+        #{sendgoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="receiverId != null" >
+        #{receiverId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverName != null" >
+        #{receiverName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eventId != null" >
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="getgoodsTime != null" >
+        #{getgoodsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="receiveDirct != null" >
+        #{receiveDirct,jdbcType=INTEGER},
+      </if>
+      <if test="receiveAddressId != null" >
+        #{receiveAddressId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

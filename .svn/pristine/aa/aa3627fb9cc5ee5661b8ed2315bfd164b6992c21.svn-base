@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.front.dao.AcctMgtMapper">
+	<resultMap id="BaseResultMap" type="com.zllh.payment.model.AcctMgt">
+		<id column="BANK_ACCT" property="bankAcct" jdbcType="VARCHAR" />
+		<result column="ACCT_NAME" property="acctName" jdbcType="VARCHAR" />
+		<result column="ACCT_TYPE_ID" property="acctTypeId" jdbcType="TINYINT" />
+		<result column="ACCT_TYPE_NAME" property="acctTypeName" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="TINYINT" />
+		<result column="ORG_GROUP_ID" property="orgGroupId" jdbcType="VARCHAR" />
+		<result column="ORG_GROUP_NAME" property="orgGroupName" jdbcType="VARCHAR" />
+		<result column="TOP_FIVE_ACCT_NUM" property="topFiveAcctNum" jdbcType="VARCHAR" />
+		<result column="BANK_ID" property="bankId" jdbcType="VARCHAR" />
+		<result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+		<result column="MASTER_ACCT" property="masterAcct" jdbcType="VARCHAR" />
+		<result column="MASTER_ACCT_NAME" property="masterAcctName" jdbcType="VARCHAR" />
+		<result column="IS_DEFAULT" property="isDefault" jdbcType="TINYINT" />
+		<association property="bank" javaType="com.zllh.payment.model.Bank">
+			<id column="BANK_ID" property="id" jdbcType="VARCHAR" />
+			<result column="BANK_NAME" property="text" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	<sql id="Base_Column_List">
+		a.BANK_ACCT, a.ACCT_NAME, a.ACCT_TYPE_ID, a.ACCT_TYPE_NAME, a.STATUS, a.ORG_GROUP_ID,<!--a.ORG_GROUP_NAME, -->a.TOP_FIVE_ACCT_NUM,
+		a.BANK_ID, a.MASTER_ACCT ,a.IS_DEFAULT ,b.ACCT_NAME as MASTER_ACCT_NAME ,BANK_NAME
+	</sql>
+
+	<select id="selectAcctByAcctType" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select BANK_ACCT, ACCT_NAME
+		from acct_mgt
+		where ACCT_TYPE_ID = #{acctType,jdbcType=INTEGER}
+		<if test="bankId != null and bankId != 0">
+			and BANK_ID = #{bankId,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<select id="selectAcctByCon" resultMap="BaseResultMap" parameterType="com.zllh.payment.model.AcctMgt">
+		select
+		<include refid="Base_Column_List" />
+		from acct_mgt a left join acct_mgt b
+		on a.MASTER_ACCT = b.BANK_ACCT,bank where a.BANK_ID=bank.BANK_ID
+		<if test="bankAcct != ''">
+			and a.BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+		</if>
+		<if test="acctName != '' ">
+			and a.ACCT_NAME = #{acctName,jdbcType=VARCHAR}
+		</if>
+		<if test="acctTypeId != 0">
+			and a.ACCT_TYPE_ID = #{acctTypeId,jdbcType=TINYINT}
+		</if>
+		<if test="status != 0">
+			and a.STATUS = #{status,jdbcType=TINYINT}
+		</if>
+		<if test="orgGroupId != ''">
+			and a.ORG_GROUP_ID = #{orgGroupId,jdbcType=VARCHAR}
+<!-- 			and a.ORG_GROUP_NAME = #{orgGroupName,jdbcType=VARCHAR} -->
+		</if>
+		<if test="bankId != 0">
+			and a.BANK_ID = #{bankId,jdbcType=VARCHAR}
+		</if>
+		<if test="masterAcct != '全部'.toString()">
+			and a.MASTER_ACCT = #{masterAcct,jdbcType=VARCHAR}
+		</if>
+		<if test="isDefault != 0">
+			and a.IS_DEFAULT = #{isDefault,jdbcType=TINYINT}
+		</if>
+
+		order by a.CREATE_TIME desc
+		limit #{page},#{rows}
+	</select>
+	<select id="selectAcctByCon2" resultMap="BaseResultMap" parameterType="com.zllh.payment.model.AcctMgt">
+		select
+		a.BANK_ACCT, a.ACCT_NAME, a.ACCT_TYPE_ID, a.ACCT_TYPE_NAME, a.STATUS, a.ORG_GROUP_ID,<!--a.ORG_GROUP_NAME, -->a.TOP_FIVE_ACCT_NUM,
+		a.BANK_ID, a.MASTER_ACCT
+		from acct_mgt a where 1=1 
+		<if test="acctName != '' and  acctName != null  ">
+			and a.ACCT_NAME = #{acctName,jdbcType=VARCHAR}
+		</if>
+		<if test="acctTypeName != '' and  acctTypeName != null ">
+			and a.ACCT_TYPE_NAME = #{acctTypeName,jdbcType=VARCHAR}
+		</if>
+		<if test="orgGroupId != ''  and  orgGroupId != null ">
+			and a.ORG_GROUP_ID = #{orgGroupId,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<select id="selectAcctCount" resultType="java.lang.Integer" parameterType="com.zllh.payment.model.AcctMgt">
+		select
+		count(*)
+		from acct_mgt a left join acct_mgt b
+		on a.MASTER_ACCT = b.BANK_ACCT,bank where a.BANK_ID=bank.BANK_ID
+		<if test="bankAcct != ''">
+			and a.BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+		</if>
+		<if test="acctName != ''">
+			and a.ACCT_NAME = #{acctName,jdbcType=VARCHAR}
+		</if>
+		<if test="acctTypeId != 0">
+			and a.ACCT_TYPE_ID = #{acctTypeId,jdbcType=TINYINT}
+		</if>
+		<if test="status != 0">
+			and a.STATUS = #{status,jdbcType=TINYINT}
+		</if>
+		<if test="orgGroupId != ''">
+			and a.ORG_GROUP_ID = #{orgGroupId,jdbcType=VARCHAR}
+<!-- 			and a.ORG_GROUP_NAME = #{orgGroupName,jdbcType=VARCHAR} -->
+		</if>
+		<if test="bankId != 0">
+			and a.BANK_ID = #{bankId,jdbcType=VARCHAR}
+		</if>
+		<if test="masterAcct != '全部'.toString()">
+			and a.MASTER_ACCT = #{masterAcct,jdbcType=VARCHAR}
+		</if>
+		<if test="isDefault != 0">
+			and a.IS_DEFAULT = #{isDefault,jdbcType=TINYINT}
+		</if>
+	</select>
+	
+	<select id="selectAcctMsgCount" resultType="java.lang.Integer" parameterType="com.zllh.payment.model.AcctMgt">
+        select
+        count(*)
+        from acct_mgt where 1=1
+        <if test="bankAcct != '' and bankAcct != null ">
+            and BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+        </if>
+        <if test="masterAcct != '' and masterAcct != null ">
+            and MASTER_ACCT = #{masterAcct,jdbcType=VARCHAR}
+        </if>
+        <if test="acctName != '' and acctName != null ">
+            and ACCT_NAME = #{acctName,jdbcType=VARCHAR}
+        </if>
+        <if test="status != 0 and status != null ">
+            and STATUS = #{status,jdbcType=TINYINT}
+        </if>
+    </select>
+
+	<select id="selectAcctByBankAcct" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		BANK_ACCT, ACCT_NAME,MASTER_ACCT
+		from acct_mgt
+		<if test="bankAcct != null">
+			where BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from acct_mgt
+		where BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zllh.payment.model.AcctMgt">
+		insert into acct_mgt (BANK_ACCT, ACCT_NAME, ACCT_TYPE_ID,
+		ACCT_TYPE_NAME, STATUS, ORG_GROUP_ID,
+		TOP_FIVE_ACCT_NUM, BANK_ID, MASTER_ACCT ,IS_DEFAULT
+		)
+		values (#{bankAcct,jdbcType=VARCHAR}, #{acctName,jdbcType=VARCHAR}, #{acctTypeId,jdbcType=TINYINT},
+		#{acctTypeName,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{orgGroupId,jdbcType=VARCHAR},
+		#{topFiveAcctNum,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR}, #{masterAcct,jdbcType=VARCHAR},#{isDefault,jdbcType=TINYINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zllh.payment.model.AcctMgt">
+		insert into acct_mgt
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bankAcct != null">
+				BANK_ACCT,
+			</if>
+			<if test="acctName != null">
+				ACCT_NAME,
+			</if>
+			<if test="acctTypeId != null">
+				ACCT_TYPE_ID,
+			</if>
+			<if test="acctTypeName != null">
+				ACCT_TYPE_NAME,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="orgGroupId != null">
+				ORG_GROUP_ID,
+			</if>
+<!-- 			<if test="orgGroupName != null"> -->
+<!-- 				ORG_GROUP_NAME, -->
+<!-- 			</if> -->
+			<if test="topFiveAcctNum != null">
+				TOP_FIVE_ACCT_NUM,
+			</if>
+			<if test="bankId != null">
+				BANK_ID,
+			</if>
+			<if test="masterAcct != ''">
+				MASTER_ACCT,
+			</if>
+			<if test="isDefault != ''">
+				IS_DEFAULT,
+			</if>CREATE_TIME,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="bankAcct != null">
+				#{bankAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="acctName != null">
+				#{acctName,jdbcType=VARCHAR},
+			</if>
+			<if test="acctTypeId != null">
+				#{acctTypeId,jdbcType=TINYINT},
+			</if>
+			<if test="acctTypeName != null">
+				#{acctTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="orgGroupId != null">
+				#{orgGroupId,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgGroupName != null"> -->
+<!-- 				#{orgGroupName,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="topFiveAcctNum != null">
+				#{topFiveAcctNum,jdbcType=VARCHAR},
+			</if>
+			<if test="bankId != null">
+				#{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="masterAcct != ''">
+				#{masterAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != ''">
+				#{isDefault,jdbcType=TINYINT},
+			</if>
+				now(),
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zllh.payment.model.AcctMgt">
+		update acct_mgt
+		<set>
+			<if test="acctName != null">
+				ACCT_NAME = #{acctName,jdbcType=VARCHAR},
+			</if>
+			<if test="acctTypeId != null">
+				ACCT_TYPE_ID = #{acctTypeId,jdbcType=TINYINT},
+			</if>
+			<if test="acctTypeName != null">
+				ACCT_TYPE_NAME = #{acctTypeName,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="orgGroupId != null">
+				ORG_GROUP_ID = #{orgGroupId,jdbcType=VARCHAR},
+			</if>
+<!-- 			<if test="orgGroupName != null"> -->
+<!-- 				ORG_GROUP_NAME = #{orgGroupName,jdbcType=VARCHAR}, -->
+<!-- 			</if> -->
+			<if test="topFiveAcctNum != null">
+				TOP_FIVE_ACCT_NUM = #{topFiveAcctNum,jdbcType=VARCHAR},
+			</if>
+			<if test="bankId != null">
+				BANK_ID = #{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="masterAcct == ''">
+				MASTER_ACCT = null,
+			</if>
+			<if test="masterAcct != ''">
+				MASTER_ACCT = #{masterAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null">
+				IS_DEFAULT = #{isDefault,jdbcType=TINYINT},
+			</if>
+		</set>
+		where BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zllh.payment.model.AcctMgt">
+		update acct_mgt
+		set ACCT_NAME = #{acctName,jdbcType=VARCHAR},
+		ACCT_TYPE_ID = #{acctTypeId,jdbcType=TINYINT},
+		ACCT_TYPE_NAME = #{acctTypeName,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=TINYINT},
+		ORG_GROUP_ID = #{orgGroupId,jdbcType=VARCHAR},
+		TOP_FIVE_ACCT_NUM = #{topFiveAcctNum,jdbcType=VARCHAR},
+		BANK_ID = #{bankId,jdbcType=VARCHAR},
+		MASTER_ACCT = #{masterAcct,jdbcType=VARCHAR},
+		IS_DEFAULT = #{isDefault,jdbcType=TINYINT}
+		where BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+	</update>
+	<select id="queryAccountListByParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select b.*,bk.BANK_NAME 
+		from acct_mgt b,bank bk
+		where 1=1 and b.BANK_ID = bk.BANK_ID
+		<if test="bankAcct != '' and  bankAcct != null" >
+          and b.BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+        </if>
+		<if test="bankId != '' and  bankId != null" >
+		  and b.BANK_ID = #{bankId,jdbcType=VARCHAR}
+		</if>
+		<if test="acctName != '' and  acctName != null" >
+		 and b.ACCT_NAME = #{acctName,jdbcType=VARCHAR}
+		</if>
+		<if test="masterAcct != '' and  masterAcct != null" >
+         and b.MASTER_ACCT = #{masterAcct,jdbcType=VARCHAR}
+        </if>
+		<if test="orgGroupId != '' and  orgGroupId != null" >
+         and b.ORG_GROUP_ID = #{orgGroupId,jdbcType=VARCHAR}
+        </if>
+        <if test="status != '' and  status != null" >
+         and b.STATUS = #{status,jdbcType=TINYINT}
+        </if>
+	</select>
+</mapper>

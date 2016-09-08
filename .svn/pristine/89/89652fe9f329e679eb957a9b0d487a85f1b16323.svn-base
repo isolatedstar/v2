@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.UPortalCerInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.UPortalCerInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+    <result column="PICIMG_URL" property="picimgUrl" jdbcType="VARCHAR" />
+    <result column="PIC_DES" property="picDes" jdbcType="VARCHAR" />
+    <result column="PICSTATE" property="picstate" jdbcType="INTEGER" />
+    <result column="PIC_SORT" property="picSort" jdbcType="INTEGER" />
+    <result column="PIC_CREATE_TIME" property="picCreateTime" jdbcType="TIMESTAMP" />
+    <result column="PIC_GROUP_ID" property="picGroupId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PIC_URL, PICIMG_URL, PIC_DES, PICSTATE, PIC_SORT, PIC_CREATE_TIME, PIC_GROUP_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_uportal_cer_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_uportal_cer_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.UPortalCerInfo" >
+    insert into bus_uportal_cer_info (ID, PIC_URL, PICIMG_URL, 
+      PIC_DES, PICSTATE, PIC_SORT, 
+      PIC_CREATE_TIME, PIC_GROUP_ID)
+    values (#{id,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{picimgUrl,jdbcType=VARCHAR}, 
+      #{picDes,jdbcType=VARCHAR}, #{picstate,jdbcType=INTEGER}, #{picSort,jdbcType=INTEGER}, 
+      #{picCreateTime,jdbcType=TIMESTAMP}, #{picGroupId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.UPortalCerInfo" >
+    insert into bus_uportal_cer_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL,
+      </if>
+      <if test="picimgUrl != null" >
+        PICIMG_URL,
+      </if>
+      <if test="picDes != null" >
+        PIC_DES,
+      </if>
+      <if test="picstate != null" >
+        PICSTATE,
+      </if>
+      <if test="picSort != null" >
+        PIC_SORT,
+      </if>
+      <if test="picCreateTime != null" >
+        PIC_CREATE_TIME,
+      </if>
+      <if test="picGroupId != null" >
+        PIC_GROUP_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picimgUrl != null" >
+        #{picimgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picDes != null" >
+        #{picDes,jdbcType=VARCHAR},
+      </if>
+      <if test="picstate != null" >
+        #{picstate,jdbcType=INTEGER},
+      </if>
+      <if test="picSort != null" >
+        #{picSort,jdbcType=INTEGER},
+      </if>
+      <if test="picCreateTime != null" >
+        #{picCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picGroupId != null" >
+        #{picGroupId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.UPortalCerInfo" >
+    update bus_uportal_cer_info
+    <set >
+      <if test="picUrl != null" >
+        PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picimgUrl != null" >
+        PICIMG_URL = #{picimgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picDes != null" >
+        PIC_DES = #{picDes,jdbcType=VARCHAR},
+      </if>
+      <if test="picstate != null" >
+        PICSTATE = #{picstate,jdbcType=INTEGER},
+      </if>
+      <if test="picSort != null" >
+        PIC_SORT = #{picSort,jdbcType=INTEGER},
+      </if>
+      <if test="picCreateTime != null" >
+        PIC_CREATE_TIME = #{picCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picGroupId != null" >
+        PIC_GROUP_ID = #{picGroupId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.UPortalCerInfo" >
+    update bus_uportal_cer_info
+    set PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      PICIMG_URL = #{picimgUrl,jdbcType=VARCHAR},
+      PIC_DES = #{picDes,jdbcType=VARCHAR},
+      PICSTATE = #{picstate,jdbcType=INTEGER},
+      PIC_SORT = #{picSort,jdbcType=INTEGER},
+      PIC_CREATE_TIME = #{picCreateTime,jdbcType=TIMESTAMP},
+      PIC_GROUP_ID = #{picGroupId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.front.dao.BankAcctRuleMapper">
+	<resultMap id="BaseResultMap" type="com.zllh.payment.model.BankAcctRule">
+		<id column="BANK_RULE_ID" property="bankRuleId" jdbcType="VARCHAR" />
+		<result column="BANK_ID" property="bankId" jdbcType="VARCHAR" />
+		<result column="ACCT_TYPE" property="acctType" jdbcType="TINYINT" />
+		<result column="ACCT_TYPE_NAME" property="acctTypeName" jdbcType="VARCHAR" />
+		<result column="ACCT_LENGTH" property="acctLength" jdbcType="TINYINT" />
+		<result column="RULE_START" property="ruleStart" jdbcType="TINYINT" />
+		<result column="RULE_END" property="ruleEnd" jdbcType="TINYINT" />
+		<result column="RULE_CONTENT" property="ruleContent" jdbcType="VARCHAR" />
+		<result column="RULE_PREVIEW" property="rulePreview" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="TINYINT" />
+		<result column="STATUS_NAME" property="statusName" jdbcType="VARCHAR" />
+		<result column="LOCK_FLAG" property="lockFlag" jdbcType="TINYINT" />
+		<result column="PARENT_RULE_ID" property="parentRuleId" jdbcType="VARCHAR" />
+		<result column="LEVEL" property="level" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		BANK_RULE_ID, BANK_ID, ACCT_TYPE, ACCT_LENGTH, RULE_START, RULE_END, RULE_CONTENT,
+		CREATE_TIME, STATUS, LOCK_FLAG,PARENT_RULE_ID,LEVEL,RULE_PREVIEW,t.ITEM_NAME ACCT_TYPE_NAME,s.ITEM_NAME STATUS_NAME
+	</sql>
+
+	<sql id="bankinfo">
+		ACCT_TYPE,ACCT_LENGTH,RULE_START,RULE_END,RULE_CONTENT
+	</sql>
+	<sql id="fatherRuleId">
+		PARENT_RULE_ID,LEVEL
+	</sql>
+	<select id="selectByBankid" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bank_acct_rule m,sys_datadict t ,sys_datadict s 
+		where t.DICT_CODE='bankCardType' and m.ACCT_TYPE=t.ITEM_CODE and s.DICT_CODE='ruleStatus' and m.STATUS=s.ITEM_CODE
+		and BANK_ID = #{bankId,jdbcType=VARCHAR}  order by CREATE_TIME desc
+		limit #{page},#{rows}
+	</select>
+	<select id="selectByBankidCount" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bank_acct_rule m,sys_datadict t ,sys_datadict s 
+		where t.DICT_CODE='bankCardType' and m.ACCT_TYPE=t.ITEM_CODE and s.DICT_CODE='ruleStatus' and m.STATUS=s.ITEM_CODE
+		and BANK_ID = #{bankId,jdbcType=VARCHAR}
+	</select>
+	<select id="getFatherRule" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select
+		<include refid="Base_Column_List" />
+		from bank_acct_rule m,sys_datadict t ,sys_datadict s 
+		where t.DICT_CODE='bankCardType' and m.ACCT_TYPE=t.ITEM_CODE and s.DICT_CODE='ruleStatus' and m.STATUS=s.ITEM_CODE
+		and BANK_ID = #{0,jdbcType=VARCHAR}
+		AND ACCT_TYPE = #{1,jdbcType=TINYINT}
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bank_acct_rule
+		where BANK_RULE_ID = #{bankRuleId,jdbcType=VARCHAR} 
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from bank_acct_rule
+		where BANK_RULE_ID = #{bankRuleId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zllh.payment.model.BankAcctRule">
+		insert into bank_acct_rule (BANK_RULE_ID, BANK_ID, ACCT_TYPE,
+		ACCT_LENGTH, RULE_START, RULE_END,
+		RULE_CONTENT, CREATE_TIME, STATUS,
+		LOCK_FLAG)
+		values (#{bankRuleId,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR}, #{acctType,jdbcType=TINYINT},
+		#{acctLength,jdbcType=TINYINT}, #{ruleStart,jdbcType=TINYINT}, #{ruleEnd,jdbcType=TINYINT},
+		#{ruleContent,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT},
+		#{lockFlag,jdbcType=TINYINT},)
+	</insert>
+	<insert id="insertSelective" parameterType="com.zllh.payment.model.BankAcctRule" keyProperty="bankRuleId">
+		insert into bank_acct_rule
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<!-- <if test="bankRuleId != null"> BANK_RULE_ID, </if> -->
+			<if test="bankId != null">
+				BANK_ID,
+			</if>
+			<if test="acctType != null">
+				ACCT_TYPE,
+			</if>
+			<if test="acctLength != null">
+				ACCT_LENGTH,
+			</if>
+			<if test="ruleStart != null">
+				RULE_START,
+			</if>
+			<if test="ruleEnd != null">
+				RULE_END,
+			</if>
+			<if test="ruleContent != null">
+				RULE_CONTENT,
+			</if>
+			<if test="rulePreview != null">
+				RULE_PREVIEW,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="lockFlag != null">
+				LOCK_FLAG,
+			</if>
+			<if test="parentRuleId != null">
+				PARENT_RULE_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<!-- <if test="bankRuleId != null"> #{bankRuleId,jdbcType=VARCHAR}, </if> -->
+			<if test="bankId != null">
+				#{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="acctType != null">
+				#{acctType,jdbcType=TINYINT},
+			</if>
+			<if test="acctLength != null">
+				#{acctLength,jdbcType=TINYINT},
+			</if>
+			<if test="ruleStart != null">
+				#{ruleStart,jdbcType=TINYINT},
+			</if>
+			<if test="ruleEnd != null">
+				#{ruleEnd,jdbcType=TINYINT},
+			</if>
+			<if test="ruleContent != null">
+				#{ruleContent,jdbcType=VARCHAR},
+			</if>
+			<if test="rulePreview != null">
+				#{rulePreview,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="lockFlag != null">
+				#{lockFlag,jdbcType=TINYINT},
+			</if>
+			<if test="parentRuleId != null">
+				#{parentRuleId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zllh.payment.model.BankAcctRule">
+		update bank_acct_rule
+		<set>
+			<if test="bankId != null">
+				BANK_ID = #{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="acctType != null">
+				ACCT_TYPE = #{acctType,jdbcType=TINYINT},
+			</if>
+			<if test="acctLength != null">
+				ACCT_LENGTH = #{acctLength,jdbcType=TINYINT},
+			</if>
+			<if test="ruleStart != null">
+				RULE_START = #{ruleStart,jdbcType=TINYINT},
+			</if>
+			<if test="ruleEnd != null">
+				RULE_END = #{ruleEnd,jdbcType=TINYINT},
+			</if>
+			<if test="ruleContent != null">
+				RULE_CONTENT = #{ruleContent,jdbcType=VARCHAR},
+			</if>
+			<if test="rulePreview != null">
+				RULE_PREVIEW = #{rulePreview,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="parentRuleId != null">
+				PARENT_RULE_ID = #{parentRuleId,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where BANK_RULE_ID = #{bankRuleId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zllh.payment.model.BankAcctRule">
+		update bank_acct_rule
+		set BANK_ID = #{bankId,jdbcType=VARCHAR},
+		ACCT_TYPE = #{acctType,jdbcType=TINYINT},
+		ACCT_LENGTH = #{acctLength,jdbcType=TINYINT},
+		RULE_START = #{ruleStart,jdbcType=TINYINT},
+		RULE_END = #{ruleEnd,jdbcType=TINYINT},
+		RULE_CONTENT = #{ruleContent,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		STATUS = #{status,jdbcType=TINYINT},
+		LOCK_FLAG = #{lockFlag,jdbcType=TINYINT}
+		where BANK_RULE_ID = #{bankRuleId,jdbcType=VARCHAR}
+	</update>
+</mapper>

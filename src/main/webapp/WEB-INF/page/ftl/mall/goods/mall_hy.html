@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>采购资源报价</title>
+<link href="css/mall.css" rel="stylesheet" type="text/css">
+<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="css/media.css" rel="stylesheet" type="text/css">
+<script src="js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(e) {
+	$('.m_menu').hover(function(){
+		$('.m_subnav').hide()
+		$('.m_menu_ul>li>a').css('background-position','right top')
+		$('.m_menu_ul').show();
+		},function(){
+			})
+	$('.m_menu_ul').hover(function(){
+		},function(){
+		$(this).hide()
+			})
+	$('.m_menu_2').hover(function(){
+		$('.m_subnav').hide()
+		$('.m_menu_ul>li>a').css('background-position','right top')
+		$('.m_menu_ul').show();
+		},function(){
+			})
+    $('.m_menu_ul>li').click(function(){
+		$('.m_subnav').stop().slideUp()
+		$(this).next('.m_subnav').stop().slideToggle(100);
+		$('.m_menu_ul>li>a').css('background-position','right top')
+		$(this).find('a').css('background-position','right bottom')
+		})
+	$('.m_subnav li').click(function(){
+		$('.m_subnav_2').stop().slideUp()
+		$(this).next('.m_subnav_2').stop().slideToggle(100);
+		})
+})
+</script>
+<script>
+$(document).ready(function(e) {
+    $('.content_div_txt a').onclick = function(){
+		this.href = show();
+		}
+});
+
+
+</script>
+
+</head>
+
+<body>
+<div id="mallwarp" >
+<!----------------------header start--------------------------->
+	<div class="m_header">
+    	<img src="images/logo.png"/>
+        <h2>农校对接</h2>
+        <a href="#">退出</a><a href="#">登录人：<span>zhufeiyaddddd</span></a>
+    </div>
+<!----------------------header over--------------------------->
+<div class="m_con_box">
+		<!------------------------------------------nav start----------------------------------------------------------->
+     <div class="m_nav">
+        <div class="m_menu"><p>商品分类<i class="fa fa-qrcode"></i></p></div>
+        <div class="m_menu_2"><p><i class="fa fa-list"></i></p></div>
+        <ul class="m_menu_ul">
+            <li><a href="#">粮油食品</a></li>
+                <ul class="m_subnav">
+                    <li><a href="#">面类</a>
+                        <ul class="m_subnav_2">
+                            <li><a href="#">面类</a></li>
+                            <li><a href="#">米类</a></li>
+                            <li><a href="#">油类</a></li>
+                            <li><a href="#">豆类</a></li>
+                        </ul>
+					</li>
+                    <li><a href="#">米类</a>
+                        <ul class="m_subnav_2">
+                            <li><a href="#">面类</a></li>
+                            <li><a href="#">米类</a></li>
+                            <li><a href="#">油类</a></li>
+                            <li><a href="#">豆类</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">油类</a> 
+                        <ul class="m_subnav_2">
+                            <li><a href="#">面类</a></li>
+                            <li><a href="#">米类</a></li>
+                            <li><a href="#">油类</a></li>
+                            <li><a href="#">豆类</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">豆类</a></li>
+                </ul>
+            <li><a href="#">果蔬食品</a>
+                <ul class="m_subnav">
+                    <li><a href="#">面类</a>
+                        <ul class="m_subnav_2">
+                            <li><a href="#">面类</a></li>
+                            <li><a href="#">米类</a></li>
+                            <li><a href="#">油类</a></li>
+                            <li><a href="#">豆类</a></li>
+                        
+                        </ul>
+                     </li>
+                    <li><a href="#">米类</a></li>
+                    <li><a href="#">油类</a></li>
+                    <li><a href="#">豆类</a></li>
+                </ul>
+             </li>
+            <li><a href="#">肉类</a></li>
+                <ul class="m_subnav">
+                    <li><a href="#">面类</a></li>
+                    <li><a href="#">米类</a></li>
+                    <li><a href="#">油类</a></li>
+                    <li><a href="#">豆类</a></li>
+                </ul>
+            <li><a href="#">调料</a></li>
+                <ul class="m_subnav">
+                    <li><a href="#">面类</a></li>
+                    <li><a href="#">米类</a></li>
+                    <li><a href="#">油类</a></li>
+                    <li><a href="#">豆类</a></li>
+                </ul>
+            <li><a href="#">其他</a></li>
+                <ul class="m_subnav">
+                    <li><a href="#">面类</a></li>
+                    <li><a href="#">米类</a></li>
+                    <li><a href="#">油类</a></li>
+                    <li><a href="#">豆类</a></li>
+                </ul>
+        </ul>
+    </div>
+</div>
+<!------------------------------------------nav over------------------------------------------------------------>
+<!------------------------------------------conter bot start------------------------------------------------------------>
+<div class="content_box_warp" >
+    <div class="content_div">
+        <div class="content_div_img"><img src="images/contentp.png" style="width:240px; height:200px;"/></div>
+        <div class="content_div_txt">
+            <p class="content_div_p1"><span class="div_p4_span">苹果</span>（散装）&nbsp;&nbsp;&nbsp;&nbsp;存货量：9500斤</p>
+            <a href="mall_Description - hy.html">查看详情</a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="content_div">
+        <div class="content_div_img"><img src="images/contentp.png" style="width:240px; height:200px;"/></div>
+        <div class="content_div_txt">
+            <p class="content_div_p1"><span class="div_p4_span">苹果</span>（散装）&nbsp;&nbsp;&nbsp;&nbsp;存货量：9500斤</p>
+            <a href="#">查看详情</a>
+            <div class="clear"></div>
+        </div>
+    </div>    
+    <div class="content_div">
+        <div class="content_div_img"><img src="images/contentp.png" style="width:240px; height:200px;"/></div>
+        <div class="content_div_txt">
+            <p class="content_div_p1"><span class="div_p4_span">苹果</span>（散装）&nbsp;&nbsp;&nbsp;&nbsp;存货量：9500斤</p>
+            <a href="#">查看详情</a>
+            <div class="clear"></div>
+        </div>
+    </div>    
+    <div class="content_div">
+        <div class="content_div_img"><img src="images/contentp.png" style="width:240px; height:200px;"/></div>
+        <div class="content_div_txt">
+            <p class="content_div_p1"><span class="div_p4_span">苹果</span>（散装）&nbsp;&nbsp;&nbsp;&nbsp;存货量：9500斤</p>
+            <a href="#">查看详情</a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="content_div">
+        <div class="content_div_img"><img src="images/contentp.png" style="width:240px; height:200px;"/></div>
+        <div class="content_div_txt">
+            <p class="content_div_p1"><span class="div_p4_span">苹果</span>（散装）&nbsp;&nbsp;&nbsp;&nbsp;存货量：9500斤</p>
+            <a href="#">查看详情</a>
+            <div class="clear"></div>
+        </div>
+    </div>    
+    <div class="content_div">
+        <div class="content_div_img"><img src="images/contentp.png" style="width:240px; height:200px;"/></div>
+        <div class="content_div_txt">
+            <p class="content_div_p1"><span class="div_p4_span">苹果</span>（散装）&nbsp;&nbsp;&nbsp;&nbsp;存货量：9500斤</p>
+            <a href="#">查看详情</a>
+            <div class="clear"></div>
+        </div>
+    </div>      
+    <div class="clear"></div>
+<!------------------------------------------conter bot over------------------------------------------------------------>
+
+</div>
+</body>
+</html>

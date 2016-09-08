@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtMuserMapper" >
+
+  <!-- 数据准备区 -->	
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtMuser" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+    <result column="mmb_name" property="mmbName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+  		id,mmb_id,mmb_name,name,email,telephone,account,password,state
+  </sql>
+  
+  <sql id="SearchCondition">
+     <if test="id!=null">AND id=#{id,jdbcType=VARCHAR}</if>
+     <if test="mmbId!=null">AND mmb_id=#{mmbId,jdbcType=VARCHAR}</if>
+     <if test="mmbName!=null">AND mmb_name=#{mmbName,jdbcType=VARCHAR}</if>
+     <if test="name!=null">AND name=#{name,jdbcType=VARCHAR}</if>
+     <if test="email!=null">AND email=#{email,jdbcType=VARCHAR}</if>
+     <if test="telephone!=null">AND telephone=#{telephone,jdbcType=VARCHAR}</if>
+     <if test="account!=null">AND account=#{account,jdbcType=VARCHAR}</if>
+     <if test="password!=null">AND password=#{password,jdbcType=VARCHAR}</if>
+     <if test="state!=null">AND state=#{state,jdbcType=INTEGER}</if>
+  </sql>
+  
+  <!-- 操作员表扩展类 -->
+  <resultMap id="ResultMapBiz" type="com.zllh.mall.common.model.MtMuserBiz" >
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="user_id" property="id" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <!-- 数据处理区 -->
+  <!-- 添加数据 -->
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtMuser" >
+    insert into mt_muser (id, mmb_id, mmb_name, 
+      name, email, telephone, 
+      account, password,state)
+    values (#{id,jdbcType=VARCHAR}, #{mmbId,jdbcType=VARCHAR}, #{mmbName,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
+      #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER})
+  </insert>
+  
+  <!-- 按条件添加数据 -->
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtMuser" >
+    insert into mt_muser
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mmbId != null" >
+        mmb_id,
+      </if>
+      <if test="mmbName != null" >
+        mmb_name,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbId != null" >
+        #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbName != null" >
+        #{mmbName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 统计满足条件的数据 -->
+  <select id="countUserByContiontion" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT COUNT(mmb_id) COUNT FROM mt_muser where 1=1 
+  		<include refid="SearchCondition"/>
+  </select>
+  
+  <!-- 检查此操作员登录账号是否已经被使用 -->
+  <select id="checkUser" parameterType="com.zllh.mall.common.model.MtMuser" resultMap="BaseResultMap">
+  	select 
+		<include refid="Base_Column_List" />
+	from mt_muser where	1=1
+		<include refid="SearchCondition"/>
+  </select>
+  
+  <!-- 查询满足条件的操作员信息 -->
+  <select id="queryUserList" parameterType="java.util.Map" resultMap="ResultMapBiz">
+  	SELECT
+		mu.account account,
+		user_id user_id,
+		GROUP_CONCAT(role_name) role_name,
+		mu.`name` name,
+		mu.email email,
+		mu.telephone telephone,
+		mu.state state
+	FROM
+		mt_muser mu
+	LEFT JOIN pub_role_user pru ON pru.user_id = mu.id
+	LEFT JOIN pub_role ON pub_role.role_id = pru.role_id
+	WHERE 1=1
+		<include refid="SearchCondition"/>
+	GROUP BY
+		user_id
+    <if test="startFirst != null and startEnd != null">
+		<![CDATA[ limit #{startFirst,jdbcType=INTEGER},#{startEnd,jdbcType=INTEGER}]]>
+    </if>
+  </select>
+  
+  <!-- 查询当前登录会员下的 所有有 客服人员角色（113）及未停用的平台操作员 -->
+  <select id="queryUserListAll" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+		mmu.id,
+        mmu.mmb_id,
+        mmu.mmb_name,
+        mmu.NAME,
+        mmu.email,
+        mmu.telephone,
+        mmu.account,
+        mmu.PASSWORD,
+        mmu.state
+	from mt_muser mmu
+    INNER JOIN pub_role_user ru ON mmu.id = ru.user_id
+    AND ru.role_id = 113
+    WHERE  mmu.state = 1
+     AND mmb_id = #{mmbId,jdbcType=INTEGER}
+
+  </select>
+
+
+  
+  <!-- 通过操作员的ID查询自己的相关信息 -->
+  <select id="selectUserById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from mt_muser where id= #{id,jdbcType=VARCHAR}
+  </select>
+  
+    <!-- 通过操作员的ID查询自己的相关信息 -->
+  <select id="selectUserByname" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from mt_muser where name= #{name,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 通过主键修改操作员信息 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.MtMuser" >
+    update mt_muser
+    <set >
+      <if test="mmbId != null" >
+        mmb_id = #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbName != null" >
+        mmb_name = #{mmbName,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!--停用/启用会员时 停用/启用其下属操作员 -->
+  <update id="updateMtUserStateByMember" parameterType="java.util.HashMap">
+    update mt_muser mmu
+      set mmu.state = #{state,,jdbcType=INTEGER}
+    where mmu.mmb_id = #{mmbId,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

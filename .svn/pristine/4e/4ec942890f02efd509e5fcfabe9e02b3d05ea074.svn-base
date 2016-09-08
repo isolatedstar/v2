@@ -1,0 +1,32 @@
+@charset "utf-8";
+/* CSS Document */
+@media screen and (max-width:980px){
+	
+	.h_member,#list .one span,#box,#list .one img{width:980px;}
+	.quality_l,.quality_r,.login_l,.login_r{width:490px;}
+	.quality_l div,.quality_r div{ left:76px; bottom:5px;}
+	.login_r{ float:left;}
+	
+	
+	.h_footer_l{padding:0; width:425px;}
+	.h_culture p{line-height:40px;}
+
+	}
+@media screen and (max-width:750px){
+	.h_member,#list .one span,#box,#list .one img{width:750px;}
+	.quality_l,.quality_r,.login_l,.login_r{width:375px;}
+	.quality_l div,.quality_r div{ left:18px; bottom:5px;}
+	.login_r{ float:left;}
+	
+	
+	.h_footer_l{width:400px; padding:0;}
+	.h_footer{padding-left:10px;}
+	.h_footer_r{padding-left:70px;}
+	.h_footer_l{padding:0; width:400px;}
+	.h_header_right a{font-size:18px; padding-right:26px;}
+	.h_culture p{line-height:40px;}
+
+	}
+@media screen and (max-width:480px){
+
+	}

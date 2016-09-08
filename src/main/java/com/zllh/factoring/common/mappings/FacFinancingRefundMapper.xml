@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.factoring.common.dao.FacFinancingRefundMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.factoring.common.model.FacFinancingRefund" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="refund_id" property="refundId" jdbcType="VARCHAR" />
+    <result column="financing_id" property="financingId" jdbcType="VARCHAR" />
+    <result column="refund_date" property="refundDate" jdbcType="TIMESTAMP" />
+    <result column="refund_interest" property="refundInterest" jdbcType="DECIMAL" />
+    <result column="refund_principal" property="refundPrincipal" jdbcType="DECIMAL" />
+    <result column="overdue_fine" property="overdueFine" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, refund_id, financing_id, refund_date, refund_interest, refund_principal, overdue_fine
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fac_financing_refund
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fac_financing_refund
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.factoring.common.model.FacFinancingRefund" >
+    insert into fac_financing_refund (id, refund_id, financing_id, 
+      refund_date, refund_interest, refund_principal, 
+      overdue_fine)
+    values (#{id,jdbcType=VARCHAR}, #{refundId,jdbcType=VARCHAR}, #{financingId,jdbcType=VARCHAR}, 
+      #{refundDate,jdbcType=TIMESTAMP}, #{refundInterest,jdbcType=DECIMAL}, #{refundPrincipal,jdbcType=DECIMAL}, 
+      #{overdueFine,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.factoring.common.model.FacFinancingRefund" >
+    insert into fac_financing_refund
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="refundId != null" >
+        refund_id,
+      </if>
+      <if test="financingId != null" >
+        financing_id,
+      </if>
+      <if test="refundDate != null" >
+        refund_date,
+      </if>
+      <if test="refundInterest != null" >
+        refund_interest,
+      </if>
+      <if test="refundPrincipal != null" >
+        refund_principal,
+      </if>
+      <if test="overdueFine != null" >
+        overdue_fine,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="refundId != null" >
+        #{refundId,jdbcType=VARCHAR},
+      </if>
+      <if test="financingId != null" >
+        #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="refundDate != null" >
+        #{refundDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundInterest != null" >
+        #{refundInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="refundPrincipal != null" >
+        #{refundPrincipal,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueFine != null" >
+        #{overdueFine,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.factoring.common.model.FacFinancingRefund" >
+    update fac_financing_refund
+    <set >
+      <if test="refundId != null" >
+        refund_id = #{refundId,jdbcType=VARCHAR},
+      </if>
+      <if test="financingId != null" >
+        financing_id = #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="refundDate != null" >
+        refund_date = #{refundDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundInterest != null" >
+        refund_interest = #{refundInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="refundPrincipal != null" >
+        refund_principal = #{refundPrincipal,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueFine != null" >
+        overdue_fine = #{overdueFine,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.factoring.common.model.FacFinancingRefund" >
+    update fac_financing_refund
+    set refund_id = #{refundId,jdbcType=VARCHAR},
+      financing_id = #{financingId,jdbcType=VARCHAR},
+      refund_date = #{refundDate,jdbcType=TIMESTAMP},
+      refund_interest = #{refundInterest,jdbcType=DECIMAL},
+      refund_principal = #{refundPrincipal,jdbcType=DECIMAL},
+      overdue_fine = #{overdueFine,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <insert id="insertFinancingRefundByList" parameterType="java.util.List" >
+    insert into fac_financing_refund (id, refund_id, financing_id, refund_date, 
+      refund_interest, refund_principal, overdue_fine)
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=VARCHAR}, #{item.refundId,jdbcType=VARCHAR}, #{item.financingId,jdbcType=VARCHAR}, #{item.refundDate,jdbcType=TIMESTAMP}, 
+      #{item.refundInterest,jdbcType=DECIMAL}, #{item.refundPrincipal,jdbcType=DECIMAL}, #{item.overdueFine,jdbcType=DECIMAL})
+    </foreach>
+  </insert>
+  
+</mapper>

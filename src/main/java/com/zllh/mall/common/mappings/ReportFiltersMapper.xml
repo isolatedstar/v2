@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.ReportFiltersMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.ReportFilters" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="report_id" property="reportId" jdbcType="VARCHAR" />
+    <result column="filter_title" property="filterTitle" jdbcType="VARCHAR" />
+    <result column="filter_desc" property="filterDesc" jdbcType="VARCHAR" />
+    <result column="filter_code" property="filterCode" jdbcType="VARCHAR" />
+    <result column="filter_type" property="filterType" jdbcType="VARCHAR" />
+    <result column="filter_index" property="filterIndex" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, report_id, filter_title, filter_desc, filter_code, filter_type, filter_index
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from rep_filters
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from rep_filters
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.ReportFilters" >
+    insert into rep_filters (id, report_id, filter_title, 
+      filter_desc, filter_code, filter_type, 
+      filter_index)
+    values (#{id,jdbcType=VARCHAR}, #{reportId,jdbcType=VARCHAR}, #{filterTitle,jdbcType=VARCHAR}, 
+      #{filterDesc,jdbcType=VARCHAR}, #{filterCode,jdbcType=VARCHAR}, #{filterType,jdbcType=VARCHAR}, 
+      #{filterIndex,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.ReportFilters" >
+    insert into rep_filters
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reportId != null" >
+        report_id,
+      </if>
+      <if test="filterTitle != null" >
+        filter_title,
+      </if>
+      <if test="filterDesc != null" >
+        filter_desc,
+      </if>
+      <if test="filterCode != null" >
+        filter_code,
+      </if>
+      <if test="filterType != null" >
+        filter_type,
+      </if>
+      <if test="filterIndex != null" >
+        filter_index,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="reportId != null" >
+        #{reportId,jdbcType=VARCHAR},
+      </if>
+      <if test="filterTitle != null" >
+        #{filterTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="filterDesc != null" >
+        #{filterDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="filterCode != null" >
+        #{filterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="filterType != null" >
+        #{filterType,jdbcType=VARCHAR},
+      </if>
+      <if test="filterIndex != null" >
+        #{filterIndex,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.ReportFilters" >
+    update rep_filters
+    <set >
+      <if test="reportId != null" >
+        report_id = #{reportId,jdbcType=VARCHAR},
+      </if>
+      <if test="filterTitle != null" >
+        filter_title = #{filterTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="filterDesc != null" >
+        filter_desc = #{filterDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="filterCode != null" >
+        filter_code = #{filterCode,jdbcType=VARCHAR},
+      </if>
+      <if test="filterType != null" >
+        filter_type = #{filterType,jdbcType=VARCHAR},
+      </if>
+      <if test="filterIndex != null" >
+        filter_index = #{filterIndex,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.ReportFilters" >
+    update rep_filters
+    set report_id = #{reportId,jdbcType=VARCHAR},
+      filter_title = #{filterTitle,jdbcType=VARCHAR},
+      filter_desc = #{filterDesc,jdbcType=VARCHAR},
+      filter_code = #{filterCode,jdbcType=VARCHAR},
+      filter_type = #{filterType,jdbcType=VARCHAR},
+      filter_index = #{filterIndex,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--根据报表ID 得到报表查询条件列表 -->
+  <select id="getFiltersByReportId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from rep_filters
+    where report_id = #{reportId,jdbcType=VARCHAR}
+    order by filter_index
+  </select>
+
+  <!--根据报表ID 得到查询条件下拉框等的数据SQL -->
+  <select id="getFilterDataByReportId" parameterType="java.lang.String" resultType="java.lang.String">
+     select  filter_data     from rep_filters   where report_id = #{reportId,jdbcType=VARCHAR}
+       and filter_data is not null     limit 0,1
+  </select>
+
+</mapper>

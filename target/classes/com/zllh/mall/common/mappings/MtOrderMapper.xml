@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtOrderMapper" >
+	<resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtOrder" >
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="oredertitle_code" property="oredertitleCode" jdbcType="VARCHAR" />
+		<result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+		<result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+		<result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+		<result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+		<result column="goods_num" property="goodsNum" jdbcType="DOUBLE" />
+		<result column="price" property="price" jdbcType="DOUBLE" />
+		<result column="money" property="money" jdbcType="DOUBLE" />
+		<result column="quote_id" property="quoteId" jdbcType="VARCHAR" />
+		<result column="exe_sendgoods_num" property="exeSendgoodsNum" jdbcType="DOUBLE" />
+		<result column="exe_getgoods_num" property="exeGetgoodsNum" jdbcType="DOUBLE" />
+		<result column="exe_returngoods_num" property="exeReturngoodsNum" jdbcType="DOUBLE" />
+		<result column="exe_getreturngoods_num" property="exeGetreturngoodsNum" jdbcType="DOUBLE" />
+		<result column="exe_paymoney_num" property="exePaymoneyNum" jdbcType="DOUBLE" />
+		<result column="exe_getmoney_num" property="exeGetmoneyNum" jdbcType="DOUBLE" />
+		<result column="exe_refund_num" property="exeRefundNum" jdbcType="DOUBLE" />
+		<result column="exe_getrefund_num" property="exeGetrefundNum" jdbcType="DOUBLE" />
+		<result column="sendgoods_num" property="sendgoodsNum" jdbcType="DOUBLE" />
+		<result column="getgoods_num" property="getgoodsNum" jdbcType="DOUBLE" />
+		<result column="returngoods_num" property="returngoodsNum" jdbcType="DOUBLE" />
+		<result column="getreturngoods_num" property="getreturngoodsNum" jdbcType="DOUBLE" />
+		<result column="paymoney_num" property="paymoneyNum" jdbcType="DOUBLE" />
+		<result column="getmoney_num" property="getmoneyNum" jdbcType="DOUBLE" />
+		<result column="refund_num" property="refundNum" jdbcType="DOUBLE" />
+		<result column="getrefund_num" property="getrefundNum" jdbcType="DOUBLE" />
+		<result column="lockmoney_num" property="lockmoneyNum" jdbcType="DOUBLE" />
+		<result column="buyers_id" property="buyersId" jdbcType="VARCHAR" />
+		<result column="buyers_name" property="buyersName" jdbcType="VARCHAR" />
+		<result column="sellers_id" property="sellersId" jdbcType="VARCHAR" />
+		<result column="sellers_name" property="sellersName" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="workflow_type" property="workflowType" jdbcType="INTEGER" />
+		<result column="stop_status" property="stopStatus" jdbcType="INTEGER" />
+		<result column="execute_status" property="executeStatus" jdbcType="INTEGER" />
+		<result column="ordertitle_number" property="ordertitleNumber" jdbcType="INTEGER" />
+		<result column="lock_time" property="lockTime" jdbcType="TIMESTAMP" />
+		<result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">id, oredertitle_code, goods_id,
+		goods_name, category_id, category_name,
+		goods_num, price, money,
+		quote_id, exe_sendgoods_num, exe_getgoods_num,
+		exe_returngoods_num, exe_getreturngoods_num,
+		exe_paymoney_num, exe_getmoney_num, exe_refund_num,
+		exe_getrefund_num, sendgoods_num, getgoods_num,
+		returngoods_num, getreturngoods_num, paymoney_num,
+		getmoney_num, refund_num, getrefund_num, lockmoney_num,
+		buyers_id, buyers_name, sellers_id,
+		sellers_name, status, remark,
+		workflow_type,stop_status,execute_status,
+		lock_time,finish_time,create_time,user_id,user_name</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mt_order
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="selectOppositeList" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+			<include refid="Base_Column_List" />
+		from mt_order
+		<where>
+			<if test="buyersId != null">
+				and buyers_id = #{buyersId,jdbcType=VARCHAR} and exe_paymoney_num>0 GROUP BY sellers_name
+			</if>
+			<if test="sellersId != null">
+				and sellers_id = #{sellersId,jdbcType=VARCHAR} and exe_paymoney_num>0 GROUP BY buyers_name
+			</if>
+		</where>
+	</select>
+	<select id="searchSendMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select m.ordertitle_code ordertitle_number,
+		t.id, t.oredertitle_code, t.goods_id,
+		t.goods_name, t.category_id, t.category_name,
+		t.goods_num, t.price, t.money,
+		t.quote_id, t.exe_sendgoods_num, t.exe_getgoods_num,
+		t.exe_returngoods_num, t.exe_getreturngoods_num,
+		t.exe_paymoney_num,
+		t.exe_getmoney_num, t.exe_refund_num,
+		t.exe_getrefund_num, t.sendgoods_num,
+		t.getgoods_num,
+		t.returngoods_num, t.getreturngoods_num, t.paymoney_num,
+		t.getmoney_num, t.refund_num, t.getrefund_num, t.lockmoney_num,
+		t.buyers_id,
+		t.buyers_name, t.sellers_id,
+		t.sellers_name, t.status, t.remark,
+		t.workflow_type,t.stop_status,t.execute_status
+		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
+		where t.sellers_id = #{memberId,jdbcType=VARCHAR}
+		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
+		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+		and t.exe_sendgoods_num > 0 and t.execute_status = 1 and t.status = 4
+		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
+	</select>
+	<select id="searchGetMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select m.ordertitle_code ordertitle_number,
+		t.id, t.oredertitle_code, t.goods_id,
+		t.goods_name, t.category_id, t.category_name,
+		t.goods_num, t.price, t.money,
+		t.quote_id, t.exe_sendgoods_num, t.exe_getgoods_num,
+		t.exe_returngoods_num, t.exe_getreturngoods_num,
+		t.exe_paymoney_num,
+		t.exe_getmoney_num, t.exe_refund_num,
+		t.exe_getrefund_num, t.sendgoods_num,
+		t.getgoods_num,
+		t.returngoods_num, t.getreturngoods_num, t.paymoney_num,
+		t.getmoney_num, t.refund_num, t.getrefund_num, t.lockmoney_num,
+		t.buyers_id,
+		t.buyers_name, t.sellers_id,
+		t.sellers_name, t.status, t.remark,
+		t.workflow_type,t.stop_status,t.execute_status
+		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
+		where t.buyers_id = #{memberId,jdbcType=VARCHAR}
+		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
+		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+		and t.exe_getgoods_num > 0 and t.execute_status = 1 and t.status = 4
+		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
+	</select>
+	<select id="searchReturnMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select m.ordertitle_code ordertitle_number,
+		t.id, t.oredertitle_code, t.goods_id,
+		t.goods_name, t.category_id, t.category_name,
+		t.goods_num, t.price, t.money,
+		t.quote_id, t.exe_sendgoods_num, t.exe_getgoods_num,
+		t.exe_returngoods_num, t.exe_getreturngoods_num,
+		t.exe_paymoney_num,
+		t.exe_getmoney_num, t.exe_refund_num,
+		t.exe_getrefund_num, t.sendgoods_num,
+		t.getgoods_num,
+		t.returngoods_num, t.getreturngoods_num, t.paymoney_num,
+		t.getmoney_num, t.refund_num, t.getrefund_num, t.lockmoney_num,
+		t.buyers_id,
+		t.buyers_name, t.sellers_id,
+		t.sellers_name, t.status, t.remark,
+		t.workflow_type,t.stop_status,t.execute_status
+		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
+		where t.buyers_id = #{memberId,jdbcType=VARCHAR}
+		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
+		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+		and t.exe_returngoods_num > 0 and t.execute_status = 1 and t.status = 4
+		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
+	</select>
+	<select id="searchGetReturnMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select m.ordertitle_code ordertitle_number,
+		t.id, t.oredertitle_code, t.goods_id,
+		t.goods_name, t.category_id, t.category_name,
+		t.goods_num, t.price, t.money,
+		t.quote_id, t.exe_sendgoods_num, t.exe_getgoods_num,
+		t.exe_returngoods_num, t.exe_getreturngoods_num,
+		t.exe_paymoney_num,
+		t.exe_getmoney_num, t.exe_refund_num,
+		t.exe_getrefund_num, t.sendgoods_num,
+		t.getgoods_num,
+		t.returngoods_num, t.getreturngoods_num, t.paymoney_num,
+		t.getmoney_num, t.refund_num, t.getrefund_num, t.lockmoney_num,
+		t.buyers_id,
+		t.buyers_name, t.sellers_id,
+		t.sellers_name, t.status, t.remark,
+		t.workflow_type,t.stop_status,t.execute_status
+		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
+		where t.sellers_id = #{memberId,jdbcType=VARCHAR}
+		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
+		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+		and t.exe_getreturngoods_num > 0 and t.execute_status = 1 and t.status = 4
+		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
+	</select>
+	<select id="searchPayMoneyMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select m.ordertitle_code ordertitle_number,
+		t.id, t.oredertitle_code, t.goods_id,
+		t.goods_name, t.category_id, t.category_name,
+		t.goods_num, t.price, t.money,
+		t.quote_id, t.exe_sendgoods_num, t.exe_getgoods_num,
+		t.exe_returngoods_num, t.exe_getreturngoods_num,
+		t.exe_paymoney_num,
+		t.exe_getmoney_num, t.exe_refund_num,
+		t.exe_getrefund_num, t.sendgoods_num,
+		t.getgoods_num,
+		t.returngoods_num, t.getreturngoods_num, t.paymoney_num,
+		t.getmoney_num, t.refund_num, t.getrefund_num, t.lockmoney_num,
+		t.buyers_id,
+		t.buyers_name, t.sellers_id,
+		t.sellers_name, t.status, t.remark,
+		t.workflow_type,t.stop_status,t.execute_status
+		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
+		where t.buyers_id = #{memberId,jdbcType=VARCHAR}
+		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
+		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+		and t.exe_paymoney_num > 0 and t.execute_status = 1 and t.status = 4
+		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
+	</select>
+	<select id="searchPayMoneyMtOrderForSettle" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select m.ordertitle_code ordertitle_number,
+		t.id, t.oredertitle_code, t.goods_id,
+		t.goods_name, t.category_id, t.category_name,
+		t.goods_num, t.price, t.money,
+		t.quote_id, t.exe_sendgoods_num, t.exe_getgoods_num,
+		t.exe_returngoods_num, t.exe_getreturngoods_num,
+		t.exe_paymoney_num,
+		t.exe_getmoney_num, t.exe_refund_num,
+		t.exe_getrefund_num, t.sendgoods_num,
+		t.getgoods_num,
+		t.returngoods_num, t.getreturngoods_num, t.paymoney_num,
+		t.getmoney_num, t.refund_num, t.getrefund_num, t.lockmoney_num,
+		t.buyers_id,
+		t.buyers_name, t.sellers_id,
+		t.sellers_name, t.status, t.remark,
+		t.workflow_type,t.stop_status,t.execute_status
+		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
+		<where>
+			<if test="buyersId != null" >and t.buyers_id = #{buyersId,jdbcType=VARCHAR}</if>
+			<if test="sellersId != null" >and t.sellers_id = #{sellersId,jdbcType=VARCHAR}</if>
+			<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
+			<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+			and t.exe_paymoney_num > 0 and t.execute_status = 1 and t.status = 4
+		</where>
+		order by m.ordertitle_code
+			<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
+	</select>
+	<select id="searchGetMoneyMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select m.ordertitle_code ordertitle_number,
+		t.id, t.oredertitle_code, t.goods_id,
+		t.goods_name, t.category_id, t.category_name,
+		t.goods_num, t.price, t.money,
+		t.quote_id, t.exe_sendgoods_num, t.exe_getgoods_num,
+		t.exe_returngoods_num, t.exe_getreturngoods_num,
+		t.exe_paymoney_num,
+		t.exe_getmoney_num, t.exe_refund_num,
+		t.exe_getrefund_num, t.sendgoods_num,
+		t.getgoods_num,
+		t.returngoods_num, t.getreturngoods_num, t.paymoney_num,
+		t.getmoney_num, t.refund_num, t.getrefund_num, t.lockmoney_num,
+		t.buyers_id,
+		t.buyers_name, t.sellers_id,
+		t.sellers_name, t.status, t.remark,
+		t.workflow_type,t.stop_status,t.execute_status
+		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
+		where t.sellers_id = #{memberId,jdbcType=VARCHAR}
+		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
+		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+		and t.exe_getmoney_num > 0 and t.execute_status = 1 and t.status = 4
+		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
+	</select>
+	<select id="searchRefundMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select m.ordertitle_code ordertitle_number,
+		t.id, t.oredertitle_code, t.goods_id,
+		t.goods_name, t.category_id, t.category_name,
+		t.goods_num, t.price, t.money,
+		t.quote_id, t.exe_sendgoods_num, t.exe_getgoods_num,
+		t.exe_returngoods_num, t.exe_getreturngoods_num,
+		t.exe_paymoney_num,
+		t.exe_getmoney_num, t.exe_refund_num,
+		t.exe_getrefund_num, t.sendgoods_num,
+		t.getgoods_num,
+		t.returngoods_num, t.getreturngoods_num, t.paymoney_num,
+		t.getmoney_num, t.refund_num, t.getrefund_num, t.lockmoney_num,
+		t.buyers_id,
+		t.buyers_name, t.sellers_id,
+		t.sellers_name, t.status, t.remark,
+		t.workflow_type,t.stop_status,t.execute_status
+		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
+		where t.sellers_id = #{memberId,jdbcType=VARCHAR}
+		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
+		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+		and t.exe_refund_num > 0 and t.execute_status = 1 and t.status = 4
+		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
+	</select>
+	<select id="searchGetRefundMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select m.ordertitle_code ordertitle_number,
+		t.id, t.oredertitle_code, t.goods_id,
+		t.goods_name, t.category_id, t.category_name,
+		t.goods_num, t.price, t.money,
+		t.quote_id, t.exe_sendgoods_num, t.exe_getgoods_num,
+		t.exe_returngoods_num, t.exe_getreturngoods_num,
+		t.exe_paymoney_num,
+		t.exe_getmoney_num, t.exe_refund_num,
+		t.exe_getrefund_num, t.sendgoods_num,
+		t.getgoods_num,
+		t.returngoods_num, t.getreturngoods_num, t.paymoney_num,
+		t.getmoney_num, t.refund_num, t.getrefund_num, t.lockmoney_num,
+		t.buyers_id,
+		t.buyers_name, t.sellers_id,
+		t.sellers_name, t.status, t.remark,
+		t.workflow_type,t.stop_status,t.execute_status
+		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
+		where t.buyers_id = #{memberId,jdbcType=VARCHAR}
+		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
+		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+		and t.exe_getrefund_num > 0 and t.execute_status = 1 and t.status = 4
+		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
+	</select>
+	<select id="searchSettleMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mt_order
+		where <![CDATA[exe_paymoney_num > 0]]>
+		and buyers_id = #{buyersId,jdbcType=VARCHAR}
+		and sellers_id = #{sellersId,jdbcType=VARCHAR}
+		and workflow_type = 2
+	</select>
+	<select id="searchMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mt_order
+		<where>
+			<if test="id != null" >and id = #{id,jdbcType=VARCHAR}</if>
+			<if test="oredertitleCode != null" >and oredertitle_code = #{oredertitleCode,jdbcType=VARCHAR}</if>
+			<if test="goodsId != null" >and goods_id = #{goodsId,jdbcType=VARCHAR}</if>
+			<if test="goodsName != null" >and goods_name = #{goodsName,jdbcType=VARCHAR}</if>
+			<if test="categoryId != null" >and category_id = #{categoryId,jdbcType=VARCHAR}</if>
+			<if test="categoryName != null" >and category_name = #{categoryName,jdbcType=VARCHAR}</if>
+			<if test="goodsNum != null" >and goods_num = #{goodsNum,jdbcType=DOUBLE}</if>
+			<if test="price != null" >and price = #{price,jdbcType=DOUBLE}</if>
+			<if test="money != null" >and money = #{money,jdbcType=DOUBLE}</if>
+			<if test="quoteId != null" >and quote_id = #{quoteId,jdbcType=VARCHAR}</if>
+			<if test="exeSendgoodsNum != null" >and exe_sendgoods_num = #{exeSendgoodsNum,jdbcType=DOUBLE}</if>
+			<if test="exeGetgoodsNum != null" >and exe_getgoods_num = #{exeGetgoodsNum,jdbcType=DOUBLE}</if>
+			<if test="exeReturngoodsNum != null" >and exe_returngoods_num = #{exeReturngoodsNum,jdbcType=DOUBLE}</if>
+			<if test="exeGetreturngoodsNum != null" >and exe_getreturngoods_num = #{exeGetreturngoodsNum,jdbcType=DOUBLE}</if>
+			<if test="exePaymoneyNum != null" >and exe_paymoney_num = #{exePaymoneyNum,jdbcType=DOUBLE}</if>
+			<if test="exeGetmoneyNum != null" >and exe_getmoney_num = #{exeGetmoneyNum,jdbcType=DOUBLE}</if>
+			<if test="exeRefundNum != null" >and exe_refund_num = #{exeRefundNum,jdbcType=DOUBLE}</if>
+			<if test="exeGetrefundNum != null" >and exe_getrefund_num = #{exeGetrefundNum,jdbcType=DOUBLE}</if>
+			<if test="sendgoodsNum != null" >and sendgoods_num = #{sendgoodsNum,jdbcType=DOUBLE}</if>
+			<if test="getgoodsNum != null" >and getgoods_num = #{getgoodsNum,jdbcType=DOUBLE}</if>
+			<if test="returngoodsNum != null" >and returngoods_num = #{returngoodsNum,jdbcType=DOUBLE}</if>
+			<if test="getreturngoodsNum != null" >and getreturngoods_num = #{getreturngoodsNum,jdbcType=DOUBLE}</if>
+			<if test="paymoneyNum != null" >and paymoney_num = #{paymoneyNum,jdbcType=DOUBLE}</if>
+			<if test="getmoneyNum != null" >and getmoney_num = #{getmoneyNum,jdbcType=DOUBLE}</if>
+			<if test="refundNum != null" >and refund_num = #{refundNum,jdbcType=DOUBLE}</if>
+			<if test="getrefundNum != null" >and getrefund_num = #{getrefundNum,jdbcType=DOUBLE}</if>
+			<if test="lockmoneyNum != null" >and lockmoney_num = #{lockmoneyNum,jdbcType=DOUBLE}</if>
+			<if test="buyersId != null" >and buyers_id = #{buyersId,jdbcType=VARCHAR}</if>
+			<if test="buyersName != null" >and buyers_name = #{buyersName,jdbcType=VARCHAR}</if>
+			<if test="sellersId != null" >and sellers_id = #{sellersId,jdbcType=VARCHAR}</if>
+			<if test="sellersName != null" >and sellers_name = #{sellersName,jdbcType=VARCHAR}</if>
+			<if test="status != null" >and status = #{status,jdbcType=INTEGER}</if>
+			<if test="remark != null" >and remark = #{remark,jdbcType=VARCHAR}</if>
+			<if test="workflowType != null" >and workflow_type = #{workflowType,jdbcType=INTEGER}</if>
+			<if test="stopStatus != null" >and stop_status = #{stopStatus,jdbcType=INTEGER}</if>
+			<if test="executeStatus != null" >and execute_status = #{executeStatus,jdbcType=INTEGER}</if>
+		</where>
+	</select>
+	<insert id="insert" parameterType="com.zllh.mall.common.model.MtOrder" >insert into mt_order (id, oredertitle_code, goods_id,
+		goods_name, category_id, category_name,
+		goods_num, price, money,
+		quote_id, exe_sendgoods_num, exe_getgoods_num,
+		exe_returngoods_num, exe_getreturngoods_num,
+		exe_paymoney_num, exe_getmoney_num, exe_refund_num,
+		exe_getrefund_num, sendgoods_num, getgoods_num,
+		returngoods_num, getreturngoods_num, paymoney_num,
+		getmoney_num, refund_num, getrefund_num, lockmoney_num,
+		buyers_id, buyers_name, sellers_id,
+		sellers_name, status, remark,
+		workflow_type,stop_status,execute_status,
+		lock_time,finish_time,create_time,user_id,user_name)
+		values (#{id,jdbcType=VARCHAR}, #{oredertitleCode,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR},
+		#{goodsName,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{categoryName,jdbcType=VARCHAR},
+		#{goodsNum,jdbcType=DOUBLE}, #{price,jdbcType=DOUBLE}, #{money,jdbcType=DOUBLE},
+		#{quoteId,jdbcType=VARCHAR}, #{exeSendgoodsNum,jdbcType=DOUBLE}, #{exeGetgoodsNum,jdbcType=DOUBLE},
+		#{exeReturngoodsNum,jdbcType=DOUBLE}, #{exeGetreturngoodsNum,jdbcType=DOUBLE},
+		#{exePaymoneyNum,jdbcType=DOUBLE}, #{exeGetmoneyNum,jdbcType=DOUBLE}, #{exeRefundNum,jdbcType=DOUBLE},
+		#{exeGetrefundNum,jdbcType=DOUBLE}, #{sendgoodsNum,jdbcType=DOUBLE}, #{getgoodsNum,jdbcType=DOUBLE},
+		#{returngoodsNum,jdbcType=DOUBLE}, #{getreturngoodsNum,jdbcType=DOUBLE}, #{paymoneyNum,jdbcType=DOUBLE},
+		#{getmoneyNum,jdbcType=DOUBLE}, #{refundNum,jdbcType=DOUBLE}, #{getrefundNum,jdbcType=DOUBLE}, #{lockmoneyNum,jdbcType=DOUBLE},
+		#{buyersId,jdbcType=VARCHAR}, #{buyersName,jdbcType=VARCHAR}, #{sellersId,jdbcType=VARCHAR},
+		#{sellersName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+		#{workflowType,jdbcType=INTEGER},#{stopStatus,jdbcType=INTEGER},#{executeStatus,jdbcType=INTEGER},
+		#{lockTime,jdbcType=TIMESTAMP},#{finishTime,jdbcType=TIMESTAMP},#{createTime,jdbcType=TIMESTAMP},
+		#{userId,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR})</insert>
+	<insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtOrder" >
+		insert into mt_order
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id != null" >id,</if>
+			<if test="oredertitleCode != null" >oredertitle_code,</if>
+			<if test="goodsId != null" >goods_id,</if>
+			<if test="goodsName != null" >goods_name,</if>
+			<if test="categoryId != null" >category_id,</if>
+			<if test="categoryName != null" >category_name,</if>
+			<if test="goodsNum != null" >goods_num,</if>
+			<if test="price != null" >price,</if>
+			<if test="money != null" >money,</if>
+			<if test="quoteId != null" >quote_id,</if>
+			<if test="exeSendgoodsNum != null" >exe_sendgoods_num,</if>
+			<if test="exeGetgoodsNum != null" >exe_getgoods_num,</if>
+			<if test="exeReturngoodsNum != null" >exe_returngoods_num,</if>
+			<if test="exeGetreturngoodsNum != null" >exe_getreturngoods_num,</if>
+			<if test="exePaymoneyNum != null" >exe_paymoney_num,</if>
+			<if test="exeGetmoneyNum != null" >exe_getmoney_num,</if>
+			<if test="exeRefundNum != null" >exe_refund_num,</if>
+			<if test="exeGetrefundNum != null" >exe_getrefund_num,</if>
+			<if test="sendgoodsNum != null" >sendgoods_num,</if>
+			<if test="getgoodsNum != null" >getgoods_num,</if>
+			<if test="returngoodsNum != null" >returngoods_num,</if>
+			<if test="getreturngoodsNum != null" >getreturngoods_num,</if>
+			<if test="paymoneyNum != null" >paymoney_num,</if>
+			<if test="getmoneyNum != null" >getmoney_num,</if>
+			<if test="refundNum != null" >refund_num,</if>
+			<if test="getrefundNum != null" >getrefund_num,</if>
+			<if test="lockmoneyNum != null" >lockmoney_num,</if>
+			<if test="buyersId != null" >buyers_id,</if>
+			<if test="buyersName != null" >buyers_name,</if>
+			<if test="sellersId != null" >sellers_id,</if>
+			<if test="sellersName != null" >sellers_name,</if>
+			<if test="status != null" >status,</if>
+			<if test="remark != null" >remark,</if>
+			<if test="workflowType != null" >workflow_type,</if>
+			<if test="stopStatus != null" >stop_status,</if>
+			<if test="executeStatus != null">execute_status,</if>
+			<if test="lockTime != null">lock_time,</if>
+			<if test="finishTime != null">finish_time,</if>
+			<if test="createTime != null">create_time,</if>
+			<if test="userId != null">user_id,</if>
+			<if test="userName != null">user_name,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id != null" >#{id,jdbcType=VARCHAR},</if>
+			<if test="oredertitleCode != null" >#{oredertitleCode,jdbcType=VARCHAR},</if>
+			<if test="goodsId != null" >#{goodsId,jdbcType=VARCHAR},</if>
+			<if test="goodsName != null" >#{goodsName,jdbcType=VARCHAR},</if>
+			<if test="categoryId != null" >#{categoryId,jdbcType=VARCHAR},</if>
+			<if test="categoryName != null" >#{categoryName,jdbcType=VARCHAR},</if>
+			<if test="goodsNum != null" >#{goodsNum,jdbcType=DOUBLE},</if>
+			<if test="price != null" >#{price,jdbcType=DOUBLE},</if>
+			<if test="money != null" >#{money,jdbcType=DOUBLE},</if>
+			<if test="quoteId != null" >#{quoteId,jdbcType=VARCHAR},</if>
+			<if test="exeSendgoodsNum != null" >#{exeSendgoodsNum,jdbcType=DOUBLE},</if>
+			<if test="exeGetgoodsNum != null" >#{exeGetgoodsNum,jdbcType=DOUBLE},</if>
+			<if test="exeReturngoodsNum != null" >#{exeReturngoodsNum,jdbcType=DOUBLE},</if>
+			<if test="exeGetreturngoodsNum != null" >#{exeGetreturngoodsNum,jdbcType=DOUBLE},</if>
+			<if test="exePaymoneyNum != null" >#{exePaymoneyNum,jdbcType=DOUBLE},</if>
+			<if test="exeGetmoneyNum != null" >#{exeGetmoneyNum,jdbcType=DOUBLE},</if>
+			<if test="exeRefundNum != null" >#{exeRefundNum,jdbcType=DOUBLE},</if>
+			<if test="exeGetrefundNum != null" >#{exeGetrefundNum,jdbcType=DOUBLE},</if>
+			<if test="sendgoodsNum != null" >#{sendgoodsNum,jdbcType=DOUBLE},</if>
+			<if test="getgoodsNum != null" >#{getgoodsNum,jdbcType=DOUBLE},</if>
+			<if test="returngoodsNum != null" >#{returngoodsNum,jdbcType=DOUBLE},</if>
+			<if test="getreturngoodsNum != null" >#{getreturngoodsNum,jdbcType=DOUBLE},</if>
+			<if test="paymoneyNum != null" >#{paymoneyNum,jdbcType=DOUBLE},</if>
+			<if test="getmoneyNum != null" >#{getmoneyNum,jdbcType=DOUBLE},</if>
+			<if test="refundNum != null" >#{refundNum,jdbcType=DOUBLE},</if>
+			<if test="getrefundNum != null" >#{getrefundNum,jdbcType=DOUBLE},</if>
+			<if test="lockmoneyNum != null" >#{lockmoneyNum,jdbcType=DOUBLE},</if>
+			<if test="buyersId != null" >#{buyersId,jdbcType=VARCHAR},</if>
+			<if test="buyersName != null" >#{buyersName,jdbcType=VARCHAR},</if>
+			<if test="sellersId != null" >#{sellersId,jdbcType=VARCHAR},</if>
+			<if test="sellersName != null" >#{sellersName,jdbcType=VARCHAR},</if>
+			<if test="status != null" >#{status,jdbcType=INTEGER},</if>
+			<if test="remark != null" >#{remark,jdbcType=VARCHAR},</if>
+			<if test="workflowType != null" >#{workflowType,jdbcType=INTEGER},</if>
+			<if test="stopStatus != null" >#{stopStatus,jdbcType=INTEGER},</if>
+			<if test="executeStatus != null">#{executeStatus,jdbcType=INTEGER},</if>
+			<if test="lockTime != null">#{lockTime,jdbcType=TIMESTAMP},</if>
+			<if test="finishTime != null">#{finishTime,jdbcType=TIMESTAMP},</if>
+			<if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+			<if test="userId != null">#{userId,jdbcType=VARCHAR},</if>
+			<if test="userName != null">#{userName,jdbcType=VARCHAR}</if>
+		</trim>
+	</insert>
+	<update id="updateByObject" parameterType="map">
+		update mt_order
+		<set>
+			<if test="record.id != null">id = #{record.id,jdbcType=VARCHAR},</if>
+			<if test="record.oredertitleCode != null">oredertitle_code = #{record.oredertitleCode,jdbcType=VARCHAR},</if>
+			<if test="record.goodsId != null">goods_id = #{record.goodsId,jdbcType=VARCHAR},</if>
+			<if test="record.goodsName != null">goods_name = #{record.goodsName,jdbcType=VARCHAR},</if>
+			<if test="record.categoryId != null">category_id = #{record.categoryId,jdbcType=VARCHAR},</if>
+			<if test="record.categoryName != null">category_name = #{record.categoryName,jdbcType=VARCHAR},</if>
+			<if test="record.goodsNum != null">goods_num = #{record.goodsNum,jdbcType=DOUBLE},</if>
+			<if test="record.price != null">price = #{record.price,jdbcType=DOUBLE},</if>
+			<if test="record.money != null">money = #{record.money,jdbcType=DOUBLE},</if>
+			<if test="record.quoteId != null">quote_id = #{record.quoteId,jdbcType=VARCHAR},</if>
+			<if test="record.exeSendgoodsNum != null">exe_sendgoods_num = #{record.exeSendgoodsNum,jdbcType=DOUBLE},</if>
+			<if test="record.exeGetgoodsNum != null">exe_getgoods_num = #{record.exeGetgoodsNum,jdbcType=DOUBLE},</if>
+			<if test="record.exeReturngoodsNum != null">exe_returngoods_num = #{record.exeReturngoodsNum,jdbcType=DOUBLE},</if>
+			<if test="record.exeGetreturngoodsNum != null">exe_getreturngoods_num =
+				#{record.exeGetreturngoodsNum,jdbcType=DOUBLE},</if>
+			<if test="record.exePaymoneyNum != null">exe_paymoney_num = #{record.exePaymoneyNum,jdbcType=DOUBLE},</if>
+			<if test="record.exeGetmoneyNum != null">exe_getmoney_num = #{record.exeGetmoneyNum,jdbcType=DOUBLE},</if>
+			<if test="record.exeRefundNum != null">exe_refund_num = #{record.exeRefundNum,jdbcType=DOUBLE},</if>
+			<if test="record.exeGetrefundNum != null">exe_getrefund_num = #{record.exeGetrefundNum,jdbcType=DOUBLE},</if>
+			<if test="record.sendgoodsNum != null">sendgoods_num = #{record.sendgoodsNum,jdbcType=DOUBLE},</if>
+			<if test="record.getgoodsNum != null">getgoods_num = #{record.getgoodsNum,jdbcType=DOUBLE},</if>
+			<if test="record.returngoodsNum != null">returngoods_num = #{record.returngoodsNum,jdbcType=DOUBLE},</if>
+			<if test="record.getreturngoodsNum != null">getreturngoods_num = #{record.getreturngoodsNum,jdbcType=DOUBLE},</if>
+			<if test="record.paymoneyNum != null">paymoney_num = #{record.paymoneyNum,jdbcType=DOUBLE},</if>
+			<if test="record.getmoneyNum != null">getmoney_num = #{record.getmoneyNum,jdbcType=DOUBLE},</if>
+			<if test="record.refundNum != null">refund_num = #{record.refundNum,jdbcType=DOUBLE},</if>
+			<if test="record.getrefundNum != null">getrefund_num = #{record.getrefundNum,jdbcType=DOUBLE},</if>
+			<if test="record.lockmoneyNum != null">lockmoney_num = #{record.lockmoneyNum,jdbcType=DOUBLE},</if>
+			<if test="record.buyersId != null">buyers_id = #{record.buyersId,jdbcType=VARCHAR},</if>
+			<if test="record.buyersName != null">buyers_name = #{record.buyersName,jdbcType=VARCHAR},</if>
+			<if test="record.sellersId != null">sellers_id = #{record.sellersId,jdbcType=VARCHAR},</if>
+			<if test="record.sellersName != null">sellers_name = #{record.sellersName,jdbcType=VARCHAR},</if>
+			<if test="record.status != null">status = #{record.status,jdbcType=INTEGER},</if>
+			<if test="record.remark != null">remark = #{record.remark,jdbcType=VARCHAR},</if>
+			<if test="record.workflowType != null">workflow_type = #{record.workflowType,jdbcType=INTEGER},</if>
+			<if test="record.stopStatus != null" >stop_status = #{record.stopStatus,jdbcType=INTEGER},</if>
+			<if test="record.executeStatus != null">execute_status = #{record.executeStatus,jdbcType=INTEGER},</if>
+			<if test="record.lockTime != null">lock_time = #{record.lockTime,jdbcType=TIMESTAMP},</if>
+			<if test="record.finishTime != null">finish_time = #{record.finishTime,jdbcType=TIMESTAMP},</if>
+			<if test="record.createTime != null">create_time = #{record.createTime,jdbcType=TIMESTAMP},</if>
+			<if test="record.userId != null">user_id = #{record.userId,jdbcType=VARCHAR},</if>
+			<if test="record.userName != null">user_name = #{record.userName,jdbcType=VARCHAR}</if>
+		</set>
+		where id = #{record.id,jdbcType=INTEGER}
+	</update>
+	<update id="updateAll" parameterType="com.zllh.mall.common.model.MtOrder">update mt_order
+		set id = #{id,jdbcType=VARCHAR},
+		oredertitle_code = #{oredertitleCode,jdbcType=VARCHAR},
+		goods_id = #{goodsId,jdbcType=VARCHAR},
+		goods_name = #{goodsName,jdbcType=VARCHAR},
+		category_id = #{categoryId,jdbcType=VARCHAR},
+		category_name = #{categoryName,jdbcType=VARCHAR},
+		goods_num = #{goodsNum,jdbcType=DOUBLE},
+		price = #{price,jdbcType=DOUBLE},
+		money = #{money,jdbcType=DOUBLE},
+		quote_id = #{quoteId,jdbcType=VARCHAR},
+		exe_sendgoods_num = #{exeSendgoodsNum,jdbcType=DOUBLE},
+		exe_getgoods_num = #{exeGetgoodsNum,jdbcType=DOUBLE},
+		exe_returngoods_num = #{exeReturngoodsNum,jdbcType=DOUBLE},
+		exe_getreturngoods_num = #{exeGetreturngoodsNum,jdbcType=DOUBLE},
+		exe_paymoney_num = #{exePaymoneyNum,jdbcType=DOUBLE},
+		exe_getmoney_num = #{exeGetmoneyNum,jdbcType=DOUBLE},
+		exe_refund_num = #{exeRefundNum,jdbcType=DOUBLE},
+		exe_getrefund_num = #{exeGetrefundNum,jdbcType=DOUBLE},
+		sendgoods_num = #{sendgoodsNum,jdbcType=DOUBLE},
+		getgoods_num = #{getgoodsNum,jdbcType=DOUBLE},
+		returngoods_num = #{returngoodsNum,jdbcType=DOUBLE},
+		getreturngoods_num = #{getreturngoodsNum,jdbcType=DOUBLE},
+		paymoney_num = #{paymoneyNum,jdbcType=DOUBLE},
+		getmoney_num = #{getmoneyNum,jdbcType=DOUBLE},
+		refund_num = #{refundNum,jdbcType=DOUBLE},
+		getrefund_num = #{getrefundNum,jdbcType=DOUBLE},
+		lockmoney_num = #{lockmoneyNum,jdbcType=DOUBLE},
+		buyers_id = #{buyersId,jdbcType=VARCHAR},
+		buyers_name = #{buyersName,jdbcType=VARCHAR},
+		sellers_id = #{sellersId,jdbcType=VARCHAR},
+		sellers_name = #{sellersName,jdbcType=VARCHAR},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR},
+		workflow_type = #{workflowType,jdbcType=INTEGER},
+		stop_status = #{stopStatus,jdbcType=INTEGER},
+		execute_status = #{executeStatus,jdbcType=INTEGER},
+		lock_time = #{lockTime,jdbcType=TIMESTAMP},
+		finish_time = #{finishTime,jdbcType=TIMESTAMP},
+		create_time = #{createTime,jdbcType=TIMESTAMP},
+		user_id = #{userId,jdbcType=VARCHAR},
+		user_name = #{userName,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=VARCHAR}</update>
+</mapper>

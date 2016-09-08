@@ -1,0 +1,35 @@
+package com.zllh.mall.mmbmmanage.service;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
+import com.zllh.mall.common.model.MtMaterial;
+import com.zllh.mall.common.model.MtMmbNode;
+import com.zllh.mall.common.model.MtMmbWebsite;
+@SuppressWarnings("rawtypes")
+public interface IMmbWebsiteService {
+	
+	//增加说明
+	boolean addIntroduce(MtMmbWebsite mb);
+	//增加图片
+	boolean addMal(String mmbId,String malId,Integer type,String remark);
+	//删除图片
+	boolean delMal(String mmbId,String malId,Integer type,Integer picType);
+	//显示图片 
+	List<MtMaterial> showPic(Map<String, Object> map,Integer type);
+	//查询
+	MtMmbWebsite searchBymmbId(String mmbId);
+	//页面
+    boolean previewInfo(String mmbId,ServletContext servletContext,String type);
+    //添加关注会员
+    String addRelaMMb(String mmbId,String relaMmbId);
+    //删除会员主页
+    boolean deleteMMbHome(String mmbName,ServletContext servletContext);
+    //获取会员模板集合
+    List<MtMmbNode> getMmbNodes(Map<String, Object>  params);
+    //发布页面
+    boolean previewMmbPage(String mmbId,ServletContext servletContext,String nodeId);
+
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.common.common.dao.PubResourceMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.common.common.model.PubResource" >
+    <result column="res_id" property="resId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.common.common.model.PubResource" >
+    insert into pub_resource (res_id, name, url, 
+      enable)
+    values (#{resId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{enable,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.common.common.model.PubResource" >
+    insert into pub_resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resId != null" >
+        res_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resId != null" >
+        #{resId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

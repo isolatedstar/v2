@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtMmbWebsiteMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtMmbWebsite" >
+    <result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+    <result column="mmb_introduce" property="mmbIntroduce" jdbcType="VARCHAR" />
+    <result column="mmb_title" property="mmbTitle" jdbcType="VARCHAR" />
+    <result column="mmb_name" property="mmbName" jdbcType="VARCHAR" />
+    <result column="mmb_path" property="mmbPath" jdbcType="VARCHAR" />
+    <result column="mmb_logo" property="mmbLogo" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtMmbWebsite" >
+    insert into mt_mmb_website (mmb_id, mmb_introduce, mmb_title, 
+      mmb_name, mmb_path,mmb_logo)
+    values (#{mmbId,jdbcType=VARCHAR}, #{mmbIntroduce,jdbcType=VARCHAR}, #{mmbTitle,jdbcType=VARCHAR}, 
+      #{mmbName,jdbcType=VARCHAR}, #{mmbPath,jdbcType=VARCHAR},#{mmbLogo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtMmbWebsite" >
+    insert into mt_mmb_website
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mmbId != null" >
+        mmb_id,
+      </if>
+      <if test="mmbIntroduce != null" >
+        mmb_introduce,
+      </if>
+      <if test="mmbTitle != null" >
+        mmb_title,
+      </if>
+      <if test="mmbName != null" >
+        mmb_name,
+      </if>
+      <if test="mmbPath != null" >
+        mmb_path,
+      </if>
+      <if test="mmbLogo != null" >
+       mmb_logo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mmbId != null" >
+        #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbIntroduce != null" >
+        #{mmbIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbTitle != null" >
+        #{mmbTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbName != null" >
+        #{mmbName,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbPath != null" >
+        #{mmbPath,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbLogo != null" >
+        #{mmbLogo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+   <update id="updateSelective" parameterType="com.zllh.mall.common.model.MtMmbWebsite" >
+    update mt_mmb_website
+    <set >
+      <if test="mmbIntroduce != null" >
+        mmb_introduce = #{mmbIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbTitle != null" >
+        mmb_title =  #{mmbTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbName != null" >
+        mmb_name =  #{mmbName,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbPath != null" >
+        mmb_path = #{mmbPath,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbLogo != null" >
+       mmb_logo =  #{mmbLogo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mmb_id =  #{mmbId,jdbcType=VARCHAR}
+  </update>
+  <!-- 根据会员Id修改 -->
+  <update id="updateBymmbId" parameterType="com.zllh.mall.common.model.MtMmbWebsite" >
+    update mt_mmb_website
+     <set >
+      <if test="mmbIntroduce != null" >
+        mmb_introduce = #{mmbIntroduce,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbTitle != null" >
+        mmb_title =  #{mmbTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbLogo != null" >
+       mmb_logo =  #{mmbLogo,jdbcType=VARCHAR},
+      </if>
+    </set>
+      where mmb_id = #{mmbId,jdbcType=VARCHAR}
+  </update>
+  <!-- 根据会员Id查询-->
+   <sql id="Base_Column_List">
+		mmb_id, mmb_introduce, mmb_title, 
+      mmb_name, mmb_path,mmb_logo
+  </sql>
+  <select id="searchBymmbId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from mt_mmb_website where 1=1 
+		 and mmb_id = #{mmbId,jdbcType=VARCHAR}
+  </select>
+</mapper>

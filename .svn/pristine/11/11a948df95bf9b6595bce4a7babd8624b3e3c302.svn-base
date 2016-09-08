@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.ReportFieldsMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.ReportFields" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="report_id" property="reportId" jdbcType="VARCHAR" />
+    <result column="field_index" property="fieldIndex" jdbcType="INTEGER" />
+    <result column="field_code" property="fieldCode" jdbcType="VARCHAR" />
+    <result column="field_hide_code" property="fieldHideCode" jdbcType="VARCHAR" />
+    <result column="field_type" property="fieldType" jdbcType="INTEGER" />
+    <result column="field_title" property="fieldTitle" jdbcType="VARCHAR" />
+    <result column="field_parent_title" property="fieldParentTitle" jdbcType="VARCHAR" />
+    <result column="can_click" property="canClick" jdbcType="INTEGER" />
+    <result column="link_report_id" property="linkReportId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, report_id, field_index, field_code, field_hide_code, field_type, field_title,
+    field_parent_title, can_click, link_report_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from rep_fields
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from rep_fields
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.ReportFields" >
+    insert into rep_fields (id, report_id, field_index,
+    field_code, field_hide_code, field_type,
+    field_title, field_parent_title, can_click,
+    link_report_id)
+    values (#{id,jdbcType=VARCHAR}, #{reportId,jdbcType=VARCHAR}, #{fieldIndex,jdbcType=INTEGER},
+    #{fieldCode,jdbcType=VARCHAR}, #{fieldHideCode,jdbcType=VARCHAR}, #{fieldType,jdbcType=INTEGER},
+    #{fieldTitle,jdbcType=VARCHAR}, #{fieldParentTitle,jdbcType=VARCHAR}, #{canClick,jdbcType=INTEGER},
+    #{linkReportId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.ReportFields" >
+    insert into rep_fields
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reportId != null" >
+        report_id,
+      </if>
+      <if test="fieldIndex != null" >
+        field_index,
+      </if>
+      <if test="fieldCode != null" >
+        field_code,
+      </if>
+      <if test="fieldHideCode != null" >
+        field_hide_code,
+      </if>
+      <if test="fieldType != null" >
+        field_type,
+      </if>
+      <if test="fieldTitle != null" >
+        field_title,
+      </if>
+      <if test="fieldParentTitle != null" >
+        field_parent_title,
+      </if>
+      <if test="canClick != null" >
+        can_click,
+      </if>
+      <if test="linkReportId != null" >
+        link_report_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="reportId != null" >
+        #{reportId,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldIndex != null" >
+        #{fieldIndex,jdbcType=INTEGER},
+      </if>
+      <if test="fieldCode != null" >
+        #{fieldCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldHideCode != null" >
+        #{fieldHideCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldType != null" >
+        #{fieldType,jdbcType=INTEGER},
+      </if>
+      <if test="fieldTitle != null" >
+        #{fieldTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldParentTitle != null" >
+        #{fieldParentTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="canClick != null" >
+        #{canClick,jdbcType=INTEGER},
+      </if>
+      <if test="linkReportId != null" >
+        #{linkReportId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.ReportFields" >
+    update rep_fields
+    <set >
+      <if test="reportId != null" >
+        report_id = #{reportId,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldIndex != null" >
+        field_index = #{fieldIndex,jdbcType=INTEGER},
+      </if>
+      <if test="fieldCode != null" >
+        field_code = #{fieldCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldHideCode != null" >
+        field_hide_code = #{fieldHideCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldType != null" >
+        field_type = #{fieldType,jdbcType=INTEGER},
+      </if>
+      <if test="fieldTitle != null" >
+        field_title = #{fieldTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldParentTitle != null" >
+        field_parent_title = #{fieldParentTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="canClick != null" >
+        can_click = #{canClick,jdbcType=INTEGER},
+      </if>
+      <if test="linkReportId != null" >
+        link_report_id = #{linkReportId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.ReportFields" >
+    update rep_fields
+    set report_id = #{reportId,jdbcType=VARCHAR},
+      field_index = #{fieldIndex,jdbcType=INTEGER},
+      field_code = #{fieldCode,jdbcType=VARCHAR},
+      field_hide_code = #{fieldHideCode,jdbcType=VARCHAR},
+      field_type = #{fieldType,jdbcType=INTEGER},
+      field_title = #{fieldTitle,jdbcType=VARCHAR},
+      field_parent_title = #{fieldParentTitle,jdbcType=VARCHAR},
+      can_click = #{canClick,jdbcType=INTEGER},
+      link_report_id = #{linkReportId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <!--根据报表ID 得到表头列表   -->
+  <select id="getFiledsByReportId"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from rep_fields
+    where report_id = #{reportId,jdbcType=VARCHAR}
+
+  </select>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtCtrCtgMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtCtrCtg" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ctr_id" property="ctrId" jdbcType="VARCHAR" />
+    <result column="ctg_id" property="ctgId" jdbcType="VARCHAR" />
+    <result column="ctg_constraint" property="ctgConstraint" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ctgNameResultMap" type="com.zllh.mall.common.model.MtCtrCtg" extends="BaseResultMap">
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="getGoodsListByContractId" resultMap="ctgNameResultMap" parameterType="java.lang.String">
+    select mctg.id, ctr_id, ctg_id,   ctg_constraint,cg.`name` category_name
+    from mt_ctr_ctg mctg INNER JOIN mt_category cg on ctg_id = cg.id
+        where ctr_id = #{contractId,jdbcType=VARCHAR}
+  </select>
+
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtCtrCtg" >
+    insert into mt_ctr_ctg (id, ctr_id, ctg_id, 
+      ctg_constraint)
+    values (#{id,jdbcType=VARCHAR}, #{ctrId,jdbcType=VARCHAR}, #{ctgId,jdbcType=VARCHAR}, 
+      #{ctgConstraint,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtCtrCtg" >
+    insert into mt_ctr_ctg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ctrId != null" >
+        ctr_id,
+      </if>
+      <if test="ctgId != null" >
+        ctg_id,
+      </if>
+      <if test="ctgConstraint != null" >
+        ctg_constraint,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ctrId != null" >
+        #{ctrId,jdbcType=VARCHAR},
+      </if>
+      <if test="ctgId != null" >
+        #{ctgId,jdbcType=VARCHAR},
+      </if>
+      <if test="ctgConstraint != null" >
+        #{ctgConstraint,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="deleteCtrCtgByContractId" parameterType="java.lang.String">
+     delete from mt_ctr_ctg where ctr_id = #{contractId,jdbcType=VARCHAR}
+  </delete>
+
+
+
+
+</mapper>

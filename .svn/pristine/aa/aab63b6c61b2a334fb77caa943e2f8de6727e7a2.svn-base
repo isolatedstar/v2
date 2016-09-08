@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.front.dao.FreezeMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.payment.model.Freeze" >
+    <id column="BANK_ACCT" property="bankAcct" jdbcType="VARCHAR" />
+    <result column="LOCK_AMT" property="lockAmt" jdbcType="DECIMAL" />
+    <result column="BALANCE" property="balance" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BANK_ACCT, LOCK_AMT, BALANCE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from freeze
+    where BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from freeze
+    where BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.payment.model.Freeze" >
+    insert into freeze (BANK_ACCT, LOCK_AMT, BALANCE
+      )
+    values (#{bankAcct,jdbcType=VARCHAR}, #{lockAmt,jdbcType=DECIMAL}, #{balance,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.payment.model.Freeze" >
+    insert into freeze
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bankAcct != null" >
+        BANK_ACCT,
+      </if>
+      <if test="lockAmt != null" >
+        LOCK_AMT,
+      </if>
+      <if test="balance != null" >
+        BALANCE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bankAcct != null" >
+        #{bankAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="lockAmt != null" >
+        #{lockAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.payment.model.Freeze" >
+    update freeze
+    <set >
+      <if test="lockAmt != null" >
+        LOCK_AMT = #{lockAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="balance != null" >
+        BALANCE = #{balance,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.payment.model.Freeze" >
+    update freeze
+    set LOCK_AMT = #{lockAmt,jdbcType=DECIMAL},
+      BALANCE = #{balance,jdbcType=DECIMAL}
+    where BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+  </update>
+</mapper>

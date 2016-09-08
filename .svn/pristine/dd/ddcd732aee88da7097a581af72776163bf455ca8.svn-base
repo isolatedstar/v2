@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+	http://www.springframework.org/schema/security 
+	http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+	<!-- 该路径下的资源不用过滤 -->
+	<http pattern="/**/*.js" security="none" />
+	<http pattern="/**/*.css" security="none" />
+	<http pattern="/**/*.jpg" security="none" />
+	<http pattern="/**/*.gif" security="none" />
+	<http pattern="/**/*.png" security="none" />
+	<http pattern="/**/*.pdf" security="none" />
+	<http pattern="/**/*.swf" security="none" />
+	<http pattern="/*.jsp" security="none" />
+	<http pattern="/**/*.jsp" security="none" />
+	<http pattern="/**/*.htm*" security="none" />
+	
+	
+	<!-- 页面标签权限功能依赖 -->
+    <beans:bean id="webInvocationFilter" class="org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator">  
+          <beans:constructor-arg ref="filterSecurityInterceptor" />  
+    </beans:bean>
+    
+    <http name="mySecurity" authentication-manager-ref="authenticationManager" entry-point-ref="authenticationEntryPoint">
+		<!-- 拒绝访问跳转 -->
+    	<security:access-denied-handler error-page="/error/403.html" />
+    	<!-- 关闭CSRF令牌认证 -->
+    	<!-- <security:csrf disabled="true"/> -->
+    	<!-- 配置需要csrf认证的URL -->
+    	<csrf request-matcher-ref="csrfMatcher"/>
+    	<!-- 允许挂自己网页的页面到iframe里 -->
+    	<security:headers>
+    		<frame-options policy="SAMEORIGIN" />
+    	</security:headers>
+		<session-management session-authentication-strategy-ref="seAust"/>
+		<custom-filter ref="concurrencyFilter" position="CONCURRENT_SESSION_FILTER" />
+		<custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>
+		<custom-filter ref="loginFilter" position="FORM_LOGIN_FILTER"/>
+		<custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
+		<custom-filter ref="switchUserFilter" after="FILTER_SECURITY_INTERCEPTOR"/>
+	</http>
+	
+	<!-- 用户切换配置 -->
+	<beans:bean id="switchUserFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter">  
+	    <beans:property name="userDetailsService" ref="userDetailsService" />  
+	    <!-- 传递的用户名称的参数名称 -->
+	    <beans:property name="usernameParameter" value="username"/>  
+	    <!-- SwitchUserFilter拦截的请求地址 -->
+	    <beans:property name="switchUserUrl" value="/switch.do"/>  
+	    <!-- 切换用户成功后应该转向哪个地址 -->
+	    <beans:property name="targetUrl" value="/userController/toHome.do"/>  
+	    <!-- 切换用记成功后如果想要退出应该设置的url请求地址 -->
+	    <beans:property name="exitUserUrl" value="/exit.do"/>
+	</beans:bean>
+	
+	<beans:bean id="csrfMatcher" class="com.zllh.base.security.interceptor.CsrfSecurityRequestMatcher">
+        <beans:property name="execludeUrls">
+           <beans:list>
+           	   <!-- 需要csrf认证URL(此URL不能是NoFilter否则无效并且必须为POST提交方式) 表单提交认证方式如下
+           	                       在页面表单加<sec:csrfInput/>标签即可而此标签的文件头必须有<%@ taglib prefix='sec' uri='http://www.springframework.org/security/tags' %> 
+           	                       其它如ajax提交内容太多参考http://docs.spring.io/spring-security/site/docs/4.0.3.RELEASE/reference/htmlsingle -->
+               <beans:value>/userController/testcsrf.do</beans:value>
+           </beans:list>
+        </beans:property>
+    </beans:bean>
+	
+	<!-- 拒绝访问跳转  -->
+	<beans:bean id="authenticationEntryPoint" class="com.zllh.base.security.serviceImpl.LoginUrlAuthenticationEntryPointExtends">
+		<beans:constructor-arg value="/timeout.jsp" />
+	</beans:bean>
+	
+	<!-- session的管理策略 -->
+	<beans:bean id="seAust" class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
+		<beans:constructor-arg>
+			<beans:list>
+			<beans:bean class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
+				<beans:constructor-arg ref="sessionRegistry"/>
+				<beans:property name="maximumSessions" value="1" />
+				<beans:property name="exceptionIfMaximumExceeded" value="false"/>
+			</beans:bean>
+			<beans:bean class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy"/>
+			<beans:bean class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
+				<beans:constructor-arg ref="sessionRegistry"/>
+			</beans:bean>
+			</beans:list>
+		</beans:constructor-arg> 
+	</beans:bean>
+	
+ 	<beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+	<beans:bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter">  
+	    <beans:constructor-arg ref="sessionRegistry" />  
+	    <beans:property name="logoutHandlers">  
+	        <beans:list>  
+	            <beans:ref bean="logoutHandler" />  
+	        </beans:list>  
+	    </beans:property>  
+	</beans:bean> 
+	
+    <!-- 自定义UserDetailsService认证  -->  
+    <beans:bean id="userDetailsService" class="com.zllh.base.security.serviceImpl.UserDetailsServiceImpl" />  
+  
+    <!-- 自定义资源权限关系认证 -->  
+    <beans:bean id="accessDecisionManager" class="com.zllh.base.security.serviceImpl.AccessDecisionManagerImpl" />  
+  
+    <!-- 自定义资源权限关系集合 -->  
+    <beans:bean id="securityMetadataSource" class="com.zllh.base.security.serviceImpl.SecurityMetadataSourceExtendImpl"/>  
+  
+    <!-- 自定义认证管理,资源,权限  -->  
+    <beans:bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">  
+    	<!-- 用户拥有的权限 -->
+        <beans:property name="authenticationManager"  ref="authenticationManager" />  
+        <!-- 用户是否拥有所请求资源的权限 -->
+        <beans:property name="accessDecisionManager"  ref="accessDecisionManager" />  
+        <!-- 资源与权限对应关系 -->
+        <beans:property name="securityMetadataSource" ref="securityMetadataSource" />  
+    </beans:bean>
+
+	<!-- 认证管理器 -->  
+    <beans:bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">  
+        <beans:constructor-arg>
+			<beans:list>
+				<beans:ref bean="authenticationProvider"/>
+			</beans:list>
+		</beans:constructor-arg>
+    </beans:bean>
+  
+    <!-- 登录认证处理 -->  
+    <beans:bean id="authenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">  
+        <beans:property name="hideUserNotFoundExceptions" value="false"/>  
+        <beans:property name="userDetailsService" ref="userDetailsService" />  
+        <beans:property name="passwordEncoder" ref="passwordEncoder" />  
+        <beans:property name="saltSource" ref="saltSource" />  
+    </beans:bean>  
+  
+    <!-- 加密方式 -->  
+    <beans:bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />  
+ 
+    <!-- 配置加密盐值 -->  
+    <beans:bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource">  
+        <beans:property name="userPropertyToUse" value="username" />  
+    </beans:bean>
+
+	<!-- 登录认证过滤器-->
+	<beans:bean id="loginFilter" class="com.zllh.base.security.serviceImpl.UsernamePasswordAuthenticationExtendFilter">
+		<beans:property name="sessionAuthenticationStrategy" ref="seAust"/>
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<!-- 用户账号(value要和页面表单的name一致, class里取值[request.getParameter(getUsernameParameter())]) -->
+		<beans:property name="usernameParameter" value="username" />
+		<!-- 用户密码用法同上 -->
+		<beans:property name="passwordParameter" value="password" />
+		<!-- 验证码用法同上 -->
+		<beans:property name="validateCodeParameter" value="validateCode" />
+		<!-- 是否开启验证码验证 -->
+		<beans:property name="openValidateCode" value="false" />
+		<!-- 发送登录请求的action地址 -->
+		<beans:property name="filterProcessesUrl" value="/login.do" />
+		<!-- 成功处理-->
+		<beans:property name="authenticationSuccessHandler">
+			<beans:bean class="com.zllh.base.security.handler.LoginSuccessHandler">
+				<!-- 成功后跳转URL -->
+				<beans:property name="defaultTargetUrl" value="/userController/toHome.do" />
+			</beans:bean>
+		</beans:property>
+		<!-- 失败失败处理 -->
+		<beans:property name="authenticationFailureHandler"> 
+			<beans:bean class="com.zllh.base.security.handler.LoginFailureHandler" />
+		</beans:property>
+	</beans:bean>
+
+	<!-- 注销过滤器 -->
+	<beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<!-- 退出成功跳转地址 -->
+		<beans:constructor-arg ref="logoutSuccessHandler"/>
+		<beans:constructor-arg>
+			<beans:array>
+				<beans:ref bean="logoutHandler" /> 
+			</beans:array>
+		</beans:constructor-arg>
+		<!-- 退出访问地址 -->
+		<beans:property name="filterProcessesUrl" value="/logout.do" />
+	</beans:bean>
+
+	<beans:bean id="logoutSuccessHandler" class="com.zllh.base.security.handler.LogoutSuccessExHandler"/>
+
+	<!-- 注销监听器  -->
+	<beans:bean id="logoutHandler" class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+	
+</beans:beans>

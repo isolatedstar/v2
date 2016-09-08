@@ -1,0 +1,69 @@
+package com.zllh.common.authority.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import cfca.util.cipher.lib.Session;
+
+import com.zllh.base.controller.BaseController;
+import com.zllh.mall.common.dao.MtSettleMapper;
+import com.zllh.mall.common.enums.StatusSignEnum;
+import com.zllh.mall.common.model.MtSettle;
+import com.zllh.utils.base.Utils;
+
+@Controller
+@RequestMapping("/cfcAkController")
+public class CfcAkController extends BaseController{
+    
+    public static Session session = null;
+    
+    private MtSettleMapper mtSettleMapper;
+    
+    @RequestMapping(value="/cfcakHandle_Auth", method=RequestMethod.POST)
+    public String cfcakHandle() throws Exception{
+        
+        //结款单号、主题、收款方、付款方、收款账号、付款账号、预计付款时间、预计付款金额 、收付款方标志、会员id、操作员id
+        String signedContent = request.getParameter("signedContent");
+        String signature = request.getParameter("signature");
+        
+        String settleCode = "";
+        
+        boolean bool = Utils.cfcUtil.rsaP7VerifyDettach(signature, signedContent);
+        if(bool){
+            return "验签失败请重试！";
+        }
+        
+        MtSettle sel = mtSettleMapper.findSettleByCode(settleCode);
+        if(sel==null) return " 结款单号有误！";
+        if(StatusSignEnum.SIGN.getValue().equals(sel.getStatusSign())) return "结款单已签成功无需重复签名！";
+        
+        if(sel.getSignInfo()==null){
+            MtSettle settle = new MtSettle();
+            //TODO 根据收付款方标志判断进行更新
+            settle.setStatusSign(0);
+            settle.setSignInfo(signedContent);
+            //TODO 根据收付款方标志判断 进行更新其中一个的值
+            settle.setPayInfowithsign("");
+            settle.setGetInfowithsign("");
+            //TODO 根据收付款方标志判断 进行更新其中一个的值
+            settle.setGetOperator("");
+            settle.setPayOperator("");
+            mtSettleMapper.updateByPrimaryKeySelective(settle);
+        }else{
+            //根据收付款方标志返回提示信息  
+            if(!sel.getSignInfo().equals(signedContent)) return "签名原文与收/付款方的内容不一致签名失败！";
+            MtSettle settle = new MtSettle();
+            settle.setStatusSign(StatusSignEnum.SIGN.getValue());
+            //TODO 根据收付款方标志判断 进行更新其中一个的值
+            settle.setPayInfowithsign("");
+            settle.setGetInfowithsign("");
+            //TODO 根据收付款方标志判断 进行更新其中一个的值
+            settle.setGetOperator("");
+            settle.setPayOperator("");
+            mtSettleMapper.updateByPrimaryKeySelective(settle);
+        }
+        
+        return "签名成功！";
+    }
+}

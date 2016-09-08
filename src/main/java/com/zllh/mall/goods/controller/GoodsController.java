@@ -1,0 +1,605 @@
+package com.zllh.mall.goods.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.zllh.base.controller.BaseController;
+import com.zllh.common.common.model.model_extend.UserExtendBean;
+import com.zllh.mall.common.model.MtCategory;
+import com.zllh.mall.common.model.MtGoods;
+import com.zllh.mall.common.model.MtMaterial;
+import com.zllh.mall.common.model.MtMuser;
+import com.zllh.mall.goods.service.CategoryService;
+import com.zllh.mall.goods.service.GoodsService;
+import com.zllh.mall.goods.service.UserCategoryService;
+import com.zllh.mall.material.service.MaterialService;
+import com.zllh.utils.base.Utils;
+import com.zllh.utils.common.DateUtil;
+import com.zllh.utils.common.DictionaryUtil;
+import com.zllh.utils.common.Page;
+import com.zllh.utils.common.TreeMapper;
+import com.zllh.utils.common.UUIDCreater;
+
+@Controller
+@RequestMapping("/GoodController")
+public class GoodsController extends BaseController {
+	@Autowired
+	private GoodsService goodsService;
+	@Autowired
+	private CategoryService categoryService;
+	// 用户品类
+	@Autowired
+	private UserCategoryService userCategoryService;
+	@Autowired
+	private MaterialService malService;//资源
+	// 返回json-treeparentId
+	private String[] params = { "id", "name", "parentId" };
+
+	// 获取用户所有的品类的地域树
+	@RequestMapping("/getUserCategory")
+	@ResponseBody
+	public List<MtCategory> getUserCategory() {
+		UserExtendBean user1 = Utils.securityUtil.getUser();
+		MtMuser user = user1.getMuser();
+		List<MtCategory> list = categoryService.getUserMtCategory(user.getMmbId());
+		System.out.println();
+		return list;
+	}
+	@RequestMapping("/getUserCategoryByCtrId")
+	@ResponseBody
+	public List<MtCategory> getUserCategoryByCtrId() {
+		String ctrId = request.getParameter("ctrId");
+		String sellMmbId = request.getParameter("sellMmbId");
+		List<MtCategory> list = categoryService.getMtCategoryByContractId(ctrId,sellMmbId);
+		return list;
+	}
+
+	@RequestMapping("/getUserMtGoods")
+	@ResponseBody
+	public List<MtCategory> getUserMtGoods() {
+		String mmbId = request.getParameter("relaMmbId");//供应商ID
+		List<MtCategory> list = categoryService.getUserMtGoods(mmbId);
+		return list;
+	}
+
+	// 获取所有的地域树
+	@RequestMapping("/getAllCategory")
+	@ResponseBody
+	public List<MtCategory> getAllCategoryNoFilter() {
+		List<MtCategory> list = categoryService.getAllMtCategory();
+		
+//		for (MtCategory mm: list) {
+//			
+//			 if(mm.getNodes()!=null){
+//				 System.out.println("<li><a href='#'>"+mm.getText()+"</a></li>");
+//				 System.out.println("  <ul class='m_subnav'>");
+//				 List<MtCategory> list1 = mm.getNodes();
+//				 for (MtCategory mm1 : list1) {
+//					
+//					if(mm1.getNodes()!=null){
+//						System.out.println("    <li><a href='#'>"+mm1.getText()+"</a></li>");
+//						System.out.println("    <ul class='m_subnav_2'>");
+//						 List<MtCategory> list2 = mm1.getNodes();
+//						 for (MtCategory mm2 : list2) {
+//							 System.out.println("      <li><a href='#' onclick=checkCategory('"+mm2.getId()+"')>"+mm2.getText()+"</a></li>");
+//						}
+//                         
+//                         System.out.println("    </ul>");
+//
+//					}else{
+//						System.out.println("    <li><a href='#' onclick=checkCategory('"+mm1.getId()+"')>"+mm1.getText()+"</a></li>");
+//					}
+//				}
+//				 System.out.println("  </ul>");
+//			 }else{
+//				 System.out.println("<li><a href='#' onclick=checkCategory('"+mm.getId()+"')>"+mm.getText()+"</a></li>");
+//			 }
+//		}
+		return list;
+	}
+
+	// 生成所有的品类树（easyui）
+	public List<MtCategory> searchAllCategory(HttpServletRequest request,
+			Integer type) {
+
+		return null;
+	}
+
+	// 生成品类树(dtree)
+	@RequestMapping("/serachCategory")
+	public void serachCategory(String memberId) throws Exception {
+		logger.info("===searchCAT====");
+		String jsonTreeRight = null;
+		// 调用品类service查询出所有的品类集合
+		List<MtCategory> cts = categoryService.serachAll();
+		// 查询出的实例节点转换成json字符串,发给前台页面接收
+		jsonTreeRight = this.createJsonStr(TreeMapper.getTreeModelList(cts,
+				params));
+		// this.writeJson(jsonTreeRight);
+		outJson(jsonTreeRight);
+
+	}
+
+	// 添加商品
+	@RequestMapping("/createGood")
+	@ResponseBody
+	public Map<String, Object> createGood1(
+			Model model,
+			@RequestParam(value = "categoryId", required = false) String categoryId,// 所属品类Id
+			@RequestParam(value = "createTime", required = false) String createTime,// 生产时间
+			@RequestParam(value = "parentIds", required = false) String parentIds,// 所属的品类Id，所有上级的集合(包含自己的id)
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "described", required = false) String described,// 说明
+			@RequestParam(value = "imgId", required = false) String imgId,// 图片资源
+			@RequestParam(value = "maxPrice", required = false) Double maxPrice,
+			@RequestParam(value = "minPrice", required = false) Double minPrice,
+			@RequestParam(value = "productNum", required = false) String productNum,// 生产编号
+			@RequestParam(value = "productTime", required = false) String productTime,// 保质期
+			@RequestParam(value = "factory", required = false) String factory,// 生产厂家
+			@RequestParam(value = "createAddress", required = false) String createAddress,// 生产地址
+			@RequestParam(value = "specification", required = false) String specification,// 规格
+			@RequestParam(value = "unitSpecification", required = false) String unitSpecification,
+			@RequestParam(value = "stockNum", required = false, defaultValue = "0") String stockNum,// 库存
+			@RequestParam(value = "brand", required = false) String brand,// 品牌   
+			@RequestParam(value = "imgPath", required = false) String imgPath,
+			@RequestParam(value = "unitPrice", required = false) String unitPrice,// 价格规格
+																					// 单位
+			@RequestParam(value = "imageIds", required = false) String imageIds// 轮播图片Id的集合
+	) {
+		logger.info("===addGood====");
+		
+		// 将商品添加到所属的品类表中 并添加所属会员id以及所属品类Id
+		// 获取登录人对象
+		UserExtendBean user1 = Utils.securityUtil.getUser();
+		MtMuser user = user1.getMuser();
+		// 在添加商品的时候，商品表中只是存的所有商品共有的属性字段 名称，描述，图片，价格范围，规格单位，状态这几个字段
+		// 封装商品对象 创建商品Id，设置商品状态 0启用 1停用
+		MtGoods pg = new MtGoods();
+		pg.setGoodsId(UUIDCreater.getUUID());
+		pg.setCategoryId(categoryId.trim());
+		pg.setName(name.trim());
+		pg.setStatus(DictionaryUtil.GOOD_STATUS_USING);
+		pg.setMmbId(user.getMmbId());
+		pg.setImgId(imgId);
+		pg.setImgPath(imgPath);
+		pg.setMaxPrice(maxPrice);
+		pg.setMinPrice(minPrice);
+		pg.setUnitPrice(unitPrice.trim());
+		pg.setDescribed(described.trim());
+		pg.setBrand(brand.trim());
+		pg.setProductNum(productNum.trim());
+		pg.setProductTime(productTime.trim());
+		pg.setFactory(factory.trim());
+		pg.setCreateAddress(createAddress.trim());
+		pg.setSpecification(specification.trim());
+		pg.setUnitSpecification(unitSpecification);
+		if(!StringUtils.isBlank(stockNum)){
+			pg.setStockNum(Long.parseLong(stockNum));
+		}
+		pg.setCreateTime(DateUtil.parseDate(createTime));
+		
+		// 判断是否需要新增品类，并新增
+				userCategoryService.addUserCategory(parentIds, categoryId,
+						user.getMmbId());
+		// 调用商品service新增方法
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = goodsService.addGood(pg, imageIds);
+		return map;
+	}
+
+	// 跳转到指定商品页面
+	@RequestMapping("/toshowAppointGood")
+	public String toshowAppointGood() {
+		logger.info("====toshowPageGood====");
+		return "mall/goods/goods_appoint";
+	}
+	
+	// 跳转到显示页面 
+	@RequestMapping("/toshowGood")
+	public String toshowPageGood() {
+		logger.info("====toshowPageGood====");
+		return "mall/goods/goods_show";
+	}
+
+	// 查询该会员品类下的商品
+	@RequestMapping("/serachGood")
+	@ResponseBody
+	public Map<String, Object> serachGood(
+			Model model,
+			@RequestParam(value = "categoryId", required = false) String categoryId,
+			@RequestParam(value = "pageNo", required = false) String pageNo1,
+			@RequestParam(value = "goodStatus", required = false) Integer goodStatus,
+			@RequestParam(value = "pageSize", required = false) Integer pageSize) {
+		// 获取选中的品类Id，获取登陆的会员Id
+		logger.info("===searchGood====");
+		Long pageNo = StringUtils.isBlank(pageNo1) ? 1 : Long.valueOf(pageNo1);
+		pageSize = pageSize == null && pageSize < 1 ? 2 : pageSize;
+		UserExtendBean user1 = Utils.securityUtil.getUser();
+		MtMuser user = user1.getMuser();
+		Map<String, Object> params = new HashMap<String, Object>();
+		// 调用商品查询方法，根据这两个Id作为条件查询
+		if (!StringUtils.isBlank(categoryId)) {
+			params.put("categoryId", categoryId);
+		}
+
+		
+		params.put("mmbId", user.getMmbId());
+		// 分页，获取商品信息集合
+		// 查询报价总数量
+		long totalCount = goodsService.searchGoodCount(params);
+
+		// 当前页数不能超过总页数
+		pageNo = (pageNo < 1) ? 1 : pageNo;
+		long totalPageCount = (totalCount + pageSize - 1) / pageSize;
+		if (pageNo > totalPageCount) {
+			pageNo = totalPageCount;
+		}
+		if(goodStatus!=null){
+			//商品启用
+			params.put("goodStatus", goodStatus);
+		}
+		
+		
+		
+		params.put("startFirst", pageNo > 0 ? (pageNo - 1) * pageSize : 0);
+		params.put("startEnd", pageSize);
+
+		List<MtGoods> goodsList = goodsService.searchGoods(params);
+		Map<String, Object> returnmap = new HashMap<String, Object>();
+		returnmap.put("mtCount", totalCount);
+		returnmap.put("mtList", goodsList);
+
+		return returnmap;
+	}
+
+	// 启用商品
+	@RequestMapping("/startGood")
+	public void startGood(Model model,
+			@RequestParam(value = "goodsId", required = false) String goodsId) {
+		logger.info("===start====");
+		// 获取选中的商品的Id
+		// 调用商品service的修改商品方法，通过商品Id，将状态改为启用 0启用 1禁用
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("goodsId", goodsId);
+		params.put("status", DictionaryUtil.GOOD_STATUS_USING);
+		// 调用商品service的修改商品方法，通过商品Id，将状态改为禁用
+		boolean flag = goodsService.updateByGoodId(params);
+		// 判断修改情况，返回前台页面提示
+		if (flag) {
+			// 成功
+			outJson("0");
+		} else {
+			outJson("1");
+		}
+	}
+
+	// 禁用商品
+	@RequestMapping("/disabledGood")
+	public void disabledGood(Model model,
+			@RequestParam(value = "goodsId", required = false) String goodsId) {
+		logger.info("===disable====");
+		// 获取选中的商品的Id
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("goodsId", goodsId);
+		params.put("status", DictionaryUtil.GOOD_STATUS_FORBID);
+		// 调用商品service的修改商品方法，通过商品Id，将状态改为禁用
+		boolean flag = goodsService.updateByGoodId(params);
+		// 判断修改情况，返回前台页面提示
+		if (flag) {
+			// 成功
+			outJson("0");
+		} else {
+			outJson("1");
+		}
+	}
+
+	// 进入编辑商品页面
+	@RequestMapping("/toupdateGood")
+	@ResponseBody
+	public MtGoods toupdateGood(Model model,
+			@RequestParam(value = "goodsId", required = false) String goodsId) {
+		// 根据所选的商品Id，查询出商品
+		logger.info("===toEdit====");
+		MtGoods gd = goodsService.searchGoodById(goodsId);
+		//品类名称
+		if(gd.getCategoryId()!=null){
+			MtCategory mc = categoryService.getById( gd.getCategoryId());
+			gd.setCategoryName(mc.getName());
+		}
+		List<MtMaterial> list = malService.searchMalByGoodId(gd.getGoodsId());
+		gd.setImglist(list);
+		// 根据商品Id,查询出轮播图片的集合，在商品对象中加一个集合属性，赋值
+		return gd;
+	}
+
+	// 编辑商品
+	@RequestMapping("/updateGood")
+	@ResponseBody
+	public Map<String, Object> updateGood(
+			Model model,
+			@RequestParam(value = "goodsId1", required = false) String goodsId,
+			@RequestParam(value = "createTime1", required = false) String createTime,// 生产时间
+			@RequestParam(value = "parentIds1", required = false) String parentIds,// 所属的品类Id，所有上级的集合(包含自己的id)
+			@RequestParam(value = "categoryId1", required = false) String categoryId,// 所属品类Id
+			
+			@RequestParam(value = "name1", required = false) String name,
+			@RequestParam(value = "described1", required = false) String described,// 说明
+			@RequestParam(value = "imgId1", required = false) String imgId,// 图片资源
+			@RequestParam(value = "imgPath1", required = false) String imgPath,
+			@RequestParam(value = "maxPrice1", required = false) Double maxPrice,
+			@RequestParam(value = "minPrice1", required = false) Double minPrice,
+			@RequestParam(value = "productNum1", required = false) String productNum,// 生产编号
+			@RequestParam(value = "productTime1", required = false) String productTime,// 保质期
+			@RequestParam(value = "factory1", required = false) String factory,// 生产厂家
+			@RequestParam(value = "createAddress1", required = false) String createAddress,// 生产地址
+			@RequestParam(value = "specification1", required = false) String specification,// 规格 unitSpecification1
+			@RequestParam(value = "unitSpecification1", required = false) String unitSpecification,
+			@RequestParam(value = "stockNum1", required = false) String stockNum,// 库存
+			@RequestParam(value = "brand1", required = false) String brand,// 品牌
+
+			@RequestParam(value = "unitPrice1", required = false) String unitPrice,// 价格规格
+																					// 单位
+			@RequestParam(value = "imageIds1", required = false) String imageIds// 轮播图片Id的集合
+	) {
+		// 获取登录人对象
+		logger.info("===editGood====");
+		UserExtendBean user1 =Utils.securityUtil.getUser();
+		MtMuser user = user1.getMuser();
+		// 在添加商品的时候，商品表中只是存的所有商品共有的属性字段 名称，描述，图片，价格范围，规格单位，状态这几个字段
+		// 封装商品对象 创建商品Id，设置商品状态 0启用 1停用
+		MtGoods pg = new MtGoods();
+		pg.setGoodsId(goodsId.trim());
+		pg.setCategoryId(categoryId.trim());
+		pg.setName(name.trim());
+
+		pg.setMmbId(user.getMmbId());
+		pg.setImgId(imgId);
+		pg.setImgPath(imgPath);
+		pg.setMaxPrice(maxPrice);
+		pg.setMinPrice(minPrice);
+		pg.setUnitPrice(unitPrice.trim());
+		pg.setDescribed(described.trim());
+
+		pg.setBrand(brand.trim());
+		pg.setProductNum(productNum.trim());
+		pg.setProductTime(productTime.trim());
+		pg.setFactory(factory.trim());
+		pg.setCreateAddress(createAddress.trim());
+		pg.setSpecification(specification.trim());
+		pg.setUnitSpecification(unitSpecification);
+		if(!StringUtils.isBlank(stockNum)){
+			pg.setStockNum(Long.parseLong(stockNum));
+		}
+		System.out.println(createTime);
+		pg.setCreateTime(DateUtil.parseDate(createTime));
+		System.out.println("生产时间============"+pg.getCreateTime());
+		// 编辑过后状态是否修改
+		// pg.setStatus(DictionaryUtil.GOOD_STATUS_USING);
+		// 调用商品service的修改商品方法，通过商品Id修改商品
+		Map<String, Object> map = null;
+		map = goodsService.editGood(pg, imageIds);
+		// 判断是否需要新增品类，并新增
+		if (StringUtils.isBlank(parentIds)) {
+			userCategoryService.addUserCategory(parentIds, categoryId,
+					user.getMmbId());
+		}
+		return map;
+	}
+
+	// 校验新增商品名称，该会员下的同一个品类下的商品名称不能相同
+	@RequestMapping("/addName")
+	@ResponseBody
+	public void addName(
+			Model model,
+			@RequestParam(value = "categoryId", required = false) String categoryId,
+			@RequestParam(value = "goodName", required = false) String goodName) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		// 获取登陆人所属的会员Id
+		UserExtendBean user1 = Utils.securityUtil.getUser();
+		MtMuser user = user1.getMuser();
+		params.put("mmbId", user.getMmbId());
+		if (!StringUtils.isBlank(categoryId)) {
+			params.put("categoryId", categoryId);
+		}
+		
+		List<MtGoods> list = goodsService.searchGoods(params);
+		String json ="0";
+		if (list == null || list.size() < 1) {
+			json = "0";//成功
+		}else{
+			for (MtGoods mg : list) {
+				System.out.println(mg.toString());
+				if(mg.getName().equals(goodName)){
+					 json = "1";
+					 break;
+				}
+			}
+		}
+		
+		outJson(json);
+
+	}
+	// 校验修改的商品名称，该会员下的同一个品类下的商品名称不能相同
+	@RequestMapping("/updateName")
+	@ResponseBody
+	public void updateName(
+			Model model,
+			@RequestParam(value = "categoryId", required = false) String categoryId,
+			@RequestParam(value = "oldName", required = false) String oldName,// 修改前的商品名称
+			@RequestParam(value = "goodName", required = false) String goodName) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		// 获取登陆人所属的会员Id
+		UserExtendBean user1 = Utils.securityUtil.getUser();
+		MtMuser user = user1.getMuser();
+		params.put("mmbId", user.getMmbId());
+		if (!StringUtils.isBlank(categoryId)) {
+			params.put("categoryId", categoryId);
+		}
+		
+		List<MtGoods> list = goodsService.searchGoods(params);
+		String json ="0";
+		if (list == null || list.size() < 1) {
+			json = "0";//成功
+		} else {
+			for (MtGoods mg : list) {
+				if(mg.getName().equals(goodName)&&(!goodName.equals(oldName))){
+					 json = "1";
+					 break;
+				}
+			}
+
+		}
+		outJson(json);
+	}
+	//跳转商品详情页面
+	@RequestMapping("/openGood")
+	public String openGood() {
+		logger.info("====toshowPageGood====");
+		
+		return "mall/goods/good_open";
+	}
+	//商品详情
+	@RequestMapping("/lookGood")
+	@ResponseBody
+	public MtGoods lookGood(){
+		String goodId = this.request.getParameter("goodId");
+		String path =request.getContextPath();
+		MtGoods good = goodsService.lookGoodById(goodId);
+		if(good!=null){
+			good.setImgPath(path+good.getImgPath());
+		}
+		List<MtMaterial> list = malService.searchMalByGoodId(good.getGoodsId());
+		good.setImglist(list);
+		return good;
+	}
+	//跳转会员商品页面
+	@RequestMapping("/mmbGoodsAnonymously")
+	public String mmbGoods(Model model,
+			@RequestParam(value = "mmbId", required = false) String mmbId) {
+		logger.info("====toshowmmbGoods====");
+		request.setAttribute("mmbId", mmbId);
+		return "mall/goods/mmb_goods";
+	}
+	// 根据会员id获取用户所有的品类的地域树
+	@RequestMapping("/getUserCategoryByMmbId")
+	@ResponseBody
+	public List<MtCategory> getUserCategoryByMmbId() {
+		String mmbId = request.getParameter("relaMmbId");
+		List<MtCategory> list = categoryService.getUserMtCategory(mmbId);
+		return list;
+	}
+	//根据会员Id以及品类Id获取会员的商品
+	@RequestMapping("/getUserGoodsByMmbId")
+	@ResponseBody
+	public Map<String, Object> getUserGoodsByMmbId(
+			Model model,
+			@RequestParam(value = "mmbId", required = false) String mmbId,
+			@RequestParam(value = "categoryId", required = false) String categoryId,
+			@RequestParam(value = "pageNo", required = false) String pageNo1,
+			@RequestParam(value = "pageSize", required = false) Integer pageSize) {
+		// 获取选中的品类Id，获取登陆的会员Id
+		logger.info("===会员主页商品====");
+		Long pageNo = StringUtils.isBlank(pageNo1) ? 1 : Long.valueOf(pageNo1);
+		pageSize = pageSize == null && pageSize < 1 ? 2 : pageSize;
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		// 调用商品查询方法，根据这两个Id作为条件查询
+		if (StringUtils.isBlank(categoryId)) {
+			categoryId = "";
+		}
+
+		params.put("categoryId", categoryId);
+		params.put("mmbId",mmbId);
+		// 分页，获取商品信息集合
+		// 查询报价总数量
+		long totalCount = goodsService.searchGoodCount(params);
+
+		// 当前页数不能超过总页数
+		pageNo = (pageNo < 1) ? 1 : pageNo;
+		long totalPageCount = (totalCount + pageSize - 1) / pageSize;
+		if (pageNo > totalPageCount) {
+			pageNo = totalPageCount;
+		}
+		params.put("startFirst", pageNo > 0 ? (pageNo - 1) * pageSize : 0);
+		params.put("startEnd", pageSize);
+
+		List<MtGoods> goodsList = goodsService.searchGoods(params);
+		Map<String, Object> returnmap = new HashMap<String, Object>();
+		returnmap.put("mtCount", totalCount);
+		returnmap.put("mtList", goodsList);
+
+		return returnmap;
+	}
+	//会员商品详情页面
+	@RequestMapping("/mmbGoodLookAnonymously")
+	public String mmbGoodLook(Model model,
+			@RequestParam(value = "goodId", required = false) String goodId ) {
+		
+		request.setAttribute("goodId", goodId);
+		
+		return "mall/goods/mmb_good_look";
+	}
+	
+	// 根据会员id获取用户所有的品类的地域树
+		@RequestMapping("/getUserCategoryByMmbIdAnonymously")
+		@ResponseBody
+		public List<MtCategory> getUserCategoryByMmbIdAnonymously() {
+			String mmbId = request.getParameter("relaMmbId");
+			List<MtCategory> list = categoryService.getUserMtCategory(mmbId);
+			return list;
+		}
+		// 查询该会员品类下的商品
+		@RequestMapping("/serachGoodAnonymously")
+		@ResponseBody
+		public Map<String, Object> serachGoodAnonymously(
+				Model model,
+				@RequestParam(value = "mmbId", required = false) String mmbId,
+				@RequestParam(value = "categoryId", required = false) String categoryId) {
+			// 获取选中的品类Id，获取登陆的会员Id
+			logger.info("===searchGood====");
+			
+			
+			Map<String, Object> params = new HashMap<String, Object>();
+			// 调用商品查询方法，根据这两个Id作为条件查询
+			if (!StringUtils.isBlank(categoryId)) {
+				params.put("categoryId", categoryId);
+			}
+
+			
+			params.put("mmbId", mmbId);
+			
+
+			List<MtGoods> goodsList = goodsService.searchGoods(params);
+			Map<String, Object> returnmap = new HashMap<String, Object>();
+			
+			returnmap.put("mtList", goodsList);
+
+			return returnmap;
+		}
+		
+		//商品详情
+		@RequestMapping("/lookGoodAnonymously")
+		@ResponseBody
+		public MtGoods lookGoodAnonymously(){
+			String goodId = this.request.getParameter("goodId");
+			String path =request.getContextPath();
+			MtGoods good = goodsService.lookGoodById(goodId);
+			if(good!=null){
+				good.setImgPath(path+good.getImgPath());
+			}
+			List<MtMaterial> list = malService.searchMalByGoodId(good.getGoodsId());
+			good.setImglist(list);
+			return good;
+		}
+}

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zllh.mall.common.dao.MtSettleMapper">
+   <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtSettle" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="settle_code" property="settleCode" jdbcType="INTEGER" />
+    <result column="settle_money" property="settleMoney" jdbcType="DOUBLE" />
+    <result column="ctr_time" property="ctrTime" jdbcType="TIMESTAMP" />
+    <result column="ctr_money" property="ctrMoney" jdbcType="DOUBLE" />
+    <result column="got_money" property="gotMoney" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="INTEGER" />
+    <result column="mmbpay_id" property="mmbpayId" jdbcType="VARCHAR" />
+    <result column="mmbpay_account" property="mmbpayAccount" jdbcType="VARCHAR" />
+    <result column="mmbpay_name" property="mmbpayName" jdbcType="VARCHAR" />
+    <result column="mmbget_id" property="mmbgetId" jdbcType="VARCHAR" />
+    <result column="mmbget_account" property="mmbgetAccount" jdbcType="VARCHAR" />
+    <result column="mmbget_name" property="mmbgetName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="status_sign" property="statusSign" jdbcType="INTEGER" />
+    <result column="status_regist" property="statusRegist" jdbcType="INTEGER" />
+    <result column="sign_info" property="signInfo" jdbcType="LONGVARCHAR" />
+    <result column="pay_infowithsign" property="payInfowithsign" jdbcType="LONGVARCHAR" />
+    <result column="get_infowithsign" property="getInfowithsign" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, settle_code, settle_money, ctr_time, ctr_money, got_money, pay_type, mmbpay_id, 
+    mmbpay_account, mmbpay_name, mmbget_id, mmbget_account, mmbget_name, status, status_sign, 
+    status_regist, pay_operator, get_operator
+  </sql>
+  <sql id="Blob_Column_List">
+    sign_info, pay_infowithsign, get_infowithsign
+  </sql>
+  <select id="searchPendingSettle" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_settle
+    where (status = 1
+    or mmbget_id = #{memberId,jdbcType=VARCHAR} and status = 2 
+    or mmbpay_id = #{memberId,jdbcType=VARCHAR} and status = 3)
+    <if test="oppositeName != null">
+		and (mmbpay_id = #{memberId,jdbcType=VARCHAR} and mmbget_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+		or mmbget_id = #{memberId,jdbcType=VARCHAR} and mmbpay_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%'))
+	</if>
+	<if test="executeStartTime != null">
+		<![CDATA[ and ctr_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+	</if>
+	<if test="executeEndTime != null">
+		<![CDATA[ and ctr_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+	</if>
+	<if test="settleCode != null">
+		and settle_code = #{settleCode,jdbcType=INTEGER}
+	</if>
+	<if test="startFirst != null and startEnd != null">
+		limit #{startFirst},#{startEnd}
+	</if>
+  </select>
+  <select id="searchMyPendingSettle" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_settle
+    where (mmbget_id = #{memberId,jdbcType=VARCHAR} and status = 3 
+    or mmbpay_id = #{memberId,jdbcType=VARCHAR} and status = 2)
+    <if test="oppositeName != null">
+		and (mmbpay_id = #{memberId,jdbcType=VARCHAR} and mmbget_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+		or mmbget_id = #{memberId,jdbcType=VARCHAR} and mmbpay_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%'))
+	</if>
+	<if test="executeStartTime != null">
+		<![CDATA[ and ctr_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+	</if>
+	<if test="executeEndTime != null">
+		<![CDATA[ and ctr_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+	</if>
+	<if test="settleCode != null">
+		and settle_code = #{settleCode,jdbcType=INTEGER}
+	</if>
+	<if test="startFirst != null and startEnd != null">
+		limit #{startFirst},#{startEnd}
+	</if>
+  </select>
+  <select id="searchSettleManage" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_settle
+    <where>
+	    <if test="oppositeName != null">
+			and (mmbpay_id = #{memberId,jdbcType=VARCHAR} and mmbget_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+			or mmbget_id = #{memberId,jdbcType=VARCHAR} and mmbpay_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%'))
+		</if>
+		<if test="executeStartTime != null">
+			<![CDATA[ and ctr_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="executeEndTime != null">
+			<![CDATA[ and ctr_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="settleCode != null">
+			and settle_code = #{settleCode,jdbcType=INTEGER}
+		</if>
+		<if test="settlestatus != null and settlestatus ==1">
+			and <![CDATA[ status >= 4 and status <7 ]]>
+		</if>
+		<if test="settlestatus != null and settlestatus ==2">
+			and <![CDATA[ status = 4 ]]>
+		</if>
+		<if test="settlestatus != null and settlestatus ==3">
+			and (mmbget_id = #{memberId,jdbcType=VARCHAR} and status = 6 
+	    		or mmbpay_id = #{memberId,jdbcType=VARCHAR} and status = 5)
+	    </if>
+		<if test="settlestatus != null and settlestatus == 4">
+			and (mmbget_id = #{memberId,jdbcType=VARCHAR} and status = 5 
+	    		or mmbpay_id = #{memberId,jdbcType=VARCHAR} and status = 6)
+		</if>
+		<if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+		</if>
+	</where>
+  </select>
+  <select id="searchSettleSignature" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_settle
+    <where>
+    	<![CDATA[ status = 4 and status_sign < 4 ]]>
+	    <if test="oppositeName != null">
+			and (mmbpay_id = #{memberId,jdbcType=VARCHAR} and mmbget_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+			or mmbget_id = #{memberId,jdbcType=VARCHAR} and mmbpay_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%'))
+		</if>
+		<if test="executeStartTime != null">
+			<![CDATA[ and ctr_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="executeEndTime != null">
+			<![CDATA[ and ctr_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="settleCode != null">
+			and settle_code = #{settleCode,jdbcType=INTEGER}
+		</if>
+		<if test="statusSign != null">
+			and status_sign = #{statusSign,jdbcType=INTEGER}
+		</if>
+		<if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+		</if>
+	</where>
+  </select>
+  <select id="searchSettleRegist" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_settle
+    <where>
+    	<![CDATA[ status = 4 and mmbget_id = #{memberId,jdbcType=VARCHAR} and status_regist < 3 ]]>
+	    <if test="oppositeName != null">
+			and (mmbpay_id = #{memberId,jdbcType=VARCHAR} and mmbget_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+			or mmbget_id = #{memberId,jdbcType=VARCHAR} and mmbpay_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%'))
+		</if>
+		<if test="executeStartTime != null">
+			<![CDATA[ and ctr_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="executeEndTime != null">
+			<![CDATA[ and ctr_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+		</if>
+		<if test="settleCode != null">
+			and settle_code = #{settleCode,jdbcType=INTEGER}
+		</if>
+		<if test="statusRegist != null">
+			and status_regist = #{statusRegist,jdbcType=INTEGER}
+		</if>
+		<if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+		</if>
+	</where>
+  </select>
+  
+  <select id="findSettleByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mt_settle
+    where settle_code = #{settleCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mt_settle
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mt_settle
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtSettle" >
+    insert into mt_settle (id, settle_code, settle_money, 
+      ctr_time, ctr_money, got_money, 
+      pay_type, mmbpay_id, mmbpay_account, 
+      mmbpay_name, mmbget_id, mmbget_account, 
+      mmbget_name, status, status_sign, 
+      status_regist, pay_operator, get_operator, 
+      sign_info, pay_infowithsign, get_infowithsign
+      )
+    values (#{id,jdbcType=VARCHAR}, #{settleCode,jdbcType=INTEGER}, #{settleMoney,jdbcType=DOUBLE}, 
+      #{ctrTime,jdbcType=TIMESTAMP}, #{ctrMoney,jdbcType=DOUBLE}, #{gotMoney,jdbcType=VARCHAR}, 
+      #{payType,jdbcType=INTEGER}, #{mmbpayId,jdbcType=VARCHAR}, #{mmbpayAccount,jdbcType=VARCHAR}, 
+      #{mmbpayName,jdbcType=VARCHAR}, #{mmbgetId,jdbcType=VARCHAR}, #{mmbgetAccount,jdbcType=VARCHAR}, 
+      #{mmbgetName,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{statusSign,jdbcType=INTEGER}, 
+      #{statusRegist,jdbcType=INTEGER}, #{payOperator,jdbcType=VARCHAR}, #{getOperator,jdbcType=VARCHAR}, 
+      #{signInfo,jdbcType=LONGVARCHAR}, #{payInfowithsign,jdbcType=LONGVARCHAR}, #{getInfowithsign,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtSettle" >
+    insert into mt_settle
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="settleCode != null">
+        settle_code,
+      </if>
+      <if test="settleMoney != null">
+        settle_money,
+      </if>
+      <if test="ctrTime != null">
+        ctr_time,
+      </if>
+      <if test="ctrMoney != null">
+        ctr_money,
+      </if>
+      <if test="gotMoney != null">
+        got_money,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="mmbpayId != null">
+        mmbpay_id,
+      </if>
+      <if test="mmbpayAccount != null">
+        mmbpay_account,
+      </if>
+      <if test="mmbpayName != null">
+        mmbpay_name,
+      </if>
+      <if test="mmbgetId != null">
+        mmbget_id,
+      </if>
+      <if test="mmbgetAccount != null">
+        mmbget_account,
+      </if>
+      <if test="mmbgetName != null">
+        mmbget_name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="statusSign != null">
+        status_sign,
+      </if>
+      <if test="statusRegist != null">
+        status_regist,
+      </if>
+      <if test="payOperator != null">
+        pay_operator,
+      </if>
+      <if test="getOperator != null">
+        get_operator,
+      </if>
+      <if test="signInfo != null">
+        sign_info,
+      </if>
+      <if test="payInfowithsign != null">
+        pay_infowithsign,
+      </if>
+      <if test="getInfowithsign != null">
+        get_infowithsign,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="settleCode != null">
+        #{settleCode,jdbcType=INTEGER},
+      </if>
+      <if test="settleMoney != null">
+        #{settleMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="ctrTime != null">
+        #{ctrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctrMoney != null">
+        #{ctrMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="gotMoney != null">
+        #{gotMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="mmbpayId != null">
+        #{mmbpayId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbpayAccount != null">
+        #{mmbpayAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbpayName != null">
+        #{mmbpayName,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbgetId != null">
+        #{mmbgetId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbgetAccount != null">
+        #{mmbgetAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbgetName != null">
+        #{mmbgetName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="statusSign != null">
+        #{statusSign,jdbcType=INTEGER},
+      </if>
+      <if test="statusRegist != null">
+        #{statusRegist,jdbcType=INTEGER},
+      </if>
+      <if test="payOperator != null">
+        #{payOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="getOperator != null">
+        #{getOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="signInfo != null">
+        #{signInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="payInfowithsign != null">
+        #{payInfowithsign,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="getInfowithsign != null">
+        #{getInfowithsign,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.MtSettle" >
+    update mt_settle
+    <set>
+      <if test="settleCode != null">
+        settle_code = #{settleCode,jdbcType=INTEGER},
+      </if>
+      <if test="settleMoney != null">
+        settle_money = #{settleMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="ctrTime != null">
+        ctr_time = #{ctrTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctrMoney != null">
+        ctr_money = #{ctrMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="gotMoney != null">
+        got_money = #{gotMoney,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="mmbpayId != null">
+        mmbpay_id = #{mmbpayId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbpayAccount != null">
+        mmbpay_account = #{mmbpayAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbpayName != null">
+        mmbpay_name = #{mmbpayName,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbgetId != null">
+        mmbget_id = #{mmbgetId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbgetAccount != null">
+        mmbget_account = #{mmbgetAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbgetName != null">
+        mmbget_name = #{mmbgetName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="statusSign != null">
+        status_sign = #{statusSign,jdbcType=INTEGER},
+      </if>
+      <if test="statusRegist != null">
+        status_regist = #{statusRegist,jdbcType=INTEGER},
+      </if>
+      <if test="payOperator != null">
+        pay_operator = #{payOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="getOperator != null">
+        get_operator = #{getOperator,jdbcType=VARCHAR},
+      </if>
+      <if test="signInfo != null">
+        sign_info = #{signInfo,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="payInfowithsign != null">
+        pay_infowithsign = #{payInfowithsign,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="getInfowithsign != null">
+        get_infowithsign = #{getInfowithsign,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.MtSettle" >
+    update mt_settle
+    set settle_code = #{settleCode,jdbcType=INTEGER},
+      settle_money = #{settleMoney,jdbcType=DOUBLE},
+      ctr_time = #{ctrTime,jdbcType=TIMESTAMP},
+      ctr_money = #{ctrMoney,jdbcType=DOUBLE},
+      got_money = #{gotMoney,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=INTEGER},
+      mmbpay_id = #{mmbpayId,jdbcType=VARCHAR},
+      mmbpay_account = #{mmbpayAccount,jdbcType=VARCHAR},
+      mmbpay_name = #{mmbpayName,jdbcType=VARCHAR},
+      mmbget_id = #{mmbgetId,jdbcType=VARCHAR},
+      mmbget_account = #{mmbgetAccount,jdbcType=VARCHAR},
+      mmbget_name = #{mmbgetName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      status_sign = #{statusSign,jdbcType=INTEGER},
+      status_regist = #{statusRegist,jdbcType=INTEGER},
+      pay_operator = #{payOperator,jdbcType=VARCHAR},
+      get_operator = #{getOperator,jdbcType=VARCHAR},
+      sign_info = #{signInfo,jdbcType=LONGVARCHAR},
+      pay_infowithsign = #{payInfowithsign,jdbcType=LONGVARCHAR},
+      get_infowithsign = #{getInfowithsign,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

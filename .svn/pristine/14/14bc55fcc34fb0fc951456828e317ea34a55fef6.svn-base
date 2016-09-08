@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtOrdertitleMapper">
+	<resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtOrdertitle">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="ordertitle_code" property="ordertitleCode" jdbcType="INTEGER" />
+		<result column="buyers_id" property="buyersId" jdbcType="VARCHAR" />
+		<result column="buyers_name" property="buyersName" jdbcType="VARCHAR" />
+		<result column="buyers_address_id" property="buyersAddressId" jdbcType="VARCHAR" />
+		<result column="buyers_address_name" property="buyersAddressName" jdbcType="VARCHAR" />
+		<result column="sellers_id" property="sellersId" jdbcType="VARCHAR" />
+		<result column="sellers_name" property="sellersName" jdbcType="VARCHAR" />
+		<result column="sellers_address_id" property="sellersAddressId" jdbcType="VARCHAR" />
+		<result column="sellers_address_name" property="sellersAddressName" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="total_money" property="totalMoney" jdbcType="DOUBLE" />
+		<result column="execute_start_time" property="executeStartTime" jdbcType="TIMESTAMP" />
+		<result column="execute_end_time" property="executeEndTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="stop_status" property="stopStatus" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="workflow_type_id" property="workflowTypeId" jdbcType="INTEGER" />
+		<result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+		<result column="pay_bank" property="payBank" jdbcType="VARCHAR" />
+		<result column="pay_account" property="payAccount" jdbcType="VARCHAR" />
+		<result column="get_bank" property="getBank" jdbcType="VARCHAR" />
+		<result column="get_account" property="getAccount" jdbcType="VARCHAR" />
+		<result column="execute_status" property="executeStatus" jdbcType="INTEGER" />
+		<result column="lock_time" property="lockTime" jdbcType="TIMESTAMP" />
+		<result column="operate_time" property="operateTime" jdbcType="TIMESTAMP" />
+	    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+	    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+	    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, ordertitle_code, buyers_id,
+		buyers_name, buyers_address_id, buyers_address_name,
+		sellers_id, sellers_name, sellers_address_id,
+		sellers_address_name, create_time, total_money,
+		execute_start_time, execute_end_time,
+		status, stop_status, remark,
+		workflow_type_id, pay_time, pay_bank,
+		pay_account,execute_status,get_bank,get_account,
+		lock_time,finish_time,user_id,user_name,operate_time
+	</sql>
+	<select id="selectByMemberId" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mt_ordertitle
+		where buyers_id = #{memberId,jdbcType=VARCHAR} or sellers_id = #{memberId,jdbcType=VARCHAR}
+	</select>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mt_ordertitle
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	<select id="searchPendingOrderTitle" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mt_ordertitle t
+		<where>
+		<if test="orderstatus != null and orderstatus != 3">
+			and t.buyers_id = #{memberId,jdbcType=VARCHAR} and t.status = 3
+			<if test="oppositeName != null">
+				and t.sellers_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="executeStartTime != null">
+				<![CDATA[ and execute_start_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="executeEndTime != null">
+				<![CDATA[ and execute_end_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="ordertitleCode != null">
+				and ordertitle_code = #{ordertitleCode,jdbcType=VARCHAR}
+			</if>
+			<if test="executeStatus != null">
+				and execute_status = #{executeStatus,jdbcType=INTEGER}
+			</if>
+		</if>
+		<if test="orderstatus != null and orderstatus != 2">
+			or t.sellers_id = #{memberId,jdbcType=VARCHAR} and t.status = 2
+			<if test="oppositeName != null">
+				and t.buyers_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="executeStartTime != null">
+				<![CDATA[ and execute_start_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="executeEndTime != null">
+				<![CDATA[ and execute_end_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="ordertitleCode != null">
+				and ordertitle_code = #{ordertitleCode,jdbcType=VARCHAR}
+			</if>
+			<if test="executeStatus != null">
+				and execute_status = #{executeStatus,jdbcType=INTEGER}
+			</if>
+		</if>
+		<if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+		</if>
+		</where>
+	</select>
+	<select id="searchMyPendingOrderTitle" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mt_ordertitle t
+		<where>
+		<if test="orderstatus != null and orderstatus != 3">
+			and t.buyers_id = #{memberId,jdbcType=VARCHAR} and t.status = 2
+			<if test="oppositeName != null">
+				and t.sellers_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="executeStartTime != null">
+				<![CDATA[ and execute_start_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="executeEndTime != null">
+				<![CDATA[ and execute_end_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="ordertitleCode != null">
+				and ordertitle_code = #{ordertitleCode,jdbcType=VARCHAR}
+			</if>
+			<if test="executeStatus != null">
+				and execute_status = #{executeStatus,jdbcType=INTEGER}
+			</if>
+		</if>
+		<if test="orderstatus != null and orderstatus != 2">
+			or t.sellers_id = #{memberId,jdbcType=VARCHAR} and t.status = 3
+			<if test="oppositeName != null">
+				and t.buyers_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="executeStartTime != null">
+				<![CDATA[ and execute_start_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="executeEndTime != null">
+				<![CDATA[ and execute_end_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="ordertitleCode != null">
+				and ordertitle_code = #{ordertitleCode,jdbcType=VARCHAR}
+			</if>
+			<if test="executeStatus != null">
+				and execute_status = #{executeStatus,jdbcType=INTEGER}
+			</if>
+		</if>
+		<if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+		</if>
+		</where>
+	</select>
+	<select id="searchOrderTitle" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from mt_ordertitle t
+		<where>
+		<if test="orderstatus != null and orderstatus != 3">
+			and t.buyers_id = #{memberId,jdbcType=VARCHAR} and t.status = 4
+			<if test="oppositeName != null">
+				and t.sellers_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="executeStartTime != null">
+				<![CDATA[ and execute_start_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="executeEndTime != null">
+				<![CDATA[ and execute_end_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="ordertitleCode != null">
+				and ordertitle_code = #{ordertitleCode,jdbcType=VARCHAR}
+			</if>
+			<if test="executeStatus != null and executeStatus != 0">
+				and execute_status = #{executeStatus,jdbcType=INTEGER}
+			</if>
+		</if>
+		<if test="orderstatus != null and orderstatus != 2">
+			or t.sellers_id = #{memberId,jdbcType=VARCHAR} and t.status = 4
+			<if test="oppositeName != null">
+				and t.buyers_name like CONCAT('%',#{oppositeName,jdbcType=VARCHAR},'%')
+			</if>
+			<if test="executeStartTime != null">
+				<![CDATA[ and execute_start_time >= #{executeStartTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="executeEndTime != null">
+				<![CDATA[ and execute_end_time <= #{executeEndTime,jdbcType=TIMESTAMP} ]]>
+			</if>
+			<if test="ordertitleCode != null">
+				and ordertitle_code = #{ordertitleCode,jdbcType=VARCHAR}
+			</if>
+			<if test="executeStatus != null and executeStatus != 0">
+				and execute_status = #{executeStatus,jdbcType=INTEGER}
+			</if>
+		</if>
+		<if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+		</if>
+		</where>
+	</select>
+	<insert id="insert" parameterType="com.zllh.mall.common.model.MtOrdertitle">
+		insert into mt_ordertitle (id, ordertitle_code, buyers_id,
+		buyers_name, buyers_address_id, buyers_address_name,
+		sellers_id, sellers_name, sellers_address_id,
+		sellers_address_name, create_time, total_money,
+		execute_start_time, execute_end_time,
+		status, stop_status, remark,
+		workflow_type_id, pay_time, pay_bank,
+		pay_account,execute_status,get_bank,get_account,
+		lock_time,finish_time,user_id,user_name,operate_time)
+		values (#{id,jdbcType=VARCHAR}, #{ordertitleCode,jdbcType=VARCHAR},
+		#{buyersId,jdbcType=VARCHAR},
+		#{buyersName,jdbcType=VARCHAR}, #{buyersAddressId,jdbcType=VARCHAR},
+		#{buyersAddressName,jdbcType=VARCHAR},
+		#{sellersId,jdbcType=VARCHAR}, #{sellersName,jdbcType=VARCHAR},
+		#{sellersAddressId,jdbcType=VARCHAR},
+		#{sellersAddressName,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP}, #{totalMoney,jdbcType=DOUBLE},
+		#{executeStartTime,jdbcType=TIMESTAMP},
+		#{executeEndTime,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER}, #{stopStatus,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR},
+		#{workflowTypeId,jdbcType=INTEGER}, #{payTime,jdbcType=TIMESTAMP},
+		#{payBank,jdbcType=VARCHAR},
+		#{payAccount,jdbcType=VARCHAR}, #{executeStatus,jdbcType=VARCHAR},
+		#{getBank,jdbcType=VARCHAR},#{getAccount,jdbcType=VARCHAR},
+		#{lockTime,jdbcType=TIMESTAMP},#{finishTime,jdbcType=TIMESTAMP},
+		#{userId,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{operateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtOrdertitle">
+		insert into mt_ordertitle
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="ordertitleCode != null">
+				ordertitle_code,
+			</if>
+			<if test="buyersId != null">
+				buyers_id,
+			</if>
+			<if test="buyersName != null">
+				buyers_name,
+			</if>
+			<if test="buyersAddressId != null">
+				buyers_address_id,
+			</if>
+			<if test="buyersAddressName != null">
+				buyers_address_name,
+			</if>
+			<if test="sellersId != null">
+				sellers_id,
+			</if>
+			<if test="sellersName != null">
+				sellers_name,
+			</if>
+			<if test="sellersAddressId != null">
+				sellers_address_id,
+			</if>
+			<if test="sellersAddressName != null">
+				sellers_address_name,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="totalMoney != null">
+				total_money,
+			</if>
+			<if test="executeStartTime != null">
+				execute_start_time,
+			</if>
+			<if test="executeEndTime != null">
+				execute_end_time,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="stopStatus != null">
+				stop_status,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="workflowTypeId != null">
+				workflow_type_id,
+			</if>
+			<if test="payTime != null">
+				pay_time,
+			</if>
+			<if test="payBank != null">
+				pay_bank,
+			</if>
+			<if test="payAccount != null">
+				pay_account,
+			</if>
+			<if test="executeStatus != null">
+				execute_status,
+			</if>
+			<if test="getBank != null">
+				get_bank,
+			</if>
+			<if test="getAccount != null">
+				get_account,
+			</if>
+			<if test="lockTime != null">lock_time,</if>
+			<if test="finishTime != null">finish_time,</if>
+			<if test="userId != null">user_id,</if>
+			<if test="userName != null">user_name,</if>
+			<if test="operateTime != null">operate_time,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="ordertitleCode != null">
+				#{ordertitleCode,jdbcType=VARCHAR},
+			</if>
+			<if test="buyersId != null">
+				#{buyersId,jdbcType=VARCHAR},
+			</if>
+			<if test="buyersName != null">
+				#{buyersName,jdbcType=VARCHAR},
+			</if>
+			<if test="buyersAddressId != null">
+				#{buyersAddressId,jdbcType=VARCHAR},
+			</if>
+			<if test="buyersAddressName != null">
+				#{buyersAddressName,jdbcType=VARCHAR},
+			</if>
+			<if test="sellersId != null">
+				#{sellersId,jdbcType=VARCHAR},
+			</if>
+			<if test="sellersName != null">
+				#{sellersName,jdbcType=VARCHAR},
+			</if>
+			<if test="sellersAddressId != null">
+				#{sellersAddressId,jdbcType=VARCHAR},
+			</if>
+			<if test="sellersAddressName != null">
+				#{sellersAddressName,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalMoney != null">
+				#{totalMoney,jdbcType=DOUBLE},
+			</if>
+			<if test="executeStartTime != null">
+				#{executeStartTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="executeEndTime != null">
+				#{executeEndTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="stopStatus != null">
+				#{stopStatus,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="workflowTypeId != null">
+				#{workflowTypeId,jdbcType=INTEGER},
+			</if>
+			<if test="payTime != null">
+				#{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payBank != null">
+				#{payBank,jdbcType=VARCHAR},
+			</if>
+			<if test="payAccount != null">
+				#{payAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="executeStatus != null">
+				#{executeStatus,jdbcType=INTEGER},
+			</if>
+			<if test="getBank != null">
+				#{getBank,jdbcType=VARCHAR},
+			</if>
+			<if test="getAccount != null">
+				#{getAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="lockTime != null">#{lockTime,jdbcType=TIMESTAMP},</if>
+			<if test="finishTime != null">#{finishTime,jdbcType=TIMESTAMP},</if>
+			<if test="userId != null">#{userId,jdbcType=VARCHAR},</if>
+			<if test="userName != null">#{userName,jdbcType=VARCHAR}</if>
+			<if test="operateTime != null">#{operateTime,jdbcType=TIMESTAMP},</if>
+		</trim>
+	</insert>
+	<update id="updateByObject" parameterType="com.zllh.mall.common.model.MtOrdertitle">
+		update mt_ordertitle
+		<set>
+			<if test="id != null">
+				id = #{id,jdbcType=VARCHAR},
+			</if>
+			<if test="ordertitleCode != null">
+				ordertitle_code = #{ordertitleCode,jdbcType=INTEGER},
+			</if>
+			<if test="buyersId != null">
+				buyers_id = #{buyersId,jdbcType=VARCHAR},
+			</if>
+			<if test="buyersName != null">
+				buyers_name = #{buyersName,jdbcType=VARCHAR},
+			</if>
+			<if test="buyersAddressId != null">
+				buyers_address_id = #{buyersAddressId,jdbcType=VARCHAR},
+			</if>
+			<if test="buyersAddressName != null">
+				buyers_address_name =
+				#{buyersAddressName,jdbcType=VARCHAR},
+			</if>
+			<if test="sellersId != null">
+				sellers_id = #{sellersId,jdbcType=VARCHAR},
+			</if>
+			<if test="sellersName != null">
+				sellers_name = #{sellersName,jdbcType=VARCHAR},
+			</if>
+			<if test="sellersAddressId != null">
+				sellers_address_id =
+				#{sellersAddressId,jdbcType=VARCHAR},
+			</if>
+			<if test="sellersAddressName != null">
+				sellers_address_name =
+				#{sellersAddressName,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="totalMoney != null">
+				total_money = #{totalMoney,jdbcType=DOUBLE},
+			</if>
+			<if test="executeStartTime != null">
+				execute_start_time =
+				#{executeStartTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="executeEndTime != null">
+				execute_end_time = #{executeEndTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="stopStatus != null">
+				stop_status = #{stopStatus,jdbcType=INTEGER},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="workflowTypeId != null">
+				workflow_type_id = #{workflowTypeId,jdbcType=INTEGER},
+			</if>
+			<if test="payTime != null">
+				pay_time = #{payTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="payBank != null">
+				pay_bank = #{payBank,jdbcType=VARCHAR},
+			</if>
+			<if test="payAccount != null">
+				pay_account = #{payAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="executeStatus != null">
+				execute_status = #{executeStatus,jdbcType=INTEGER},
+			</if>
+			<if test="getBank != null">
+				get_bank = #{getBank,jdbcType=VARCHAR},
+			</if>
+			<if test="getAccount != null">
+				get_account = #{getAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="lockTime != null">lock_time = #{lockTime,jdbcType=TIMESTAMP},</if>
+			<if test="finishTime != null">finish_time = #{finishTime,jdbcType=TIMESTAMP},</if>
+			<if test="userId != null">user_id = #{userId,jdbcType=VARCHAR},</if>
+			<if test="userName != null">user_name = #{userName,jdbcType=VARCHAR},</if>
+			<if test="operateTime != null">operate_time = #{operateTime,jdbcType=TIMESTAMP},</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateAll" parameterType="com.zllh.mall.common.model.MtOrdertitle">
+		update mt_ordertitle
+		set id = #{id,jdbcType=VARCHAR},
+		ordertitle_code =
+		#{ordertitleCode,jdbcType=INTEGER},
+		buyers_id =
+		#{buyersId,jdbcType=VARCHAR},
+		buyers_name =
+		#{buyersName,jdbcType=VARCHAR},
+		buyers_address_id =
+		#{buyersAddressId,jdbcType=VARCHAR},
+		buyers_address_name =
+		#{buyersAddressName,jdbcType=VARCHAR},
+		sellers_id =
+		#{sellersId,jdbcType=VARCHAR},
+		sellers_name =
+		#{sellersName,jdbcType=VARCHAR},
+		sellers_address_id =
+		#{sellersAddressId,jdbcType=VARCHAR},
+		sellers_address_name =
+		#{sellersAddressName,jdbcType=VARCHAR},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		total_money =
+		#{totalMoney,jdbcType=DOUBLE},
+		execute_start_time =
+		#{executeStartTime,jdbcType=TIMESTAMP},
+		execute_end_time =
+		#{executeEndTime,jdbcType=TIMESTAMP},
+		status =
+		#{status,jdbcType=INTEGER},
+		stop_status =
+		#{stopStatus,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR},
+		workflow_type_id = #{workflowTypeId,jdbcType=INTEGER},
+		pay_time =
+		#{payTime,jdbcType=TIMESTAMP},
+		pay_bank = #{payBank,jdbcType=VARCHAR},
+		pay_account = #{payAccount,jdbcType=VARCHAR},
+		execute_status = #{executeStatus,jdbcType=INTEGER},
+		get_bank = #{getBank,jdbcType=VARCHAR},
+		get_account = #{getAccount,jdbcType=VARCHAR},
+		lock_time = #{lockTime,jdbcType=TIMESTAMP},
+		finish_time = #{finishTime,jdbcType=TIMESTAMP},
+		user_id = #{userId,jdbcType=VARCHAR},
+		user_name = #{userName,jdbcType=VARCHAR},
+		operate_time = #{operateTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.PictureInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.PictureInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+    <result column="PIC_MIN_URL" property="picMinUrl" jdbcType="VARCHAR" />
+    <result column="PIC_SPE" property="picSpe" jdbcType="VARCHAR" />
+    <result column="PIC_DIR_ID" property="picDirId" jdbcType="VARCHAR" />
+    <result column="PIC_GROUP_ID" property="picGroupId" jdbcType="VARCHAR" />
+    <result column="PIC_UPLOAD_TIME" property="picUploadTime" jdbcType="TIMESTAMP" />
+    <result column="PIC_UPDATE_TIME" property="picUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="PIC_NAME" property="picName" jdbcType="VARCHAR" />
+    <result column="PIC_TYPE" property="picType" jdbcType="INTEGER" />
+    <result column="PIC_SIZE" property="picSize" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PIC_URL, PIC_MIN_URL, PIC_SPE, PIC_DIR_ID, PIC_GROUP_ID, PIC_UPLOAD_TIME, PIC_UPDATE_TIME, 
+    PIC_NAME, PIC_TYPE, PIC_SIZE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_picture_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_picture_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.PictureInfo" >
+    insert into bus_picture_info (ID, PIC_URL, PIC_MIN_URL, 
+      PIC_SPE, PIC_DIR_ID, PIC_GROUP_ID, 
+      PIC_UPLOAD_TIME, PIC_UPDATE_TIME, PIC_NAME, 
+      PIC_TYPE, PIC_SIZE)
+    values (#{id,jdbcType=VARCHAR}, #{picUrl,jdbcType=VARCHAR}, #{picMinUrl,jdbcType=VARCHAR}, 
+      #{picSpe,jdbcType=VARCHAR}, #{picDirId,jdbcType=VARCHAR}, #{picGroupId,jdbcType=VARCHAR}, 
+      #{picUploadTime,jdbcType=TIMESTAMP}, #{picUpdateTime,jdbcType=TIMESTAMP}, #{picName,jdbcType=VARCHAR}, 
+      #{picType,jdbcType=INTEGER}, #{picSize,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.PictureInfo" >
+    insert into bus_picture_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL,
+      </if>
+      <if test="picMinUrl != null" >
+        PIC_MIN_URL,
+      </if>
+      <if test="picSpe != null" >
+        PIC_SPE,
+      </if>
+      <if test="picDirId != null" >
+        PIC_DIR_ID,
+      </if>
+      <if test="picGroupId != null" >
+        PIC_GROUP_ID,
+      </if>
+      <if test="picUploadTime != null" >
+        PIC_UPLOAD_TIME,
+      </if>
+      <if test="picUpdateTime != null" >
+        PIC_UPDATE_TIME,
+      </if>
+      <if test="picName != null" >
+        PIC_NAME,
+      </if>
+      <if test="picType != null" >
+        PIC_TYPE,
+      </if>
+      <if test="picSize != null" >
+        PIC_SIZE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picMinUrl != null" >
+        #{picMinUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picSpe != null" >
+        #{picSpe,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirId != null" >
+        #{picDirId,jdbcType=VARCHAR},
+      </if>
+      <if test="picGroupId != null" >
+        #{picGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="picUploadTime != null" >
+        #{picUploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picUpdateTime != null" >
+        #{picUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picName != null" >
+        #{picName,jdbcType=VARCHAR},
+      </if>
+      <if test="picType != null" >
+        #{picType,jdbcType=INTEGER},
+      </if>
+      <if test="picSize != null" >
+        #{picSize,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.PictureInfo" >
+    update bus_picture_info
+    <set >
+      <if test="picUrl != null" >
+        PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picMinUrl != null" >
+        PIC_MIN_URL = #{picMinUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="picSpe != null" >
+        PIC_SPE = #{picSpe,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirId != null" >
+        PIC_DIR_ID = #{picDirId,jdbcType=VARCHAR},
+      </if>
+      <if test="picGroupId != null" >
+        PIC_GROUP_ID = #{picGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="picUploadTime != null" >
+        PIC_UPLOAD_TIME = #{picUploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picUpdateTime != null" >
+        PIC_UPDATE_TIME = #{picUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picName != null" >
+        PIC_NAME = #{picName,jdbcType=VARCHAR},
+      </if>
+      <if test="picType != null" >
+        PIC_TYPE = #{picType,jdbcType=INTEGER},
+      </if>
+      <if test="picSize != null" >
+        PIC_SIZE = #{picSize,jdbcType=REAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.PictureInfo" >
+    update bus_picture_info
+    set PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      PIC_MIN_URL = #{picMinUrl,jdbcType=VARCHAR},
+      PIC_SPE = #{picSpe,jdbcType=VARCHAR},
+      PIC_DIR_ID = #{picDirId,jdbcType=VARCHAR},
+      PIC_GROUP_ID = #{picGroupId,jdbcType=VARCHAR},
+      PIC_UPLOAD_TIME = #{picUploadTime,jdbcType=TIMESTAMP},
+      PIC_UPDATE_TIME = #{picUpdateTime,jdbcType=TIMESTAMP},
+      PIC_NAME = #{picName,jdbcType=VARCHAR},
+      PIC_TYPE = #{picType,jdbcType=INTEGER},
+      PIC_SIZE = #{picSize,jdbcType=REAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

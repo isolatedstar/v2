@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.ReportDataMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.ReportData" >
+    <id column="report_id" property="reportId" jdbcType="VARCHAR" />
+    <result column="report_name" property="reportName" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zllh.mall.common.model.ReportData" extends="BaseResultMap" >
+    <result column="report_sql" property="reportSql" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    report_id, report_name, create_user, create_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    report_sql
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from rep_data_map
+    where report_id = #{reportId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from rep_data_map
+    where report_id = #{reportId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.ReportData" >
+    insert into rep_data_map (report_id, report_name, create_user, 
+      create_time, report_sql)
+    values (#{reportId,jdbcType=VARCHAR}, #{reportName,jdbcType=VARCHAR}, #{createUser,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{reportSql,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.ReportData" >
+    insert into rep_data_map
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reportId != null" >
+        report_id,
+      </if>
+      <if test="reportName != null" >
+        report_name,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="reportSql != null" >
+        report_sql,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reportId != null" >
+        #{reportId,jdbcType=VARCHAR},
+      </if>
+      <if test="reportName != null" >
+        #{reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportSql != null" >
+        #{reportSql,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.ReportData" >
+    update rep_data_map
+    <set >
+      <if test="reportName != null" >
+        report_name = #{reportName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reportSql != null" >
+        report_sql = #{reportSql,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where report_id = #{reportId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zllh.mall.common.model.ReportData" >
+    update rep_data_map
+    set report_name = #{reportName,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      report_sql = #{reportSql,jdbcType=LONGVARCHAR}
+    where report_id = #{reportId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.ReportData" >
+    update rep_data_map
+    set report_name = #{reportName,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where report_id = #{reportId,jdbcType=VARCHAR}
+  </update>
+
+  <!--根据 报表动态SQL 得到 报表数据-->
+  <select id="queryReportDataFromSql" resultType="java.util.HashMap" parameterType="java.lang.String">
+    ${reportSql}
+  </select>
+
+  <select id="getReportSqlByReportId" resultType="java.lang.String" parameterType="java.lang.String">
+      select report_sql from rep_data_map WHERE report_id = #{reportId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getReportNameByReportId" resultType="java.lang.String" parameterType="java.lang.String">
+    select report_name from rep_data_map WHERE report_id = #{reportId,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

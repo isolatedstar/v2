@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.factoring.common.dao.FacUnfreezePaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.factoring.common.model.FacUnfreezePayment" >
+    <id column="unfreeze_id" property="unfreezeId" jdbcType="VARCHAR" />
+    <result column="financing_id" property="financingId" jdbcType="VARCHAR" />
+    <result column="financing_amount" property="financingAmount" jdbcType="DECIMAL" />
+    <result column="financing_date" property="financingDate" jdbcType="TIMESTAMP" />
+    <result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    unfreeze_id, financing_id, financing_amount, financing_date, operator_id, operator
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fac_unfreeze_payment
+    where unfreeze_id = #{unfreezeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fac_unfreeze_payment
+    where unfreeze_id = #{unfreezeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.factoring.common.model.FacUnfreezePayment" >
+    insert into fac_unfreeze_payment (unfreeze_id, financing_id, financing_amount, 
+      financing_date, operator_id, operator
+      )
+    values (#{unfreezeId,jdbcType=VARCHAR}, #{financingId,jdbcType=VARCHAR}, #{financingAmount,jdbcType=DECIMAL}, 
+      #{financingDate,jdbcType=TIMESTAMP}, #{operatorId,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.factoring.common.model.FacUnfreezePayment" >
+    insert into fac_unfreeze_payment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="unfreezeId != null" >
+        unfreeze_id,
+      </if>
+      <if test="financingId != null" >
+        financing_id,
+      </if>
+      <if test="financingAmount != null" >
+        financing_amount,
+      </if>
+      <if test="financingDate != null" >
+        financing_date,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="unfreezeId != null" >
+        #{unfreezeId,jdbcType=VARCHAR},
+      </if>
+      <if test="financingId != null" >
+        #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="financingAmount != null" >
+        #{financingAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="financingDate != null" >
+        #{financingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.factoring.common.model.FacUnfreezePayment" >
+    update fac_unfreeze_payment
+    <set >
+      <if test="financingId != null" >
+        financing_id = #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="financingAmount != null" >
+        financing_amount = #{financingAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="financingDate != null" >
+        financing_date = #{financingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where unfreeze_id = #{unfreezeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.factoring.common.model.FacUnfreezePayment" >
+    update fac_unfreeze_payment
+    set financing_id = #{financingId,jdbcType=VARCHAR},
+      financing_amount = #{financingAmount,jdbcType=DECIMAL},
+      financing_date = #{financingDate,jdbcType=TIMESTAMP},
+      operator_id = #{operatorId,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR}
+    where unfreeze_id = #{unfreezeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

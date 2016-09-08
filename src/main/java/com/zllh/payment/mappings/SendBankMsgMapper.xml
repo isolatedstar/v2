@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.front.dao.SendBankMsgMapper">
+	<resultMap id="BaseResultMap" type="com.zllh.payment.model.SendBankMsg">
+		<id column="BANK_FLOW_ID" property="bankFlowId" jdbcType="VARCHAR" />
+		<result column="MSG_SENDER" property="msgSender" jdbcType="VARCHAR" />
+		<result column="MSG_RECEVICER" property="msgRecevicer" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="TINYINT" />
+		<result column="STATUS_NAME" property="statusName" jdbcType="VARCHAR" />
+		<result column="SEND_MSG_TIME" property="sendMsgTime" jdbcType="TIMESTAMP" />
+		<result column="LOCK_FLAG" property="lockFlag" jdbcType="TINYINT" />
+		<result column="MSG_FLOW_ID" property="msgFlowId" jdbcType="VARCHAR" />
+		<result column="MSG_TYPE" property="msgType" jdbcType="TINYINT" />
+		<result column="MSG_TYPE_NAME" property="msgTypeName" jdbcType="VARCHAR" />
+		<result column="BANK_ACCT" property="bankAcct" jdbcType="VARCHAR" />
+		<result column="MSG_CONTEXT" property="msgContext" jdbcType="VARCHAR" />
+		<result column="LOCK_AMT" property="lockAmt" jdbcType="DECIMAL" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.zllh.payment.model.SendBankMsg" extends="BaseResultMap">
+		<result column="MSG_CONTEXT" property="msgContext" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		BANK_FLOW_ID, MSG_SENDER, MSG_RECEVICER, STATUS, SEND_MSG_TIME, LOCK_FLAG, MSG_FLOW_ID,
+		MSG_TYPE, BANK_ACCT, MSG_CONTEXT,LOCK_AMT,t.ITEM_NAME MSG_TYPE_NAME,s.ITEM_NAME STATUS_NAME
+	</sql>
+	<sql id="Blob_Column_List">
+		MSG_CONTEXT
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from send_bank_msg
+		where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+	</select>
+	<select id="selectMsgSendByCon" resultMap="BaseResultMap" parameterType="com.zllh.payment.model.SendBankMsg">
+		select
+		<include refid="Base_Column_List" />
+		from send_bank_msg m,sys_datadict t ,sys_datadict s 
+		where t.DICT_CODE='msgType' and m.MSG_TYPE=t.ITEM_CODE and s.DICT_CODE='msgStatus' and s.ITEM_CODE=m.STATUS
+		<if test="bankAcct != ''">
+			and BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+		</if>
+		<if test="msgSender != '全部'.toString()">
+			and MSG_SENDER = #{msgSender,jdbcType=VARCHAR}
+		</if>
+		<if test="msgRecevicer != '国内银行'.toString()">
+			and MSG_RECEVICER = #{msgRecevicer,jdbcType=VARCHAR}
+		</if>
+		<if test="status != 0">
+			and STATUS = #{status,jdbcType=TINYINT}
+		</if>
+		<if test="msgFlowId != ''">
+			and MSG_FLOW_ID = #{msgFlowId,jdbcType=VARCHAR}
+		</if>
+		<if test="msgType != 0">
+			and MSG_TYPE = #{msgType,jdbcType=TINYINT}
+		</if>
+		limit #{page},#{rows}
+	</select>
+	<select id="selectMsgSendCount" resultType="java.lang.Integer" parameterType="com.zllh.payment.model.SendBankMsg">
+		select
+		count(*)
+		from send_bank_msg m,sys_datadict t ,sys_datadict s 
+		where t.DICT_CODE='msgType' and m.MSG_TYPE=t.ITEM_CODE and s.DICT_CODE='msgStatus' and s.ITEM_CODE=m.STATUS
+		<if test="bankAcct != ''">
+			and BANK_ACCT = #{bankAcct,jdbcType=VARCHAR}
+		</if>
+		<if test="msgSender != '全部'.toString()">
+			and MSG_SENDER = #{msgSender,jdbcType=VARCHAR}
+		</if>
+		<if test="msgRecevicer != '国内银行'.toString()">
+			and MSG_RECEVICER = #{msgRecevicer,jdbcType=VARCHAR}
+		</if>
+		<if test="status != 0">
+			and STATUS = #{status,jdbcType=TINYINT}
+		</if>
+		<if test="msgFlowId != ''">
+			and MSG_FLOW_ID = #{msgFlowId,jdbcType=VARCHAR}
+		</if>
+		<if test="msgType != 0">
+			and MSG_TYPE = #{msgType,jdbcType=TINYINT}
+		</if>
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from send_bank_msg
+		where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zllh.payment.model.SendBankMsg">
+		insert into send_bank_msg (BANK_FLOW_ID, MSG_SENDER, MSG_RECEVICER,
+		STATUS, SEND_MSG_TIME, LOCK_FLAG,
+		MSG_FLOW_ID, MSG_TYPE, BANK_ACCT,
+		LOCK_AMT, MSG_CONTEXT)
+		values (#{bankFlowId,jdbcType=VARCHAR}, #{msgSender,jdbcType=VARCHAR}, #{msgRecevicer,jdbcType=VARCHAR},
+		#{status,jdbcType=TINYINT}, #{sendMsgTime,jdbcType=TIMESTAMP}, #{lockFlag,jdbcType=TINYINT},
+		#{msgFlowId,jdbcType=VARCHAR}, #{msgType,jdbcType=TINYINT}, #{bankAcct,jdbcType=VARCHAR},
+		#{lockAmt,jdbcType=DECIMAL}, #{msgContext,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertBatch"  parameterType="java.util.HashMap">  
+      insert into send_bank_msg (
+      	  SERIAL_NO, BANK_FLOW_ID,MSG_SENDER, MSG_RECEVICER,
+		  STATUS, SEND_MSG_TIME, LOCK_FLAG,
+		  MSG_FLOW_ID, MSG_TYPE, BANK_ACCT,
+		  LOCK_AMT, MSG_CONTEXT)
+      values 
+      <foreach collection="sendBankList" item="item" index="index" separator=",">  
+          (#{item.serialNo,jdbcType=VARCHAR}, 
+          #{item.bankFlowId,jdbcType=VARCHAR}, 
+          #{item.msgSender,jdbcType=VARCHAR},
+          #{item.msgRecevicer,jdbcType=VARCHAR},
+		  #{item.status,jdbcType=TINYINT}, 
+		  #{item.sendMsgTime,jdbcType=TIMESTAMP}, 
+		  #{item.lockFlag,jdbcType=TINYINT},
+		  #{item.msgFlowId,jdbcType=VARCHAR}, 
+		  #{item.msgType,jdbcType=TINYINT}, 
+		  #{item.bankAcct,jdbcType=VARCHAR},
+		  #{item.lockAmt,jdbcType=DECIMAL}, 
+		  #{item.msgContext,jdbcType=LONGVARCHAR})  
+      </foreach>  
+  </insert>  
+  
+	<insert id="insertSelective" parameterType="com.zllh.payment.model.SendBankMsg">
+		insert into send_bank_msg
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bankFlowId != null">
+				BANK_FLOW_ID,
+			</if>
+			<if test="msgSender != null">
+				MSG_SENDER,
+			</if>
+			<if test="msgRecevicer != null">
+				MSG_RECEVICER,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="sendMsgTime != null">
+				SEND_MSG_TIME,
+			</if>
+			<if test="lockFlag != null">
+				LOCK_FLAG,
+			</if>
+			<if test="msgFlowId != null">
+				MSG_FLOW_ID,
+			</if>
+			<if test="msgType != null">
+				MSG_TYPE,
+			</if>
+			<if test="bankAcct != null">
+				BANK_ACCT,
+			</if>
+			<if test="lockAmt != null">
+				LOCK_AMT,
+			</if>
+			<if test="msgContext != null">
+				MSG_CONTEXT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="bankFlowId != null">
+				#{bankFlowId,jdbcType=VARCHAR},
+			</if>
+			<if test="msgSender != null">
+				#{msgSender,jdbcType=VARCHAR},
+			</if>
+			<if test="msgRecevicer != null">
+				#{msgRecevicer,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="sendMsgTime != null">
+				#{sendMsgTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lockFlag != null">
+				#{lockFlag,jdbcType=TINYINT},
+			</if>
+			<if test="msgFlowId != null">
+				#{msgFlowId,jdbcType=VARCHAR},
+			</if>
+			<if test="msgType != null">
+				#{msgType,jdbcType=TINYINT},
+			</if>
+			<if test="bankAcct != null">
+				#{bankAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="lockAmt != null">
+				#{lockAmt,jdbcType=DECIMAL},
+			</if>
+			<if test="msgContext != null">
+				#{msgContext,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zllh.payment.model.SendBankMsg">
+		update send_bank_msg
+		<set>
+			<if test="msgSender != null">
+				MSG_SENDER = #{msgSender,jdbcType=VARCHAR},
+			</if>
+			<if test="msgRecevicer != null">
+				MSG_RECEVICER = #{msgRecevicer,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="sendMsgTime != null">
+				SEND_MSG_TIME = #{sendMsgTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lockFlag != null">
+				LOCK_FLAG = #{lockFlag,jdbcType=TINYINT},
+			</if>
+			<if test="msgFlowId != null">
+				MSG_FLOW_ID = #{msgFlowId,jdbcType=VARCHAR},
+			</if>
+			<if test="msgType != null">
+				MSG_TYPE = #{msgType,jdbcType=TINYINT},
+			</if>
+			<if test="bankAcct != null">
+				BANK_ACCT = #{bankAcct,jdbcType=VARCHAR},
+			</if>
+			<if test="lockAmt != null">
+				LOCK_AMT = #{lockAmt,jdbcType=DECIMAL},
+			</if>
+			<if test="msgContext != null">
+				MSG_CONTEXT = #{msgContext,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zllh.payment.model.SendBankMsg">
+		update send_bank_msg
+		set MSG_SENDER = #{msgSender,jdbcType=VARCHAR},
+		MSG_RECEVICER = #{msgRecevicer,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=TINYINT},
+		SEND_MSG_TIME = #{sendMsgTime,jdbcType=TIMESTAMP},
+		LOCK_FLAG = #{lockFlag,jdbcType=TINYINT},
+		MSG_FLOW_ID = #{msgFlowId,jdbcType=VARCHAR},
+		MSG_TYPE = #{msgType,jdbcType=TINYINT},
+		BANK_ACCT = #{bankAcct,jdbcType=VARCHAR},
+		LOCK_AMT = #{lockAmt,jdbcType=DECIMAL},
+		MSG_CONTEXT = #{msgContext,jdbcType=LONGVARCHAR}
+		where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zllh.payment.model.SendBankMsg">
+		update send_bank_msg
+		set MSG_SENDER = #{msgSender,jdbcType=VARCHAR},
+		MSG_RECEVICER = #{msgRecevicer,jdbcType=VARCHAR},
+		STATUS = #{status,jdbcType=TINYINT},
+		SEND_MSG_TIME = #{sendMsgTime,jdbcType=TIMESTAMP},
+		LOCK_FLAG = #{lockFlag,jdbcType=TINYINT},
+		MSG_FLOW_ID = #{msgFlowId,jdbcType=VARCHAR},
+		MSG_TYPE = #{msgType,jdbcType=TINYINT},
+		BANK_ACCT = #{bankAcct,jdbcType=VARCHAR},
+		LOCK_AMT = #{lockAmt,jdbcType=DECIMAL}
+		where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateStatusByPrimaryKey" parameterType="map">
+		update send_bank_msg
+		set 
+		STATUS = #{status,jdbcType=TINYINT}
+		where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="selectCount"  parameterType="java.util.List" resultType="java.lang.Integer">  
+      select count(*) from send_bank_msg  
+          where BANK_FLOW_ID in 
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">  
+          #{item,jdbcType=VARCHAR}
+      </foreach>  
+  </select>  
+</mapper>

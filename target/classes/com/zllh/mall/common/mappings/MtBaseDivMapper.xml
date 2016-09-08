@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtBaseDivMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtBaseDiv" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="div_name" property="divName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="base_id" property="baseId" jdbcType="VARCHAR" />
+    <result column="div_type" property="divType" jdbcType="INTEGER" />
+    <result column="div_code" property="divCode" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="sys_code" property="sysCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMap1" type="com.zllh.mall.common.model.MtBaseDiv" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="div_name" property="text" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="base_id" property="baseId" jdbcType="VARCHAR" />
+    <result column="div_type" property="divType" jdbcType="INTEGER" />
+    <result column="div_code" property="divCode" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentId" jdbcType="VARCHAR" />
+    <result column="sys_code" property="sysCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtBaseDiv" >
+    insert into mt_base_div (id, div_name, remark, 
+      base_id, div_type, div_code, 
+      parent_code, sys_code)
+    values (#{id,jdbcType=VARCHAR}, #{divName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{baseId,jdbcType=VARCHAR}, #{divType,jdbcType=INTEGER}, #{divCode,jdbcType=VARCHAR}, 
+      #{parentCode,jdbcType=VARCHAR}, #{sysCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtBaseDiv" >
+    insert into mt_base_div
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="divName != null" >
+        div_name,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="baseId != null" >
+        base_id,
+      </if>
+      <if test="divType != null" >
+        div_type,
+      </if>
+      <if test="divCode != null" >
+        div_code,
+      </if>
+      <if test="parentCode != null" >
+        parent_code,
+      </if>
+      <if test="sysCode != null" >
+        sys_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="divName != null" >
+        #{divName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="baseId != null" >
+        #{baseId,jdbcType=VARCHAR},
+      </if>
+      <if test="divType != null" >
+        #{divType,jdbcType=INTEGER},
+      </if>
+      <if test="divCode != null" >
+        #{divCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCode != null" >
+        #{sysCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+ 
+  
+  <update id="updateSelective" parameterType="com.zllh.mall.common.model.MtBaseDiv">
+  		update mt_base_div
+  			<set>
+  				 
+			      <if test="divName != null" >
+			        div_name = #{divName,jdbcType=VARCHAR},
+			      </if>
+			      <if test="remark != null" >
+			       remark = #{remark,jdbcType=VARCHAR},
+			      </if>
+			      <if test="baseId != null" >
+			         base_id = #{baseId,jdbcType=VARCHAR},
+			      </if>
+			      <if test="divType != null" >
+			        div_type = #{divType,jdbcType=INTEGER},
+			      </if>
+			      <if test="divCode != null" >
+			       div_code =  #{divCode,jdbcType=VARCHAR},
+			      </if>
+			      <if test="parentCode != null" >
+			        parent_code = #{parentCode,jdbcType=VARCHAR},
+			      </if>
+			      <if test="sysCode != null" >
+			        sys_code = #{sysCode,jdbcType=VARCHAR},
+			      </if>
+  			</set>
+  		where id =  #{id,jdbcType=VARCHAR}
+			        
+			      
+  </update>
+  <delete id="delById" parameterType="java.lang.String">
+  		 DELETE FROM mt_base_div where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <!-- 查询 -->
+  	 <sql id="Base_Column_List">
+  		id, div_name, remark, 
+      base_id, div_type, div_code, 
+      parent_code, sys_code
+  </sql>
+   <sql id="div_search">
+        <if test="baseId!= null"><![CDATA[ AND base_id = #{baseId,jdbcType=VARCHAR} ]]></if>
+        <if test="divType!= null"><![CDATA[  AND div_type = #{divType,jdbcType=INTEGER} ]]></if>
+       <if test="parentId!= null"><![CDATA[ AND parent_code = #{parentId,jdbcType=VARCHAR} ]]></if> 
+  </sql>
+  <select id="selectByMap" resultMap="BaseResultMap1" parameterType="java.util.Map">
+  		select 
+  			<include refid="Base_Column_List"></include>
+  		from mt_base_div
+  		where 1=1 
+  		<include refid="div_search"></include>
+  </select>
+  
+</mapper>

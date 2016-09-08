@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.UPortalDesInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.UPortalDesInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="USER_DES" property="userDes" jdbcType="VARCHAR" />
+    <result column="USER_GROUP_ID" property="userGroupId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USER_DES, USER_GROUP_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_uportal_des_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_uportal_des_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.UPortalDesInfo" >
+    insert into bus_uportal_des_info (ID, USER_DES, USER_GROUP_ID
+      )
+    values (#{id,jdbcType=VARCHAR}, #{userDes,jdbcType=VARCHAR}, #{userGroupId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.UPortalDesInfo" >
+    insert into bus_uportal_des_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userDes != null" >
+        USER_DES,
+      </if>
+      <if test="userGroupId != null" >
+        USER_GROUP_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userDes != null" >
+        #{userDes,jdbcType=VARCHAR},
+      </if>
+      <if test="userGroupId != null" >
+        #{userGroupId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.UPortalDesInfo" >
+    update bus_uportal_des_info
+    <set >
+      <if test="userDes != null" >
+        USER_DES = #{userDes,jdbcType=VARCHAR},
+      </if>
+      <if test="userGroupId != null" >
+        USER_GROUP_ID = #{userGroupId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.UPortalDesInfo" >
+    update bus_uportal_des_info
+    set USER_DES = #{userDes,jdbcType=VARCHAR},
+      USER_GROUP_ID = #{userGroupId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

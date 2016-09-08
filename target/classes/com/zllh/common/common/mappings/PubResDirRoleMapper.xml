@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.common.common.dao.PubResDirRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.common.common.model.PubResDirRole" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="dirname" property="dirname" jdbcType="VARCHAR" />
+    <result column="dircode" property="dircode" jdbcType="VARCHAR" />
+    <result column="res_id" property="resId" jdbcType="VARCHAR" />
+    <result column="res_url" property="resUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zllh.common.common.model.PubResDirRole" extends="BaseResultMap" >
+    <result column="dirnote" property="dirnote" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Blob_Column_List" >
+    dirnote
+  </sql>
+  
+  <select id="selecByUserRoles" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT 
+    	DISTINCT
+		rdr.dirname,
+		rdr.dirnote,
+		rdr.dircode,
+		rdr.res_id,
+		rdr.res_url
+    from 
+    	pub_res_dir_role rdr
+	<where>
+		<if test="roleIds !='' " >
+			rdr.role_id IN( ${roleIds} )
+		</if>
+		<if test="roleIds == ''">
+			1 != 1
+		</if>
+	</where>
+	ORDER BY 
+		rdr.dircode;
+  </select>
+  
+  <insert id="insert" parameterType="com.zllh.common.common.model.PubResDirRole" >
+    insert into pub_res_dir_role (id, role_id, dirname, 
+      dircode, res_id, res_url, 
+      dirnote)
+    values (#{id,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{dirname,jdbcType=VARCHAR}, 
+      #{dircode,jdbcType=VARCHAR}, #{resId,jdbcType=VARCHAR}, #{resUrl,jdbcType=VARCHAR}, 
+      #{dirnote,jdbcType=VARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.common.common.model.PubResDirRole" >
+    insert into pub_res_dir_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="dirname != null" >
+        dirname,
+      </if>
+      <if test="dircode != null" >
+        dircode,
+      </if>
+      <if test="resId != null" >
+        res_id,
+      </if>
+      <if test="resUrl != null" >
+        res_url,
+      </if>
+      <if test="dirnote != null" >
+        dirnote,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="dirname != null" >
+        #{dirname,jdbcType=VARCHAR},
+      </if>
+      <if test="dircode != null" >
+        #{dircode,jdbcType=VARCHAR},
+      </if>
+      <if test="resId != null" >
+        #{resId,jdbcType=VARCHAR},
+      </if>
+      <if test="resUrl != null" >
+        #{resUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="dirnote != null" >
+        #{dirnote,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+</mapper>

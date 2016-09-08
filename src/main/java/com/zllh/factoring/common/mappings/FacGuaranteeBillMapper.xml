@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.factoring.common.dao.FacGuaranteeBillMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.factoring.common.model.FacGuaranteeBill" >
+    <id column="guarantee_id" property="guaranteeId" jdbcType="VARCHAR" />
+    <result column="guarantee_amount" property="guaranteeAmount" jdbcType="DECIMAL" />
+    <result column="payment_amount" property="paymentAmount" jdbcType="DECIMAL" />
+    <result column="non_pay_amount" property="nonPayAmount" jdbcType="DECIMAL" />
+    <result column="usable_amount" property="usableAmount" jdbcType="DECIMAL" />
+    <result column="payer_id" property="payerId" jdbcType="VARCHAR" />
+    <result column="payer_name" property="payerName" jdbcType="VARCHAR" />
+    <result column="payee_id" property="payeeId" jdbcType="VARCHAR" />
+    <result column="payee_name" property="payeeName" jdbcType="VARCHAR" />
+    <result column="guarantee_affirm" property="guaranteeAffirm" jdbcType="INTEGER" />
+    <result column="proposer_affirm" property="proposerAffirm" jdbcType="INTEGER" />
+    <result column="thirdparty_affirm" property="thirdpartyAffirm" jdbcType="INTEGER" />
+    <result column="guaranteeoperate_id" property="guaranteeoperateId" jdbcType="VARCHAR" />
+    <result column="guarantee_name" property="guaranteeName" jdbcType="VARCHAR" />
+    <result column="operation_date" property="operationDate" jdbcType="TIMESTAMP" />
+    <result column="expire_date" property="expireDate" jdbcType="TIMESTAMP" />
+    <result column="lock" property="lock" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="bloc_account" property="blocAccount" jdbcType="VARCHAR" />
+    <result column="school_general_account" property="schoolGeneralAccount" jdbcType="VARCHAR" />
+    <result column="school_theoretical_account" property="schoolTheoreticalAccount" jdbcType="VARCHAR" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="distributor_theoretical_bank" property="distributorTheoreticalBank" jdbcType="VARCHAR" />
+    <result column="distributor_general_bank" property="distributorGeneralBank" jdbcType="VARCHAR" />
+    <result column="discount_rate" property="discountRate" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guarantee_id, guarantee_amount, payment_amount, non_pay_amount, usable_amount, payer_id, 
+    payer_name, payee_id, payee_name, guarantee_affirm, proposer_affirm, thirdparty_affirm, 
+    guaranteeoperate_id, guarantee_name, operation_date, expire_date, `lock`, status, bloc_account, 
+    school_general_account, school_theoretical_account, distributor_name, distributor_theoretical_bank, 
+    distributor_general_bank, discount_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fac_guarantee_bill
+    where guarantee_id = #{guaranteeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fac_guarantee_bill
+    where guarantee_id = #{guaranteeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.factoring.common.model.FacGuaranteeBill" >
+    insert into fac_guarantee_bill (guarantee_id, guarantee_amount, payment_amount, 
+      non_pay_amount, usable_amount, payer_id, 
+      payer_name, payee_id, payee_name, 
+      guarantee_affirm, proposer_affirm, thirdparty_affirm, 
+      guaranteeoperate_id, guarantee_name, operation_date, 
+      expire_date, `lock`, status, 
+      bloc_account, school_general_account, school_theoretical_account, 
+      distributor_name, distributor_theoretical_bank, 
+      distributor_general_bank, discount_rate)
+    values (#{guaranteeId,jdbcType=VARCHAR}, #{guaranteeAmount,jdbcType=DECIMAL}, #{paymentAmount,jdbcType=DECIMAL}, 
+      #{nonPayAmount,jdbcType=DECIMAL}, #{usableAmount,jdbcType=DECIMAL}, #{payerId,jdbcType=VARCHAR}, 
+      #{payerName,jdbcType=VARCHAR}, #{payeeId,jdbcType=VARCHAR}, #{payeeName,jdbcType=VARCHAR}, 
+      #{guaranteeAffirm,jdbcType=INTEGER}, #{proposerAffirm,jdbcType=INTEGER}, #{thirdpartyAffirm,jdbcType=INTEGER}, 
+      #{guaranteeoperateId,jdbcType=VARCHAR}, #{guaranteeName,jdbcType=VARCHAR}, #{operationDate,jdbcType=TIMESTAMP}, 
+      #{expireDate,jdbcType=TIMESTAMP}, #{lock,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{blocAccount,jdbcType=VARCHAR}, #{schoolGeneralAccount,jdbcType=VARCHAR}, #{schoolTheoreticalAccount,jdbcType=VARCHAR}, 
+      #{distributorName,jdbcType=VARCHAR}, #{distributorTheoreticalBank,jdbcType=VARCHAR}, 
+      #{distributorGeneralBank,jdbcType=VARCHAR}, #{discountRate,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.factoring.common.model.FacGuaranteeBill" >
+    insert into fac_guarantee_bill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guaranteeId != null" >
+        guarantee_id,
+      </if>
+      <if test="guaranteeAmount != null" >
+        guarantee_amount,
+      </if>
+      <if test="paymentAmount != null" >
+        payment_amount,
+      </if>
+      <if test="nonPayAmount != null" >
+        non_pay_amount,
+      </if>
+      <if test="usableAmount != null" >
+        usable_amount,
+      </if>
+      <if test="payerId != null" >
+        payer_id,
+      </if>
+      <if test="payerName != null" >
+        payer_name,
+      </if>
+      <if test="payeeId != null" >
+        payee_id,
+      </if>
+      <if test="payeeName != null" >
+        payee_name,
+      </if>
+      <if test="guaranteeAffirm != null" >
+        guarantee_affirm,
+      </if>
+      <if test="proposerAffirm != null" >
+        proposer_affirm,
+      </if>
+      <if test="thirdpartyAffirm != null" >
+        thirdparty_affirm,
+      </if>
+      <if test="guaranteeoperateId != null" >
+        guaranteeoperate_id,
+      </if>
+      <if test="guaranteeName != null" >
+        guarantee_name,
+      </if>
+      <if test="operationDate != null" >
+        operation_date,
+      </if>
+      <if test="expireDate != null" >
+        expire_date,
+      </if>
+      <if test="lock != null" >
+        `lock`,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="blocAccount != null" >
+        bloc_account,
+      </if>
+      <if test="schoolGeneralAccount != null" >
+        school_general_account,
+      </if>
+      <if test="schoolTheoreticalAccount != null" >
+        school_theoretical_account,
+      </if>
+      <if test="distributorName != null" >
+        distributor_name,
+      </if>
+      <if test="distributorTheoreticalBank != null" >
+        distributor_theoretical_bank,
+      </if>
+      <if test="distributorGeneralBank != null" >
+        distributor_general_bank,
+      </if>
+      <if test="discountRate != null" >
+        discount_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guaranteeId != null" >
+        #{guaranteeId,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeAmount != null" >
+        #{guaranteeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentAmount != null" >
+        #{paymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="nonPayAmount != null" >
+        #{nonPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="usableAmount != null" >
+        #{usableAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payerId != null" >
+        #{payerId,jdbcType=VARCHAR},
+      </if>
+      <if test="payerName != null" >
+        #{payerName,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeId != null" >
+        #{payeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeName != null" >
+        #{payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeAffirm != null" >
+        #{guaranteeAffirm,jdbcType=INTEGER},
+      </if>
+      <if test="proposerAffirm != null" >
+        #{proposerAffirm,jdbcType=INTEGER},
+      </if>
+      <if test="thirdpartyAffirm != null" >
+        #{thirdpartyAffirm,jdbcType=INTEGER},
+      </if>
+      <if test="guaranteeoperateId != null" >
+        #{guaranteeoperateId,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeName != null" >
+        #{guaranteeName,jdbcType=VARCHAR},
+      </if>
+      <if test="operationDate != null" >
+        #{operationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireDate != null" >
+        #{expireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lock != null" >
+        #{lock,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="blocAccount != null" >
+        #{blocAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolGeneralAccount != null" >
+        #{schoolGeneralAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolTheoreticalAccount != null" >
+        #{schoolTheoreticalAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorName != null" >
+        #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorTheoreticalBank != null" >
+        #{distributorTheoreticalBank,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorGeneralBank != null" >
+        #{distributorGeneralBank,jdbcType=VARCHAR},
+      </if>
+      <if test="discountRate != null" >
+        #{discountRate,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.factoring.common.model.FacGuaranteeBill" >
+    update fac_guarantee_bill
+    <set >
+      <if test="guaranteeAmount != null" >
+        guarantee_amount = #{guaranteeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentAmount != null" >
+        payment_amount = #{paymentAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="nonPayAmount != null" >
+        non_pay_amount = #{nonPayAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="usableAmount != null" >
+        usable_amount = #{usableAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payerId != null" >
+        payer_id = #{payerId,jdbcType=VARCHAR},
+      </if>
+      <if test="payerName != null" >
+        payer_name = #{payerName,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeId != null" >
+        payee_id = #{payeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="payeeName != null" >
+        payee_name = #{payeeName,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeAffirm != null" >
+        guarantee_affirm = #{guaranteeAffirm,jdbcType=INTEGER},
+      </if>
+      <if test="proposerAffirm != null" >
+        proposer_affirm = #{proposerAffirm,jdbcType=INTEGER},
+      </if>
+      <if test="thirdpartyAffirm != null" >
+        thirdparty_affirm = #{thirdpartyAffirm,jdbcType=INTEGER},
+      </if>
+      <if test="guaranteeoperateId != null" >
+        guaranteeoperate_id = #{guaranteeoperateId,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeName != null" >
+        guarantee_name = #{guaranteeName,jdbcType=VARCHAR},
+      </if>
+      <if test="operationDate != null" >
+        operation_date = #{operationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expireDate != null" >
+        expire_date = #{expireDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lock != null" >
+        `lock` = #{lock,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="blocAccount != null" >
+        bloc_account = #{blocAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolGeneralAccount != null" >
+        school_general_account = #{schoolGeneralAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolTheoreticalAccount != null" >
+        school_theoretical_account = #{schoolTheoreticalAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorName != null" >
+        distributor_name = #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorTheoreticalBank != null" >
+        distributor_theoretical_bank = #{distributorTheoreticalBank,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorGeneralBank != null" >
+        distributor_general_bank = #{distributorGeneralBank,jdbcType=VARCHAR},
+      </if>
+      <if test="discountRate != null" >
+        discount_rate = #{discountRate,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where guarantee_id = #{guaranteeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.factoring.common.model.FacGuaranteeBill" >
+    update fac_guarantee_bill
+    set guarantee_amount = #{guaranteeAmount,jdbcType=DECIMAL},
+      payment_amount = #{paymentAmount,jdbcType=DECIMAL},
+      non_pay_amount = #{nonPayAmount,jdbcType=DECIMAL},
+      usable_amount = #{usableAmount,jdbcType=DECIMAL},
+      payer_id = #{payerId,jdbcType=VARCHAR},
+      payer_name = #{payerName,jdbcType=VARCHAR},
+      payee_id = #{payeeId,jdbcType=VARCHAR},
+      payee_name = #{payeeName,jdbcType=VARCHAR},
+      guarantee_affirm = #{guaranteeAffirm,jdbcType=INTEGER},
+      proposer_affirm = #{proposerAffirm,jdbcType=INTEGER},
+      thirdparty_affirm = #{thirdpartyAffirm,jdbcType=INTEGER},
+      guaranteeoperate_id = #{guaranteeoperateId,jdbcType=VARCHAR},
+      guarantee_name = #{guaranteeName,jdbcType=VARCHAR},
+      operation_date = #{operationDate,jdbcType=TIMESTAMP},
+      expire_date = #{expireDate,jdbcType=TIMESTAMP},
+      `lock` = #{lock,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      bloc_account = #{blocAccount,jdbcType=VARCHAR},
+      school_general_account = #{schoolGeneralAccount,jdbcType=VARCHAR},
+      school_theoretical_account = #{schoolTheoreticalAccount,jdbcType=VARCHAR},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      distributor_theoretical_bank = #{distributorTheoreticalBank,jdbcType=VARCHAR},
+      distributor_general_bank = #{distributorGeneralBank,jdbcType=VARCHAR},
+      discount_rate = #{discountRate,jdbcType=DOUBLE}
+    where guarantee_id = #{guaranteeId,jdbcType=VARCHAR}
+  </update>
+  
+  <resultMap type="com.zllh.factoring.common.model.model_extend.FacGuaranteeBillExtend" id="guafin" extends="BaseResultMap">
+  	<collection property="fings" javaType="list" ofType="com.zllh.factoring.common.model.model_extend.FacFinancingGuaranteeExtendBean">
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+	    <result column="financing_id" property="financingId" jdbcType="VARCHAR" />
+	    <result column="guarantee_id1" property="guaranteeId" jdbcType="VARCHAR" />
+	    <result column="freeze_amount" property="freezeAmount" jdbcType="DECIMAL" />
+	    <result column="payments_amount" property="paymentsAmount" jdbcType="DECIMAL" />
+	    <result column="refund_amount" property="refundAmount" jdbcType="DECIMAL" />
+	    <result column="lock_amount" property="lockAmount" jdbcType="DECIMAL" />
+	    <result column="surplus_freeze_amount" property="surplusFreezeAmount" jdbcType="DECIMAL" />
+	    <result column="surplus_payments_amount" property="surplusPaymentsAmount" jdbcType="DECIMAL" />
+	    <result column="status1" property="status" jdbcType="INTEGER" />
+	    <association property="facFinancing" javaType="com.zllh.factoring.common.model.model_extend.FacFinancingExtendBean" >
+			<id column="id1" property="id" jdbcType="VARCHAR" />
+		    <result column="financing_id1" property="financingId" jdbcType="VARCHAR" />
+		    <result column="wait_pay_total" property="waitPayTotal" jdbcType="DECIMAL" />
+		    <result column="predict_service_fee" property="predictServiceFee" jdbcType="DECIMAL" />
+		    <result column="predict_refund_date" property="predictRefundDate" jdbcType="TIMESTAMP" />
+		    <result column="assure_type" property="assureType" jdbcType="INTEGER" />
+		    <result column="bank" property="bank" jdbcType="VARCHAR" />
+		    <result column="financing_date" property="financingDate" jdbcType="TIMESTAMP" />
+		    <result column="factoring_name_id" property="factoringNameId" jdbcType="INTEGER" />
+		    <result column="proposer_id" property="proposerId" jdbcType="VARCHAR" />
+		    <result column="proposer_name" property="proposerName" jdbcType="VARCHAR" />
+		    <result column="proposer_date" property="proposerDate" jdbcType="TIMESTAMP" />
+		    <result column="accept_operator_id" property="acceptOperatorId" jdbcType="VARCHAR" />
+		    <result column="accept_operator_name" property="acceptOperatorName" jdbcType="VARCHAR" />
+		    <result column="accept_date" property="acceptDate" jdbcType="TIMESTAMP" />
+		    <result column="lock1" property="lock" jdbcType="INTEGER" />
+		    <result column="status2" property="status" jdbcType="INTEGER" />
+		    <result column="distributor_name1" property="distributorName" jdbcType="VARCHAR" />
+		    <result column="distributor_theoretical_bank1" property="distributorTheoreticalBank" jdbcType="VARCHAR" />
+		    <result column="distributor_general_bank1" property="distributorGeneralBank" jdbcType="VARCHAR" />
+		    <result column="corporate_champion_name" property="corporateChampionName" jdbcType="VARCHAR" />
+		    <result column="corporate_championr_theoretical_bank" property="corporateChampionrTheoreticalBank" jdbcType="VARCHAR" />
+		    <result column="corporate_championr_general_bank" property="corporateChampionrGeneralBank" jdbcType="VARCHAR" />
+		    <result column="expire_rate" property="expireRate" jdbcType="DOUBLE" />
+		    <result column="extend_rate" property="extendRate" jdbcType="DOUBLE" />
+		    <result column="bloc_account1" property="blocAccount" jdbcType="VARCHAR" />
+		    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+		    <result column="member_name" property="memberName" jdbcType="VARCHAR" />
+		    <result column="acct_name" property="acctName" jdbcType="VARCHAR" />
+		    <result column="member_account" property="memberAccount" jdbcType="VARCHAR" />
+	    </association>
+  	</collection>
+  </resultMap>
+  <select id="selectlGuaranteeBillAndFinancingByIds" resultMap="guafin" >
+    SELECT 
+	    facg.guarantee_id, facg.guarantee_amount, facg.payment_amount, facg.non_pay_amount, facg.usable_amount, facg.payer_id, 
+	    facg.payer_name, facg.payee_id, facg.payee_name, facg.guarantee_affirm, facg.proposer_affirm, facg.thirdparty_affirm, 
+	    facg.guaranteeoperate_id, facg.guarantee_name, facg.operation_date, facg.expire_date, facg.`lock`, facg.status, facg.bloc_account, 
+	    facg.school_general_account, facg.school_theoretical_account, facg.distributor_name, facg.distributor_theoretical_bank,facg.distributor_general_bank,
+	    fing.id, fing.financing_id, fing.guarantee_id guarantee_id1, fing.freeze_amount, fing.payments_amount, fing.refund_amount, fing.lock_amount, 
+	    fing.surplus_freeze_amount, fing.surplus_payments_amount, fing.`status` status1,
+	    fin.id id1, fin.financing_id financing_id1, fin.wait_pay_total, fin.predict_service_fee, fin.predict_refund_date, fin.assure_type, 
+	    fin.bank, fin.financing_date, fin.factoring_name_id, fin.proposer_id, fin.proposer_name, fin.proposer_date, 
+	    fin.accept_operator_id, fin.accept_operator_name, fin.accept_date, fin.`lock` lock1, fin.`status` status2, fin.distributor_name distributor_name1, 
+	    fin.distributor_theoretical_bank distributor_theoretical_bank1, fin.distributor_general_bank distributor_general_bank1, fin.corporate_champion_name, 
+	    fin.corporate_championr_theoretical_bank, fin.corporate_championr_general_bank, fin.expire_rate, 
+	    fin.extend_rate, fin.bloc_account bloc_account1, fin.member_id, fin.member_name, fin.acct_name, fin.member_account
+    FROM fac_guarantee_bill  facg
+	LEFT JOIN fac_financing_guarantee fing ON facg.guarantee_id = fing.guarantee_id
+	LEFT JOIN fac_financing fin            ON fing.financing_id = fin.financing_id
+	<where>
+ 		<foreach collection="array" item="id" index="index" open=" facg.guarantee_id IN (" separator="," close=")">
+			<![CDATA[#{id}]]>
+		</foreach>
+    </where>
+    ORDER BY fin.predict_refund_date
+  </select>
+  
+  <select id="selectGuaranteeBillByIds" resultType="com.zllh.factoring.common.model.model_extend.FacGuaranteeBillExtend" >
+    SELECT 
+	    guarantee_id guaranteeId, guarantee_amount guaranteeAmount, payment_amount paymentAmount, non_pay_amount nonPayAmount, 
+	    usable_amount usableAmount, payer_id payerId, payer_name payerName, payee_id payeeId, payee_name payeeName, 
+	    guarantee_affirm guaranteeAffirm, proposer_affirm proposerAffirm, thirdparty_affirm thirdpartyAffirm, 
+	    guaranteeoperate_id guaranteeoperateId, guarantee_name guaranteeName, operation_date operationDate, expire_date expireDate, 
+	    `lock`, status, bloc_account blocAccount, school_general_account schoolGeneralAccount, school_theoretical_account schoolTheoreticalAccount, 
+	    distributor_name distributorName, distributor_theoretical_bank distributorTheoreticalBank, distributor_general_bank distributorGeneralBank
+    FROM fac_guarantee_bill
+	<where>
+ 		<foreach collection="array" item="id" index="index" open=" guarantee_id IN (" separator="," close=")">
+			<![CDATA[#{id}]]>
+		</foreach>
+    </where>
+  </select>
+  
+  <select id="getAllByGroupId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select * from fac_guarantee_bill where payee_id = #{payeeId,jdbcType=VARCHAR} and `status` = 1
+  </select>
+  
+  <select id="getAllByGroupId1" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+  	select * from fac_guarantee_bill where payee_id = '${payeeId}' and `status` = 2 and usable_amount>0 
+  	 <if test="payerName!=null" >
+       and payer_name like '%${payerName}%' 
+     </if>
+     <if test="payerName!=null" >
+      and guarantee_name like '%${guaranteeName}%'
+     </if>
+  </select>
+  
+  <select id="getAll" resultMap="BaseResultMap">
+  	select * from fac_guarantee_bill
+  </select>
+  
+  <select id="getByGuaranteeId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select * from fac_guarantee_bill where guarantee_id = #{guaranteeId,jdbcType=VARCHAR}
+  </select>
+  
+  <update id="update" parameterType="java.util.HashMap">
+  	update fac_guarantee_bill set  usable_amount = #{usableAmount,jdbcType=DECIMAL} where guarantee_id = #{guaranteeId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateGuaranteeBill" parameterType="com.zllh.factoring.common.model.FacGuaranteeBill">
+  	update fac_guarantee_bill set `status` = #{status,jdbcType=INTEGER} where guarantee_id = #{guaranteeId,jdbcType=VARCHAR}
+  </update>
+  
+  
+  
+   <select id="getGuaranteeBillByFinancingId" parameterType="String" resultMap="getByIdMap">
+		select * from fac_guarantee_bill bill,fac_financing_guarantee fin_gua where fin_gua.guarantee_id = bill.guarantee_id and fin_gua.financing_id = #{guaranteeId,jdbcType=VARCHAR} GROUP BY fin_gua.guarantee_id
+	</select>
+	<resultMap type="com.zllh.factoring.common.model.model_extend.FacGuaBillFinGuaBillExtend" id="getByIdMap">
+		<id property="guaranteeId" column="guarantee_id"/>
+		<result property="guaranteeAmount" column="guarantee_amount"/>
+		<result property="paymentAmount" column="payment_amount"/>
+		<result property="usableAmount" column="usable_amount"/>
+		<result property="payerId" column="payer_id"/>
+		<result property="payerName" column="payer_name"/>
+		<result property="expireDate" column="expire_date"/>
+		<association property="facFinancingGuarantee" javaType="com.zllh.factoring.common.model.FacFinancingGuarantee" >
+			<id property="id" column="id"/>
+			<result property="financingId" column="financing_id"/>
+			<result property="guaranteeId" column="guarantee_id"/>
+			<result property="financingId" column="financing_id"/>
+			<result property="freezeAmount" column="freeze_amount"/>
+			<result property="paymentsAmount" column="payments_amount"/>
+		</association>
+	</resultMap>
+  
+  
+  <select id="getFacGuaranteeBill" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+  	select * from fac_guarantee_bill where 1=1
+  	<if test="payeeId != null">
+  		and payee_id = #{payeeId,jdbcType=VARCHAR} 
+  	</if>
+  	<if test="payerName!=null">
+  		and payer_name like '%${payerName}%'
+  	</if>
+  	<if test="payeeName!=null">
+  		and payee_name like '%${payeeName}%'
+  	</if>
+  	<if test="status!=null">
+  		<if test="status!=4">
+  			and status in(#{status,jdbcType=INTEGER})
+  		</if>
+  		<if test="status==4">
+  			and status in(1,2,3)
+  		</if>
+  	</if>
+  	<if test="page==null">
+  		limit 0,10
+  	</if>
+  	<if test="page!=null">
+  		limit ${(page-1)*10},10
+  	</if>
+  </select>
+  
+    <select id="getAllLength" parameterType="java.util.HashMap" resultType="java.lang.String">
+  	select count(*) from fac_guarantee_bill where 1=1
+  	<if test="payeeId != null">
+  	  and payee_id = #{payeeId,jdbcType=VARCHAR} 
+  	</if>
+  	<if test="payerName!=null">
+  		and payer_name like '%${payerName}%'
+  	</if>
+  	<if test="payeeName!=null">
+  		and payee_name like '%${payeeName}%'
+  	</if>
+  	<if test="status!=null">
+  		<if test="status!=4">
+  			and status in(#{status,jdbcType=INTEGER})
+  		</if>
+  		<if test="status==4">
+  			and status in(1,2,3)
+  		</if>
+  	</if>
+  </select>
+  
+  <!-- 批量更新 -->
+  <update id="updateGuaranteeBillByList">
+    UPDATE fac_guarantee_bill SET `lock` = CASE guarantee_id 
+		<foreach collection="list" item="item" index="index">
+	        WHEN #{item.guaranteeId} THEN `lock` + 1
+		</foreach>
+		 END,
+		 payment_amount = CASE guarantee_id 
+		<foreach collection="list" item="item" index="index">
+	        <if test="item.paymentAmount == null">
+		        WHEN #{item.guaranteeId} THEN `payment_amount`
+	        </if>
+	        <if test="item.paymentAmount != null">
+		        WHEN #{item.guaranteeId} THEN #{item.paymentAmount}
+	        </if>
+		</foreach>
+		 END,
+		 non_pay_amount = CASE guarantee_id
+		<foreach collection="list" item="item" index="index">
+	        <if test="item.nonPayAmount == null">
+	        	WHEN #{item.guaranteeId} THEN `non_pay_amount`
+	        </if>
+	        <if test="item.nonPayAmount != null">
+	        	WHEN #{item.guaranteeId} THEN #{item.nonPayAmount}
+        	</if>
+		</foreach>
+		 END,
+		 usable_amount = CASE guarantee_id 
+		<foreach collection="list" item="item" index="index">
+	        WHEN #{item.guaranteeId} THEN #{item.usableAmount}
+		</foreach>
+		 END
+		<where>
+			<foreach collection="list" item="item" index="index" open="( guarantee_id = " separator="or guarantee_id =" close=")">
+				#{item.guaranteeId}
+			</foreach>
+		</where>	
+  </update>
+  
+  <update id="updateUsableAmount" parameterType="com.zllh.factoring.common.model.FacGuaranteeBill">
+    UPDATE fac_guarantee_bill SET usable_amount = usable_amount + #{usableAmount} 
+  </update>  
+  
+</mapper>

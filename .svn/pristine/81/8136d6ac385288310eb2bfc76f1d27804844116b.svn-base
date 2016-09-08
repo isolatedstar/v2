@@ -1,0 +1,188 @@
+body {
+
+  background-position: initial initial;
+  background-repeat: initial initial;
+  background-position: initial initial;
+  background-repeat: initial initial;
+  margin: 0px;
+  padding: 0px;
+}
+/*a:hover {text-decoration: none;
+}
+h1 { margin-top: 0px;color: #eee;
+}
+h2 {font-size: 1.75em;
+}
+h3 {font-size: 1.25em;
+}
+hr {border-top: 1px solid #ddd; border-bottom: 1px solid #fff;
+}*/
+/*Navbar*/
+.box-shodm{ -moz-border-bottom-colors: none;-moz-border-left-colors: none; -moz-border-right-colors: none;-moz-border-top-colors: none;
+ background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.1) 100%) repeat scroll 0 0;
+ border-color: -moz-use-text-color -moz-use-text-color #dedede;border-image: none;font-size: 15px;font-weight: bold;cursor: move;
+}
+  
+
+/*写的样式*/
+*{margin: 0;padding: 0;}
+
+.logo-size{width: 100px;height:20px;float: left;margin-bottom: 5px;margin-right: 10px;}
+.nx-logo h3{color: #FFFFFF;font-size: 18px;height:30px;line-height: 10px;padding-left: 10px;margin-top: 20px}
+.nx-logo{width: 300px;height: 30px;margin-top:5px;}
+.nx-logo img{float: left;width: 80px;height:20px;margin:-5px 10px;}
+
+
+/*.size-input-box{width: 80%;}
+.input-size:focus {border-color: #66afe9;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+outline: 0 none;}*/
+.display-none{display: none;}
+/*左侧导航*/
+
+.nav-left{width:12%;height: 100%;float: left;position: fixed;margin-left: 2px; }
+#admin{font-size:14px;color:#545454;height:100%;position: fixed;margin-top:50px;margin-left: -18px;}
+.ad-menu{float:left;width:245px;background-color:#292929;height:100%;overflow-y:auto;}
+.ad-menu .ad-logo{padding:6px 0px 17px 0px;text-align:center;background-color:#63605c;}
+.ad-menu .ad-list{padding-top:15px;}
+.ad-menu .ad-list .li-item{padding-left:35px;color:#FBFBFB;height:50px;line-height:50px;cursor:pointer;}
+.ad-menu .ad-list .li-item:hover{background: #343F48;box-shadow: 0 0 5px #bbb;}
+/*.active{background: #222222;}/** 和时间插件冲突（ input有黑色背景 ）  */
+.ad-menu .ad-list .li-item a{color:#FBFBFB; }
+.glyphicon{color: #fff;padding-right: 15px;}
+.ad-menu .ad-list li dl{background:#222222;margin-bottom: 0px;}
+.ad-menu .ad-list li dl{display:none;}
+.ad-menu .ad-list li dl .ad-item-list{display:none;}
+.ad-menu .ad-list .li-item .li-ico{width:20px;height:20px;display:inline-block;vertical-align:middle;margin-right:15px;}
+.ad-menu .ad-list li.over dl{display:block;}
+.ad-menu .ad-list .dd-item{height:45px;line-height:45px;color:#8a8885;padding-left:70px;display:block;position:relative;}
+.ico-margin{margin-right: 10px;}
+.ad-menu .ad-list .dd-item:hover{color:#FFF;}
+.ad-menu .ad-list .dd-item .dd-ar{width:13px;height:22px;background-position:-90px -73px;position:absolute;top:50%;right:-1px;margin-top:-11px;display:none;}
+.ad-menu .ad-list  dd.on .dd-ar{display:block;}
+.ad-menu .ad-list  dd.on .dd-item{color:#FFF;}
+/*左侧导航*/
+
+/*顶部导航缩小后显示的小横杆 点击弹出左右的导航 显示优先级*/
+#navleft-shrink{z-index:20;}
+
+
+
+
+
+/*右侧布局*/
+.panel-table-body {
+    padding:0px 15px;
+}
+.input-group{margin-bottom: 5px;}
+#bs-example-navbar-collapse-1 .top-admin{right:50px; }
+.right-nav{width:87%;height: 100%;float: right;position: relative;margin: 100px auto;}
+.article-bj{border:1px solid #DDDDDD; box-shadow:6px 6px 10px rgba(0,0,0,0.5);}/*边框阴影*/
+.nav-topright-margin{padding-right: 20px;}
+.sidebar-nav { border-left: medium none; border-top: medium none; float: left;
+ margin-top:20px;margin-left: -10px; position: fixed;width: 17%;}
+.sidebar-nav p:hover{background: red;}
+.nav-hover{background: #E6E9ED;display: inline-block;}
+.nav-header{background: red}
+.widget-table{margin-top: 50px;}
+
+
+
+.input-size {background-color: #fff; background-image: none; border: 1px solid #ccc;width: 50px;
+border-radius: 4px;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;color: #555;font-size: 14px;line-height: 1.42857;
+padding: 6px 12px;transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+
+/*th{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size: 13px;} 给th 或者td添加这些样式不然不显示省略号
+td{white-space:nowrap;font-size: 13px;}
+.fixed{table-layout:fixed;}*/
+
+
+input{background: none;}
+.sidebar-nav li a{display: block;height: 30px;}
+/*.table-margin{width: 96%;height:300px;margin:30px;box-sizing: border-box;}*/
+.float-right{float: right;}
+.input-boxs{width: 100%;height: auto;}
+.form-box{width: 100%;height:60px;margin: 10px 0px;}
+.form-margin{margin:10px;}
+/*.bj{width:100%;height:100%;background: #fff;}*/
+.btn-margin{margin-top: 10px;}
+.cx-btn-margin{/*padding: 10px 15px;*/margin-right:15px;box-sizing: border-box;}
+.btns-cx{display: block;margin-right:50px; margin-bottom: 20px;}
+.panels {background-color: #fff;border: 1px solid transparent;border-radius: 4px;
+ box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);width: 100%;height: 100%; margin-bottom:100px;
+}
+.panel-heading-bj{background: #F5F5F5;width: 100%}
+.right-heading {width: 100px;background-color: #428bca;border-color: #428bca;color: #fff;}
+.btn-margin{margin-right: 20px;margin-bottom: 20px;}
+.input-ys{background-color: #fff;border: 1px solid #ccc;border-radius: 4px;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;color: #555;font-size: 14px;
+height: 34px;line-height: 1.42857;float: right;transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+vertical-align: middle;width:65%;
+}
+.h5-margin{float: right;width:80px;padding-right:10px;box-sizing: border-box;text-align: right;display: inline-block;margin-right:25px;}
+.form-contro2{ margin-bottom: 0;position: relative;width: 47%; z-index: 2;}
+.form-contro2{background-color: #fff;background-image: none; border: 1px solid #ccc;border-radius: 4px; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+color: #555;font-size: 14px; height: 34px;line-height: 1.42857;padding: 6px 12px;transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+width: 47%;
+}
+.form-contro2:focus {border-color: #66afe9;box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);outline: 0 none;
+}
+.form-contro2:-moz-placeholder {color: #999; opacity: 1;}
+.dao{width:2%;height: 34px;padding: 5px 5px;display: inline-block;float: left;}
+.input-group-btn{padding-right:10px;}
+.inputy{width: 100%;height:36px;border: }
+
+.yjhkb{float: right;width:100px;padding-right: 10px;box-sizing: border-box;text-align: right;display: inline-block;}
+.label-size{float: left;width: 30%;}
+.biaoqian{margin: 10px;}
+.tanchu-box{width:90%;height:auto;margin:100px auto;} /* 弹出弹出框控制距离的高度*/
+
+
+
+/*页脚样式*/
+.right-footer{   border-radius: 4px; display:inline-block;float: right;
+}
+.yema-page{border-radius: 4px;display: inline-block;margin-right:100px;margin-top:0px;}
+
+.pagination-page> li { display: inline;
+}
+.pagination-page> li > a, .pagination-page> li > span {background-color: #fff; border: 1px solid #ddd;color: #428bca;float: left;
+line-height: 1.42857;margin-left: -1px; padding: 6px 12px;position: relative;text-decoration: none;
+}
+.pagination-page> li:first-child > a, .pagination-page> li:first-child > span {border-bottom-left-radius: 4px;border-top-left-radius: 4px;
+margin-left: 0;
+}
+.pagination-page> li:last-child > a, .pagination-page> li:last-child > span {border-bottom-right-radius: 4px;border-top-right-radius: 4px;
+}
+.pagination-page> li > a:hover, .pagination-page> li > span:hover, .pagination-page > li > a:focus, .pagination-page > li > span:focus {
+ border-color: #ddd;color: #2a6496;
+}
+.pagination-page > .active > a, .pagination-page> .active > span, .pagination-page > .active > a:hover, .pagination-page > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+background-color: #428bca;border-color: #428bca; color: #fff;cursor: default;z-index: 2;
+}
+.pagination-page > .disabled > span, .pagination-page > .disabled > span:hover, .pagination-page > .disabled > span:focus, .pagination-page > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+background-color: #fff;border-color: #ddd;color: #777;cursor: not-allowed;
+}
+
+
+/*右侧布局*/
+
+/*页脚*/
+footer p{text-align: center;}
+/*页脚*/
+
+
+
+@media (max-width:1100px) {
+.sidebar-nav{ 
+        display: none;
+}
+.nav-left{
+        display: none;
+}
+.right-nav{width: 100%;height: 100%;margin-top:100px;position: relative;}
+}
+
+.mian_content{ position: relative;width: 100%;min-height: 600px;
+
+}
+#page_content{width: 100%;min-height: 600px;}

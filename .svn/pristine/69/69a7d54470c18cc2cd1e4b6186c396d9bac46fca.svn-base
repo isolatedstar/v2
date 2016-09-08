@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.factoring.common.dao.FacTenderRespondMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.factoring.common.model.FacTenderRespond" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="expected_service_charge" property="expectedServiceCharge" jdbcType="DECIMAL" />
+    <result column="interest_rate" property="interestRate" jdbcType="DECIMAL" />
+    <result column="treated_human" property="treatedHuman" jdbcType="VARCHAR" />
+    <result column="intentional_states" property="intentionalStates" jdbcType="INTEGER" />
+    <result column="operation_date" property="operationDate" jdbcType="TIMESTAMP" />
+    <result column="intention_num" property="intentionNum" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, expected_service_charge, interest_rate, treated_human, intentional_states, operation_date, 
+    intention_num, type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fac_tender_respond
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fac_tender_respond
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.factoring.common.model.FacTenderRespond" >
+    insert into fac_tender_respond (id, expected_service_charge, interest_rate, 
+      treated_human, intentional_states, operation_date, 
+      intention_num, type)
+    values (#{id,jdbcType=VARCHAR}, #{expectedServiceCharge,jdbcType=DECIMAL}, #{interestRate,jdbcType=DECIMAL}, 
+      #{treatedHuman,jdbcType=VARCHAR}, #{intentionalStates,jdbcType=INTEGER}, #{operationDate,jdbcType=TIMESTAMP}, 
+      #{intentionNum,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.factoring.common.model.FacTenderRespond" >
+    insert into fac_tender_respond
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="expectedServiceCharge != null" >
+        expected_service_charge,
+      </if>
+      <if test="interestRate != null" >
+        interest_rate,
+      </if>
+      <if test="treatedHuman != null" >
+        treated_human,
+      </if>
+      <if test="intentionalStates != null" >
+        intentional_states,
+      </if>
+      <if test="operationDate != null" >
+        operation_date,
+      </if>
+      <if test="intentionNum != null" >
+        intention_num,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="expectedServiceCharge != null" >
+        #{expectedServiceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="interestRate != null" >
+        #{interestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="treatedHuman != null" >
+        #{treatedHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="intentionalStates != null" >
+        #{intentionalStates,jdbcType=INTEGER},
+      </if>
+      <if test="operationDate != null" >
+        #{operationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="intentionNum != null" >
+        #{intentionNum,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.factoring.common.model.FacTenderRespond" >
+    update fac_tender_respond
+    <set >
+      <if test="expectedServiceCharge != null" >
+        expected_service_charge = #{expectedServiceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="interestRate != null" >
+        interest_rate = #{interestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="treatedHuman != null" >
+        treated_human = #{treatedHuman,jdbcType=VARCHAR},
+      </if>
+      <if test="intentionalStates != null" >
+        intentional_states = #{intentionalStates,jdbcType=INTEGER},
+      </if>
+      <if test="operationDate != null" >
+        operation_date = #{operationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="intentionNum != null" >
+        intention_num = #{intentionNum,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.factoring.common.model.FacTenderRespond" >
+    update fac_tender_respond
+    set expected_service_charge = #{expectedServiceCharge,jdbcType=DECIMAL},
+      interest_rate = #{interestRate,jdbcType=DECIMAL},
+      treated_human = #{treatedHuman,jdbcType=VARCHAR},
+      intentional_states = #{intentionalStates,jdbcType=INTEGER},
+      operation_date = #{operationDate,jdbcType=TIMESTAMP},
+      intention_num = #{intentionNum,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

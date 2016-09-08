@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.common.common.dao.PubRoleUserMapper" >
+
+  <resultMap id="BaseResultMap" type="com.zllh.common.common.model.PubRoleUser" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="com.zllh.common.common.model.PubRoleUserBiz" id="ResultMapBiz">
+  	<id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, user_id, role_id
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pub_role_user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 通过ID查询满足条件的操作员角色关系 -->
+  <select id="selectUserRoles" parameterType="java.lang.String" resultMap="ResultMapBiz">
+	SELECT
+		pru.role_id,
+		pr.role_name 
+	FROM
+		pub_role_user pru
+	LEFT JOIN pub_role pr ON pru.role_id = pr.role_id
+	WHERE
+		pru.user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByUserId" parameterType="java.lang.String" >
+    delete from pub_role_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.zllh.common.common.model.PubRoleUser" >
+    insert into pub_role_user (id, user_id, role_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.zllh.common.common.model.PubRoleUser" >
+    insert into pub_role_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.common.common.model.PubRoleUser" >
+    update pub_role_user
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.zllh.common.common.model.PubRoleUser" >
+    update pub_role_user
+    set user_id = #{userId,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

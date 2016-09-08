@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.factoring.common.dao.FacTenderMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.factoring.common.model.FacTender" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="min_service_charge" property="minServiceCharge" jdbcType="DECIMAL" />
+    <result column="financing_amount" property="financingAmount" jdbcType="DECIMAL" />
+    <result column="highest_service_charge" property="highestServiceCharge" jdbcType="DECIMAL" />
+    <result column="expect_reimbursement" property="expectReimbursement" jdbcType="TIMESTAMP" />
+    <result column="proposer" property="proposer" jdbcType="VARCHAR" />
+    <result column="min_interest_rate" property="minInterestRate" jdbcType="DECIMAL" />
+    <result column="highest_interest_rate" property="highestInterestRate" jdbcType="DECIMAL" />
+    <result column="intentional_states" property="intentionalStates" jdbcType="INTEGER" />
+    <result column="operation_date" property="operationDate" jdbcType="TIMESTAMP" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="earliest_effective_time" property="earliestEffectiveTime" jdbcType="TIMESTAMP" />
+    <result column="latest_effective_time" property="latestEffectiveTime" jdbcType="TIMESTAMP" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, min_service_charge, financing_amount, highest_service_charge, expect_reimbursement, 
+    proposer, min_interest_rate, highest_interest_rate, intentional_states, operation_date, 
+    type, earliest_effective_time, latest_effective_time, creater
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fac_tender
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fac_tender
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.factoring.common.model.FacTender" >
+    insert into fac_tender (id, min_service_charge, financing_amount, 
+      highest_service_charge, expect_reimbursement, 
+      proposer, min_interest_rate, highest_interest_rate, 
+      intentional_states, operation_date, type, 
+      earliest_effective_time, latest_effective_time, 
+      creater)
+    values (#{id,jdbcType=VARCHAR}, #{minServiceCharge,jdbcType=DECIMAL}, #{financingAmount,jdbcType=DECIMAL}, 
+      #{highestServiceCharge,jdbcType=DECIMAL}, #{expectReimbursement,jdbcType=TIMESTAMP}, 
+      #{proposer,jdbcType=VARCHAR}, #{minInterestRate,jdbcType=DECIMAL}, #{highestInterestRate,jdbcType=DECIMAL}, 
+      #{intentionalStates,jdbcType=INTEGER}, #{operationDate,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, 
+      #{earliestEffectiveTime,jdbcType=TIMESTAMP}, #{latestEffectiveTime,jdbcType=TIMESTAMP}, 
+      #{creater,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.factoring.common.model.FacTender" >
+    insert into fac_tender
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="minServiceCharge != null" >
+        min_service_charge,
+      </if>
+      <if test="financingAmount != null" >
+        financing_amount,
+      </if>
+      <if test="highestServiceCharge != null" >
+        highest_service_charge,
+      </if>
+      <if test="expectReimbursement != null" >
+        expect_reimbursement,
+      </if>
+      <if test="proposer != null" >
+        proposer,
+      </if>
+      <if test="minInterestRate != null" >
+        min_interest_rate,
+      </if>
+      <if test="highestInterestRate != null" >
+        highest_interest_rate,
+      </if>
+      <if test="intentionalStates != null" >
+        intentional_states,
+      </if>
+      <if test="operationDate != null" >
+        operation_date,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="earliestEffectiveTime != null" >
+        earliest_effective_time,
+      </if>
+      <if test="latestEffectiveTime != null" >
+        latest_effective_time,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="minServiceCharge != null" >
+        #{minServiceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="financingAmount != null" >
+        #{financingAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="highestServiceCharge != null" >
+        #{highestServiceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="expectReimbursement != null" >
+        #{expectReimbursement,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposer != null" >
+        #{proposer,jdbcType=VARCHAR},
+      </if>
+      <if test="minInterestRate != null" >
+        #{minInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="highestInterestRate != null" >
+        #{highestInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="intentionalStates != null" >
+        #{intentionalStates,jdbcType=INTEGER},
+      </if>
+      <if test="operationDate != null" >
+        #{operationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="earliestEffectiveTime != null" >
+        #{earliestEffectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestEffectiveTime != null" >
+        #{latestEffectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.factoring.common.model.FacTender" >
+    update fac_tender
+    <set >
+      <if test="minServiceCharge != null" >
+        min_service_charge = #{minServiceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="financingAmount != null" >
+        financing_amount = #{financingAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="highestServiceCharge != null" >
+        highest_service_charge = #{highestServiceCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="expectReimbursement != null" >
+        expect_reimbursement = #{expectReimbursement,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposer != null" >
+        proposer = #{proposer,jdbcType=VARCHAR},
+      </if>
+      <if test="minInterestRate != null" >
+        min_interest_rate = #{minInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="highestInterestRate != null" >
+        highest_interest_rate = #{highestInterestRate,jdbcType=DECIMAL},
+      </if>
+      <if test="intentionalStates != null" >
+        intentional_states = #{intentionalStates,jdbcType=INTEGER},
+      </if>
+      <if test="operationDate != null" >
+        operation_date = #{operationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="earliestEffectiveTime != null" >
+        earliest_effective_time = #{earliestEffectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="latestEffectiveTime != null" >
+        latest_effective_time = #{latestEffectiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.factoring.common.model.FacTender" >
+    update fac_tender
+    set min_service_charge = #{minServiceCharge,jdbcType=DECIMAL},
+      financing_amount = #{financingAmount,jdbcType=DECIMAL},
+      highest_service_charge = #{highestServiceCharge,jdbcType=DECIMAL},
+      expect_reimbursement = #{expectReimbursement,jdbcType=TIMESTAMP},
+      proposer = #{proposer,jdbcType=VARCHAR},
+      min_interest_rate = #{minInterestRate,jdbcType=DECIMAL},
+      highest_interest_rate = #{highestInterestRate,jdbcType=DECIMAL},
+      intentional_states = #{intentionalStates,jdbcType=INTEGER},
+      operation_date = #{operationDate,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      earliest_effective_time = #{earliestEffectiveTime,jdbcType=TIMESTAMP},
+      latest_effective_time = #{latestEffectiveTime,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="getAllByUser" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tender
+  </select>
+  
+</mapper>

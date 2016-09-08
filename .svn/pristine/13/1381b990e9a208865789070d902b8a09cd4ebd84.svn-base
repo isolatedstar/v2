@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.PictureMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.Picture" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="GROUP_GOODS_ID" property="groupGoodsId" jdbcType="VARCHAR" />
+    <result column="PICTURE_TYPE" property="pictureType" jdbcType="VARCHAR" />
+    <result column="PRICE_ID" property="priceId" jdbcType="VARCHAR" />
+    <result column="PICTURE_NAME" property="pictureName" jdbcType="VARCHAR" />
+    <result column="PICTURE_PATH" property="picturePath" jdbcType="VARCHAR" />
+    <result column="PICTURE" property="picture" jdbcType="VARCHAR" />
+    <result column="IS_SAVE" property="isSave" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, GROUP_GOODS_ID, PICTURE_TYPE, PRICE_ID, PICTURE_NAME, PICTURE_PATH, PICTURE, 
+    IS_SAVE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_picture
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_picture
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.Picture" >
+    insert into bus_picture (ID, GROUP_GOODS_ID, PICTURE_TYPE, 
+      PRICE_ID, PICTURE_NAME, PICTURE_PATH, 
+      PICTURE, IS_SAVE)
+    values (#{id,jdbcType=VARCHAR}, #{groupGoodsId,jdbcType=VARCHAR}, #{pictureType,jdbcType=VARCHAR}, 
+      #{priceId,jdbcType=VARCHAR}, #{pictureName,jdbcType=VARCHAR}, #{picturePath,jdbcType=VARCHAR}, 
+      #{picture,jdbcType=VARCHAR}, #{isSave,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.Picture" >
+    insert into bus_picture
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="groupGoodsId != null" >
+        GROUP_GOODS_ID,
+      </if>
+      <if test="pictureType != null" >
+        PICTURE_TYPE,
+      </if>
+      <if test="priceId != null" >
+        PRICE_ID,
+      </if>
+      <if test="pictureName != null" >
+        PICTURE_NAME,
+      </if>
+      <if test="picturePath != null" >
+        PICTURE_PATH,
+      </if>
+      <if test="picture != null" >
+        PICTURE,
+      </if>
+      <if test="isSave != null" >
+        IS_SAVE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="groupGoodsId != null" >
+        #{groupGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureType != null" >
+        #{pictureType,jdbcType=VARCHAR},
+      </if>
+      <if test="priceId != null" >
+        #{priceId,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureName != null" >
+        #{pictureName,jdbcType=VARCHAR},
+      </if>
+      <if test="picturePath != null" >
+        #{picturePath,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="isSave != null" >
+        #{isSave,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.Picture" >
+    update bus_picture
+    <set >
+      <if test="groupGoodsId != null" >
+        GROUP_GOODS_ID = #{groupGoodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureType != null" >
+        PICTURE_TYPE = #{pictureType,jdbcType=VARCHAR},
+      </if>
+      <if test="priceId != null" >
+        PRICE_ID = #{priceId,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureName != null" >
+        PICTURE_NAME = #{pictureName,jdbcType=VARCHAR},
+      </if>
+      <if test="picturePath != null" >
+        PICTURE_PATH = #{picturePath,jdbcType=VARCHAR},
+      </if>
+      <if test="picture != null" >
+        PICTURE = #{picture,jdbcType=VARCHAR},
+      </if>
+      <if test="isSave != null" >
+        IS_SAVE = #{isSave,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.Picture" >
+    update bus_picture
+    set GROUP_GOODS_ID = #{groupGoodsId,jdbcType=VARCHAR},
+      PICTURE_TYPE = #{pictureType,jdbcType=VARCHAR},
+      PRICE_ID = #{priceId,jdbcType=VARCHAR},
+      PICTURE_NAME = #{pictureName,jdbcType=VARCHAR},
+      PICTURE_PATH = #{picturePath,jdbcType=VARCHAR},
+      PICTURE = #{picture,jdbcType=VARCHAR},
+      IS_SAVE = #{isSave,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

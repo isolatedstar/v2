@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtQuoteScopeMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtQuoteScope" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="quote_id" property="quoteId" jdbcType="VARCHAR" />
+    <result column="scope_id" property="scopeId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtQuoteScope" >
+    insert into mt_quote_scope (id, quote_id, scope_id, 
+      type)
+    values (#{id,jdbcType=VARCHAR}, #{quoteId,jdbcType=VARCHAR}, #{scopeId,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtQuoteScope" >
+    insert into mt_quote_scope
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="quoteId != null" >
+        quote_id,
+      </if>
+      <if test="scopeId != null" >
+        scope_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="quoteId != null" >
+        #{quoteId,jdbcType=VARCHAR},
+      </if>
+      <if test="scopeId != null" >
+        #{scopeId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <!--  条件删除-->
+  
+  <sql id="Mall_deleteQutoRalation">
+        <if test="quoteId!= null"><![CDATA[ AND quote_id = #{quoteId,jdbcType=VARCHAR} ]]></if>
+        <if test="type!= null"><![CDATA[ AND type = #{type,jdbcType=INTEGER} ]]></if>
+        <if test="scopeId!= null"><![CDATA[ AND scope_id = #{scopeId,jdbcType=INTEGER} ]]></if>
+        
+  </sql>
+  <delete id="deleteQutoRalation" parameterType="java.util.Map">  
+            delete from mt_quote_scope where 1=1
+            <include refid="Mall_deleteQutoRalation" /> 
+  </delete>  
+  <!-- 添加 -->
+  <sql id="Base_Column_List">
+		id, quote_id, scope_id,  type
+  </sql>
+  <!-- 查询关系 -->
+  <select id="serachQuoteRalation" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from mt_quote_scope where 1=1 
+		 <include refid="Mall_deleteQutoRalation" /> 
+  </select>
+</mapper>

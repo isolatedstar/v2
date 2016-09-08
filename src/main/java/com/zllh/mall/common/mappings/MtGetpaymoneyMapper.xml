@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtGetpaymoneyMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtGetpaymoney" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ordertitle_id" property="ordertitleId" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="payuser_id" property="payuserId" jdbcType="VARCHAR" />
+    <result column="payuser_name" property="payuserName" jdbcType="VARCHAR" />
+    <result column="getuser_id" property="getuserId" jdbcType="VARCHAR" />
+    <result column="getuser_name" property="getuserName" jdbcType="VARCHAR" />
+    <result column="event_id" property="eventId" jdbcType="VARCHAR" />
+    <result column="paymoney_type" property="paymoneyType" jdbcType="INTEGER" />
+    <result column="paymoney_id" property="paymoneyId" jdbcType="VARCHAR" />
+    <result column="paymoney_name" property="paymoneyName" jdbcType="VARCHAR" />
+    <result column="paymoney_code" property="paymoneyCode" jdbcType="VARCHAR" />
+    <result column="getmoney_id" property="getmoneyId" jdbcType="VARCHAR" />
+    <result column="getmoney_name" property="getmoneyName" jdbcType="VARCHAR" />
+    <result column="getmoney_code" property="getmoneyCode" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="paymoney_time" property="paymoneyTime" jdbcType="TIMESTAMP" />
+    <result column="getmoney_time" property="getmoneyTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="pay_dirct" property="payDirct" jdbcType="INTEGER" />
+    <result column="get_dirct" property="getDirct" jdbcType="INTEGER" />
+    <result column="ordertitle_number" property="ordertitle_number" jdbcType="INTEGER" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+	id, ordertitle_id, order_id, 
+      payuser_id, payuser_name, event_id, paymoney_type, 
+      paymoney_id, paymoney_name, paymoney_code, getuser_id,getuser_name,
+      getmoney_id, getmoney_name, getmoney_code, 
+      money, paymoney_time, getmoney_time, 
+      status, remark, pay_dirct, 
+      get_dirct
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_getpaymoney
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectForwardSumPay" parameterType="java.util.Map" resultType="double">
+  	select IFNULL(sum(money),0) from mt_getpaymoney where order_id = #{orderId,jdbcType=VARCHAR} and paymoney_id = #{receiverId,jdbcType=VARCHAR} 
+  	and pay_dirct = 1 and status > 1
+  </select>
+  <select id="selectReverseSumPay" parameterType="java.util.Map" resultType="double">
+  	select IFNULL(sum(money),0) from mt_getpaymoney where order_id = #{orderId,jdbcType=VARCHAR} and paymoney_id = #{shipperId,jdbcType=VARCHAR} 
+  	and pay_dirct = 2 and status > 1
+  </select>
+  <select id="selectForwardSumReceipt" parameterType="java.util.Map" resultType="double">
+  	select IFNULL(sum(money),0) from mt_getpaymoney where order_id = #{orderId,jdbcType=VARCHAR} and getmoney_id = #{shipperId,jdbcType=VARCHAR} 
+  	and get_dirct = 1 and status > 3
+  </select>
+  <select id="selectReverseSumReceipt" parameterType="java.util.Map" resultType="double">
+  	select IFNULL(sum(money),0) from mt_getpaymoney where order_id = #{orderId,jdbcType=VARCHAR} and getmoney_id = #{receiverId,jdbcType=VARCHAR} 
+  	and get_dirct = 2 and status > 3
+  </select>
+  <select id="selectSumLock" parameterType="java.util.Map" resultType="double">
+  	select IFNULL(sum(money),0) from mt_getpaymoney where order_id = #{orderId,jdbcType=VARCHAR}  
+  	and status = 1
+  </select>
+	<select id="searchGetMoney" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		g.id,
+		g.event_id,
+		g.getmoney_code,
+		g.getmoney_id,
+		g.getmoney_name,
+		g.getmoney_time,
+		g.get_dirct,
+		g.money,
+		g.ordertitle_id,
+		g.order_id,
+		g.paymoney_code,
+		g.paymoney_id,
+		g.paymoney_name,
+		g.paymoney_time,
+		g.paymoney_type,
+		g.pay_dirct,
+		g.remark,
+		g.status,
+		g.payuser_id,
+		g.payuser_name,
+		g.getuser_id,
+		g.getuser_name,
+		t.ordertitle_code ordertitle_number,
+		o.goods_id,
+		o.goods_name
+		FROM
+		mt_getpaymoney g
+		JOIN mt_ordertitle t
+		ON g.ordertitle_id = t.id
+		JOIN mt_order o
+		ON g.order_id = o.id
+		WHERE g.getmoney_id = #{memberId,jdbcType=VARCHAR}
+		<if test="ordertitleNumber != null">
+			and t.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}
+		</if>
+		<if test="goodsName != null">
+			and o.goods_name = #{goodsName,jdbcType=VARCHAR}
+		</if>
+		and g.pay_dirct = 1 and g.status &lt; 3
+		<if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+		</if>
+	</select>
+	<select id="searchGetRefund" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		g.id,
+		g.event_id,
+		g.getmoney_code,
+		g.getmoney_id,
+		g.getmoney_name,
+		g.getmoney_time,
+		g.get_dirct,
+		g.money,
+		g.ordertitle_id,
+		g.order_id,
+		g.paymoney_code,
+		g.paymoney_id,
+		g.paymoney_name,
+		g.paymoney_time,
+		g.paymoney_type,
+		g.pay_dirct,
+		g.remark,
+		g.status,
+		g.payuser_id,
+		g.payuser_name,
+		g.getuser_id,
+		g.getuser_name,
+		t.ordertitle_code ordertitle_number,
+		o.goods_id,
+		o.goods_name
+		FROM
+		mt_getpaymoney g
+		JOIN mt_ordertitle t
+		ON g.ordertitle_id = t.id
+		JOIN mt_order o
+		ON g.order_id = o.id
+		WHERE g.getmoney_id = #{memberId,jdbcType=VARCHAR}
+		<if test="ordertitleNumber != null">
+			and t.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}
+		</if>
+		<if test="goodsName != null">
+			and o.goods_name = #{goodsName,jdbcType=VARCHAR}
+		</if>
+		and g.pay_dirct = 2 and g.status = 3
+		<if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+		</if>
+	</select>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtGetpaymoney" >
+    insert into mt_getpaymoney (id, ordertitle_id, order_id, 
+      payuser_id, payuser_name, event_id, paymoney_type, 
+      paymoney_id, paymoney_name, paymoney_code, 
+      getmoney_id, getmoney_name, getmoney_code, 
+      money, paymoney_time, getmoney_time, 
+      status, remark, pay_dirct, 
+      get_dirct,getuser_id,getuser_name)
+    values (#{id,jdbcType=VARCHAR}, #{ordertitleId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{payuserId,jdbcType=VARCHAR}, #{payuserName,jdbcType=VARCHAR}, #{eventId,jdbcType=VARCHAR}, #{paymoneyType,jdbcType=INTEGER}, 
+      #{paymoneyId,jdbcType=VARCHAR}, #{paymoneyName,jdbcType=VARCHAR}, #{paymoneyCode,jdbcType=VARCHAR}, 
+      #{getmoneyId,jdbcType=VARCHAR}, #{getmoneyName,jdbcType=VARCHAR}, #{getmoneyCode,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DOUBLE}, #{paymoneyTime,jdbcType=TIMESTAMP}, #{getmoneyTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{payDirct,jdbcType=INTEGER}, 
+      #{getDirct,jdbcType=INTEGER},#{getuserId,jdbcType=VARCHAR}, #{getuserName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtGetpaymoney" >
+    insert into mt_getpaymoney
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ordertitleId != null" >
+        ordertitle_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="payuserId != null" >
+        payuser_id,
+      </if>
+      <if test="payuserName != null" >
+        payuser_name,
+      </if>
+      <if test="getuserId != null" >
+        getuser_id,
+      </if>
+      <if test="getuserName != null" >
+        getuser_name,
+      </if>
+      <if test="eventId != null" >
+        event_id,
+      </if>
+      <if test="paymoneyType != null" >
+        paymoney_type,
+      </if>
+      <if test="paymoneyId != null" >
+        paymoney_id,
+      </if>
+      <if test="paymoneyName != null" >
+        paymoney_name,
+      </if>
+      <if test="paymoneyCode != null" >
+        paymoney_code,
+      </if>
+      <if test="getmoneyId != null" >
+        getmoney_id,
+      </if>
+      <if test="getmoneyName != null" >
+        getmoney_name,
+      </if>
+      <if test="getmoneyCode != null" >
+        getmoney_code,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="paymoneyTime != null" >
+        paymoney_time,
+      </if>
+      <if test="getmoneyTime != null" >
+        getmoney_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="payDirct != null" >
+        pay_dirct,
+      </if>
+      <if test="getDirct != null" >
+        get_dirct,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertitleId != null" >
+        #{ordertitleId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="payuserId != null" >
+        #{payuserId,jdbcType=VARCHAR},
+      </if>
+      <if test="payuserName != null" >
+        #{payuserName,jdbcType=VARCHAR},
+      </if>
+      <if test="getuserId != null" >
+        #{getuserId,jdbcType=VARCHAR},
+      </if>
+      <if test="getuserName != null" >
+        #{getuserName,jdbcType=VARCHAR},
+      </if>
+      <if test="eventId != null" >
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymoneyType != null" >
+        #{paymoneyType,jdbcType=INTEGER},
+      </if>
+      <if test="paymoneyId != null" >
+        #{paymoneyId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymoneyName != null" >
+        #{paymoneyName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymoneyCode != null" >
+        #{paymoneyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="getmoneyId != null" >
+        #{getmoneyId,jdbcType=VARCHAR},
+      </if>
+      <if test="getmoneyName != null" >
+        #{getmoneyName,jdbcType=VARCHAR},
+      </if>
+      <if test="getmoneyCode != null" >
+        #{getmoneyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="paymoneyTime != null" >
+        #{paymoneyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="getmoneyTime != null" >
+        #{getmoneyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="payDirct != null" >
+        #{payDirct,jdbcType=INTEGER},
+      </if>
+      <if test="getDirct != null" >
+        #{getDirct,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByObject" parameterType="map">
+	update mt_getpaymoney
+	<set>
+	<if test="id != null" >
+        id = #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertitleId != null" >
+        ordertitle_id = #{ordertitleId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="payuserId != null" >
+        payuser_id = #{payuserId,jdbcType=VARCHAR},
+      </if>
+      <if test="payuserName != null" >
+        payuser_name =#{payuserName,jdbcType=VARCHAR},
+      </if>
+      <if test="getuserId != null" >
+        getuser_id = #{getuserId,jdbcType=VARCHAR},
+      </if>
+      <if test="getuserName != null" >
+        getuser_name =#{getuserName,jdbcType=VARCHAR},
+      </if>
+      <if test="eventId != null" >
+        event_id = #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymoneyType != null" >
+        paymoney_type = #{paymoneyType,jdbcType=INTEGER},
+      </if>
+      <if test="paymoneyId != null" >
+        paymoney_id = #{paymoneyId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymoneyName != null" >
+        paymoney_name = #{paymoneyName,jdbcType=VARCHAR},
+      </if>
+      <if test="paymoneyCode != null" >
+        paymoney_code = #{paymoneyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="getmoneyId != null" >
+        getmoney_id = #{getmoneyId,jdbcType=VARCHAR},
+      </if>
+      <if test="getmoneyName != null" >
+        getmoney_name = #{getmoneyName,jdbcType=VARCHAR},
+      </if>
+      <if test="getmoneyCode != null" >
+        getmoney_code = #{getmoneyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="paymoneyTime != null" >
+        paymoney_time = #{paymoneyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="getmoneyTime != null" >
+        getmoney_time = #{getmoneyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="payDirct != null" >
+        pay_dirct = #{payDirct,jdbcType=INTEGER},
+      </if>
+      <if test="getDirct != null" >
+        get_dirct = #{getDirct,jdbcType=INTEGER},
+      </if>
+	</set>
+	where id = #{id,jdbcType=INTEGER}
+	</update>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from mt_getpaymoney
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+</mapper>

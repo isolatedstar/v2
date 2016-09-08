@@ -1,0 +1,55 @@
+@charset "utf-8";
+/* CSS Document */
+*{ padding:0; margin:0; } li{ list-style:none;} a{ text-decoration:none;} img{ border:none;} input,select,textarea{ outline:none;}
+body{ font-family:"微软雅黑", "宋体"; color:#333; background:#f2f2f2;}
+input{ background-color:transparent; border:0;  vertical-align:top;}
+/*input{background-color:transparent; border:0; line-height:30px; vertical-align:top; }*/
+#mall_warp{ width:1920px;}
+/*********************************************header start************************************************************/
+.m_header{ width:100%; height:79px; border-bottom:1px #ddd solid; background:#fff;}
+.m_header>img{ width:130px; height:60px; margin:10px 0 0 20px; float:left;}
+.m_header>h2{ display:inline; font-size:30px; color:#f60200; padding-left:20px; line-height:100px;}
+/*********************************************header over************************************************************/
+/*********************************************nav start**************************************************************/
+.m_menu{ width:137px; height:40px; background-color:#f60200;color:#fff; font-size:18px; font-weight:bold;line-height:38px; padding-left:45px;}
+.m_menu>p{ background:url(../images/navbj_03.png) no-repeat right bottom; margin-right:10px;}
+.m_menu_ul{ width:180px; height:auto; border-left:1px #ddd solid; border-right:1px #ddd solid; display:none; background:#fff;}
+.m_menu_ul>li{width:180px; height:40px; border-bottom:1px #ddd solid;}
+.m_menu_ul>li>a{ display:block; font-size:16px; line-height:38px; color:#333; padding-left:48px; background:url(../images/navbj_03.png) no-repeat right top; margin-right:10px; }
+.m_menu_ul>li>a:hover{ color:#f60200;}
+.m_subnav{ border-bottom:1px #ddd solid; display:none; background:#fff;}
+.m_subnav>li{width:180px; height:40px;}
+.m_subnav>li>a{display:block; font-size:16px; line-height:38px; color:#333; padding-left:70px;  }
+.m_subnav>li>a:hover{ color:#f60200; }
+.m_nav{ position:absolute; left:0; top:0; z-index:99999999;}
+/*********************************************nav over***************************************************************/
+/*********************************************conter top start***************************************************************/
+.m_content{ width:100%; height:auto; position:relative;}
+.m_content_top{width:100%; height:50px;}
+.m_con_top_p{ width:40%;font-size:14px; margin-left:15%; float:left;}
+.m_con_top_p1{color:#f60200; line-height:50px; float:left;}
+.m_con_top_p2{ color:#333; display:inline-block; width:80px; height:30px; text-align:center; border:1px #ddd solid; line-height:32px; background:#fff; margin-left:3%; margin-top:8px;}
+.m_con_top_p2:hover{ background:#f60200; color:#fff;}
+.m_sech_form{ width:40%; float:right; padding-top:8px;}
+.m_sech_text{ width:60%; height:30px; border:1px #f60200 solid; padding-left:10px; color:#ccc; background:#fff;}
+.m_sech_btn{ width:12%; height:32px; background:#f60200; color:#fff; font-size:14px;}
+.con_shapping_box{ float:right; padding-right:12%; }
+.con_shapping_box>i{ padding:8px 10px; font-size:14px; height:14px; background:#fff; border:1px #f60200 solid; color:#f60200; line-height:17px;}
+.con_shapping_box>span{ font-size:20px;}
+/*********************************************conter top  over***************************************************************/
+/*********************************************conter top  over***************************************************************/
+.content_box_warp{ width:94%; height:auto; margin:0 auto; margin-top:30px;  }
+.content_div{ width:240px; height:360px; border:1px #e4e4e4 solid; background:#fff; box-shadow:0 0 6px rgba(0,0,0,0.1); float:left; margin-left:12px; margin-bottom:12px;}
+.content_div_img{ width:240px; height:200px; overflow:hidden;}
+.content_div_img>img{ transition:all 0.1s ease; }
+.content_div_img>img:hover{transform:scale(1.1);}
+.content_div_p1{ font-size:14px; color:#333; padding-left:5px; line-height:40px;}
+.content_div_p1>span{ font-size:18px;}
+.content_div_p2{ font-size:14px; color:#333; padding-left:6px;}
+.content_div_p2>a{ color:#ff0000;}
+.content_div_p2>a>span{ border-bottom:1px solid #ff0000;}
+.content_div_p3{ font-size:13px; color:#333; padding-left:6px; line-height:60px;}
+.content_div_p4{ font-size:13px; color:#333; padding-left:6px;}
+.content_div p:hover{ color:#ff6600;}
+.div_p4_span{ font-size:14px; font-weight:bold;}
+/*********************************************conter top  over***************************************************************/

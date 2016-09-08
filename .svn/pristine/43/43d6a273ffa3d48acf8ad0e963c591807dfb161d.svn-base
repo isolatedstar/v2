@@ -1,0 +1,171 @@
+function orderDetail(modalid,memberId,baseurl){
+	if(!modalid || typeof(modalid)!=='string'&&modalid.trim()!==''){
+		throw new Error("modalid不能为空！");
+	}
+	if(!memberId || typeof(memberId)!=='string'&&memberId.trim()!==''){
+		throw new Error("memberId不能为空！");
+	}
+	if(!baseurl || typeof(baseurl)!=='string'&&baseurl.trim()!==''){
+		throw new Error("baseurl不能为空！");
+	}
+	this._modalid = "#"+modalid;
+	this._memberId = memberId;
+	this._baseurl = baseurl;
+	this.init.call(this);
+}
+orderDetail.prototype.init=function(){
+	var html = [];
+	html.push('<div class="modal-dialog m-tanchu-box" role="document">');
+	html.push('<div class="container-fluid" style="margin-top:15px;">');
+	html.push('<div class="row-fluid">');
+	html.push('<div class="col-sm-12 ">');
+	html.push('<div class="panel panel-default article-bj">');
+	html.push('<div class="panel-heading box-shodm modal-draggable">订单详情');
+	html.push('<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></div>');
+	html.push('<div class="row wrapper form-margin">');
+	html.push('<div class="col-md-4">');
+	html.push('<div class="input-group">');
+	html.push('<div class="input-group-btn">');
+	html.push('<h5 class="h5-margin" id="o_t_status"></h5>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('<div class="col-md-4">');
+	html.push('<div class="input-group">');
+	html.push('<div class="input-group-btn">');
+	html.push('<h5 class="h5-margin" id="o_t_code"></h5>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('<div class="col-md-4">');
+	html.push('<div class="input-group">');
+	html.push('<div class="input-group-btn">');
+	html.push('<h5 class="h5-margin" id="o_t_flow"></h5>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('<div class="col-md-4">');
+	html.push('<div class="input-group">');
+	html.push('<div class="input-group-btn">');
+	html.push('<h5 class="h5-margin" id="o_t_counterparty"></h5>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('<div class="table-responsive panel-table-body ">');
+	html.push('<table class="table table-striped table-hover " id="tb_orderDetail"></table>');
+	html.push('</div>');
+	html.push('<footer class="panel-footer text-right bg-light lter">');
+	html.push('<button class="btn btn-warning btn-s-xs" type="submit" data-dismiss="modal">退出</button>');
+	html.push('</footer>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('</div>');
+	html.push('</div>');
+	$(this._modalid).append(html.join(''));
+};
+orderDetail.prototype.queryOrderDetail=function(id){
+	var _self = this;
+	$.ajax({
+		url : this._baseurl+"order/queryOrderDetail.do",
+		data : {id : id},
+		type : "POST",
+		cache : false,
+		dataType : "json",
+		success : function(data) {
+			var _orderStatus = "销售";
+			var _counterparty = "买方:"+data.ordertitle.buyersName;
+			var _flow = "流程:";
+			if(data.ordertitle.buyersId==this._memberId){
+				_orderStatus = "采购";
+				_counterparty = "卖方:"+data.ordertitle.sellersName;
+			}
+			if(data.ordertitle.workflowTypeId==1){
+				_flow += "货款两清";
+			}else if(data.ordertitle.workflowTypeId==2){
+				_flow += "先货后款";
+			}else if(data.ordertitle.workflowTypeId==3){
+				_flow += "先货后款已交货";
+			}else if(data.ordertitle.workflowTypeId==4){
+				_flow += "先款后货";
+			}else if(data.ordertitle.workflowTypeId==5){
+				_flow += "先款后货已交款";
+			}
+			$("#o_t_status").text("类型:"+_orderStatus);
+			$("#o_t_code").text("订单号:"+data.ordertitle.ordertitleCode);
+			$("#o_t_counterparty").text(_counterparty);
+			$("#o_t_flow").text(_flow);
+			$("#tb_orderDetail").bootstrapTable("destroy");
+			_self.createTable();
+			$("#tb_orderDetail").bootstrapTable("load", data);
+		},
+		error : function(data) {
+			alert(data.msg);
+		}
+	});
+};
+orderDetail.prototype.createTable=function(){
+	$("#tb_orderDetail").bootstrapTable({
+		method : "post",
+		dataType : "json",
+		classes : "table table-no-bordered",
+		contentType : "application/x-www-form-urlencoded",
+		striped : true,
+		cache : false,
+		pagination : true,
+		sortable : false,
+		sortOrder : "asc",
+		pageNumber : 1,
+		pageSize : 100,
+		pageList : [ 100 ],
+		search : false,
+		strictSearch : false,
+		showColumns : false,
+		showRefresh : false,
+		minimumCountColumns : 2,
+		clickToSelect : false,
+		uniqueId : "id",
+		showToggle : false,
+		cardView : false,
+		detailView : false,
+		paginationPreText : "«",
+		paginationNextText : "»",
+		columns : [
+				{
+					field : "goodsName",
+					title : "商品",
+					align : "center",
+					valign : "middle",
+					sortable : false
+				},
+				{
+					title : "对方",
+					align : "center",
+					valign : "middle",
+					sortable : false,
+					formatter : function(value,row, index) {
+						if(this._memberId == row.buyersId){
+							value = row.sellersName;
+						}else{
+							value = row.buyersName;
+						}
+						return value;
+					}
+				},
+				{
+					field : "price",
+					title : "单价（￥）",
+					align : "center",
+					valign : "middle",
+					sortable : false
+				},
+				{
+					field : "goodsNum",
+					title : "数量（pcs）",
+					align : "center",
+					valign : "middle",
+					sortable : false
+				}]
+		});
+};

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtMmbAreaBizMapper">
+	<!--基础map -->
+	<resultMap id="BaseResultMap"
+		type="com.zllh.mall.common.model.MtMmbAreaBiz">
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+		<result column="area_id" property="areaId" jdbcType="VARCHAR" />
+		<result column="biz_type" property="bizType" jdbcType="INTEGER" />
+	</resultMap>
+
+	<!--扩展map -->
+	<resultMap type="com.zllh.mall.common.model.MtMmbAreaBiz"
+		id="returnMap1" extends="BaseResultMap">
+		<!-- 与扩展属性连接 -->
+		<result column="types" property="types" jdbcType="VARCHAR"/>
+		<!--一对一关联 -->
+		<association property="busAreaTree"
+			javaType="com.zllh.mall.common.model.BusAreaTree">
+			<id column="ID1" property="id" jdbcType="VARCHAR" />
+			<result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+			<result column="AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+			<result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+			<result column="SYS_CODE" property="sysCode" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+	
+	<!--查询地域业务类型信息  -->
+	<select id="queryAllMmbAreaBizsByMid" resultMap="returnMap1" parameterType="java.lang.String">
+	    SELECT
+			area.id as id,
+			area.mmb_id as mmb_id,
+			area.area_id as area_id,
+			GROUP_CONCAT(area.biz_type) AS types,
+			tree.AREA_CODE as AREA_CODE,
+			tree.AREA_NAME as AREA_NAME,
+			tree.PARENT_CODE as PARENT_CODE,
+			tree.SYS_CODE as SYS_CODE,
+			tree.ID AS ID1
+		FROM mt_mmb_area_biz area
+		LEFT JOIN bus_area_tree tree on area.area_id = tree.id
+		WHERE
+			mmb_id = #{id,jdbcType=VARCHAR}
+		GROUP BY
+			area.area_id
+	</select>
+	
+	<!--根据会员id查询数量  -->
+	<select id="countMmbAreaBizsByMid" resultType="java.lang.Integer" parameterType="java.lang.String">
+	    SELECT
+			count(*)
+		FROM mt_mmb_area_biz
+		WHERE
+			mmb_id = #{id,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 查询会员id下的地域业务信息是否存在 -->
+	
+	<insert id="insert" parameterType="com.zllh.mall.common.model.MtMmbAreaBiz">
+		insert into mt_mmb_area_biz
+		(id, mmb_id, area_id,
+		biz_type)
+		values (#{id,jdbcType=VARCHAR},
+		#{mmbId,jdbcType=VARCHAR},
+		#{areaId,jdbcType=VARCHAR},
+		#{bizType,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtMmbAreaBiz">
+		insert into mt_mmb_area_biz
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="mmbId != null">
+				mmb_id,
+			</if>
+			<if test="areaId != null">
+				area_id,
+			</if>
+			<if test="bizType != null">
+				biz_type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="mmbId != null">
+				#{mmbId,jdbcType=VARCHAR},
+			</if>
+			<if test="areaId != null">
+				#{areaId,jdbcType=VARCHAR},
+			</if>
+			<if test="bizType != null">
+				#{bizType,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 批量删除会员下的地域业务信息 -->
+	<delete id="deleteMmbBizsByMid" parameterType="java.lang.String">
+	    delete from mt_mmb_area_biz  where 1=1 and mmb_id = #{mid,jdbcType=VARCHAR}
+	</delete>
+</mapper>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.front.dao.BankServerMapper">
+	<resultMap id="BaseResultMap" type="com.zllh.payment.model.BankServer">
+		<id column="SERVER_ID" property="serverId" jdbcType="VARCHAR" />
+		<result column="BANK_ID" property="bankId" jdbcType="VARCHAR" />
+		<result column="SERVER_TYPE" property="serverType" jdbcType="TINYINT" />
+		<result column="SERVER_ADDRESS" property="serverAddress" jdbcType="VARCHAR" />
+		<result column="SERVER_NAME" property="serverName" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="TINYINT" />
+		<result column="LOCK_FLAG" property="lockFlag" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		SERVER_ID, BANK_ID, SERVER_TYPE, SERVER_ADDRESS, CREATE_TIME, STATUS, LOCK_FLAG,SERVER_NAME
+	</sql>
+	<select id="selectByBankid" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select * from
+		bank_server
+		where BANK_ID = #{bankId,jdbcType=VARCHAR}  order by CREATE_TIME desc
+		limit #{pageIndex},#{pageSize}
+	</select>
+	<select id="selectByBankidServerCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(*) from
+		bank_server
+		where BANK_ID = #{bankId,jdbcType=VARCHAR} 
+	</select>
+	<select id="selectByBankids" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select *
+		from bank_server a INNER JOIN bank b
+		where a.bank_id = b.bank_id 
+		and a.bank_id in (#{zong_Id,jdbcType=VARCHAR},#{fen_Id,jdbcType=VARCHAR},#{zhi_Id,jdbcType=VARCHAR}) ORDER BY a.bank_id desc;
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bank_server
+		where SERVER_ID = #{serverId,jdbcType=VARCHAR} 
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from bank_server
+		where SERVER_ID = #{serverId,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByBankId" parameterType="java.lang.String">
+		delete from bank_server
+		where BANK_ID = #{bankId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zllh.payment.model.BankServer">
+		insert into bank_server (SERVER_ID, BANK_ID, SERVER_TYPE,SERVER_NAME,
+		SERVER_ADDRESS, CREATE_TIME, STATUS,
+		LOCK_FLAG)
+		values (#{serverId,jdbcType=VARCHAR}, #{bankId,jdbcType=VARCHAR}, #{serverType,jdbcType=TINYINT},#{serverName,jdbcType=VARCHAR},
+		#{serverAddress,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT},
+		#{lockFlag,jdbcType=TINYINT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.zllh.payment.model.BankServer" keyProperty="serverId">
+		insert into bank_server
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<!-- <if test="serverId != null"> SERVER_ID, </if> -->
+			<if test="bankId != null">
+				BANK_ID,
+			</if>
+			<if test="serverType != null">
+				SERVER_TYPE,
+			</if>
+			<if test="serverName != null">
+				SERVER_NAME,
+			</if>
+			<if test="serverAddress != null">
+				SERVER_ADDRESS,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="lockFlag != null">
+				LOCK_FLAG,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<!-- <if test="serverId != null"> #{serverId,jdbcType=VARCHAR}, </if> -->
+			<if test="bankId != null">
+				#{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="serverType != null">
+				#{serverType,jdbcType=TINYINT},
+			</if>
+			<if test="serverName != null">
+				#{serverName,jdbcType=VARCHAR},
+			</if>
+			<if test="serverAddress != null">
+				#{serverAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="lockFlag != null">
+				#{lockFlag,jdbcType=TINYINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zllh.payment.model.BankServer">
+		update bank_server
+		<set>
+			<if test="bankId != null">
+				BANK_ID = #{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="serverType != null">
+				SERVER_TYPE = #{serverType,jdbcType=TINYINT},
+			</if>
+			<if test="serverName != null">
+				SERVER_NAME = #{serverName,jdbcType=VARCHAR},
+			</if>
+			<if test="serverAddress != null">
+				SERVER_ADDRESS = #{serverAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="lockFlag != null">
+				LOCK_FLAG = #{lockFlag,jdbcType=TINYINT},
+			</if>
+		</set>
+		where SERVER_ID = #{serverId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zllh.payment.model.BankServer">
+		update bank_server
+		set BANK_ID = #{bankId,jdbcType=VARCHAR},
+		SERVER_TYPE = #{serverType,jdbcType=TINYINT},
+		SERVER_NAME = #{serverName,jdbcType=VARCHAR},
+		SERVER_ADDRESS = #{serverAddress,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		STATUS = #{status,jdbcType=TINYINT},
+		LOCK_FLAG = #{lockFlag,jdbcType=TINYINT}
+		where SERVER_ID = #{serverId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByBankId" parameterType="com.zllh.payment.model.BankServer">
+		update bank_server
+		set SERVER_ID = #{serverId,jdbcType=VARCHAR},
+		SERVER_TYPE = #{serverType,jdbcType=TINYINT},
+		SERVER_NAME = #{serverName,jdbcType=VARCHAR},
+		SERVER_ADDRESS = #{serverAddress,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		STATUS = #{status,jdbcType=TINYINT},
+		LOCK_FLAG = #{lockFlag,jdbcType=TINYINT}
+		where BANK_ID = #{bankId,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="selectSingleByParams" resultMap="BaseResultMap" parameterType="map">
+		select * from
+		bank_server
+		where 1=1 
+		<if test="serverType != null">
+			and SERVER_TYPE = #{serverType,jdbcType=TINYINT}
+		</if>
+		<if test="serverName != null">
+			and SERVER_NAME = #{serverName,jdbcType=VARCHAR}
+		</if>
+		<if test="serverAddress != null">
+			and SERVER_ADDRESS = #{serverAddress,jdbcType=VARCHAR}
+		</if>
+	    limit 1;
+	</select>
+</mapper>

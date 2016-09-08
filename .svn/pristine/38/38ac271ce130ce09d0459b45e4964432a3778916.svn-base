@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.common.common.dao.PubResDirMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.common.common.model.PubResDir" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="dirpath" property="dirpath" jdbcType="VARCHAR" />
+    <result column="dirname" property="dirname" jdbcType="VARCHAR" />
+    <result column="res_id" property="resId" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zllh.common.common.model.PubResDir" extends="BaseResultMap" >
+    <result column="dirnote" property="dirnote" jdbcType="VARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dirpath, dirname, res_id
+  </sql>
+  <sql id="Blob_Column_List" >
+    dirnote
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pub_res_dir
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from pub_res_dir
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.common.common.model.PubResDir" >
+    insert into pub_res_dir (id, dirpath, dirname, 
+      res_id, dirnote)
+    values (#{id,jdbcType=VARCHAR}, #{dirpath,jdbcType=VARCHAR}, #{dirname,jdbcType=VARCHAR}, 
+      #{resId,jdbcType=VARCHAR}, #{dirnote,jdbcType=VARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.common.common.model.PubResDir" >
+    insert into pub_res_dir
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dirpath != null" >
+        dirpath,
+      </if>
+      <if test="dirname != null" >
+        dirname,
+      </if>
+      <if test="resId != null" >
+        res_id,
+      </if>
+      <if test="dirnote != null" >
+        dirnote,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="dirpath != null" >
+        #{dirpath,jdbcType=VARCHAR},
+      </if>
+      <if test="dirname != null" >
+        #{dirname,jdbcType=VARCHAR},
+      </if>
+      <if test="resId != null" >
+        #{resId,jdbcType=VARCHAR},
+      </if>
+      <if test="dirnote != null" >
+        #{dirnote,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.common.common.model.PubResDir" >
+    update pub_res_dir
+    <set >
+      <if test="dirpath != null" >
+        dirpath = #{dirpath,jdbcType=VARCHAR},
+      </if>
+      <if test="dirname != null" >
+        dirname = #{dirname,jdbcType=VARCHAR},
+      </if>
+      <if test="resId != null" >
+        res_id = #{resId,jdbcType=VARCHAR},
+      </if>
+      <if test="dirnote != null" >
+        dirnote = #{dirnote,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zllh.common.common.model.PubResDir" >
+    update pub_res_dir
+    set dirpath = #{dirpath,jdbcType=VARCHAR},
+      dirname = #{dirname,jdbcType=VARCHAR},
+      res_id = #{resId,jdbcType=VARCHAR},
+      dirnote = #{dirnote,jdbcType=VARBINARY}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.common.common.model.PubResDir" >
+    update pub_res_dir
+    set dirpath = #{dirpath,jdbcType=VARCHAR},
+      dirname = #{dirname,jdbcType=VARCHAR},
+      res_id = #{resId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

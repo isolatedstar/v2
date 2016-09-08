@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtMmbPicMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtMmbPic" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+    <result column="mal_id" property="malId" jdbcType="VARCHAR" />
+    <result column="pic_type" property="picType" jdbcType="INTEGER" />
+    <result column="pic_remark" property="picRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtMmbPic" >
+    insert into mt_mmb_pic (id, mmb_id, mal_id, 
+      pic_type, pic_remark)
+    values (#{id,jdbcType=VARCHAR}, #{mmbId,jdbcType=VARCHAR}, #{malId,jdbcType=VARCHAR}, 
+      #{picType,jdbcType=INTEGER}, #{picRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtMmbPic" >
+    insert into mt_mmb_pic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mmbId != null" >
+        mmb_id,
+      </if>
+      <if test="malId != null" >
+        mal_id,
+      </if>
+      <if test="picType != null" >
+        pic_type,
+      </if>
+      <if test="picRemark != null" >
+        pic_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbId != null" >
+        #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="malId != null" >
+        #{malId,jdbcType=VARCHAR},
+      </if>
+      <if test="picType != null" >
+        #{picType,jdbcType=INTEGER},
+      </if>
+      <if test="picRemark != null" >
+        #{picRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+    <sql id="del_mmb">
+        <if test="mmbId!= null"><![CDATA[ AND mmb_id = #{mmbId,jdbcType=VARCHAR} ]]></if>
+        <if test="malId!= null"><![CDATA[  AND mal_id = #{malId,jdbcType=INTEGER} ]]></if>
+       
+  </sql>
+   <delete id="delById" parameterType="java.util.Map">
+  		 DELETE FROM mt_mmb_pic  where 1=1
+  		 <include refid="del_mmb"></include>
+  </delete>
+</mapper>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtSendgoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtSendgoods" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ordertitle_id" property="ordertitleId" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="DOUBLE" />
+    <result column="shipper_name" property="shipperName" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="event_id" property="eventId" jdbcType="VARCHAR" />
+    <result column="sendgoods_time" property="sendgoodsTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="send_dirct" property="sendDirct" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List">
+	id, ordertitle_id, order_id, 
+      shipper_id, goods_id, num, 
+      shipper_name, user_id, user_name, 
+      create_time, event_id, sendgoods_time, 
+      status, send_dirct
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_sendgoods
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectForwardSumSendGoods" parameterType="java.util.Map" resultType="double">
+  	select IFNULL(sum(num),0) from mt_sendgoods where order_id = #{orderId,jdbcType=VARCHAR} and shipper_id = #{shipperId,jdbcType=VARCHAR} and send_dirct = 1
+  </select>
+  <select id="selectReverseSumSendGoods" parameterType="java.util.Map" resultType="double">
+  	select IFNULL(sum(num),0) from mt_sendgoods where order_id = #{orderId,jdbcType=VARCHAR} and shipper_id = #{receiverId,jdbcType=VARCHAR} and send_dirct = 2
+  </select>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtSendgoods" >
+    insert into mt_sendgoods (id, ordertitle_id, order_id, 
+      shipper_id, goods_id, num, 
+      shipper_name, user_id, user_name, 
+      create_time, event_id, sendgoods_time, 
+      status, send_dirct)
+    values (#{id,jdbcType=VARCHAR}, #{ordertitleId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{shipperId,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{num,jdbcType=DOUBLE}, 
+      #{shipperName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{eventId,jdbcType=VARCHAR}, #{sendgoodsTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER}, #{sendDirct,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtSendgoods" >
+    insert into mt_sendgoods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ordertitleId != null" >
+        ordertitle_id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="shipperId != null" >
+        shipper_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="shipperName != null" >
+        shipper_name,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="eventId != null" >
+        event_id,
+      </if>
+      <if test="sendgoodsTime != null" >
+        sendgoods_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sendDirct != null" >
+        send_dirct,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertitleId != null" >
+        #{ordertitleId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperId != null" >
+        #{shipperId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="shipperName != null" >
+        #{shipperName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eventId != null" >
+        #{eventId,jdbcType=VARCHAR},
+      </if>
+      <if test="sendgoodsTime != null" >
+        #{sendgoodsTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sendDirct != null" >
+        #{sendDirct,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

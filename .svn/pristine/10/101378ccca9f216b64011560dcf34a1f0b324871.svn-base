@@ -1,0 +1,221 @@
+package com.zllh.mall.app.controller;
+
+import com.zllh.base.controller.BaseController;
+import com.zllh.common.common.model.model_extend.RoleExtendBean;
+import com.zllh.common.common.model.model_extend.UserExtendBean;
+import com.zllh.mall.app.service.IAppRelationService;
+import com.zllh.mall.app.service.IAppService;
+import com.zllh.mall.common.model.MtMuser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * 手机端接口
+ * Created by CFY on 2016/8/29.
+ */
+@Controller
+@RequestMapping("/app")
+public class AppDataController extends BaseController{
+
+    @Autowired
+    private IAppService appDataService;
+
+    @Autowired
+    private IAppRelationService appRelationService;
+
+
+    /**
+     * 得到商城APP最新版本号 及apk路径 更新app
+     *
+     */
+    @RequestMapping("/getAppVersion")
+    public void  getAppVersion(){
+        Map<String,Object> resultMap  =  appDataService.getAppVersion();
+        outJson(resultMap);
+    }
+
+    /**
+     * 根据根菜单得到菜单目录
+     * @param  mmbId  当前登录会员ID
+     * @param parentMenuType  根目录类型
+     */
+    @RequestMapping("/getMenuData")
+    public void getMenuData(String parentMenuType,String mmbId){
+
+        UserExtendBean  user = (UserExtendBean) this.session.getAttribute("user");
+        List<RoleExtendBean> roleList = null;
+        if(user != null){
+            MtMuser mtMuser = user.getMuser();
+            mmbId = mtMuser.getMmbId();
+            roleList =  user.getRoles();
+
+        }
+
+        parentMenuType = parentMenuType == null ? "schedule" : parentMenuType;
+        Map<String,Object> menuMap  = appDataService.getMenuData(parentMenuType,mmbId,roleList);
+        outJson(menuMap);
+    }
+
+    /**
+     * 点击菜单目录 得到对应列表
+     * @param menuType
+     * @param pageNo
+     * @param pageSize
+     */
+    @RequestMapping("/getListData")
+    public void getListData(String menuType,int pageNo,int pageSize){
+
+        String mmbId = getMmbIdBySession();
+
+        menuType = menuType == null ? "schedule" : menuType;
+        Map<String,Object> listMap = appDataService.getListData(menuType,mmbId,pageNo,pageSize);
+        outJson(listMap);
+    }
+
+    /**
+     * 点击同意按钮 得到对应会员 银行账号列表和地址列表
+     * @param menuType
+     */
+    @RequestMapping("/getBankAndAddressList")
+    public void getBankAndAddressList(String menuType){
+
+        String mmbId = getMmbIdBySession();
+
+        Map<String,Object> listMap;
+        menuType = menuType == null ? "schedule" : menuType;
+        listMap = appDataService.getBankAndAddressList(menuType, mmbId);
+        outJson(listMap);
+    }
+
+
+    /**
+     * 同意操作 并写入数据库中
+     * @param menuType
+     * @param id
+     * @param address
+     * @param bankAccountCode
+     * @param bankAccountName
+     */
+    @RequestMapping("/agree")
+    public  void agree(String menuType,String id,  String address, String bankAccountCode, String bankAccountName){
+
+        Map<String,Object> agreeMap;
+        agreeMap = appDataService.agree(menuType, id,address,bankAccountCode,bankAccountName);
+        outJson(agreeMap);
+    }
+
+    /**
+     * 拒绝操作
+     * @param menuType
+     * @param id
+     */
+    @RequestMapping("/refuse")
+    public void refuse(String menuType,String id){
+        Map<String,Object> refuseMap;
+        refuseMap = appDataService.refuse(menuType, id);
+        outJson(refuseMap);
+    }
+
+    /*-------------------会员关系操作接口 start----------------------*/
+    /**
+     * 停用合作关系
+     * @param bizType  1 是采购 2 是销售
+     * @param mmbId
+     * @param relaMmbId
+     */
+    @RequestMapping("/stopBizRelationShip")
+    public void stopBizRelationShip(String mmbId,String relaMmbId,String bizType){
+
+        Map<String,Object> refuseMap;
+        refuseMap = appRelationService.stopBizRelationShip( mmbId, relaMmbId, bizType);
+        outJson(refuseMap);
+    }
+
+    /**
+     * 启用合作关系
+     * @param bizType  1 是采购 2 是销售
+     * @param mmbId
+     * @param relaMmbId
+     */
+    @RequestMapping("/openBizRelationShip")
+    public void openBizRelationShip(String mmbId,String relaMmbId,String bizType){
+
+        Map<String,Object> refuseMap;
+        refuseMap = appRelationService.openBizRelationShip(mmbId, relaMmbId, bizType);
+        outJson(refuseMap);
+    }
+
+
+    /**
+     * 调整关注等级
+     * @param id
+     * @param grade
+     */
+    @RequestMapping("/changeConcernGrade")
+    public void changeConcernGrade(String id,String grade){
+
+        Map<String,Object> refuseMap;
+        refuseMap = appRelationService.changeConcernGrade(id, grade);
+        outJson(refuseMap);
+    }
+
+    /**
+     * 升级到业务合作
+     * @param mmbId
+     * @param relaMmbId
+     */
+    @RequestMapping("/toUpgradeOperation")
+    public void toUpgradeOperation(String mmbId,String relaMmbId){
+
+        Map<String,Object> refuseMap;
+        refuseMap = appRelationService.toUpgradeOperation(mmbId, relaMmbId);
+        outJson(refuseMap);
+    }
+
+
+    /**
+     * 取消关注
+     * @param id
+     */
+    @RequestMapping("/cancelConcern")
+    public void cancelConcern(String id){
+
+        Map<String,Object> resultMap;
+        resultMap = appRelationService.cancelConcern(id);
+        outJson(resultMap);
+    }
+
+    /**
+     * 降级为仅关注
+     * @param mmbId
+     * @param relaMmbId
+     */
+    @RequestMapping("/lowerToConcernOperation")
+    public void lowerToConcernOperation(String mmbId,String relaMmbId){
+
+        Map<String,Object> resultMap;
+        resultMap = appRelationService.lowerToConcernOperation(mmbId,relaMmbId);
+        outJson(resultMap);
+    }
+
+      /*-------------------会员关系操作接口 end----------------------*/
+
+    /**
+     * 根据session 得到当前登录操作员所属会员ID
+     * @return
+     */
+    public String getMmbIdBySession(){
+        String mmbId = "";
+        UserExtendBean  user = (UserExtendBean) this.session.getAttribute("user");
+        if(user != null){
+            MtMuser mtMuser = user.getMuser();
+            mmbId = mtMuser.getMmbId();
+        }
+        return  mmbId;
+    }
+
+}

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtUserRelationshipMapper" >
+
+  <!-- 数据准备区 -->
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtUserRelationship" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="bus_user_id" property="busUserId" jdbcType="VARCHAR" />
+    <result column="pla_user_id" property="plaUserId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 操作员关系扩展 -->
+  <resultMap id="ResultMapBiz" type="com.zllh.mall.common.model.MtUserRelationshipBiz" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="pla_user_id" property="busUserId" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="accountName" property="accountName" jdbcType="VARCHAR" />
+    <result column="mmb_name" property="mmbName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, bus_user_id, pla_user_id
+  </sql>
+  
+  <!-- 数据处理区 -->
+  <!-- 按主键查询信息 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_user_relationship
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据平台操作员的个人ID查询信息-->
+  <select id="selectUserRealByUserId" parameterType="java.lang.String" resultMap="ResultMapBiz">
+  	SELECT
+		mur.id id,
+		mur.pla_user_id pla_user_id,
+		GROUP_CONCAT(pr.role_name) role_name,
+		mu.`name` name,
+		mu.account accountName,
+		mu.mmb_name mmb_name
+	FROM
+		mt_user_relationship mur
+	LEFT JOIN mt_muser mu ON mur.pla_user_id = mu.id
+	LEFT JOIN pub_role_user pru ON pru.user_id = mu.id
+	LEFT JOIN pub_role pr ON pr.role_id = pru.role_id
+	WHERE
+		mur.bus_user_id = #{userId,jdbcType=VARCHAR}
+	GROUP BY
+		mur.pla_user_id
+  </select>
+  
+  <!-- 删除指定的信息 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mt_user_relationship
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <!-- 添加新信息 -->
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtUserRelationship" >
+    insert into mt_user_relationship (id, bus_user_id, pla_user_id
+      )
+    values (#{id,jdbcType=VARCHAR}, #{busUserId,jdbcType=VARCHAR}, #{plaUserId,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <!-- 插入代理关系前 先执行一次删除操作 -->
+  <delete id="deleteMtUserRelBeforeInsert" parameterType="java.util.Map">
+    delete from mt_user_relationship
+    WHERE  1 =1
+    <if test="busUserId != null" >
+      and bus_user_id = #{busUserId,jdbcType=VARCHAR}
+    </if>
+    <if test="plaUserId != null" >
+      and   pla_user_id = #{plaUserId,jdbcType=VARCHAR}
+    </if>
+  </delete>
+  
+  <!-- 按条件添加信息 -->
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtUserRelationship" >
+    insert into mt_user_relationship
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="busUserId != null" >
+        bus_user_id,
+      </if>
+      <if test="plaUserId != null" >
+        pla_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="busUserId != null" >
+        #{busUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="plaUserId != null" >
+        #{plaUserId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 修改信息 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.MtUserRelationship" >
+    update mt_user_relationship
+    <set >
+      <if test="busUserId != null" >
+        bus_user_id = #{busUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="plaUserId != null" >
+        pla_user_id = #{plaUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.MtUserRelationship" >
+    update mt_user_relationship
+    set bus_user_id = #{busUserId,jdbcType=VARCHAR},
+      pla_user_id = #{plaUserId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

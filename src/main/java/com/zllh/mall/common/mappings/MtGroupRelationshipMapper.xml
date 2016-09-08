@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtGroupRelationshipMapper" >
+  
+  <!-- 数据准备区 -->
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtGroupRelationship" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="rp_group_id" property="rpGroupId" jdbcType="VARCHAR" />
+    <result column="bus_type" property="busType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <!-- 群组表扩展类 -->
+  <resultMap id="ResultMapBiz" type="com.zllh.mall.common.model.MtGroupBiz" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="rp_group_id" property="rpGroupId" jdbcType="VARCHAR" />
+    <result column="bus_type" property="busType" jdbcType="INTEGER" />
+    <result column="group_name" property="rpGroupName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="SearchCondition">
+     <if test="id!=null">AND id=#{id,jdbcType=VARCHAR}</if>
+     <if test="groupId!=null">AND group_id=#{groupId,jdbcType=VARCHAR}</if>
+     <if test="rpGroupId!=null">AND rp_group_id=#{rpGroupId,jdbcType=VARCHAR}</if>
+     <if test="createTime!=null">AND create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+     <if test="busType!=null">AND bus_type=#{busType,jdbcType=INTEGER}</if>
+  </sql>
+  
+  <!-- 数据处理区 -->
+  <!-- 添加 -->
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtGroupRelationship" >
+    INSERT INTO mt_group_relationship(
+		id,
+		group_id,
+		rp_group_id,
+		bus_type,
+		create_time
+	)
+	VALUES(
+		#{id,jdbcType=VARCHAR}, 
+		#{groupId,jdbcType=VARCHAR}, 
+		#{rpGroupId,jdbcType=VARCHAR}, 
+		#{busType,jdbcType=INTEGER}, 
+		#{createTime,jdbcType=TIMESTAMP}
+	)
+  </insert>
+  
+  <!-- 按条件添加 -->
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtGroupRelationship" >
+    insert into mt_group_relationship
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="rpGroupId != null" >
+        rp_group_id,
+      </if>
+      <if test="busType != null" >
+        bus_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="rpGroupId != null" >
+        #{rpGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="busType != null" >
+        #{busType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 正向统计群组关系条件查询满足条件的群组 -->
+  <select id="countGroupRelationshipByContiontion" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT
+  		count(*)
+	FROM
+		mt_group_relationship AS groR
+	LEFT JOIN mt_group gro 
+	ON 
+		<if test="(busType==1 or busType==3) and busType!=null">
+			gro.id = groR.rp_group_id
+		</if>
+		<if test="(busType==2 or busType==4) and busType!=null">
+			gro.id = groR.group_id
+		</if>
+	WHERE 1=1
+		<if test="id!=null">AND id=#{id,jdbcType=VARCHAR}</if>
+	     <if test="groupId!=null">AND group_id=#{groupId,jdbcType=VARCHAR}</if>
+	     <if test="rpGroupId!=null">AND rp_group_id=#{rpGroupId,jdbcType=VARCHAR}</if>
+	     <if test="createTime!=null">AND create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+	     <if test="(busType==1 or busType==3) and busType!=null">AND bus_type=#{busType,jdbcType=INTEGER}</if> 
+	     <if test="(busType==2 or busType==4) and busType!=null">AND bus_type=#{busType,jdbcType=INTEGER}-1</if> 
+  </select>
+  
+  <!-- 反向统计群组关系条件查询满足条件的群组 -->
+   <select id="countGroupRelationshipByContiontionContrary" parameterType="java.util.Map" resultType="java.lang.Integer">
+   	SELECT
+		count(*)
+	FROM
+		mt_group mg2
+	WHERE
+		NOT EXISTS (
+			SELECT
+				groR.rp_group_id
+			FROM
+				mt_group_relationship AS groR
+			WHERE
+				1 = 1
+			<if test="(busType==1 or busType==3) and busType!=null">
+				AND groR.rp_group_id = mg2.id
+				AND bus_type=#{busType,jdbcType=INTEGER}
+			</if>
+			<if test="(busType==2 or busType==4) and busType!=null">
+				AND groR.group_id = mg2.id
+				AND bus_type=#{busType,jdbcType=INTEGER}-1
+			</if>
+			<if test="id!=null">AND id!=#{id,jdbcType=VARCHAR}</if>
+		    <if test="groupId!=null">AND group_id=#{groupId,jdbcType=VARCHAR}</if>
+		    <if test="rpGroupId!=null">AND rp_group_id=#{rpGroupId,jdbcType=VARCHAR}</if>
+		    <if test="createTime!=null">AND create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		)
+			<if test="(busType==1 or busType==3) and busType!=null">
+				AND mg2.id != #{groupId,jdbcType=VARCHAR}
+			</if>
+			<if test="(busType==2 or busType==4) and busType!=null">
+				AND mg2.id != #{rpGroupId,jdbcType=VARCHAR}
+			</if>
+			<if test="groupName!=null">
+				AND mg2.group_name like '%${groupName}%'
+			</if>
+   </select> 
+    
+  <!-- 查询群组关系条件查询满足条件的群组 -->
+  <select id="queryGroupRelationshipByContiontion" parameterType="java.util.Map" resultMap="ResultMapBiz">
+  	SELECT
+  		groR.ID id,
+		groR.group_id group_id,
+		groR.rp_group_id rp_group_id,
+		groR.bus_type bus_type,
+		groR.create_time create_time,
+		gro.group_name group_name
+	FROM
+		mt_group_relationship AS groR
+	LEFT JOIN mt_group gro 
+	ON 
+		<if test="(busType==1 or busType==3) and busType!=null">
+			gro.id = groR.rp_group_id
+		</if>
+		<if test="(busType==2 or busType==4) and busType!=null">
+			gro.id = groR.group_id
+		</if>
+	WHERE 1=1
+		<if test="id!=null">AND id=#{id,jdbcType=VARCHAR}</if>
+	     <if test="groupId!=null">AND group_id=#{groupId,jdbcType=VARCHAR}</if>
+	     <if test="rpGroupId!=null">AND rp_group_id=#{rpGroupId,jdbcType=VARCHAR}</if>
+	     <if test="createTime!=null">AND create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+	     <if test="(busType==1 or busType==3) and busType!=null">AND bus_type=#{busType,jdbcType=INTEGER}</if> 
+	     <if test="(busType==2 or busType==4) and busType!=null">AND bus_type=#{busType,jdbcType=INTEGER}-1</if> 
+		<![CDATA[ limit #{startFirst,jdbcType=INTEGER},#{startEnd,jdbcType=INTEGER}]]>
+  </select>
+  
+  <!-- 删除群组之间关系 -->
+  <delete id="deleteGroupRelationship" parameterType="java.lang.String">
+  	delete from mt_group_relationship where id = #{id,jdbcType=VARCHAR}
+  </delete>
+</mapper>

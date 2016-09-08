@@ -1,0 +1,198 @@
+﻿<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script src="${pageContext.request.contextPath}/common/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+ <script type="text/javascript" src="${pageContext.request.contextPath}/common/js/json2.js"></script>
+</head>
+<script language="javascript">
+	var CryptoAgency = "";
+	function LoadObject() {
+		try {
+			var eDiv = document.createElement("div");
+			if (navigator.appName.indexOf("Internet") >= 0) {
+				if (window.navigator.cpuClass == "x86") {
+					eDiv.innerHTML = "<object id=\"CryptoAgent\" codebase=\"${pageContext.request.contextPath}/cfcak_Auth/CryptoKit.NXDJFWW.x86.cab\" classid=\"clsid:4AB61763-2A77-4044-966B-4589F676E8A9\"></object>";
+				} else {
+					eDiv.innerHTML = "<object id=\"CryptoAgent\" codebase=\"${pageContext.request.contextPath}/cfcak_Auth/CryptoKit.NXDJFWW.x64.cab\" classid=\"clsid:054AFC85-2FEA-488F-8BE4-824EBF55907A\"></object>";
+				}
+			} else {
+				eDiv.innerHTML = "<object id=\"CryptoAgent\" codebase=\"${pageContext.request.contextPath}/cfcak_Auth/CryptoKit.NXDJFWW.x86.cab\" classid=\"clsid:4AB61763-2A77-4044-966B-4589F676E8A9\"></object>";
+			}
+			document.body.appendChild(eDiv);
+		} catch (e) {
+			alert(e);
+		}
+		CryptoAgency = document.getElementById("CryptoAgent");
+	}
+
+	function SelectCertificate() {
+
+		try {
+			
+			var CertSubjectDN = CryptoAgency.SelectSignCertificate("", "");
+			if (!CertSubjectDN) {
+				var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+				alert(LastErrorDesc);
+				return;
+			}
+			document.getElementById("TextSelectedCertificateSubjectDN").value = CertSubjectDN;
+
+			var certSN = CryptoAgency.GetSelectedCertSN();
+			document.getElementById("TextSelectedCertificateSubjectSN").value = certSN;
+
+			var certTime = CryptoAgency.GetSelectedCertVaildTime();
+			document.getElementById("TextSelectedCertificateValidTime").value = certTime;
+
+			var csp = CryptoAgency.GetCSPNameofSignCert();
+			document.getElementById("TextSelectedCertificateCSP").value = csp;
+			$("#tis").html("");
+		} catch (e) {
+			$("#tis").html("证书插件未安装请刷新页面安装！");
+			var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+			alert(LastErrorDesc);
+		}
+	}
+
+	function GetSelectedItemValue(itemName) {
+
+		var ele = document.getElementsByName(itemName);
+		for (i = 0; i < ele.length; i++) {
+			if (ele[i].checked) {
+				return ele[i].value;
+			}
+		}
+	}
+
+	function GetSelectedItemIndex(itemName) {
+
+		var ele = document.getElementsByName(itemName);
+		for (i = 0; i < ele.length; i++) {
+			if (ele[i].checked) {
+				return i;
+			}
+		}
+	}
+
+	function GetSelectedCertContent() {
+		try {
+			var certificate = CryptoAgency.GetSelectedCertContent();
+
+			if (!certificate) {
+				var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+				alert(LastErrorDesc);
+				return;
+			}
+			document.getElementById("TextGetCertificate").value = certificate;
+		} catch (e) {
+			var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+			alert(LastErrorDesc);
+		}
+	}
+
+	function GetVersion() {
+		try {
+			var version = CryptoAgency.GetVersion();
+			document.getElementById("TextGetversion").value = version;
+		} catch (e) {
+			var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+			alert(LastErrorDesc);
+		}
+	}
+
+	function SignMessage() {
+
+		try {
+			var SignedContent = $("#signSettle").val();
+			var Signature = "";
+			//var selectedAlg = GetSelectedItemValue("algorithm");
+			var signStyle = GetSelectedItemIndex("signStyle");
+			
+			var textGetCertificate = $("#TextGetCertificate").val();
+			if(textGetCertificate==""){
+				alert("请选择证书！");
+				return false;
+			}
+			
+			//Signature = CryptoAgency.SignMessage(SignedContent, selectedAlg);
+			Signature = CryptoAgency.SignMessage(SignedContent, "SHA-1");
+
+			if (!Signature) {
+				var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+				alert(LastErrorDesc);
+				return;
+			}
+
+			document.getElementById("textareaSignature").value = Signature;
+
+			$.ajax({
+				url:'${pageContext.request.contextPath}/cfcAkController/cfcakHandle_Auth.do',
+				dataType:"JSON",
+				type:"POST",
+				data:{"signedContent":SignedContent, "signature":Signature},
+				success:function(data){
+				}
+			});
+			
+		} catch (e) {
+			var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+			alert(LastErrorDesc);
+		}
+	}
+	
+	$(function(){
+		var settle = $("#settle").text();
+		var jsonObj = eval("("+settle+")");
+		$("#signSettle").val(JSON.stringify(jsonObj.content));
+		//alert(JSON.stringify(jsonObj.content));
+	})
+	
+</script>
+<body onload="javascript:LoadObject();GetVersion();">
+	<!-- 后台原文 -->
+   	<span style="display:none;" id="settle">${settle}</span>
+   	<!-- 签名原文 -->
+   	<input type="hidden" id="signSettle" />
+   	<!-- 版本号 -->
+   	<input type="hidden" id="TextGetversion" />
+   	<!-- 选定证书所在CSP -->
+   	<input type="hidden" id="TextSelectedCertificateCSP"/>
+   	<!-- 选定证书的主题DN -->
+   	<input type="hidden" id="TextSelectedCertificateSubjectDN"/>
+   	<!-- 选定证书的内容(Base64编码) -->
+   	<input type="hidden" id="TextGetCertificate"/>
+   	<!-- 签名结果 -->
+   	<input type="hidden" id="textareaSignature"/>
+	
+	<!-- 提示信息 -->
+	<span id="tis" style="color: red"></span>
+	
+	<input type="button" value="选择证书" onclick="SelectCertificate();GetSelectedCertContent();" />
+	
+	<h3>选定证书的SN：</h3>
+	<input id="TextSelectedCertificateSubjectSN"/>
+	
+	<h3>选定证书的有效时间：</h3>
+	<input id="TextSelectedCertificateValidTime"/>
+	
+	<h2>结款单信息：</h2>
+	<h3>结款单号:</h3>
+	<h3>结款单号:</h3>
+	<h3>结款单号:</h3>
+	<h3>结款单号:</h3>
+	<h3>结款单号:</h3>
+	<h3>结款单号:</h3>
+	<h3>结款单号:</h3>
+	<h3>结款单号:</h3>
+	<h3>结款单号:</h3>
+	<h2>相关订单信息：</h2>
+	<h3>订单号:</h3>
+	<h3>订单号:</h3>
+	<h3>订单号:</h3>
+	<h3>订单号:</h3>
+	<h3>订单号:</h3>
+	<input type="button" value="确认" onclick="return SignMessage();" />
+	
+</body>
+</html>

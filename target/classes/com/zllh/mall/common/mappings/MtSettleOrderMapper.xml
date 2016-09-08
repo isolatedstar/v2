@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zllh.mall.common.dao.MtSettleOrderMapper">
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtSettleOrder">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="settle_id" jdbcType="VARCHAR" property="settleId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="getpaymoney_id" jdbcType="VARCHAR" property="getpaymoneyId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, settle_id, order_id, money, getpaymoney_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_settle_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="queryForRefuse" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from mt_settle_order
+    where settle_id = #{settleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from mt_settle_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtSettleOrder">
+    insert into mt_settle_order (id, settle_id, order_id, money,getpaymoney_id)
+    values (#{id,jdbcType=VARCHAR}, #{settleId,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{money,jdbcType=DOUBLE},#{getpaymoneyId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtSettleOrder">
+    insert into mt_settle_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="settleId != null">
+        settle_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="getpaymoneyId != null">
+        getpaymoney_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="settleId != null">
+        #{settleId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="getpaymoneyId != null">
+        #{getpaymoneyId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.MtSettleOrder">
+    update mt_settle_order
+    <set>
+      <if test="settleId != null">
+        settle_id = #{settleId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="getpaymoneyId != null">
+        getpaymoney_id = #{getpaymoneyId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.MtSettleOrder">
+    update mt_settle_order
+    set settle_id = #{settleId,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DOUBLE},
+      getpaymoney_id = #{getpaymoneyId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

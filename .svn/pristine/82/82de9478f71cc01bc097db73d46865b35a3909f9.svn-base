@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zllh.mall.common.dao.MtMmbCategoryMapper">
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtMmbCategory">
+    <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="mmb_id" jdbcType="VARCHAR" property="mmbId" />
+    <result column="category_id" jdbcType="VARCHAR" property="categoryId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtMmbCategory">
+    insert into mt_mmb_category (id, mmb_id, category_id, 
+      remark)
+    values (#{id,jdbcType=VARCHAR}, #{mmbId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtMmbCategory">
+    insert into mt_mmb_category
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="mmbId != null">
+        mmb_id,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbId != null">
+        #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <sql id="Mall_deleteMMbCtr">
+        <if test="mmbId!= null"><![CDATA[ AND mmb_id = #{mmbId,jdbcType=VARCHAR} ]]></if>
+        <if test="categoryId!= null"><![CDATA[ AND category_id = #{categoryId,jdbcType=VARCHAR} ]]></if>
+  </sql>
+  <delete id="deleteByIds" parameterType="java.util.Map">  
+            delete from mt_mmb_category where 1=1
+            <include refid="Mall_deleteMMbCtr" /> 
+  </delete>  
+  <select id="serachByIds" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from mt_mmb_category where 1=1 
+		 <include refid="Mall_deleteMMbCtr" /> 
+  </select>
+ 
+  <sql id="Base_Column_List">
+    id, mmb_id, category_id, remark
+  </sql>
+  
+</mapper>

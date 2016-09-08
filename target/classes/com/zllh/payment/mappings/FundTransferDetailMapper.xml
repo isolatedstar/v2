@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.front.dao.FundTransferDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.payment.model.FundTransferDetail" >
+    <id column="BANK_FLOW_ID" property="bankFlowId" jdbcType="VARCHAR" />
+    <result column="MSG_SOURCE" property="msgSource" jdbcType="VARCHAR" />
+    <result column="TRADE_TIME" property="tradeTime" jdbcType="TIMESTAMP" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="OUT_BANK_ID" property="outBankId" jdbcType="VARCHAR" />
+    <result column="OUT_ACCT_TYPE" property="outAcctType" jdbcType="TINYINT" />
+    <result column="OUT_MASTER_ACCT" property="outMasterAcct" jdbcType="VARCHAR" />
+    <result column="OUT_ACCT" property="outAcct" jdbcType="VARCHAR" />
+    <result column="OUT_ACCT_COPY_NAME" property="outAcctCopyName" jdbcType="VARCHAR" />
+    <result column="IN_BANK_ID" property="inBankId" jdbcType="VARCHAR" />
+    <result column="IN_ACCT_TYPE" property="inAcctType" jdbcType="TINYINT" />
+    <result column="IN_MASTER_ACCT" property="inMasterAcct" jdbcType="VARCHAR" />
+    <result column="IN_ACCT" property="inAcct" jdbcType="VARCHAR" />
+    <result column="IN_ACCT_COPY_NAME" property="inAcctCopyName" jdbcType="VARCHAR" />
+    <result column="WORK_TYPE" property="workType" jdbcType="TINYINT" />
+    <result column="TRANSFER_AMT" property="transferAmt" jdbcType="DECIMAL" />
+    <result column="TRANSFER_STATUS" property="transferStatus" jdbcType="TINYINT" />
+    <result column="TRANSFER_CONTEXT" property="transferContext" jdbcType="VARCHAR" />
+    <result column="INTERFACE_STATUS" property="interfaceStatus" jdbcType="TINYINT" />
+    <result column="LOCK_FLAG" property="lockFlag" jdbcType="TINYINT" />
+    <result column="BUSINESS_TYPE" property="businessType" jdbcType="TINYINT" />
+    <result column="BANK_NAME" property="outBankName" jdbcType="VARCHAR" />
+    <result column="BANK_NAME" property="inBankName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    BANK_FLOW_ID, MSG_SOURCE, TRADE_TIME, OPERATOR, OUT_BANK_ID, OUT_ACCT_TYPE, OUT_MASTER_ACCT, 
+    OUT_ACCT, OUT_ACCT_COPY_NAME, IN_BANK_ID, IN_ACCT_TYPE, IN_MASTER_ACCT, IN_ACCT, 
+    IN_ACCT_COPY_NAME, WORK_TYPE, TRANSFER_AMT, TRANSFER_STATUS, TRANSFER_CONTEXT, INTERFACE_STATUS, 
+    LOCK_FLAG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fund_transfer_detail
+    where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fund_transfer_detail
+    where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="java.util.HashMap" >
+    insert into fund_transfer_detail (BANK_FLOW_ID, MSG_SOURCE, TRADE_TIME, 
+      OPERATOR, OUT_BANK_ID, OUT_ACCT_TYPE, 
+      OUT_MASTER_ACCT, OUT_ACCT, OUT_ACCT_COPY_NAME, 
+      IN_BANK_ID, IN_ACCT_TYPE, IN_MASTER_ACCT, 
+      IN_ACCT, IN_ACCT_COPY_NAME, WORK_TYPE, 
+      TRANSFER_AMT, TRANSFER_STATUS, TRANSFER_CONTEXT, 
+      INTERFACE_STATUS, LOCK_FLAG)
+    values (#{transDetail.bankFlowId,jdbcType=VARCHAR}, #{transDetail.msgSource,jdbcType=VARCHAR}, #{transDetail.tradeTime,jdbcType=TIMESTAMP}, 
+      #{transDetail.operator,jdbcType=VARCHAR}, #{transDetail.outBankId,jdbcType=VARCHAR}, #{transDetail.outAcctType,jdbcType=TINYINT}, 
+      #{transDetail.outMasterAcct,jdbcType=VARCHAR}, #{transDetail.outAcct,jdbcType=VARCHAR}, #{transDetail.outAcctCopyName,jdbcType=VARCHAR}, 
+      #{transDetail.inBankId,jdbcType=VARCHAR}, #{transDetail.inAcctType,jdbcType=TINYINT}, #{transDetail.inMasterAcct,jdbcType=VARCHAR}, 
+      #{transDetail.inAcct,jdbcType=VARCHAR}, #{transDetail.inAcctCopyName,jdbcType=VARCHAR}, #{transDetail.workType,jdbcType=TINYINT}, 
+      #{transDetail.transferAmt,jdbcType=DECIMAL}, #{transDetail.transferStatus,jdbcType=TINYINT}, #{transDetail.transferContext,jdbcType=VARCHAR}, 
+      #{transDetail.interfaceStatus,jdbcType=TINYINT}, #{transDetail.lockFlag,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.payment.model.FundTransferDetail" >
+    insert into fund_transfer_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bankFlowId != null" >
+        BANK_FLOW_ID,
+      </if>
+      <if test="msgSource != null" >
+        MSG_SOURCE,
+      </if>
+      <if test="tradeTime != null" >
+        TRADE_TIME,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="outBankId != null" >
+        OUT_BANK_ID,
+      </if>
+      <if test="outAcctType != null" >
+        OUT_ACCT_TYPE,
+      </if>
+      <if test="outMasterAcct != null" >
+        OUT_MASTER_ACCT,
+      </if>
+      <if test="outAcct != null" >
+        OUT_ACCT,
+      </if>
+      <if test="outAcctCopyName != null" >
+        OUT_ACCT_COPY_NAME,
+      </if>
+      <if test="inBankId != null" >
+        IN_BANK_ID,
+      </if>
+      <if test="inAcctType != null" >
+        IN_ACCT_TYPE,
+      </if>
+      <if test="inMasterAcct != null" >
+        IN_MASTER_ACCT,
+      </if>
+      <if test="inAcct != null" >
+        IN_ACCT,
+      </if>
+      <if test="inAcctCopyName != null" >
+        IN_ACCT_COPY_NAME,
+      </if>
+      <if test="workType != null" >
+        WORK_TYPE,
+      </if>
+      <if test="transferAmt != null" >
+        TRANSFER_AMT,
+      </if>
+      <if test="transferStatus != null" >
+        TRANSFER_STATUS,
+      </if>
+      <if test="transferContext != null" >
+        TRANSFER_CONTEXT,
+      </if>
+      <if test="interfaceStatus != null" >
+        INTERFACE_STATUS,
+      </if>
+      <if test="lockFlag != null" >
+        LOCK_FLAG,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bankFlowId != null" >
+        #{bankFlowId,jdbcType=VARCHAR},
+      </if>
+      <if test="msgSource != null" >
+        #{msgSource,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeTime != null" >
+        #{tradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="outBankId != null" >
+        #{outBankId,jdbcType=VARCHAR},
+      </if>
+      <if test="outAcctType != null" >
+        #{outAcctType,jdbcType=TINYINT},
+      </if>
+      <if test="outMasterAcct != null" >
+        #{outMasterAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="outAcct != null" >
+        #{outAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="outAcctCopyName != null" >
+        #{outAcctCopyName,jdbcType=VARCHAR},
+      </if>
+      <if test="inBankId != null" >
+        #{inBankId,jdbcType=VARCHAR},
+      </if>
+      <if test="inAcctType != null" >
+        #{inAcctType,jdbcType=TINYINT},
+      </if>
+      <if test="inMasterAcct != null" >
+        #{inMasterAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="inAcct != null" >
+        #{inAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="inAcctCopyName != null" >
+        #{inAcctCopyName,jdbcType=VARCHAR},
+      </if>
+      <if test="workType != null" >
+        #{workType,jdbcType=TINYINT},
+      </if>
+      <if test="transferAmt != null" >
+        #{transferAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="transferStatus != null" >
+        #{transferStatus,jdbcType=TINYINT},
+      </if>
+      <if test="transferContext != null" >
+        #{transferContext,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceStatus != null" >
+        #{interfaceStatus,jdbcType=TINYINT},
+      </if>
+      <if test="lockFlag != null" >
+        #{lockFlag,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <insert id="insertBatch"  parameterType="java.util.HashMap">  
+      insert into fund_transfer_detail (
+      	  BANK_FLOW_ID, MSG_SOURCE, TRADE_TIME, 
+	      OPERATOR, OUT_BANK_ID, OUT_ACCT_TYPE, 
+	      OUT_MASTER_ACCT, OUT_ACCT, OUT_ACCT_COPY_NAME, 
+	      IN_BANK_ID, IN_ACCT_TYPE, IN_MASTER_ACCT, 
+	      IN_ACCT, IN_ACCT_COPY_NAME, WORK_TYPE, 
+	      TRANSFER_AMT, TRANSFER_STATUS, TRANSFER_CONTEXT, 
+	      INTERFACE_STATUS, LOCK_FLAG)
+      values 
+      <foreach collection="fundTransferDetailList" item="item" index="index" separator=",">  
+          (#{item.bankFlowId,jdbcType=VARCHAR}, 
+          #{item.msgSource,jdbcType=VARCHAR}, 
+          #{item.tradeTime,jdbcType=TIMESTAMP}, 
+      	  #{item.operator,jdbcType=VARCHAR}, 
+      	  #{item.outBankId,jdbcType=VARCHAR}, 
+      	  #{item.outAcctType,jdbcType=TINYINT}, 
+      	  #{item.outMasterAcct,jdbcType=VARCHAR}, 
+      	  #{item.outAcct,jdbcType=VARCHAR}, 
+      	  #{item.outAcctCopyName,jdbcType=VARCHAR}, 
+          #{item.inBankId,jdbcType=VARCHAR}, 
+          #{item.inAcctType,jdbcType=TINYINT}, 
+          #{item.inMasterAcct,jdbcType=VARCHAR}, 
+          #{item.inAcct,jdbcType=VARCHAR}, 
+          #{item.inAcctCopyName,jdbcType=VARCHAR}, 
+          #{item.workType,jdbcType=TINYINT}, 
+          #{item.transferAmt,jdbcType=DECIMAL}, 
+          #{item.transferStatus,jdbcType=TINYINT}, 
+          #{item.transferContext,jdbcType=VARCHAR}, 
+          #{item.interfaceStatus,jdbcType=TINYINT}, 
+          #{item.lockFlag,jdbcType=TINYINT})  
+      </foreach>  
+  </insert>  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.payment.model.FundTransferDetail" >
+    update fund_transfer_detail
+    <set >
+      <if test="msgSource != null" >
+        MSG_SOURCE = #{msgSource,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeTime != null" >
+        TRADE_TIME = #{tradeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="outBankId != null" >
+        OUT_BANK_ID = #{outBankId,jdbcType=VARCHAR},
+      </if>
+      <if test="outAcctType != null" >
+        OUT_ACCT_TYPE = #{outAcctType,jdbcType=TINYINT},
+      </if>
+      <if test="outMasterAcct != null" >
+        OUT_MASTER_ACCT = #{outMasterAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="outAcct != null" >
+        OUT_ACCT = #{outAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="outAcctCopyName != null" >
+        OUT_ACCT_COPY_NAME = #{outAcctCopyName,jdbcType=VARCHAR},
+      </if>
+      <if test="inBankId != null" >
+        IN_BANK_ID = #{inBankId,jdbcType=VARCHAR},
+      </if>
+      <if test="inAcctType != null" >
+        IN_ACCT_TYPE = #{inAcctType,jdbcType=TINYINT},
+      </if>
+      <if test="inMasterAcct != null" >
+        IN_MASTER_ACCT = #{inMasterAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="inAcct != null" >
+        IN_ACCT = #{inAcct,jdbcType=VARCHAR},
+      </if>
+      <if test="inAcctCopyName != null" >
+        IN_ACCT_COPY_NAME = #{inAcctCopyName,jdbcType=VARCHAR},
+      </if>
+      <if test="workType != null" >
+        WORK_TYPE = #{workType,jdbcType=TINYINT},
+      </if>
+      <if test="transferAmt != null" >
+        TRANSFER_AMT = #{transferAmt,jdbcType=DECIMAL},
+      </if>
+      <if test="transferStatus != null" >
+        TRANSFER_STATUS = #{transferStatus,jdbcType=TINYINT},
+      </if>
+      <if test="transferContext != null" >
+        TRANSFER_CONTEXT = #{transferContext,jdbcType=VARCHAR},
+      </if>
+      <if test="interfaceStatus != null" >
+        INTERFACE_STATUS = #{interfaceStatus,jdbcType=TINYINT},
+      </if>
+      <if test="lockFlag != null" >
+        LOCK_FLAG = #{lockFlag,jdbcType=TINYINT},
+      </if>
+    </set>
+    where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.payment.model.FundTransferDetail" >
+    update fund_transfer_detail
+    set MSG_SOURCE = #{msgSource,jdbcType=VARCHAR},
+      TRADE_TIME = #{tradeTime,jdbcType=TIMESTAMP},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      OUT_BANK_ID = #{outBankId,jdbcType=VARCHAR},
+      OUT_ACCT_TYPE = #{outAcctType,jdbcType=TINYINT},
+      OUT_MASTER_ACCT = #{outMasterAcct,jdbcType=VARCHAR},
+      OUT_ACCT = #{outAcct,jdbcType=VARCHAR},
+      OUT_ACCT_COPY_NAME = #{outAcctCopyName,jdbcType=VARCHAR},
+      IN_BANK_ID = #{inBankId,jdbcType=VARCHAR},
+      IN_ACCT_TYPE = #{inAcctType,jdbcType=TINYINT},
+      IN_MASTER_ACCT = #{inMasterAcct,jdbcType=VARCHAR},
+      IN_ACCT = #{inAcct,jdbcType=VARCHAR},
+      IN_ACCT_COPY_NAME = #{inAcctCopyName,jdbcType=VARCHAR},
+      WORK_TYPE = #{workType,jdbcType=TINYINT},
+      TRANSFER_AMT = #{transferAmt,jdbcType=DECIMAL},
+      TRANSFER_STATUS = #{transferStatus,jdbcType=TINYINT},
+      TRANSFER_CONTEXT = #{transferContext,jdbcType=VARCHAR},
+      INTERFACE_STATUS = #{interfaceStatus,jdbcType=TINYINT},
+      LOCK_FLAG = #{lockFlag,jdbcType=TINYINT}
+    where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+  </update>
+  <select id="queryAllTransferByParams" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+   select ft.*,
+		ob.BANK_NAME as outBankName,
+		ob.BANK_NAME as inBankName
+	from fund_transfer_detail ft
+	inner join bank ob on ft.OUT_BANK_ID = ob.BANK_ID
+	inner join bank ib on ft.IN_BANK_ID = ib.BANK_ID
+ 	where
+ 	  1 = 1
+      <if test="startTimeFlg != '' " >
+      <![CDATA[and ft.TRADE_TIME >= #{startTime}]]>
+      </if>
+      <if test="endTimeFlg != ''" >
+      <![CDATA[and ft.TRADE_TIME < #{endTime}]]>
+      </if>
+      <if test="interfaceType != '' and interfaceType != 0" >
+      and ft.INTERFACE_STATUS = #{interfaceType}
+      </if>
+      <if test="operator != '' " >
+      and ft.OPERATOR = #{operator}
+      </if>
+      <if test="businessType != '' and businessType != 0" >
+      and ft.BUSINESS_TYPE = #{businessType}
+      </if>
+      <if test="businessFrom != '' and businessFrom != 0" >
+      and ft.MSG_SOURCE = #{businessFrom}
+      </if>
+      <if test="transferStatus != '' and transferStatus != 0" >
+      and ft.TRANSFER_STATUS = #{transferStatus}
+      </if>
+      <if test="actionType != '' and actionType != 0" >
+      and ft.WORK_TYPE = #{actionType}
+      </if>
+      <if test="listOut.size() != 0 and listOutIn.size() != 0">
+      	  and (
+	      <foreach collection="listOut" item="account" index="index" separator="OR">
+	            (ft.OUT_ACCT = #{account.accountOut} AND  ft.IN_ACCT = #{account.accountIn})
+	      </foreach>
+	      or ft.OUT_ACCT in (select bank_acct from acct_mgt where 
+	      <foreach collection="listOutIn" item="accountTwo" index="index" separator="OR">
+				(<if test="accountTwo.relation == 1" >
+					MASTER_ACCT = #{accountTwo.accountOut} or 
+				</if>BANK_ACCT = #{accountTwo.accountOut})
+	      </foreach>))
+      </if>
+      <if test="listOutIn.size() != 0 and listOut.size() == 0">
+	     and  ft.OUT_ACCT in (select bank_acct 
+	      	  from acct_mgt where 
+	      <foreach collection="listOutIn" item="accountTwo" index="index"
+	             separator="OR">
+				(<if test="accountTwo.relation == 1" >
+					MASTER_ACCT = #{accountTwo.accountOut} or 
+				</if>
+				BANK_ACCT = #{accountTwo.accountOut})
+	      </foreach>)
+      </if>
+      <if test="listOut.size() != 0 and listOutIn.size() == 0">
+      	  and
+	      <foreach collection="listOut" item="account" index="index"
+	            open="(" close=")" separator="OR">
+	            (ft.OUT_ACCT = #{account.accountOut} AND  ft.IN_ACCT = #{account.accountIn})
+	      </foreach> 
+      </if>
+      <if test="sort != null and order != null">
+      order by ${sort} ${order}
+      </if>
+       limit #{pageIndex},#{pageSize}
+  </select>
+  <select id="queryTransferCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+  select count(*)
+	from fund_transfer_detail ft
+	inner join bank ob on ft.OUT_BANK_ID = ob.BANK_ID
+	inner join bank ib on ft.IN_BANK_ID = ib.BANK_ID
+ 	where
+ 	  1 = 1
+      <if test="startTimeFlg != '' " >
+      <![CDATA[and ft.TRADE_TIME >= #{startTime}]]>
+      </if>
+      <if test="endTimeFlg != ''" >
+      <![CDATA[and ft.TRADE_TIME < #{endTime}]]>
+      </if>
+       <if test="interfaceType != '' and interfaceType != 0" >
+      and ft.INTERFACE_STATUS = #{interfaceType}
+      </if>
+      <if test="operator != '' " >
+      and ft.OPERATOR = #{operator}
+      </if>
+      <if test="businessType != '' and businessType != 0" >
+      and ft.BUSINESS_TYPE = #{businessType}
+      </if>
+      <if test="businessFrom != '' and businessFrom != 0" >
+      and ft.MSG_SOURCE = #{businessFrom}
+      </if>
+      <if test="transferStatus != '' and transferStatus != 0" >
+      and ft.TRANSFER_STATUS = #{transferStatus}
+      </if>
+      <if test="actionType != '' and actionType != 0" >
+      and ft.WORK_TYPE = #{actionType}
+      </if>
+      <if test="listOut.size() != 0 and listOutIn.size() != 0">
+      	  and (
+	      <foreach collection="listOut" item="account" index="index" separator="OR">
+	            (ft.OUT_ACCT = #{account.accountOut} AND  ft.IN_ACCT = #{account.accountIn})
+	      </foreach>
+	      or ft.OUT_ACCT in (select bank_acct from acct_mgt where 
+	      <foreach collection="listOutIn" item="accountTwo" index="index" separator="OR">
+				(<if test="accountTwo.relation == 1" >
+					MASTER_ACCT = #{accountTwo.accountOut} or 
+				</if>BANK_ACCT = #{accountTwo.accountOut})
+	      </foreach>))
+      </if>
+      <if test="listOutIn.size() != 0 and listOut.size() == 0">
+	     and  ft.OUT_ACCT in (select bank_acct 
+	      	  from acct_mgt where 
+	      <foreach collection="listOutIn" item="accountTwo" index="index"
+	             separator="OR">
+				(<if test="accountTwo.relation == 1" >
+					MASTER_ACCT = #{accountTwo.accountOut} or 
+				</if>
+				BANK_ACCT = #{accountTwo.accountOut})
+	      </foreach>)
+      </if>
+      <if test="listOut.size() != 0 and listOutIn.size() == 0">
+      	  and
+	      <foreach collection="listOut" item="account" index="index"
+	            open="(" close=")" separator="OR">
+	            (ft.OUT_ACCT = #{account.accountOut} AND  ft.IN_ACCT = #{account.accountIn})
+	      </foreach> 
+      </if>
+  </select>
+  <update id="updateTransferStatusByPrimaryKey" parameterType="map">
+    update fund_transfer_detail
+    set 
+      TRANSFER_STATUS = #{transferStatus,jdbcType=TINYINT}
+    where BANK_FLOW_ID = #{bankFlowId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.factoring.common.dao.FacWriteOffAccMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.factoring.common.model.FacWriteOffAcc" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="financing_id" property="financingId" jdbcType="VARCHAR" />
+    <result column="guarantee_id" property="guaranteeId" jdbcType="VARCHAR" />
+    <result column="surplus_freeze_amount" property="surplusFreezeAmount" jdbcType="DECIMAL" />
+    <result column="surplus_payments_amount" property="surplusPaymentsAmount" jdbcType="DECIMAL" />
+    <result column="interest" property="interest" jdbcType="DECIMAL" />
+    <result column="creattime" property="creattime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, financing_id, guarantee_id, surplus_freeze_amount, surplus_payments_amount, interest, 
+    creattime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fac_writeoffacc
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fac_writeoffacc
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.factoring.common.model.FacWriteOffAcc" >
+    insert into fac_writeoffacc (id, financing_id, guarantee_id, 
+      surplus_freeze_amount, surplus_payments_amount, 
+      interest, creattime)
+    values (#{id,jdbcType=VARCHAR}, #{financingId,jdbcType=VARCHAR}, #{guaranteeId,jdbcType=VARCHAR}, 
+      #{surplusFreezeAmount,jdbcType=DECIMAL}, #{surplusPaymentsAmount,jdbcType=DECIMAL}, 
+      #{interest,jdbcType=DECIMAL}, #{creattime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.factoring.common.model.FacWriteOffAcc" >
+    insert into fac_writeoffacc
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="financingId != null" >
+        financing_id,
+      </if>
+      <if test="guaranteeId != null" >
+        guarantee_id,
+      </if>
+      <if test="surplusFreezeAmount != null" >
+        surplus_freeze_amount,
+      </if>
+      <if test="surplusPaymentsAmount != null" >
+        surplus_payments_amount,
+      </if>
+      <if test="interest != null" >
+        interest,
+      </if>
+      <if test="creattime != null" >
+        creattime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="financingId != null" >
+        #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeId != null" >
+        #{guaranteeId,jdbcType=VARCHAR},
+      </if>
+      <if test="surplusFreezeAmount != null" >
+        #{surplusFreezeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusPaymentsAmount != null" >
+        #{surplusPaymentsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="interest != null" >
+        #{interest,jdbcType=DECIMAL},
+      </if>
+      <if test="creattime != null" >
+        #{creattime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.factoring.common.model.FacWriteOffAcc" >
+    update fac_writeoffacc
+    <set >
+      <if test="financingId != null" >
+        financing_id = #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeId != null" >
+        guarantee_id = #{guaranteeId,jdbcType=VARCHAR},
+      </if>
+      <if test="surplusFreezeAmount != null" >
+        surplus_freeze_amount = #{surplusFreezeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusPaymentsAmount != null" >
+        surplus_payments_amount = #{surplusPaymentsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="interest != null" >
+        interest = #{interest,jdbcType=DECIMAL},
+      </if>
+      <if test="creattime != null" >
+        creattime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.factoring.common.model.FacWriteOffAcc" >
+    update fac_writeoffacc
+    set financing_id = #{financingId,jdbcType=VARCHAR},
+      guarantee_id = #{guaranteeId,jdbcType=VARCHAR},
+      surplus_freeze_amount = #{surplusFreezeAmount,jdbcType=DECIMAL},
+      surplus_payments_amount = #{surplusPaymentsAmount,jdbcType=DECIMAL},
+      interest = #{interest,jdbcType=DECIMAL},
+      creattime = #{creattime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

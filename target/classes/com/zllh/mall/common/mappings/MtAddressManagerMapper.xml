@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtAddressManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtAddressManager" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="contactor" property="contactor" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="postcode" property="postcode" jdbcType="VARCHAR" />
+    <result column="addressType" property="addresstype" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zllh.mall.common.model.MtAddressManager" extends="BaseResultMap" >
+    <result column="area_sys_code" property="areaSysCode" jdbcType="VARBINARY" />
+  </resultMap>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, contactor, phone, postcode, addressType
+  </sql>
+  <sql id="Blob_Column_List" >
+    area_sys_code
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mt_address_manager
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKeyList" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mt_address_manager
+  </select>
+  <select id="selectByAreaSysCodeList" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from mt_address_manager
+        where area_sys_code = #{areaSysCode,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mt_address_manager
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtAddressManager" >
+    insert into mt_address_manager (id, contactor, phone, 
+      postcode, addressType, area_sys_code
+      )
+    values (#{id,jdbcType=INTEGER}, #{contactor,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{postcode,jdbcType=VARCHAR}, #{addresstype,jdbcType=VARCHAR}, #{areaSysCode,jdbcType=VARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtAddressManager" >
+    insert into mt_address_manager
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="contactor != null" >
+        contactor,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="postcode != null" >
+        postcode,
+      </if>
+      <if test="addresstype != null" >
+        addressType,
+      </if>
+      <if test="areaSysCode != null" >
+        area_sys_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="contactor != null" >
+        #{contactor,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="addresstype != null" >
+        #{addresstype,jdbcType=VARCHAR},
+      </if>
+      <if test="areaSysCode != null" >
+        #{areaSysCode,jdbcType=VARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update mt_address_manager
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.contactor != null" >
+        contactor = #{record.contactor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null" >
+        postcode = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.addresstype != null" >
+        addressType = #{record.addresstype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaSysCode != null" >
+        area_sys_code = #{record.areaSysCode,jdbcType=VARBINARY},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update mt_address_manager
+    set id = #{record.id,jdbcType=INTEGER},
+      contactor = #{record.contactor,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      postcode = #{record.postcode,jdbcType=VARCHAR},
+      addressType = #{record.addresstype,jdbcType=VARCHAR},
+      area_sys_code = #{record.areaSysCode,jdbcType=VARBINARY}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update mt_address_manager
+    set id = #{record.id,jdbcType=INTEGER},
+      contactor = #{record.contactor,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      postcode = #{record.postcode,jdbcType=VARCHAR},
+      addressType = #{record.addresstype,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.MtAddressManager" >
+    update mt_address_manager
+    <set >
+      <if test="contactor != null" >
+        contactor = #{contactor,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        postcode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="addresstype != null" >
+        addressType = #{addresstype,jdbcType=VARCHAR},
+      </if>
+      <if test="areaSysCode != null" >
+        area_sys_code = #{areaSysCode,jdbcType=VARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zllh.mall.common.model.MtAddressManager" >
+    update mt_address_manager
+    set contactor = #{contactor,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      postcode = #{postcode,jdbcType=VARCHAR},
+      addressType = #{addresstype,jdbcType=VARCHAR},
+      area_sys_code = #{areaSysCode,jdbcType=VARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.MtAddressManager" >
+    update mt_address_manager
+    set contactor = #{contactor,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      postcode = #{postcode,jdbcType=VARCHAR},
+      addressType = #{addresstype,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.BusAreaTreeMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.BusAreaTree" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="AREA_CODE" property="areaCode" jdbcType="VARCHAR" />
+    <result column="AREA_NAME" property="areaName" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+    <result column="SYS_CODE" property="sysCode" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap type="com.zllh.mall.common.model.BusAreaTree" id="resultMap1" extends="BaseResultMap">
+      <result column="text" property="text" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, AREA_CODE, AREA_NAME, PARENT_CODE, SYS_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_area_tree
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_area_tree
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.BusAreaTree" >
+    insert into bus_area_tree (ID, AREA_CODE, AREA_NAME, 
+      PARENT_CODE, SYS_CODE)
+    values (#{id,jdbcType=VARCHAR}, #{areaCode,jdbcType=VARCHAR}, #{areaName,jdbcType=VARCHAR}, 
+      #{parentCode,jdbcType=VARCHAR}, #{sysCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.BusAreaTree" >
+    insert into bus_area_tree
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="areaCode != null" >
+        AREA_CODE,
+      </if>
+      <if test="areaName != null" >
+        AREA_NAME,
+      </if>
+      <if test="parentCode != null" >
+        PARENT_CODE,
+      </if>
+      <if test="sysCode != null" >
+        SYS_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null" >
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null" >
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCode != null" >
+        #{sysCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.BusAreaTree" >
+    update bus_area_tree
+    <set >
+      <if test="areaCode != null" >
+        AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null" >
+        AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sysCode != null" >
+        SYS_CODE = #{sysCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.BusAreaTree" >
+    update bus_area_tree
+    set AREA_CODE = #{areaCode,jdbcType=VARCHAR},
+      AREA_NAME = #{areaName,jdbcType=VARCHAR},
+      PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+      SYS_CODE = #{sysCode,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 添加 -->
+  <!-- 查询地域 -->
+   <sql id="Mall_searchArea">
+        <if test="id!= null"><![CDATA[ AND ID = #{id,jdbcType=VARCHAR} ]]></if>
+        <if test="areaCode!= null"><![CDATA[ AND AREA_CODE = #{areaCode,jdbcType=INTEGER} ]]></if>
+       <if test="sysCode!= null "><![CDATA[ AND SYS_CODE like CONCAT(#{sysCode,jdbcType=VARCHAR},'%')  ]]></if>
+       <if test="parentCode!= null"><![CDATA[ AND PARENT_CODE = #{parentCode,jdbcType=VARCHAR} ]]></if> 
+  </sql>
+  <select id="searchOne" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from bus_area_tree where 1=1 
+		 <include refid="Mall_searchArea" /> 
+  </select>
+  <select id="searchMore" resultMap="resultMap1"
+		parameterType="java.util.Map">
+		select
+			tree.ID, tree.AREA_CODE, tree.AREA_NAME as text, tree.PARENT_CODE, tree.SYS_CODE
+		from bus_area_tree tree where 1=1 
+		<if test="parentCode!= null"><![CDATA[ AND tree.PARENT_CODE = #{parentCode,jdbcType=VARCHAR} ]]></if> 
+  </select>
+  
+  <select id="selectByChildId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM
+			bus_area_tree bt
+		WHERE
+			bt.SYS_CODE = (
+				SELECT
+					LEFT(ba.SYS_CODE,8)
+				FROM
+					bus_area_tree ba
+				WHERE
+					ba.id = #{id,jdbcType=VARCHAR}
+			)
+		 
+  </select>
+</mapper>

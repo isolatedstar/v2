@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.DocInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.DocInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="DOC_NAME" property="docName" jdbcType="VARCHAR" />
+    <result column="DOC_GROUP_ID" property="docGroupId" jdbcType="VARCHAR" />
+    <result column="DOC_SUFFIX" property="docSuffix" jdbcType="VARCHAR" />
+    <result column="DOC_CREATE_ID" property="docCreateId" jdbcType="VARCHAR" />
+    <result column="DOC_SUB_TYPE" property="docSubType" jdbcType="VARCHAR" />
+    <result column="DOC_PATH" property="docPath" jdbcType="VARCHAR" />
+    <result column="DOC_CREATE_TIME" property="docCreateTime" jdbcType="TIMESTAMP" />
+    <result column="DOC_UPDATE_TIME" property="docUpdateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, DOC_NAME, DOC_GROUP_ID, DOC_SUFFIX, DOC_CREATE_ID, DOC_SUB_TYPE, DOC_PATH, DOC_CREATE_TIME, 
+    DOC_UPDATE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_doc_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_doc_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.DocInfo" >
+    insert into bus_doc_info (ID, DOC_NAME, DOC_GROUP_ID, 
+      DOC_SUFFIX, DOC_CREATE_ID, DOC_SUB_TYPE, 
+      DOC_PATH, DOC_CREATE_TIME, DOC_UPDATE_TIME
+      )
+    values (#{id,jdbcType=VARCHAR}, #{docName,jdbcType=VARCHAR}, #{docGroupId,jdbcType=VARCHAR}, 
+      #{docSuffix,jdbcType=VARCHAR}, #{docCreateId,jdbcType=VARCHAR}, #{docSubType,jdbcType=VARCHAR}, 
+      #{docPath,jdbcType=VARCHAR}, #{docCreateTime,jdbcType=TIMESTAMP}, #{docUpdateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.DocInfo" >
+    insert into bus_doc_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="docName != null" >
+        DOC_NAME,
+      </if>
+      <if test="docGroupId != null" >
+        DOC_GROUP_ID,
+      </if>
+      <if test="docSuffix != null" >
+        DOC_SUFFIX,
+      </if>
+      <if test="docCreateId != null" >
+        DOC_CREATE_ID,
+      </if>
+      <if test="docSubType != null" >
+        DOC_SUB_TYPE,
+      </if>
+      <if test="docPath != null" >
+        DOC_PATH,
+      </if>
+      <if test="docCreateTime != null" >
+        DOC_CREATE_TIME,
+      </if>
+      <if test="docUpdateTime != null" >
+        DOC_UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="docName != null" >
+        #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="docGroupId != null" >
+        #{docGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="docSuffix != null" >
+        #{docSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateId != null" >
+        #{docCreateId,jdbcType=VARCHAR},
+      </if>
+      <if test="docSubType != null" >
+        #{docSubType,jdbcType=VARCHAR},
+      </if>
+      <if test="docPath != null" >
+        #{docPath,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateTime != null" >
+        #{docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docUpdateTime != null" >
+        #{docUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update bus_doc_info
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docName != null" >
+        DOC_NAME = #{record.docName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docGroupId != null" >
+        DOC_GROUP_ID = #{record.docGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docSuffix != null" >
+        DOC_SUFFIX = #{record.docSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docCreateId != null" >
+        DOC_CREATE_ID = #{record.docCreateId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docSubType != null" >
+        DOC_SUB_TYPE = #{record.docSubType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docPath != null" >
+        DOC_PATH = #{record.docPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.docCreateTime != null" >
+        DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.docUpdateTime != null" >
+        DOC_UPDATE_TIME = #{record.docUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update bus_doc_info
+    set ID = #{record.id,jdbcType=VARCHAR},
+      DOC_NAME = #{record.docName,jdbcType=VARCHAR},
+      DOC_GROUP_ID = #{record.docGroupId,jdbcType=VARCHAR},
+      DOC_SUFFIX = #{record.docSuffix,jdbcType=VARCHAR},
+      DOC_CREATE_ID = #{record.docCreateId,jdbcType=VARCHAR},
+      DOC_SUB_TYPE = #{record.docSubType,jdbcType=VARCHAR},
+      DOC_PATH = #{record.docPath,jdbcType=VARCHAR},
+      DOC_CREATE_TIME = #{record.docCreateTime,jdbcType=TIMESTAMP},
+      DOC_UPDATE_TIME = #{record.docUpdateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.DocInfo" >
+    update bus_doc_info
+    <set >
+      <if test="docName != null" >
+        DOC_NAME = #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="docGroupId != null" >
+        DOC_GROUP_ID = #{docGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="docSuffix != null" >
+        DOC_SUFFIX = #{docSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateId != null" >
+        DOC_CREATE_ID = #{docCreateId,jdbcType=VARCHAR},
+      </if>
+      <if test="docSubType != null" >
+        DOC_SUB_TYPE = #{docSubType,jdbcType=VARCHAR},
+      </if>
+      <if test="docPath != null" >
+        DOC_PATH = #{docPath,jdbcType=VARCHAR},
+      </if>
+      <if test="docCreateTime != null" >
+        DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="docUpdateTime != null" >
+        DOC_UPDATE_TIME = #{docUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.DocInfo" >
+    update bus_doc_info
+    set DOC_NAME = #{docName,jdbcType=VARCHAR},
+      DOC_GROUP_ID = #{docGroupId,jdbcType=VARCHAR},
+      DOC_SUFFIX = #{docSuffix,jdbcType=VARCHAR},
+      DOC_CREATE_ID = #{docCreateId,jdbcType=VARCHAR},
+      DOC_SUB_TYPE = #{docSubType,jdbcType=VARCHAR},
+      DOC_PATH = #{docPath,jdbcType=VARCHAR},
+      DOC_CREATE_TIME = #{docCreateTime,jdbcType=TIMESTAMP},
+      DOC_UPDATE_TIME = #{docUpdateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<link href="css/pulic.css" rel="stylesheet" type="text/css">
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="panel panel-default" style=" margin-left:240px; margin-top:10px; box-shadow:3px 3px 8px rgba(0,0,0,0.1); margin-right:1%; height:auto;">
+<!---------------------------------------con top  start-------------------------------------------------------------->
+    <div class="con_top">
+        <p>待审批申请</p>
+    </div>
+<!---------------------------------------con top  over--------------------------------------------------------------->
+<!---------------------------- table start--------------------------------------------------->
+    <div class="table-responsive">
+       <table class="table table-hover">
+          <thead>
+             <tr class="active" style=" border:1px solid #ddd;" >
+                <th width="5%" style="padding-left:20px;">序号</th>
+                <th width="10%">会员名</th>
+                <th width="10%">业务关系</th>
+                <th width="10%">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+             <tr>
+                <td style="padding-left:20px;">1</td>
+                <td>高校1</td>
+                <td>向我销售</td>
+                <td><input class="btn btn-warning" style="width:40px; height:25px; line-height:12px; padding:5px 5px" type="button" type="button" value="同意"/>
+                    <input class="btn btn-danger" style="width:40px; height:25px; line-height:12px; padding:5px 5px" type="button" value="拒绝"/>
+                </td>
+             </tr>
+             <tr>
+                <td style="padding-left:20px;">2</td>
+                <td>供应商3</td>
+                <td>向我采购</td>
+                <td><input class="btn btn-warning" style="width:40px; height:25px; line-height:12px; padding:5px 5px" type="button" type="button" value="同意"/>
+                    <input class="btn btn-danger" style="width:40px; height:25px; line-height:12px; padding:5px 5px" type="button" value="拒绝"/>
+                </td>
+            </tr>
+             <tr style="border-bottom:1px #ddd solid;">
+                <td style="padding-left:20px;">3</td>
+                <td>高校3</td>
+                <td>向我销售</td>
+                <td><input class="btn btn-warning" style="width:40px; height:25px; line-height:12px; padding:5px 5px" type="button" type="button" value="同意"/>
+                    <input class="btn btn-danger" style="width:40px; height:25px; line-height:12px; padding:5px 5px" type="button" value="拒绝"/>
+                </td>
+             </tr>
+             <tr style="border-bottom:1px #ddd solid;">
+                <td style="padding-left:20px;">4</td>
+                <td>供应商6</td>
+                <td>向我销售</td>
+                <td><input class="btn btn-warning" style="width:40px; height:25px; line-height:12px; padding:5px 5px" type="button" type="button" value="同意"/>
+                    <input class="btn btn-danger" style="width:40px; height:25px; line-height:12px; padding:5px 5px" type="button" value="拒绝"/>
+                </td>
+             </tr>
+          </tbody>
+       </table>
+    </div> 
+<!---------------------------- table over--------------------------------------------------->
+<!---------------------------- 分页  start--------------------------------------------------->
+<ul class="pagination" style="margin-left:40%; margin-top:10%;" >
+  <li><a href="#">&laquo;</a></li>
+  <li class="active"><a href="#">1</a></li>
+  <li class="disabled"><a href="#">2</a></li>
+  <li><a href="#">3</a></li>
+  <li><a href="#">4</a></li>
+  <li><a href="#">5</a></li>
+  <li><a href="#">&raquo;</a></li>
+</ul>
+
+
+<!---------------------------- 分页  over--------------------------------------------------->
+
+
+</div>
+</body>
+</html>

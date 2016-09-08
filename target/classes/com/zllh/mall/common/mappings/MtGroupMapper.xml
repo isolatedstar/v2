@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtGroupMapper" >
+
+	<!-- 数据准备区 -->
+  	<resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtGroup" >
+    	<result column="id" property="id" jdbcType="VARCHAR" />
+    	<result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    	<result column="remark" property="remark" jdbcType="VARCHAR" />
+    	<result column="group_status" property="groupStatus" jdbcType="INTEGER" />
+  	</resultMap>
+  	
+  	<!-- 数据扩展区 -->
+  	<resultMap id="ResultMapBiz" type="com.zllh.mall.common.model.MtGroupBizz" >
+    	<result column="id" property="id" jdbcType="VARCHAR" />
+    	<result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    	<result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    	<result column="mmb_fname" property="mmbFname" jdbcType="VARCHAR" />
+    	<result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+    	<result column="status" property="status" jdbcType="INTEGER" />
+    	
+  	</resultMap>
+  
+  	<sql id="SearchCondition">
+        <if test="id!=null">AND group1.id=#{id,jdbcType=VARCHAR}</if>
+        <if test="groupName!=null"><![CDATA[ and group1.group_name  like CONCAT('%',#{groupName},'%')]]></if>
+        <if test="remark!=null">and group1.remark=#{remark,jdbcType=VARCHAR}</if>
+        <if test="groupStatus!=null">AND group1.group_status=#{groupStatus,jdbcType=INTEGER}</if>
+    </sql>
+  	
+  	<sql id="Base_Column_List">
+  		id,group_name,remark,group_status
+  	</sql>
+  
+  <!-- 数据处理区 -->
+  <!-- 群组的创建 -->
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtGroup" >
+    insert into mt_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="groupName != null" >
+        group_name,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="groupStatus != null" >
+        group_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="groupStatus != null" >
+        #{groupStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 查询满足条件的群组个数 -->
+  <select id="countGroupByContion" parameterType="com.zllh.mall.common.model.MtGroup" resultType="java.lang.Integer">
+  	select 
+  		COUNT(*)
+	FROM
+		mt_group group1
+	WHERE 1=1
+		<include refid="SearchCondition"/>
+  </select>
+  
+  <!-- 按条件查询,返回单个对象  -->
+  <select id="queryGroupByCondition" resultMap="BaseResultMap" parameterType="com.zllh.mall.common.model.MtGroup">
+  	select 
+  		<include refid="Base_Column_List"/>
+  	from mt_group group1 where 1=1
+  		<include refid="SearchCondition"/>
+  </select>
+  
+  <!-- 通过会员ID,返回群組的集合 -->
+  <select id="queryGroupByMMbId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  
+  	 SELECT DISTINCT
+	   mg.*
+	FROM
+		mt_mmb_group_rela mugr
+	INNER JOIN mt_group mg ON mg.id = mugr.group_id
+	WHERE
+		1=1  
+		
+			<if test="groupName!=null"><![CDATA[ AND	mg.group_name  like CONCAT('%',#{groupName},'%')]]></if>
+			<if test="mmbId!=null">AND	mugr.mmb_id=#{mmbId,jdbcType=VARCHAR}</if>
+			<if test="status!=null">AND	mugr.status =#{status,jdbcType=INTEGER}</if>
+			
+  </select>
+  <!-- 通过操作员ID,返回群組的集合 -->
+  <select id="queryGroupByUserId" parameterType="java.util.Map" resultMap="ResultMapBiz">
+  	
+  	 SELECT DISTINCT
+	  mugr.id,
+	  mugr.group_id,
+	  mg.group_name,
+	  mugr.state
+	FROM
+		mt_user_group_rela mugr
+	INNER JOIN mt_group mg ON mg.id = mugr.group_id
+	WHERE
+		1=1
+		
+			<if test="userId!=null">AND	mugr.user_id=#{userId,jdbcType=VARCHAR}</if>
+			<if test="status!=null">AND	mugr.state =#{status,jdbcType=INTEGER}</if>
+			<if test="startFirst != null and startEnd != null">
+				limit #{startFirst},#{startEnd}
+			</if>
+  </select>
+  
+  <!-- 根据会员ID和查询类型,返回所有群组对象的集合 -->
+  <select id="queryGroupsByMmbId" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT distinct
+		p.id id,
+		p.group_name group_name,
+		p.remark remark,
+		p.group_status group_status
+	FROM
+		mt_group p
+		<if test="type != null and type==0">
+		INNER JOIN (
+			SELECT
+				p1.*
+			FROM mt_group_relationship
+				p1
+			INNER JOIN (
+				SELECT
+					mm.*
+				FROM
+					mt_mmb_group_rela mm
+				WHERE 1=1  and mm.status='2'
+					
+					 and mm.mmb_id = #{mmbId,jdbcType=VARCHAR} 
+					
+			) p2 ON p1.group_id = p2.group_id  where p1.bus_type='1'
+		) p3 ON p.id = p3.rp_group_id
+		 </if>
+		 <if test="type != null and type==1">
+			INNER JOIN (
+				SELECT
+					p1.*
+				FROM mt_group_relationship
+					p1
+				INNER JOIN (
+					SELECT
+						mm.*
+					FROM
+						mt_mmb_group_rela mm
+					WHERE 1=1  and mm.status='2'
+					
+					 and mm.mmb_id = #{mmbId,jdbcType=VARCHAR} 
+					 
+				) p2 ON p1.rp_group_id = p2.group_id  where p1.bus_type='2'
+			) p3 ON p.id = p3.group_id 
+	 	</if>
+	 	where 1=1 and p.group_status='1'
+	 <if test=" groupName!= null "><![CDATA[ and p.group_name  like CONCAT('%',#{groupName},'%')]]></if>
+	 
+	 <if test="startFirst != null and startEnd != null">
+			limit #{startFirst},#{startEnd}
+	</if>
+  </select>
+  
+  <!-- 反向查询群组关系条件查询满足条件的群组 -->
+  <select id="queryGroupRelationshipByContiontionContrary" parameterType="java.util.Map" resultMap="BaseResultMap">
+	SELECT DISTINCT
+		*
+	FROM
+		mt_group mg2
+	WHERE
+		NOT EXISTS (
+			SELECT
+				groR.rp_group_id
+			FROM
+				mt_group_relationship AS groR
+			WHERE
+				1 = 1
+			<if test="(busType==1 or busType==3) and busType!=null">
+				AND groR.rp_group_id = mg2.id
+				AND bus_type=#{busType,jdbcType=INTEGER}
+			</if>
+			<if test="(busType==2 or busType==4) and busType!=null">
+				AND groR.group_id = mg2.id
+				AND bus_type=#{busType,jdbcType=INTEGER}-1
+			</if>
+			<if test="id!=null">AND id!=#{id,jdbcType=VARCHAR}</if>
+		    <if test="groupId!=null">AND group_id=#{groupId,jdbcType=VARCHAR}</if>
+		    <if test="rpGroupId!=null">AND rp_group_id=#{rpGroupId,jdbcType=VARCHAR}</if>
+		    <if test="createTime!=null">AND create_time=#{createTime,jdbcType=TIMESTAMP}</if>
+		)
+			<if test="(busType==1 or busType==3) and busType!=null">
+				AND mg2.id != #{groupId,jdbcType=VARCHAR}
+			</if>
+			<if test="(busType==2 or busType==4) and busType!=null">
+				AND mg2.id != #{rpGroupId,jdbcType=VARCHAR}
+			</if>
+			<if test="groupName!=null">
+				AND mg2.group_name like '%${groupName}%'
+			</if>
+		<![CDATA[ limit #{startFirst,jdbcType=INTEGER},#{startEnd,jdbcType=INTEGER}]]>
+  </select>
+  
+  <!-- 根据会员ID和查询类型,返回所有群组对象的集合 -->
+  <select id="countQueryGroupsByMmbId" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT distinct
+		count(p.id)
+	FROM
+		mt_group p
+		<if test="type != null and type==0">
+		INNER JOIN (
+			SELECT
+				p1.*
+			FROM mt_group_relationship
+				p1
+			INNER JOIN (
+				SELECT
+					mm.*
+				FROM
+					mt_mmb_group_rela mm
+				WHERE 1=1  and mm.status='2'
+					
+					 and mm.mmb_id = #{mmbId,jdbcType=VARCHAR} 
+					 
+			) p2 ON p1.group_id = p2.group_id  where p1.bus_type='1'
+		) p3 ON p.id = p3.rp_group_id
+		 </if>
+		 <if test="type != null and  type==1">
+			INNER JOIN (
+				SELECT
+					p1.*
+				FROM mt_group_relationship
+					p1
+				INNER JOIN (
+					SELECT
+						mm.*
+					FROM
+						mt_mmb_group_rela mm
+					WHERE 1=1  and mm.status='2'
+						
+							 and mm.mmb_id = #{mmbId,jdbcType=VARCHAR} 
+					 	
+				) p2 ON p1.rp_group_id = p2.group_id  where p1.bus_type='2'
+			) p3 ON p.id = p3.group_id 
+	 	</if>
+	 	where 1=1 and  p.group_status='1'
+		<if test=" groupName!= null "><![CDATA[ and p.group_name  like CONCAT('%',#{groupName},'%')]]></if>	
+  </select>
+  
+  <!-- 根据报价ID和查询类型,返回所有群组对象的集合 -->
+  <select id="queryGroupsByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT distinct
+		mg.id id,
+		mg.group_name group_name,
+		mg.remark remark,
+		mg.group_status group_status
+	FROM
+		mt_group mg
+	INNER JOIN mt_quote_scope mqs ON mg.id = mqs.scope_id
+	WHERE
+		mqs.quote_id = #{quoteId,jdbcType=VARCHAR}
+	AND mqs.type = #{type,jdbcType=VARCHAR} AND mg.group_status="1"
+  </select>
+  
+  <!-- 分页查询,返回对象的list集合 -->
+  <select id="queryGroupList" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	SELECT
+		group1.*
+	FROM
+		mt_mmb_group_rela mugr
+	INNER JOIN mt_group group1 ON group1.id = mugr.group_id
+	WHERE 1=1
+		<if test="userId != null" > 
+  			and mugr.mmb_id = #{userId,jdbcType=VARCHAR}
+  		</if>
+  		<include refid="SearchCondition"/> 
+  	<![CDATA[ limit #{startFirst,jdbcType=INTEGER},#{startEnd,jdbcType=INTEGER}]]>
+  </select>
+  
+  <!-- 查询满足条件的记录总数 -->
+  <select id="countGroupByContiontion" resultType="java.lang.Integer" parameterType="java.util.Map">
+  	select  DISTINCT
+  		count(*) 
+	FROM
+		mt_mmb_group_rela mugr
+	INNER JOIN mt_group group1 ON group1.id = mugr.group_id
+	WHERE 1=1
+		<if test="mmbId != null" > 
+  			and mugr.mmb_id = #{mmb_id,jdbcType=VARCHAR}
+  		</if>
+  		<include refid="SearchCondition"/> 
+  </select>
+  
+  <!-- 根据会员ID和群组的关系类型查询满足条件的群组-->
+  <select id="querGroupsByCondition" parameterType="java.util.Map" resultType="com.zllh.mall.common.model.MtGroup">
+  	SELECT  DISTINCT
+		mg.id,
+		mg.group_name,
+		mg.group_status,
+		mg.remark
+	FROM
+		(
+			SELECT
+				mt1.rp_group_id
+			FROM
+				mt_group_relationship mt1
+			LEFT JOIN (
+				SELECT
+					mr1.group_id
+				FROM
+					mt_mmb_group_rela mr1
+				WHERE
+					mr1.mmb_id = 
+						<if test="mmbId != null" >
+				        	#{mmbId,jdbcType=VARCHAR}
+				      	</if>
+			) t1 ON t1.group_id = mt1.group_id
+			WHERE
+				mt1.bus_type = 
+					<if test="busType != null" >
+				        #{busType,jdbcType=INTEGER}
+				    </if>
+			ORDER BY
+				mt1.rp_group_id
+		) mt2
+	LEFT JOIN mt_group mg ON mt2.rp_group_id = mg.id
+	GROUP BY
+		mg.id
+  </select>
+  
+  <!-- 根据会员ID和群组的关系类型查询满足条件的群组,类型转换后-->
+  <select id="querGroupsByConditionFormat" parameterType="java.util.Map" resultType="com.zllh.mall.common.model.MtGroup">
+  	SELECT  DISTINCT
+		mg.id,
+		mg.group_name,
+		mg.group_status,
+		mg.remark
+	FROM
+		(
+			SELECT
+				mt1.group_id
+			FROM
+				(
+					SELECT
+						mr1.group_id
+					FROM
+						mt_mmb_group_rela mr1
+					WHERE
+						mr1.mmb_id = 
+							<if test="mmbId != null" >
+					        	#{mmbId,jdbcType=VARCHAR}
+					      	</if>
+				) t1
+			INNER JOIN mt_group_relationship mt1 ON t1.group_id = mt1.rp_group_id
+			WHERE
+				mt1.bus_type = 
+					<if test="busType != null" >
+				        #{busType,jdbcType=INTEGER}
+				    </if>
+			GROUP BY
+				mt1.rp_group_id
+		) mt2
+	LEFT JOIN mt_group mg ON mt2.rp_group_id = mg.id
+	GROUP BY
+		mg.id
+  </select>
+  
+  <!-- 修改群组信息,现在是改变其状态 -->
+  <update id="updateGroupState" parameterType="com.zllh.mall.common.model.MtGroup">
+  	update mt_group 
+  		<set>
+	      <if test="groupName != null" >
+	        	group_name=#{groupName,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="remark != null" >
+	       	 	remark=#{remark,jdbcType=VARCHAR},
+	      	</if>
+	      	<if test="groupStatus != null" >
+	        	group_status=#{groupStatus,jdbcType=INTEGER},
+	      	</if>
+	    </set>
+	where id=#{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+</mapper>

@@ -1,0 +1,292 @@
+﻿<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <style type="text/css">
+        .style1
+        {
+            width: 720px;
+        }
+        #TextSelectedCertificateSubjectDN
+        {
+            width: 715px;
+        }
+        #TextSelectedCertificateSubjectSN
+        {
+            width: 716px;
+        }
+        #TextSelectedCertificateValidTime
+        {
+            width: 713px;
+        }
+    </style>
+</head>
+<script language="javascript">
+    var CryptoAgency = "";
+    function LoadObject() {
+        try {
+            var eDiv = document.createElement("div");
+            if (navigator.appName.indexOf("Internet") >= 0) {
+                if (window.navigator.cpuClass == "x86") {
+					alert("1");
+                    eDiv.innerHTML = "<object id=\"CryptoAgent\" codebase=\"CryptoKit.NXDJFWW.x86.cab\" classid=\"clsid:4AB61763-2A77-4044-966B-4589F676E8A9\"></object>";
+                }
+                else {
+					alert("2");
+                    eDiv.innerHTML = "<object id=\"CryptoAgent\" codebase=\"CryptoKit.NXDJFWW.x64.cab\" classid=\"clsid:054AFC85-2FEA-488F-8BE4-824EBF55907A\"></object>";
+                }
+            }
+            else {
+				alert("3");
+                  eDiv.innerHTML = "<object id=\"CryptoAgent\" codebase=\"CryptoKit.NXDJFWW.x86.cab\" classid=\"clsid:4AB61763-2A77-4044-966B-4589F676E8A9\"></object>";
+                //eDiv.innerHTML = "<object id=\"CryptoAgent\" codebase=\"CryptoKit.NXDJFWW.x64.cab\" classid=\"clsid:054AFC85-2FEA-488F-8BE4-824EBF55907A\"></object>";
+                //eDiv.innerHTML = "<embed id=\"CryptoAgent\" type=\"application/npCryptoKit.NXDJFWW.x86\" style=\"height: 0px; width: 0px\">";
+            }
+            document.body.appendChild(eDiv);
+        }
+        catch (e) {
+            alert(e);
+        }
+        CryptoAgency = document.getElementById("CryptoAgent");
+    }
+
+    function SelectCertificate() {
+
+        try {
+            var SubjectFilter = "";
+            var IssueFilter = "";
+
+            if (document.getElementById("TextSubjectDNFilter").value.length > 0) {
+                SubjectFilter = document.getElementById("TextSubjectDNFilter").value;
+            }
+            if (document.getElementById("TextIssueDNFilter").value.length > 0) {
+                IssueFilter = document.getElementById("TextIssueDNFilter").value;
+            }
+
+            //var CertSubjectDN = CryptoAgency.SelectSignCertificate(SubjectFilter, IssueFilter);
+			alert("4");
+			var CertSubjectDN = CryptoAgency.SelectSignCertificate("", "");
+			alert("5");
+
+            if (!CertSubjectDN) {
+                var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+                alert(LastErrorDesc);
+                return;
+            }
+            document.getElementById("TextSelectedCertificateSubjectDN").value = CertSubjectDN;
+
+            var certSN = CryptoAgency.GetSelectedCertSN();
+            document.getElementById("TextSelectedCertificateSubjectSN").value = certSN;
+
+            var certTime = CryptoAgency.GetSelectedCertVaildTime();
+            document.getElementById("TextSelectedCertificateValidTime").value = certTime;
+
+            var csp = CryptoAgency.GetCSPNameofSignCert();
+            document.getElementById("TextSelectedCertificateCSP").value = csp;
+        }
+        catch (e) {
+            var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+            alert(LastErrorDesc);
+        }
+    }
+
+    function GetSelectedItemValue(itemName) {
+
+        var ele = document.getElementsByName(itemName);
+        for (i = 0; i < ele.length; i++) {
+            if (ele[i].checked) {
+                return ele[i].value;
+            }
+        }
+    }
+
+    function GetSelectedItemIndex(itemName) {
+
+        var ele = document.getElementsByName(itemName);
+        for (i = 0; i < ele.length; i++) {
+            if (ele[i].checked) {
+                return i;
+            }
+        }
+    }
+
+    function GetSelectedCertContent() {
+        try {
+            var certificate = CryptoAgency.GetSelectedCertContent();
+
+            if (!certificate) {
+                var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+                alert(LastErrorDesc);
+                return;
+            }
+            document.getElementById("TextGetCertificate").value = certificate;
+        }
+        catch (e) {
+            var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+            alert(LastErrorDesc);
+        }
+    }
+
+    function GetVersion() {
+        try {
+            var version = CryptoAgency.GetVersion();
+            document.getElementById("TextGetversion").value = version;
+        }
+        catch (e) {
+            var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+            alert(LastErrorDesc);
+        }
+    }
+
+
+    function SignMessage() {
+
+        try {
+            var SignedContent = "";
+            var Signature = "";
+            var selectedAlg = GetSelectedItemValue("algorithm");
+            var signStyle = GetSelectedItemIndex("signStyle");
+            
+            if (document.getElementById("textareaSignedContent").value.length > 0) {
+                SignedContent = document.getElementById("textareaSignedContent").value;
+            }
+
+            Signature = CryptoAgency.SignMessage(SignedContent, selectedAlg);
+
+            if (!Signature) {
+                var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+                alert(LastErrorDesc);
+                return;
+            }
+
+            document.getElementById("textareaSignature").value = Signature;
+
+        }
+        catch (e) {
+            var LastErrorDesc = CryptoAgency.GetLastErrorDesc();
+            alert(LastErrorDesc);
+        }
+    }
+</script>
+<body onload="javascript:LoadObject();GetVersion()">
+    <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td width="180">
+            </td>
+            <td>
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td height="30">
+                            版本号：
+                        </td>
+                        <td height="30">
+                            <input id="TextGetversion" />
+                        </td> 
+                     </tr>
+                     <tr>
+                            <td height="30">
+                                主题DN：
+                            </td>
+                            <td>
+                                <input id="TextSubjectDNFilter" />
+                            </td>
+                      </tr>
+                      <tr>
+                            <td height="30">
+                                颁发者DN：
+                            </td>
+                            <td>
+                                <input id="TextIssueDNFilter" />
+                            </td>
+                      </tr>                      
+                    <tr>
+                        <td  height="30">
+                            <input type="button" value="选择证书" onclick="SelectCertificate();GetSelectedCertContent();" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" colspan="2" height="30">
+                            选定证书所在CSP：
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input id="TextSelectedCertificateCSP" style="width:100%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" height="30">
+                            选定证书的主题DN：
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input id="TextSelectedCertificateSubjectDN" style="width:100%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" colspan="2" height="30">
+                            选定证书的SN：
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input id="TextSelectedCertificateSubjectSN" style="width:100%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" colspan="2" height="30">
+                            选定证书的有效时间：
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input id="TextSelectedCertificateValidTime" style="width:100%"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top" colspan="2" height="30">
+                            选定证书的内容(Base64编码)：
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <textarea id="TextGetCertificate" rows="10" class="style1"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" height="30">
+                            签名原文：
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <textarea id="textareaSignedContent" rows="15" class="style1"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" height="30">
+                            <input type="radio" name="algorithm" checked="checked" value="SHA-1" />SHA-1<input
+                                type="radio" name="algorithm" value="SHA-256" />SHA-256
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" height="30">
+                            <input type="button" value="PKCS#7带原文消息签名" onclick="SignMessage();" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" height="30">
+                            签名结果：
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <textarea id="textareaSignature" rows="15" class="style1"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtGoodMalMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtGoodMal" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="good_id" property="goodId" jdbcType="VARCHAR" />
+    <result column="mal_id" property="malId" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtGoodMal" >
+    insert into mt_good_mal (id, good_id, mal_id, 
+      remark, createTime)
+    values (#{id,jdbcType=VARCHAR}, #{goodId,jdbcType=VARCHAR}, #{malId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtGoodMal" >
+    insert into mt_good_mal
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodId != null" >
+        good_id,
+      </if>
+      <if test="malId != null" >
+        mal_id,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=VARCHAR},
+      </if>
+      <if test="malId != null" >
+        #{malId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+   <sql id="Base_Column_List">
+  		id, good_id, mal_id, 
+      remark, createTime
+  </sql>
+   <sql id="del_good">
+        <if test="goodId!= null"><![CDATA[ AND good_id = #{goodId,jdbcType=VARCHAR} ]]></if>
+        <if test="malId!= null"><![CDATA[  AND mal_id = #{malId,jdbcType=INTEGER} ]]></if>
+       
+  </sql>
+   <delete id="delById" parameterType="java.util.Map">
+  		 DELETE FROM mt_good_mal  where 1=1
+  		 <include refid="del_good"></include>
+  </delete>
+</mapper>

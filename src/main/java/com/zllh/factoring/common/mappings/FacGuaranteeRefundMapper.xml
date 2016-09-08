@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.factoring.common.dao.FacGuaranteeRefundMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.factoring.common.model.FacGuaranteeRefund" >
+    <id column="guarantee_refund_id" property="guaranteeRefundId" jdbcType="VARCHAR" />
+    <result column="refund_id" property="refundId" jdbcType="VARCHAR" />
+    <result column="guarantee_id" property="guaranteeId" jdbcType="VARCHAR" />
+    <result column="guarantee_refund_amount" property="guaranteeRefundAmount" jdbcType="DECIMAL" />
+    <result column="refund_date" property="refundDate" jdbcType="TIMESTAMP" />
+    <result column="refund_principal_total" property="refundPrincipalTotal" jdbcType="DECIMAL" />
+    <result column="refund_interest_total" property="refundInterestTotal" jdbcType="DECIMAL" />
+    <result column="refund_balance" property="refundBalance" jdbcType="DECIMAL" />
+    <result column="overdue_fine" property="overdueFine" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    guarantee_refund_id, refund_id, guarantee_id, guarantee_refund_amount, refund_date, 
+    refund_principal_total, refund_interest_total, refund_balance, overdue_fine
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fac_guarantee_refund
+    where guarantee_refund_id = #{guaranteeRefundId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fac_guarantee_refund
+    where guarantee_refund_id = #{guaranteeRefundId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.factoring.common.model.FacGuaranteeRefund" >
+    insert into fac_guarantee_refund (guarantee_refund_id, refund_id, guarantee_id, 
+      guarantee_refund_amount, refund_date, refund_principal_total, 
+      refund_interest_total, refund_balance, overdue_fine)
+    values (#{guaranteeRefundId,jdbcType=VARCHAR}, #{refundId,jdbcType=VARCHAR}, #{guaranteeId,jdbcType=VARCHAR}, 
+      #{guaranteeRefundAmount,jdbcType=DECIMAL}, #{refundDate,jdbcType=TIMESTAMP}, #{refundPrincipalTotal,jdbcType=DECIMAL}, 
+      #{refundInterestTotal,jdbcType=DECIMAL}, #{refundBalance,jdbcType=DECIMAL}, #{overdueFine,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.factoring.common.model.FacGuaranteeRefund" >
+    insert into fac_guarantee_refund
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guaranteeRefundId != null" >
+        guarantee_refund_id,
+      </if>
+      <if test="refundId != null" >
+        refund_id,
+      </if>
+      <if test="guaranteeId != null" >
+        guarantee_id,
+      </if>
+      <if test="guaranteeRefundAmount != null" >
+        guarantee_refund_amount,
+      </if>
+      <if test="refundDate != null" >
+        refund_date,
+      </if>
+      <if test="refundPrincipalTotal != null" >
+        refund_principal_total,
+      </if>
+      <if test="refundInterestTotal != null" >
+        refund_interest_total,
+      </if>
+      <if test="refundBalance != null" >
+        refund_balance,
+      </if>
+      <if test="overdueFine != null" >
+        overdue_fine,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guaranteeRefundId != null" >
+        #{guaranteeRefundId,jdbcType=VARCHAR},
+      </if>
+      <if test="refundId != null" >
+        #{refundId,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeId != null" >
+        #{guaranteeId,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeRefundAmount != null" >
+        #{guaranteeRefundAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundDate != null" >
+        #{refundDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundPrincipalTotal != null" >
+        #{refundPrincipalTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="refundInterestTotal != null" >
+        #{refundInterestTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="refundBalance != null" >
+        #{refundBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueFine != null" >
+        #{overdueFine,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.factoring.common.model.FacGuaranteeRefund" >
+    update fac_guarantee_refund
+    <set >
+      <if test="refundId != null" >
+        refund_id = #{refundId,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeId != null" >
+        guarantee_id = #{guaranteeId,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeRefundAmount != null" >
+        guarantee_refund_amount = #{guaranteeRefundAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundDate != null" >
+        refund_date = #{refundDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="refundPrincipalTotal != null" >
+        refund_principal_total = #{refundPrincipalTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="refundInterestTotal != null" >
+        refund_interest_total = #{refundInterestTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="refundBalance != null" >
+        refund_balance = #{refundBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="overdueFine != null" >
+        overdue_fine = #{overdueFine,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where guarantee_refund_id = #{guaranteeRefundId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.factoring.common.model.FacGuaranteeRefund" >
+    update fac_guarantee_refund
+    set refund_id = #{refundId,jdbcType=VARCHAR},
+      guarantee_id = #{guaranteeId,jdbcType=VARCHAR},
+      guarantee_refund_amount = #{guaranteeRefundAmount,jdbcType=DECIMAL},
+      refund_date = #{refundDate,jdbcType=TIMESTAMP},
+      refund_principal_total = #{refundPrincipalTotal,jdbcType=DECIMAL},
+      refund_interest_total = #{refundInterestTotal,jdbcType=DECIMAL},
+      refund_balance = #{refundBalance,jdbcType=DECIMAL},
+      overdue_fine = #{overdueFine,jdbcType=DECIMAL}
+    where guarantee_refund_id = #{guaranteeRefundId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 批量插入 -->
+  <insert id="insertGuaranteeRefundByList" parameterType="java.util.List" >
+   insert into fac_guarantee_refund (guarantee_refund_id, refund_id, guarantee_id, 
+     guarantee_refund_amount, refund_date, refund_principal_total, 
+     refund_interest_total, refund_balance, overdue_fine)
+   values
+   <foreach collection="list" item="item" index="index" separator=",">
+     (#{item.guaranteeRefundId,jdbcType=VARCHAR}, #{item.refundId,jdbcType=VARCHAR}, #{item.guaranteeId,jdbcType=VARCHAR}, 
+     #{item.guaranteeRefundAmount,jdbcType=DECIMAL}, #{item.refundDate,jdbcType=TIMESTAMP}, #{item.refundPrincipalTotal,jdbcType=DECIMAL}, 
+     #{item.refundInterestTotal,jdbcType=DECIMAL}, #{item.refundBalance,jdbcType=DECIMAL}, #{item.overdueFine,jdbcType=DECIMAL})
+    </foreach>
+  </insert>
+  
+</mapper>

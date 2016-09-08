@@ -1,0 +1,21 @@
+
+package com.zllh.factoring.common.interest;
+
+
+public class InterestConfig {
+
+	/** 日息 */
+	public static double DAYINTEREST = 0.002;
+	
+	/** 冻结比*/
+	public static double FREEZE = 0.2;
+	
+	/** 给付金额 比例 */
+	public static double PERCENT = 0.8;
+	
+	/** 到期利率  **/
+	public static double EXPIRE_RATE = 0.008;
+	
+	/** 超期利率 **/
+	public static double OVERDUE_RATE = 0.01;
+}

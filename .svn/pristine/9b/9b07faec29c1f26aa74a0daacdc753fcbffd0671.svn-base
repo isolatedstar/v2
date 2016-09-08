@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Language" content="zh-CN">
+<title>会员主页</title>
+<link href="/v2/mall/css/mall.css" rel="stylesheet" type="text/css">
+<link href="/v2/mall/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="/v2/mall/css/media2.css" rel="stylesheet" type="text/css">
+<script src="/v2/mall/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script src="/v2/common/js/common.js"></script>
+<script>
+   
+	
+</script>
+    <script>
+        window.onload = function(){
+            var box = document.getElementById('box');
+            var list = document.getElementById('list');
+            var buttons = document.getElementById('buttons').getElementsByTagName('span');
+            var prev = document.getElementById('prev');
+            var next = document.getElementById('next');
+            var index = 1;
+            var time;
+            var animated = false;
+            function showButtons(){
+                for(var i=0; i<buttons.length;i++){
+                    if(buttons[i].className == 'on'){
+                      buttons[i].className = '';
+                }
+            }
+                buttons[index-1].className = 'on';
+            };
+            for(var i=0; i<buttons.length; i++){
+                if(this.className == 'on'){
+                    return;
+                }
+                buttons[i].onclick = function(){
+                    var myIndex = parseInt(this.getAttribute('index'));
+                    var offset = -1280*(myIndex - index);
+                    if(!animated){
+                        animate(offset);
+                    }
+
+                    index = myIndex;
+                    showButtons();
+                };
+            };
+            function animate(offset){
+                animated = true;
+                var newLeft = parseInt(list.style.left) + offset;
+
+                var time = 300; //位移总时间
+                var interval = 10; //位移间隔
+                var speed = offset/(time/interval); //每次移动多少距离
+                var buttons = document.getElementById('buttons').getElementsByTagName('span');
+                var num = buttons.length;
+                
+                function go(){
+                    if( (speed < 0 && parseInt(list.style.left) > newLeft) || ( speed > 0 && parseInt(list.style.left) < newLeft) ){
+                        list.style.left = parseInt(list.style.left) + speed + 'px';
+                        setTimeout(go,interval)
+                    }else {
+                        animated = false;
+                        list.style.left = newLeft + 'px';
+                        if(newLeft > -1280){
+                            list.style.left = -1280*num + 'px'
+                        }
+                        if(newLeft < -1280*num){
+                            list.style.left = -1280 + 'px'
+                        }
+                    }
+                }
+                go();
+            }
+            next.onclick = function(){
+            	var buttons = document.getElementById('buttons').getElementsByTagName('span');
+                var num = buttons.length;
+                if(index == num){
+                    index = 1;
+                }else {
+                    index += 1;
+                }
+                if(!animated){
+                    animate(-1280)
+                }
+                showButtons()
+            };
+            prev.onclick = function(){
+            	var buttons = document.getElementById('buttons').getElementsByTagName('span');
+                var num = buttons.length;
+                if(index == 1){
+                    index = num
+                }else {
+                    index -=1;
+                }
+                if(!animated){
+                    animate(1280);
+                }
+                showButtons()
+            };
+            function play(){
+                time = setInterval(function(){
+                    next.onclick();
+                },3000)
+            }
+            function stop(){
+                clearInterval(time)
+            }
+            box.onmouseover = stop;
+            box.onmouseout = play;
+        };
+        function addMmbId(){
+        	var mmbId = $("#relaMmbId").val()
+        	$.ajax({
+				url:'/v2/mmbwesite/followMmbMbHomePage.do?relaMmbId='+mmbId,
+				type: "GET",
+                dataType: "json",
+				
+				success:function(data){
+				   	 data = eval(data);
+				   	 //如果成功
+				   	 if(data!=""){
+				   	 	window.location = "http://www.baidu.com";
+				   	 }
+				}
+			});
+        }
+        function toGood(){
+        	var mmbId = $("#relaMmbId").val();
+        	window.location = "/v2/GoodController/mmbGoodsAnonymously.do?mmbId="+mmbId;
+        }
+        
+    </script>
+    
+
+</head>
+
+<body>
+<div class="h_member">
+	<div class="h_header">
+    	<p>中国农校对接服务网</p>
+        <div class="h_header_right">
+        	<a href="/v2/QuoteController/toshowShop1.do" ><span>向我买</span></a>
+            <a href="/v2/QuoteController/toshowShop.do"><span>向我卖</span></a>
+            <input type="hidden" id="relaMmbId" value="d710adbcefdf45d0a0e4a83810b65514" />
+        </div>
+    </div>
+    
+    <!--banner start-->
+    <div id="box">
+        <div id="list" style="left:-1280px;">
+			      <div class="one">
+                		<img src="/v2/upload/img/newImg/RK/054364b384364678bf8caf7900e777ce.jpg" alt="1" ><span></span>
+            		</div>
+    				 <div class="one">
+                		<img src="/v2/upload/img/newImg/RK/054364b384364678bf8caf7900e777ce.jpg" alt="1" ><span></span>
+            		</div>
+			      <div class="one">
+                		<img src="/v2/upload/img/newImg/RK/054364b384364678bf8caf7900e777ce.jpg" alt="1" ><span></span>
+            		</div>
+        </div>
+        <div id="buttons">
+            		<span index="1" class="on"></span>
+    				 
+        </div>
+        <a href="#" id="next" class="arrow">&gt;</a>
+        <a href="#" id="prev" class="arrow">&lt;</a>
+    </div>
+    <!--banner over-->
+	<div class="h_culture">
+    	<h2>企业介绍</h2>
+        <p>1111</p>
+    </div>
+    <div class="quality" id="showPic">
+    <a href="#" class="h_culture_btn" onclick="toGood();">商品详情</a>
+        <div class="clear"></div>
+    	<h2>资质展示</h2>
+    				
+					<div class="quality_l">
+			        	<img src="/v2/upload/img/newImg/OY/e0a8bf7a67ec4877b6bab79e617d6485.jpg" style="width:337px;height:246px;"/>
+			            <div></div>
+			        </div>
+		<div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    
+    <div class="login">
+    	<a href="/v2/QuoteController/toshowShop.do" class="login_l"  target="_Blank" >登录商城</a>
+		<a href="#" onclick="addMmbId();" class="login_r">关注我们</a>      
+    </div>
+    <div class="h_footer">
+    	<p class="h_footer_l">欢迎关注<中国农校对接服务网>会员主页</p>
+        <div class="h_footer_r">
+            <img src="/v2/mmbhtml/imgCode/d710adbcefdf45d0a0e4a83810b65514.jpg" style="width:160px; height:160px;"/>  
+            <p>官方二维码<p>
+        </div> 
+        
+    </div>
+    <div class="clear"></div>
+    
+    
+    
+    
+</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.server.dao.RegularViewMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.payment.model.RegularView" >
+    <result column="zong_id" property="zongId" jdbcType="VARCHAR" />
+    <result column="zong_length" property="zongLength" jdbcType="TINYINT" />
+    <result column="zong_start" property="zongStart" jdbcType="TINYINT" />
+    <result column="zong_end" property="zongEnd" jdbcType="TINYINT" />
+    <result column="zong_content" property="zongContent" jdbcType="VARCHAR" />
+    <result column="fen_id" property="fenId" jdbcType="VARCHAR" />
+    <result column="fen_length" property="fenLength" jdbcType="TINYINT" />
+    <result column="fen_start" property="fenStart" jdbcType="TINYINT" />
+    <result column="fen_end" property="fenEnd" jdbcType="TINYINT" />
+    <result column="fen_content" property="fenContent" jdbcType="VARCHAR" />
+    <result column="zhi_id" property="zhiId" jdbcType="VARCHAR" />
+    <result column="zhi_length" property="zhiLength" jdbcType="TINYINT" />
+    <result column="zhi_start" property="zhiStart" jdbcType="TINYINT" />
+    <result column="zhi_end" property="zhiEnd" jdbcType="TINYINT" />
+    <result column="zhi_content" property="zhiContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.payment.model.RegularView" >
+    insert into v_bank_acct_rule (zong_id, zong_length, zong_start, 
+      zong_end, zong_content, fen_id, 
+      fen_length, fen_start, fen_end, 
+      fen_content, zhi_id, zhi_length, 
+      zhi_start, zhi_end, zhi_content
+      )
+    values (#{zongId,jdbcType=VARCHAR}, #{zongLength,jdbcType=TINYINT}, #{zongStart,jdbcType=TINYINT}, 
+      #{zongEnd,jdbcType=TINYINT}, #{zongContent,jdbcType=VARCHAR}, #{fenId,jdbcType=VARCHAR}, 
+      #{fenLength,jdbcType=TINYINT}, #{fenStart,jdbcType=TINYINT}, #{fenEnd,jdbcType=TINYINT}, 
+      #{fenContent,jdbcType=VARCHAR}, #{zhiId,jdbcType=VARCHAR}, #{zhiLength,jdbcType=TINYINT}, 
+      #{zhiStart,jdbcType=TINYINT}, #{zhiEnd,jdbcType=TINYINT}, #{zhiContent,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <select id="findBankByAcctRule" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+	SELECT zong_id,fen_id,zhi_id
+	FROM v_bank_acct_rule2
+	WHERE ((isNull(zong_content) or !isNull(zong_content) and SUBSTRING(#{accountNo,jdbcType=VARCHAR},zong_start,zong_end) = zong_content ) and 
+	(isNull(fen_content) or !isNull(fen_content) and SUBSTR(#{accountNo,jdbcType=VARCHAR},fen_start,fen_end-fen_start+1) = fen_content)and 
+	(isNull(zhi_content) or !isNull(zhi_content) and SUBSTR(#{accountNo,jdbcType=VARCHAR},zhi_start,zhi_end-zhi_start+1) = zhi_content)) 
+	UNION
+	SELECT zong_id,fen_id,null
+	FROM v_bank_acct_rule
+	WHERE
+	((isNull(zong_content) or !isNull(zong_content) and SUBSTRING(#{accountNo,jdbcType=VARCHAR},zong_start,zong_end) = zong_content ) and 
+	(isNull(fen_content) or !isNull(fen_content) and SUBSTR(#{accountNo,jdbcType=VARCHAR},fen_start,fen_end-fen_start+1) = fen_content))
+	UNION
+	SELECT zong_id,null,null
+	FROM v_bank_acct_rule
+	WHERE
+	((isNull(zong_content) or !isNull(zong_content) and SUBSTRING(#{accountNo,jdbcType=VARCHAR},zong_start,zong_end) = zong_content ))
+  </select>  
+</mapper>

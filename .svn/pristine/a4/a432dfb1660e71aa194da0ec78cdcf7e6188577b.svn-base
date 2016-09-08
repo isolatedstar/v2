@@ -1,0 +1,2617 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>交易动态</title>
+    <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../js/jquery_gd.js"></script>
+    <!--[if lt IE 9]>
+    <style type="text/css">
+        .box_deal_top{filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C515151)behavior: url(border-radius.htc);}
+        .deal_box_under{filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C515151)behavior: url(border-radius.htc);}
+    </style>
+    <![endif]-->
+<style>
+    /*交易动态*/
+    *{margin:0; padding:0;} li{ list-style:none;} a{ text-decoration:none;} img{border:none;} input,select,textarea{outline:none;}
+    dl dt dd{margin:0;padding:0;}
+    body{font-family:"微软雅黑","宋体" Arial; font-size:14px;}
+    input{ background-color:transparent; border:0;}
+    .clear{ clear:both;}
+    .container{width:100%;height:100%;}
+    .deal{width:100%;height:794px;background:url("../images/deal_ck.png") no-repeat 0 bottom;}
+    .deal_box{width:1200px;height:794px;margin:0 auto;}
+    .news_hot_b{display:block;height:30px;line-height:30px;text-align:center;color: #959595;font-size:18px;}
+    .news_hot_b span{color: #1b8af8;}
+    .deal_box h1{color:#737373;text-align:center;}
+    .left_img{display:inline-block;width:50px;height:20px;background: url("../images/left.png") no-repeat 0 center;}
+    .right_img{display:inline-block;width:50px;height:20px;background: url("../images/right.png") no-repeat 5px center;}
+    .deal_city{width:1200px;height:130px;padding-top:10px;box-sizing:border-box;}
+    .deal_city ul{width:1200px;height:70px;background: url("../images/city_ck.png") no-repeat 0 center;}
+    .deal_city ul .city_list_top,.deal_city ul .city_list_up{display: inline-block;width:75px;height:35px;float:left;margin-left:5px;line-height:35px;text-align:center;}
+    .deal_city ul .city_list_top:hover{color:#0482E3;background:url("../images/city_top.png") no-repeat center 29px;cursor:pointer;}
+    .deal_city ul .city_list_up:hover{color:#0482E3;background:url("../images/city_bottom.png") no-repeat center 0px;cursor:pointer;}
+    .on_top{background:url("../images/city_top.png") no-repeat center 29px;color:#0482E3;}
+    .on_up{background:url("../images/city_bottom.png") no-repeat center 0;color:#0482E3;}
+    .deal_city_box{width:1200px;height:552px;overflow:hidden;}
+    .box_deal{width:1100px;height:552px;margin:0 auto;}
+    .box_deal_top{width:1100px;height:175px;border:2px solid #7C98D3;background-color:rgba(0,0,0,0.2);}
+    .l-box,.r-box{width:550px;height:171px;float:left;}
+    .box_text{display:block;width:360px;height:50px;border-bottom:1px solid #fff;text-align:center;text-indent:1em;margin:0 auto;font:18px bolder;color:#fff;line-height:50px;letter-spacing:20px;}
+    .lunbo_box1{width:360px;height:120px;overflow:hidden;margin:0 auto;}
+    .l-box ul,.r-box ul{width:360px;height:120px; margin:0 auto;}
+    .l-box ul li,.r-box ul li{display:inline-block;width:170px;height:30px;line-height:30px;float:left;margin:10px 0 0 10px;color:#fff;font:14px bolder;  }
+    .box_deal_under{width:1100px;height:377px;padding-top:20px;box-sizing:border-box;}
+    .deal_box_under{display: inline-block;width:310px;height:330px;float:left;margin:0 26px 0 26px;background-color:rgba(0,0,0,0.2);}
+    .box_text_u{display:block;width:270px;height:70px;border-bottom:1px solid #fff;text-align:center;text-indent:1em;margin:0 auto;font:18px bolder;color:#fff;line-height:70px;letter-spacing:20px;}
+    .box_text_t{width:270px;height:70px;border-bottom:1px solid #fff;text-align:center;text-indent:3em;margin:0 auto;font:18px bolder;color:#fff;line-height:20px;letter-spacing:20px;padding-top:22px;box-sizing:border-box;}
+    .lunbo_box2{width:310px;height:260px;overflow:hidden;}
+    .lunbo_box2 ul{width:270px;height:260px;margin:0 auto;}
+    .lunbo_box2 ul li{display:inline-block;width:270px;height:35px;line-height:30px;float:left;margin:10px 0 0 10px;color:#fff;font:14px bolder;text-align:center;}
+
+</style>
+<script>
+    /*交易动态*/
+    $(document).ready(function(){
+        var box_index;
+        $(".deal_city ul li").click(function(){
+            box_index =$(this).index();
+//            $(this).addClass("chyli_one").siblings().removeClass("chyli_one");
+            $(".box_deal").eq(box_index).show().siblings().hide();
+        });
+        $(".city_list_top").click(function(){
+            $(this).addClass("on_top").siblings().removeClass("on_top").removeClass("on_up");
+        })
+        $(".city_list_up").click(function(){
+            $(this).addClass("on_up").siblings().removeClass("on_up").removeClass("on_top");
+        })
+    })
+</script>
+</head>
+<body>
+<div class="container">
+    <div class="deal">
+        <div class="deal_box">
+            <div style="height:109px;padding-top:20px;box-sizing:border-box;">
+                <b class="news_hot_b"><span>WHEN THE </span>DYNAMLC</b>
+                <h1><span class="left_img"></span>交易动态<span class="right_img"></span></h1>
+            </div>
+            <div class="deal_city">
+                <ul>
+                    <li class="city_list_top on_top">北京市</li>
+                    <li class="city_list_top">广东省</li>
+                    <li class="city_list_top">上海市</li>
+                    <li class="city_list_top">陕西省</li>
+                    <li class="city_list_top">山西省</li>
+                    <li class="city_list_top">四川省</li>
+                    <li class="city_list_top">辽宁省</li>
+                    <li class="city_list_top">天津市</li>
+                    <li class="city_list_top">福建省</li>
+                    <li class="city_list_top">湖南省</li>
+                    <li class="city_list_top">河南省</li>
+                    <li class="city_list_top">广西省</li>
+                    <li class="city_list_top">山东省</li>
+                    <li class="city_list_top">江西省</li>
+                    <li class="city_list_top">江苏省</li>
+                    <li class="city_list_up">湖北省</li>
+                    <li class="city_list_up">安徽省</li>
+                    <li class="city_list_up">云南省</li>
+                    <li class="city_list_up">贵州省</li>
+                    <li class="city_list_up">吉林省</li>
+                    <li class="city_list_up">浙江省</li>
+                    <li class="city_list_up">内蒙古</li>
+                    <li class="city_list_up">甘肃省</li>
+                    <li class="city_list_up">黑龙江</li>
+                </ul>
+            </div>
+            <div class="deal_city_box">
+                <!--北京市-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>上海 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--广东省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153,173,154.61</li>
+                                    <li>山东 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--上海市-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>黑龙江 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--陕西省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>山东 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--山西省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>黑龙江 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--四川省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>上海 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--辽宁省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>山东 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--天津市-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153,173,154.61</li>
+                                    <li>黑龙江 ￥153,173,154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--福建省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>山东 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--湖南省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>黑龙江 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--河南省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>上海 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--广西省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>山东 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--山东省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>黑龙江 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--江西省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>山东 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--江苏省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>黑龙江 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--湖北省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>上海 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--安徽省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>山东 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--云南省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>黑龙江 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--贵州省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>山东 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--吉林省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>黑龙江 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--浙江省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>上海 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                    <li>农业银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--内蒙古-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>山东 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--甘肃省-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>黑龙江 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                    <li>交通银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--黑龙江-->
+                <div class="box_deal">
+                    <div class="box_deal_top">
+                        <div class="l-box">
+                            <span class="box_text">每日各省高校交易额</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>北京 ￥153，173，154.61</li>
+                                    <li>山东 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                    <li>湖南 ￥153，173，154.61</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="r-box">
+                            <span class="box_text">开户银行信息表</span>
+                            <div class="lunbo_box1">
+                                <ul>
+                                    <li>黑龙江银行北京市万柳支行</li>
+                                    <li>黑龙江银行北京市万柳支行</li>
+                                    <li>黑龙江银行北京市万柳支行</li>
+                                    <li>黑龙江银行北京市万柳支行</li>
+                                    <li>黑龙江银行北京市万柳支行</li>
+                                    <li>黑龙江银行北京市万柳支行</li>
+                                    <li>黑龙江银行北京市万柳支行</li>
+                                    <li>黑龙江银行北京市万柳支行</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box_deal_under">
+                        <div class="deal_box_under">
+                            <p class="box_text_t">高校名录
+                                <span style="display:inline-block;color:yellow;font-size:12px;letter-spacing:0;padding-right:20px;box-sizing:border-box;">(黄色为已上线高校)</span>
+                            </p>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li style="color:yellow;">河北医科大</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>石家庄青年干部管理学院</li>
+                                    <li>河北政法职业学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                    <li>河北中医学院</li>
+                                    <li>河北交通职业技术学院</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线供应商</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="deal_box_under">
+                            <span class="box_text_u">已上线网店</span>
+                            <div class="lunbo_box2">
+                                <ul>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                    <li>孔水波个人店铺</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--上下滑动的-->
+<script type="text/javascript">
+    (function(){
+        $(".lunbo_box1").kxbdMarquee({direction:"up",isEqual:false});
+        $(".lunbo_box2").kxbdMarquee({direction:"up",isEqual:false});
+    })();
+</script>
+</body>
+</html>

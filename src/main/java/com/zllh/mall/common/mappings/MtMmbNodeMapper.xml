@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtMmbNodeMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtMmbNode" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+    <result column="node_id" property="nodeId" jdbcType="VARCHAR" />
+    <result column="mmb_name" property="mmbName" jdbcType="VARCHAR" />
+    <result column="node_title" property="nodeTitle" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, mmb_id, node_id, mmb_name, node_title
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_mmb_node
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mt_mmb_node
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtMmbNode" >
+    insert into mt_mmb_node (id, mmb_id, node_id, 
+      mmb_name, node_title)
+    values (#{id,jdbcType=VARCHAR}, #{mmbId,jdbcType=VARCHAR}, #{nodeId,jdbcType=VARCHAR}, 
+      #{mmbName,jdbcType=VARCHAR}, #{nodeTitle,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtMmbNode" >
+    insert into mt_mmb_node
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mmbId != null" >
+        mmb_id,
+      </if>
+      <if test="nodeId != null" >
+        node_id,
+      </if>
+      <if test="mmbName != null" >
+        mmb_name,
+      </if>
+      <if test="nodeTitle != null" >
+        node_title,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbId != null" >
+        #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeId != null" >
+        #{nodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbName != null" >
+        #{mmbName,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeTitle != null" >
+        #{nodeTitle,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.MtMmbNode" >
+    update mt_mmb_node
+    <set >
+      <if test="mmbId != null" >
+        mmb_id = #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeId != null" >
+        node_id = #{nodeId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbName != null" >
+        mmb_name = #{mmbName,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeTitle != null" >
+        node_title = #{nodeTitle,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.MtMmbNode" >
+    update mt_mmb_node
+    set mmb_id = #{mmbId,jdbcType=VARCHAR},
+      node_id = #{nodeId,jdbcType=VARCHAR},
+      mmb_name = #{mmbName,jdbcType=VARCHAR},
+      node_title = #{nodeTitle,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="getMmbNodes" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		*
+		from mt_mmb_node where 1=1
+		<if test="mmbId != null" >
+			<![CDATA[  and  mmb_id = #{mmbId,jdbcType=VARCHAR} ]]>
+      	</if>
+	    <if test="nodeId != null" >
+	       	<![CDATA[  and node_id = #{nodeId,jdbcType=VARCHAR} ]]>
+	    </if>
+  </select>
+</mapper>

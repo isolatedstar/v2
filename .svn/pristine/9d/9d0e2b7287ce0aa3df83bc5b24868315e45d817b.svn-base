@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtCtrFileMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtCtrFile" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ctr_id" property="ctrId" jdbcType="VARCHAR" />
+    <result column="described" property="described" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtCtrFile" >
+    insert into mt_ctr_file (id, ctr_id, described, 
+      url, mmb_id)
+    values (#{id,jdbcType=VARCHAR}, #{ctrId,jdbcType=VARCHAR}, #{described,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{mmbId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtCtrFile" >
+    insert into mt_ctr_file
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ctrId != null" >
+        ctr_id,
+      </if>
+      <if test="described != null" >
+        described,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="mmbId != null" >
+        mmb_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="ctrId != null" >
+        #{ctrId,jdbcType=VARCHAR},
+      </if>
+      <if test="described != null" >
+        #{described,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbId != null" >
+        #{mmbId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

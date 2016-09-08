@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.PictureDireMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.PictureDire" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PIC_DIR_PAR_ID" property="picDirParId" jdbcType="VARCHAR" />
+    <result column="PIC_DIR_GROUP_ID" property="picDirGroupId" jdbcType="VARCHAR" />
+    <result column="PIC_DIR_NAME" property="picDirName" jdbcType="VARCHAR" />
+    <result column="PIC_DIR_LIVE_CODE" property="picDirLiveCode" jdbcType="VARCHAR" />
+    <result column="PIC_DIR_ALL_CODE" property="picDirAllCode" jdbcType="VARCHAR" />
+    <result column="PIC_DIR_LIVE_NUM" property="picDirLiveNum" jdbcType="INTEGER" />
+    <result column="PIC_DIR_SORT" property="picDirSort" jdbcType="INTEGER" />
+    <result column="PIC_DIR_REP_ID" property="picDirRepId" jdbcType="VARCHAR" />
+    <result column="PIC_DIR_CTIME" property="picDirCtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PIC_DIR_PAR_ID, PIC_DIR_GROUP_ID, PIC_DIR_NAME, PIC_DIR_LIVE_CODE, PIC_DIR_ALL_CODE, 
+    PIC_DIR_LIVE_NUM, PIC_DIR_SORT, PIC_DIR_REP_ID, PIC_DIR_CTIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_picture_directory
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_picture_directory
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.PictureDire" >
+    insert into bus_picture_directory (ID, PIC_DIR_PAR_ID, PIC_DIR_GROUP_ID, 
+      PIC_DIR_NAME, PIC_DIR_LIVE_CODE, PIC_DIR_ALL_CODE, 
+      PIC_DIR_LIVE_NUM, PIC_DIR_SORT, PIC_DIR_REP_ID, 
+      PIC_DIR_CTIME)
+    values (#{id,jdbcType=VARCHAR}, #{picDirParId,jdbcType=VARCHAR}, #{picDirGroupId,jdbcType=VARCHAR}, 
+      #{picDirName,jdbcType=VARCHAR}, #{picDirLiveCode,jdbcType=VARCHAR}, #{picDirAllCode,jdbcType=VARCHAR}, 
+      #{picDirLiveNum,jdbcType=INTEGER}, #{picDirSort,jdbcType=INTEGER}, #{picDirRepId,jdbcType=VARCHAR}, 
+      #{picDirCtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.PictureDire" >
+    insert into bus_picture_directory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="picDirParId != null" >
+        PIC_DIR_PAR_ID,
+      </if>
+      <if test="picDirGroupId != null" >
+        PIC_DIR_GROUP_ID,
+      </if>
+      <if test="picDirName != null" >
+        PIC_DIR_NAME,
+      </if>
+      <if test="picDirLiveCode != null" >
+        PIC_DIR_LIVE_CODE,
+      </if>
+      <if test="picDirAllCode != null" >
+        PIC_DIR_ALL_CODE,
+      </if>
+      <if test="picDirLiveNum != null" >
+        PIC_DIR_LIVE_NUM,
+      </if>
+      <if test="picDirSort != null" >
+        PIC_DIR_SORT,
+      </if>
+      <if test="picDirRepId != null" >
+        PIC_DIR_REP_ID,
+      </if>
+      <if test="picDirCtime != null" >
+        PIC_DIR_CTIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirParId != null" >
+        #{picDirParId,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirGroupId != null" >
+        #{picDirGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirName != null" >
+        #{picDirName,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirLiveCode != null" >
+        #{picDirLiveCode,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirAllCode != null" >
+        #{picDirAllCode,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirLiveNum != null" >
+        #{picDirLiveNum,jdbcType=INTEGER},
+      </if>
+      <if test="picDirSort != null" >
+        #{picDirSort,jdbcType=INTEGER},
+      </if>
+      <if test="picDirRepId != null" >
+        #{picDirRepId,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirCtime != null" >
+        #{picDirCtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.PictureDire" >
+    update bus_picture_directory
+    <set >
+      <if test="picDirParId != null" >
+        PIC_DIR_PAR_ID = #{picDirParId,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirGroupId != null" >
+        PIC_DIR_GROUP_ID = #{picDirGroupId,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirName != null" >
+        PIC_DIR_NAME = #{picDirName,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirLiveCode != null" >
+        PIC_DIR_LIVE_CODE = #{picDirLiveCode,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirAllCode != null" >
+        PIC_DIR_ALL_CODE = #{picDirAllCode,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirLiveNum != null" >
+        PIC_DIR_LIVE_NUM = #{picDirLiveNum,jdbcType=INTEGER},
+      </if>
+      <if test="picDirSort != null" >
+        PIC_DIR_SORT = #{picDirSort,jdbcType=INTEGER},
+      </if>
+      <if test="picDirRepId != null" >
+        PIC_DIR_REP_ID = #{picDirRepId,jdbcType=VARCHAR},
+      </if>
+      <if test="picDirCtime != null" >
+        PIC_DIR_CTIME = #{picDirCtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.PictureDire" >
+    update bus_picture_directory
+    set PIC_DIR_PAR_ID = #{picDirParId,jdbcType=VARCHAR},
+      PIC_DIR_GROUP_ID = #{picDirGroupId,jdbcType=VARCHAR},
+      PIC_DIR_NAME = #{picDirName,jdbcType=VARCHAR},
+      PIC_DIR_LIVE_CODE = #{picDirLiveCode,jdbcType=VARCHAR},
+      PIC_DIR_ALL_CODE = #{picDirAllCode,jdbcType=VARCHAR},
+      PIC_DIR_LIVE_NUM = #{picDirLiveNum,jdbcType=INTEGER},
+      PIC_DIR_SORT = #{picDirSort,jdbcType=INTEGER},
+      PIC_DIR_REP_ID = #{picDirRepId,jdbcType=VARCHAR},
+      PIC_DIR_CTIME = #{picDirCtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

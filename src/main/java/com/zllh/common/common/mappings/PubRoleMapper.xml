@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.common.common.dao.PubRoleMapper" >
+
+  <!-- 数据准备区 -->
+  <resultMap id="BaseResultMap" type="com.zllh.common.common.model.PubRole" >
+    <id column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <result column="desription" property="desription" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_securitycode" property="roleSecuritycode" jdbcType="VARCHAR" />
+    <result column="enable" property="enable" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    role_id, desription, role_name, role_securitycode, enable, type
+  </sql>
+  
+  
+  <!-- 数据处理区 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from pub_role
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 查询当前会员拥有的角色 -->
+  <select id="toAddUser" parameterType="java.lang.String" resultMap="BaseResultMap">
+	SELECT DISTINCT
+		pr.role_id role_id,pr.role_name role_name
+	FROM
+		pub_role pr
+	INNER JOIN pub_mmbtype_role pbr ON pr.role_id = pbr.role_id
+	INNER JOIN mt_mmb_type pbm ON (
+		pbr.mmbtype = pbm.mmb_type
+		AND pbm.mmb_id =  #{mmbId,jdbcType=VARCHAR}
+	)
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from pub_role
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.zllh.common.common.model.PubRole" >
+    insert into pub_role (role_id, desription, role_name, 
+      role_securitycode, enable, type
+      )
+    values (#{roleId,jdbcType=VARCHAR}, #{desription,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
+      #{roleSecuritycode,jdbcType=VARCHAR}, #{enable,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.zllh.common.common.model.PubRole" >
+    insert into pub_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="desription != null" >
+        desription,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="roleSecuritycode != null" >
+        role_securitycode,
+      </if>
+      <if test="enable != null" >
+        enable,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="desription != null" >
+        #{desription,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleSecuritycode != null" >
+        #{roleSecuritycode,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.common.common.model.PubRole" >
+    update pub_role
+    <set >
+      <if test="desription != null" >
+        desription = #{desription,jdbcType=VARCHAR},
+      </if>
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleSecuritycode != null" >
+        role_securitycode = #{roleSecuritycode,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null" >
+        enable = #{enable,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.zllh.common.common.model.PubRole" >
+    update pub_role
+    set desription = #{desription,jdbcType=VARCHAR},
+      role_name = #{roleName,jdbcType=VARCHAR},
+      role_securitycode = #{roleSecuritycode,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER}
+    where role_id = #{roleId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	  SELECT ro.* FROM pub_role ro JOIN pub_role_user us ON ro.role_id = us.role_id WHERE us.USER_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByResourceId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	  SELECT ro.* FROM pub_role ro JOIN pub_role_res rore ON ro.role_id = rore.role_id WHERE rore.res_id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <resultMap type="com.zllh.common.common.model.model_extend.RoleExtendBean" id="reMap" extends="BaseResultMap">
+  	<collection property="resources" javaType="list" ofType="com.zllh.common.common.model.PubResource">
+  		<id property="resId" column="res_id"/>
+  		<result property="name" column="name" jdbcType="VARCHAR"/>
+  		<result property="url" column="url" jdbcType="VARCHAR"/>
+  		<result property="enable" column="re_enable" jdbcType="INTEGER"/>
+  	</collection>
+  </resultMap>
+  
+  <select id="selectAllRoleAndResource" resultMap="reMap">
+  
+  	SELECT
+		ro.role_id,
+		ro.desription,
+		ro.`enable`,
+		ro.role_name,
+		ro.role_securitycode,
+		ro.type,
+		re.res_id,
+		re.`enable` re_enable,
+		re.`name`,
+		re.url
+		FROM pub_role ro
+		JOIN pub_role_res rore       ON ro.role_id = rore.role_id
+		JOIN pub_resource      re    ON re.res_id = rore.res_id
+  </select>
+  
+</mapper>

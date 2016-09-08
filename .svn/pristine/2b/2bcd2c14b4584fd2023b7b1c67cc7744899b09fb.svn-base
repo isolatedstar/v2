@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.front.dao.BankMapper">
+	<resultMap id="BaseResultMap" type="com.zllh.payment.model.Bank">
+		<id column="BANK_ID" property="id" jdbcType="VARCHAR" />
+		<result column="ADDRESS_ID" property="addressId" jdbcType="VARCHAR" />
+		<result column="BANK_NAME" property="text" jdbcType="VARCHAR" />
+		<result column="PARENT_BANK_ID" property="parentBankId" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="TINYINT" />
+		<result column="LOCK_FLAG" property="lockFlag" jdbcType="TINYINT" />
+		<result column="ICON_CLS" property="iconCls" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		BANK_ID, ADDRESS_ID, BANK_NAME, PARENT_BANK_ID, CREATE_TIME, STATUS, LOCK_FLAG ,ICON_CLS
+	</sql>
+	<select id="findBankTree" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bank
+		<if test="type == 'enable'.toString()">
+				where STATUS = 0
+		</if>
+	</select>
+	<select id="getTopNum" resultType="java.lang.String" parameterType="java.lang.String">
+		select
+		MAX(BANK_ID)
+		from bank
+		<where>
+			PARENT_BANK_ID = #{parentBankId,jdbcType=VARCHAR}
+		</where>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bank
+		where BANK_ID = #{bankId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from bank
+		where BANK_ID = #{bankId,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insert" parameterType="com.zllh.payment.model.Bank">
+		insert into bank (BANK_ID, ADDRESS_ID, BANK_NAME,
+		PARENT_BANK_ID, CREATE_TIME, STATUS,
+		LOCK_FLAG)
+		values (#{bankId,jdbcType=VARCHAR}, #{addressId,jdbcType=VARCHAR}, #{bankName,jdbcType=VARCHAR},
+		#{parentBankId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT},
+		#{lockFlag,jdbcType=TINYINT})
+	</insert>
+	<insert id="AddBank" parameterType="com.zllh.payment.model.Bank">
+		insert into bank (BANK_ID, ADDRESS_ID, BANK_NAME,
+		PARENT_BANK_ID, CREATE_TIME, STATUS,
+		LOCK_FLAG,ICON_CLS)
+		values(#{id,jdbcType=VARCHAR}, #{addressId,jdbcType=VARCHAR}, #{text,jdbcType=VARCHAR},
+		#{parentBankId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT},
+		#{lockFlag,jdbcType=TINYINT},#{iconCls,jdbcType=VARCHAR})
+
+	</insert>
+	<insert id="insertSelective" parameterType="com.zllh.payment.model.Bank">
+		insert into bank
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bankId != null">
+				BANK_ID,
+			</if>
+			<if test="addressId != null">
+				ADDRESS_ID,
+			</if>
+			<if test="bankName != null">
+				BANK_NAME,
+			</if>
+			<if test="parentBankId != null">
+				PARENT_BANK_ID,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="lockFlag != null">
+				LOCK_FLAG,
+			</if>
+			<if test="iconCls != null">
+				ICON_CLS,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="bankId != null">
+				#{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="addressId != null">
+				#{addressId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="parentBankId != null">
+				#{parentBankId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=TINYINT},
+			</if>
+			<if test="lockFlag != null">
+				#{lockFlag,jdbcType=TINYINT},
+			</if>
+			<if test="iconCls != null">
+				#{iconCls,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.zllh.payment.model.Bank">
+		update bank
+		<set>
+			<if test="addressId != null">
+				ADDRESS_ID = #{addressId,jdbcType=VARCHAR},
+			</if>
+			<if test="text != null">
+				BANK_NAME = #{text,jdbcType=VARCHAR},
+			</if>
+			<if test="parentBankId != null">
+				PARENT_BANK_ID = #{parentBankId,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=TINYINT},
+			</if>
+			<if test="lockFlag != null">
+				LOCK_FLAG = #{lockFlag,jdbcType=TINYINT},
+			</if>
+			<if test="iconCls != null">
+				ICON_CLS = #{iconCls,jdbcType=TINYINT},
+			</if>
+		</set>
+		where BANK_ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.zllh.payment.model.Bank">
+		update bank
+		set ADDRESS_ID = #{addressId,jdbcType=VARCHAR},
+		BANK_NAME = #{bankName,jdbcType=VARCHAR},
+		PARENT_BANK_ID = #{parentBankId,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+		STATUS = #{status,jdbcType=TINYINT},
+		LOCK_FLAG = #{lockFlag,jdbcType=TINYINT}
+		where BANK_ID = #{bankId,jdbcType=VARCHAR}
+	</update>
+	<select id="selectByBankName" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bank
+		where BANK_NAME = #{bankName,jdbcType=VARCHAR}
+	</select>
+</mapper>

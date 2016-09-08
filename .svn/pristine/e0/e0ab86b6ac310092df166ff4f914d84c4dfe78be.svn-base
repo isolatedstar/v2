@@ -1,0 +1,771 @@
+package com.zllh.mall.settle.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.alibaba.fastjson.JSON;
+import com.zllh.base.controller.BaseController;
+import com.zllh.common.common.model.model_extend.UserExtendBean;
+import com.zllh.common.enums.BillsType;
+import com.zllh.mall.common.enums.PayGetTypeEnum;
+import com.zllh.mall.common.enums.StatusSignEnum;
+import com.zllh.mall.common.model.MtOrder;
+import com.zllh.mall.common.model.MtSettle;
+import com.zllh.mall.settle.service.ISettleService;
+import com.zllh.utils.base.Utils;
+import com.zllh.utils.common.UUIDCreater;
+import com.zllh.utils.soleid.SoleIdUtil;
+
+@Controller
+@RequestMapping("/settle")
+public class SettleController extends BaseController {
+	
+	@Autowired
+	private ISettleService settleService;
+	
+	/**
+	 * @Title toPendingOrder
+	 * @Description: 跳转到待定结款单页面
+	 * @Author Liujf
+	 * @CreateDate 2016年7月18日 下午4:47:40
+	 * @return
+	 * @return String
+	 */
+	@RequestMapping("/toPendingSettle")
+	public String toPendingOrder(){
+		logger.info("====toPendingSettle====");
+		return "mall/settle/settle_pendingsettle";
+	}
+	
+	/**
+	 * @Title toMyPendingSettle
+	 * @Description: 跳转到我的待审批结款单页面
+	 * @Author Liujf
+	 * @CreateDate 2016年8月11日 下午2:16:38
+	 * @return
+	 * @return String
+	 */
+	@RequestMapping("/toMyPendingSettle")
+	public String toMyPendingSettle(){
+		logger.info("====toMyPendingSettle====");
+		return "mall/settle/settle_mypendingsettle";
+	}
+	
+	/**
+	 * @Title toSettleManage
+	 * @Description: 跳转到执行中结款单页面
+	 * @Author Liujf
+	 * @CreateDate 2016年8月11日 下午2:17:42
+	 * @return
+	 * @return String
+	 */
+	@RequestMapping("/toSettleManage")
+	public String toSettleManage(){
+		logger.info("====toSettleManage====");
+		return "mall/settle/settle_settlemanage";
+	}
+	
+	/**
+	 * @Title toSettleSignature
+	 * @Description: 跳转到结款单签章页面
+	 * @Author Liujf
+	 * @CreateDate 2016年8月12日 下午2:33:26
+	 * @return
+	 * @return String
+	 */
+	@RequestMapping("/toSettleSignature")
+	public String toSettleSignature(){
+		logger.info("====toSettleSignature====");
+		return "mall/settle/settle_settlesignature";
+	}
+	
+	/**
+	 * @Title toSettleRegist
+	 * @Description: 跳转到结款单登记页面
+	 * @Author Liujf
+	 * @CreateDate 2016年8月12日 下午2:34:20
+	 * @return
+	 * @return String
+	 */
+	@RequestMapping("/toSettleRegist")
+	public String toSettleRegist(){
+		logger.info("====toSettleRegist====");
+		return "mall/settle/settle_settleregist";
+	}
+	
+	/**
+	 * @Title queryPendingSttle
+	 * @Description: 根据条件查询结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年7月18日 下午4:47:55
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/queryPendingSttle")
+    @ResponseBody
+	public Map<String, Object> queryPendingSttle(){
+		String memberId = "";
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		if (userExtendBean != null) {
+			memberId = userExtendBean.getMuser().getMmbId(); // 操作员所属会员id
+		}
+		String name = request.getParameter("name");
+		String settleCode = request.getParameter("settleCode");
+		String status = request.getParameter("status");
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+		if(name!=null&&!"".equals(name)){
+			map.put("oppositeName", name);
+		}
+		if(settleCode!=null&&!"".equals(settleCode)){
+			map.put("settleCode", settleCode);
+		}
+		if (startTime != null && !"".equals(startTime)) {
+			map.put("executeStartTime", startTime);
+		}
+		if (endTime != null && !"".equals(endTime)) {
+			map.put("executeEndTime", endTime);
+		}
+		if (status != null && !"".equals(status)) {
+			map.put("status", status);
+		}
+		int count = settleService.queryPendingSettleList(map).size();
+    	// 执行条件查询总数
+		// 分页数据初始化
+		int pageNo = getPageNo();
+		int pageSize = getPageSize();
+		// 接收页面参数并传递给service
+		map.put("startFirst", pageNo);
+		map.put("startEnd", pageSize);
+		List<MtSettle> result = settleService.queryPendingSettleList(map);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("total", count);
+		returnMap.put("rows", result);
+		return returnMap;
+	}
+	
+	/**
+	 * @Title queryMyPendingSttle
+	 * @Description: 查询我提交的待定结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年8月9日 下午5:10:19
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/queryMyPendingSttle")
+    @ResponseBody
+	public Map<String, Object> queryMyPendingSttle(){
+		String memberId = "";
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		if (userExtendBean != null) {
+			memberId = userExtendBean.getMuser().getMmbId(); // 操作员所属会员id
+		}
+		String name = request.getParameter("name");
+		String settleCode = request.getParameter("settleCode");
+		String status = request.getParameter("status");
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+		if(name!=null&&!"".equals(name)){
+			map.put("oppositeName", name);
+		}
+		if(settleCode!=null&&!"".equals(settleCode)){
+			map.put("settleCode", settleCode);
+		}
+		if (startTime != null && !"".equals(startTime)) {
+			map.put("executeStartTime", startTime);
+		}
+		if (endTime != null && !"".equals(endTime)) {
+			map.put("executeEndTime", endTime);
+		}
+		if (status != null && !"".equals(status)) {
+			map.put("status", status);
+		}
+		int count = settleService.queryMyPendingSettleList(map).size();
+    	// 执行条件查询总数
+		// 分页数据初始化
+		int pageNo = getPageNo();
+		int pageSize = getPageSize();
+		// 接收页面参数并传递给service
+		map.put("startFirst", pageNo);
+		map.put("startEnd", pageSize);
+		List<MtSettle> result = settleService.queryMyPendingSettleList(map);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("total", count);
+		returnMap.put("rows", result);
+		return returnMap;
+	}
+	
+	/**
+	 * @Title querySttleManage
+	 * @Description: 查询执行中结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年8月11日 下午2:18:49
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/querySttleManage")
+    @ResponseBody
+	public Map<String, Object> querySttleManage(){
+		String memberId = "";
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		if (userExtendBean != null) {
+			memberId = userExtendBean.getMuser().getMmbId(); // 操作员所属会员id
+		}
+		String name = request.getParameter("name");
+		String settleCode = request.getParameter("settleCode");
+		String status = request.getParameter("status");
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+		if(name!=null&&!"".equals(name)){
+			map.put("oppositeName", name);
+		}
+		if(settleCode!=null&&!"".equals(settleCode)){
+			map.put("settleCode", settleCode);
+		}
+		if (startTime != null && !"".equals(startTime)) {
+			map.put("executeStartTime", startTime);
+		}
+		if (endTime != null && !"".equals(endTime)) {
+			map.put("executeEndTime", endTime);
+		}
+		if (status != null && !"".equals(status)) {
+			map.put("settlestatus", status);
+		}
+		int count = settleService.querySttleManage(map).size();
+    	// 执行条件查询总数
+		// 分页数据初始化
+		int pageNo = getPageNo();
+		int pageSize = getPageSize();
+		// 接收页面参数并传递给service
+		map.put("startFirst", pageNo);
+		map.put("startEnd", pageSize);
+		List<MtSettle> result = settleService.querySttleManage(map);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("total", count);
+		returnMap.put("rows", result);
+		return returnMap;
+	}
+	
+	/**
+	 * @Title querySttleSignature
+	 * @Description: 查询签章结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年8月12日 下午2:52:51
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/querySttleSignature")
+    @ResponseBody
+	public Map<String, Object> querySttleSignature(){
+		String memberId = "";
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		if (userExtendBean != null) {
+			memberId = userExtendBean.getMuser().getMmbId(); // 操作员所属会员id
+		}
+		String name = request.getParameter("name");
+		String settleCode = request.getParameter("settleCode");
+		String statusSign = request.getParameter("statusSign");
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+		if(name!=null&&!"".equals(name)){
+			map.put("oppositeName", name);
+		}
+		if(settleCode!=null&&!"".equals(settleCode)){
+			map.put("settleCode", settleCode);
+		}
+		if (startTime != null && !"".equals(startTime)) {
+			map.put("executeStartTime", startTime);
+		}
+		if (endTime != null && !"".equals(endTime)) {
+			map.put("executeEndTime", endTime);
+		}
+		if (statusSign != null && !"".equals(statusSign) && !"0".equals(statusSign)) {
+			map.put("statusSign", statusSign);
+		}
+		int count = settleService.querySttleSignature(map).size();
+    	// 执行条件查询总数
+		// 分页数据初始化
+		int pageNo = getPageNo();
+		int pageSize = getPageSize();
+		// 接收页面参数并传递给service
+		map.put("startFirst", pageNo);
+		map.put("startEnd", pageSize);
+		List<MtSettle> result = settleService.querySttleSignature(map);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("total", count);
+		returnMap.put("rows", result);
+		return returnMap;
+	}
+	
+	/**
+	 * @Title querySttleRegist
+	 * @Description: 查询担保结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年8月12日 下午2:53:16
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/querySttleRegist")
+    @ResponseBody
+	public Map<String, Object> querySttleRegist(){
+		String memberId = "";
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		if (userExtendBean != null) {
+			memberId = userExtendBean.getMuser().getMmbId(); // 操作员所属会员id
+		}
+		String name = request.getParameter("name");
+		String settleCode = request.getParameter("settleCode");
+		String statusRegist = request.getParameter("statusRegist");
+		String startTime = request.getParameter("startTime");
+		String endTime = request.getParameter("endTime");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberId", memberId);
+		if(name!=null&&!"".equals(name)){
+			map.put("oppositeName", name);
+		}
+		if(settleCode!=null&&!"".equals(settleCode)){
+			map.put("settleCode", settleCode);
+		}
+		if (startTime != null && !"".equals(startTime)) {
+			map.put("executeStartTime", startTime);
+		}
+		if (endTime != null && !"".equals(endTime)) {
+			map.put("executeEndTime", endTime);
+		}
+		if (statusRegist != null && !"".equals(statusRegist) && !"0".equals(statusRegist)) {
+			map.put("statusRegist", statusRegist);
+		}
+		int count = settleService.querySttleRegist(map).size();
+    	// 执行条件查询总数
+		// 分页数据初始化
+		int pageNo = getPageNo();
+		int pageSize = getPageSize();
+		// 接收页面参数并传递给service
+		map.put("startFirst", pageNo);
+		map.put("startEnd", pageSize);
+		List<MtSettle> result = settleService.querySttleRegist(map);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("total", count);
+		returnMap.put("rows", result);
+		return returnMap;
+	}
+	
+	/**
+	 * @Title stopSettle
+	 * @Description: 终止结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年8月11日 下午4:31:45
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/stopSettle")
+	@ResponseBody
+	public Map<String, Object> stopSettle() {
+		String json = ServletRequestUtils.getStringParameter(request, "param", "");
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		String memberId = "";
+		if(userExtendBean!=null){
+			memberId = userExtendBean.getMuser().getMmbId();                              //根据操作员信息获取当前操作员的所属会员id
+		}
+		if(json!= null && !"".equals(json)){
+			List<MtSettle> mtSettleList = JSON.parseArray(json, MtSettle.class);
+			try {
+				for (MtSettle mtSettle : mtSettleList) {
+					if (memberId.equals(mtSettle.getMmbpayId())) {
+						mtSettle.setStatus(5);
+					} else {
+						mtSettle.setStatus(6);
+					}
+					settleService.updateStopSettle(mtSettle);
+				}
+				returnMap.put("msg", "请求终止结款单成功！");
+			} catch(Exception e){
+				returnMap.put("msg", "请求终止结款单失败！");
+			}
+		}else{
+			returnMap.put("msg", "请求终止结款单失败！");
+		}
+		return returnMap;
+	}
+	
+	/**
+	 * @Title revokeToStop
+	 * @Description: 撤销终止结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年5月9日 下午2:51:09
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/revokeToStop")
+	@ResponseBody
+	public Map<String, Object> revokeToStop() {
+		String json = ServletRequestUtils.getStringParameter(request, "param", "");
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		if(json!= null && !"".equals(json)){
+			try {
+				List<MtSettle> mtSettleList = JSON.parseArray(json, MtSettle.class);
+				for (MtSettle mtSettle : mtSettleList) {
+					mtSettle.setStatus(4);
+					settleService.updateStopSettle(mtSettle);
+				}
+				returnMap.put("msg", "撤销终止结款单成功！");
+			} catch(Exception e){
+				returnMap.put("msg", "撤销终止结款单失败！");
+			}
+		}else{
+			returnMap.put("msg", "撤销终止结款单失败！");
+		}
+		return returnMap;
+	}
+	
+	/**
+	 * @Title allowToStop
+	 * @Description: 同意终止结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年5月9日 下午2:51:22
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/allowToStop")
+	@ResponseBody
+	public Map<String, Object> allowToStop() {
+		String json = ServletRequestUtils.getStringParameter(request, "param", "");
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		if(json!= null && !"".equals(json)){
+			try {
+				List<MtSettle> mtSettleList = JSON.parseArray(json, MtSettle.class);
+				for (MtSettle mtSettle : mtSettleList) {
+					mtSettle.setStatus(7);
+					settleService.updateStopSettle(mtSettle);
+				}
+				returnMap.put("msg", "同意终止结款单成功！");
+			} catch(Exception e){
+				returnMap.put("msg", "同意终止结款单失败！");
+			}
+		}else{
+			returnMap.put("msg", "同意终止结款单失败！");
+		}
+		return returnMap;
+	}
+	
+	/**
+	 * @Title refuseToStop
+	 * @Description: 拒绝终止结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年5月9日 下午2:51:34
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/refuseToStop")
+	@ResponseBody
+	public Map<String, Object> refuseToStop() {
+		String json = ServletRequestUtils.getStringParameter(request, "param", "");
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		if(json!= null && !"".equals(json)){
+			try {
+				List<MtSettle> mtSettleList = JSON.parseArray(json, MtSettle.class);
+				for (MtSettle mtSettle : mtSettleList) {
+					mtSettle.setStatus(4);
+					settleService.updateStopSettle(mtSettle);
+				}
+				returnMap.put("msg", "拒绝终止结款单成功！");
+			} catch(Exception e){
+				returnMap.put("msg", "拒绝终止结款单失败！");
+			}
+		}else{
+			returnMap.put("msg", "拒绝终止结款单失败！");
+		}
+		return returnMap;
+	}
+	
+	/**
+	 * @Title signature
+	 * @Description: 申请签章
+	 * @Author Liujf
+	 * @CreateDate 2016年8月15日 下午3:09:50
+	 * @return
+	 * @return Map<String,Object>
+	 * @throws Exception 
+	 */
+	@RequestMapping(value="/signature")
+	public ModelAndView signature() throws Exception {
+		String json = ServletRequestUtils.getStringParameter(request, "param", "");
+		String settleId = request.getParameter("settleId");
+		ModelAndView mav = new ModelAndView();
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> membmap = new HashMap<String, Object>();
+		String memberId = "";
+		String userId = "";
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		if(userExtendBean!=null){
+			memberId = userExtendBean.getMuser().getMmbId();                              //根据操作员信息获取当前操作员的所属会员id
+			userId = userExtendBean.getUserId();                                          //操作员id
+		}
+		
+		try {
+    		if(json!= null && !"".equals(json)){
+				List<MtSettle> mtSettleList = JSON.parseArray(json, MtSettle.class);
+				for (MtSettle mtSettle : mtSettleList) {
+					mtSettle.setSettleOrderList(settleService.querySttleOrderList(mtSettle.getId()));
+					map.put("content",Utils.objUtil.beanToMap(mtSettle));
+					membmap.put("memberId", memberId);
+					membmap.put("userId", userId);
+					membmap.put("settleId", mtSettle.getId());
+					if(mtSettle.getMmbgetId().equals(memberId)){
+						membmap.put("flag", PayGetTypeEnum.GET.getValue());
+					}else{
+						membmap.put("flag", PayGetTypeEnum.PAY.getValue());
+					}
+					map.put("memberInfo",membmap);
+				}
+    		}else{
+    		    MtSettle mtSettle = settleService.selectMtSettleById(settleId);
+    		    mtSettle.setSettleOrderList(settleService.querySttleOrderList(mtSettle.getId()));
+                map.put("content",Utils.objUtil.beanToMap(mtSettle));
+                membmap.put("memberId", memberId);
+                membmap.put("userId", userId);
+                membmap.put("settleId", mtSettle.getId());
+                if(mtSettle.getMmbgetId().equals(memberId)){
+                    membmap.put("flag", PayGetTypeEnum.GET.getValue());
+                }else{
+                    membmap.put("flag", PayGetTypeEnum.PAY.getValue());
+                }
+                map.put("memberInfo",membmap);
+    		}
+		} catch(Exception e){
+            throw new Exception("签章失败");
+        }
+		
+		Map<Integer, String> enuMap = new HashMap<>();
+		    for (StatusSignEnum enu : StatusSignEnum.values()) {
+		        enuMap.put(enu.getValue(), enu.getText());
+		}
+		logger.info(JSON.toJSON(map).toString());
+		mav.addObject("settle", JSON.toJSON(map));
+		mav.addObject("signEnu", JSON.toJSON(enuMap));
+		mav.setViewName("cfcpage/zcfcak");
+		return mav;
+	}
+	
+	/**
+	 * @Title regist
+	 * @Description: 申请登记
+	 * @Author Liujf
+	 * @CreateDate 2016年8月15日 下午3:36:31
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/regist")
+	@ResponseBody
+	public Map<String, Object> regist() {
+		String json = ServletRequestUtils.getStringParameter(request, "param", "");
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		String memberId = "";
+		if(userExtendBean!=null){
+			memberId = userExtendBean.getMuser().getMmbId();                              //根据操作员信息获取当前操作员的所属会员id
+		}
+		if(json!= null && !"".equals(json)){
+			try {
+				List<MtSettle> mtSettleList = JSON.parseArray(json, MtSettle.class);
+				for (MtSettle mtSettle : mtSettleList) {
+					if (memberId.equals(mtSettle.getMmbpayId())) {
+						mtSettle.setStatusSign(mtSettle.getStatusSign()==1?2:4);
+					} else {
+						mtSettle.setStatusSign(mtSettle.getStatusSign()==1?3:4);
+					}
+					//需要调用财务的方法
+//					settleService.updateStopSettle(mtSettle);
+				}
+				returnMap.put("msg", "申请登记成功！");
+			} catch(Exception e){
+				returnMap.put("msg", "申请登记失败！");
+			}
+		}else{
+			returnMap.put("msg", "申请登记失败！");
+		}
+		return returnMap;
+	}
+	
+	/**
+	 * @Title queryOppositeList
+	 * @Description: 查询结款单对方用户列表
+	 * @Author Liujf
+	 * @CreateDate 2016年8月11日 下午2:19:17
+	 * @param isBuy
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/queryOppositeList")
+    @ResponseBody
+	public Map<String, Object> queryOppositeList(
+			@RequestParam(value = "isBuy", required = true) String isBuy){
+		Map<String, Object> map = new HashMap<String, Object>();
+		String memberId = "";
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		if (userExtendBean != null) {
+			memberId = userExtendBean.getMuser().getMmbId(); // 操作员所属会员id
+		}
+		if(isBuy.equals("buy")){
+			map.put("buyersId", memberId);
+		}else if(isBuy.equals("sell")){
+			map.put("sellersId", memberId);
+		}
+		List<MtOrder> result = settleService.queryOppositeList(map);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		returnMap.put("rows", result);
+		return returnMap;
+	}
+	
+	/**
+	 * @Title createSettle
+	 * @Description: 创建结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年8月11日 下午2:19:28
+	 * @param mtSettle
+	 * @param mtOrder
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/createSettle")
+    @ResponseBody
+	public Map<String, Object> createSettle(
+			@RequestParam(value = "mtSettle", required = false) String mtSettle,
+			@RequestParam(value = "mtOrder", required = false) String mtOrder){
+		List<MtSettle> settleList = JSON.parseArray(mtSettle, MtSettle.class);
+		List<MtOrder> orderList = JSON.parseArray(mtOrder, MtOrder.class);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		String memberId = "";
+		String userId = "";
+		String userName = "";
+		if(userExtendBean!=null){
+			memberId = userExtendBean.getMuser().getMmbId();                              //根据操作员信息获取当前操作员的所属会员id
+			userId = userExtendBean.getUserId();                                          //操作员id
+			userName = userExtendBean.getUserName();
+		}
+		for(MtSettle settle : settleList){
+			try {
+				String id = UUIDCreater.getUUID();
+				Integer code = Integer.valueOf(SoleIdUtil.getSoleIdSingletion().getIntSoleId(BillsType.JIEKUAN.getValue()));
+				settle.setId(id);
+				settle.setSettleCode(code);
+				settleService.createSettle(settle,orderList,memberId,userId,userName);
+				returnMap.put("msg", "新建结款单成功！");
+			}catch(Exception e){
+				returnMap.put("msg", "创建结款单失败！");
+			}
+		}
+		return returnMap;
+	}
+	
+	/**
+	 * @Title modifySettle
+	 * @Description: 编辑结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年8月10日 下午3:01:17
+	 * @param mtSettle
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/modifySettle")
+    @ResponseBody
+	public Map<String, Object> modifySettle(
+			@RequestParam(value = "mtSettle", required = false) String mtSettle){
+		List<MtSettle> settleList = JSON.parseArray(mtSettle, MtSettle.class);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		UserExtendBean userExtendBean = (UserExtendBean)session.getAttribute("user");     //session中获取当前登录操作员的对象
+		String memberId = "";
+		int success = 0;
+		int fail = 0;
+		if(userExtendBean!=null){
+			memberId = userExtendBean.getMuser().getMmbId();                              //根据操作员信息获取当前操作员的所属会员id
+		}
+		for(MtSettle settle : settleList){
+			try {
+				settleService.modifySettle(settle,memberId);
+				success++;
+			}catch(Exception e){
+				fail++;
+			}
+		}
+		returnMap.put("msg", "编辑待定结款单成功"+success+"条\n编辑待定结款单失败"+fail+"条");
+		return returnMap;
+	}
+	
+	/**
+	 * @Title agreeSettle
+	 * @Description: 同意待定结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年8月10日 下午3:23:26
+	 * @param mtSettle
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/agreeSettle")
+    @ResponseBody
+	public Map<String, Object> agreeSettle(
+			@RequestParam(value = "mtSettle", required = false) String mtSettle){
+		List<MtSettle> settleList = JSON.parseArray(mtSettle, MtSettle.class);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		int success = 0;
+		int fail = 0;
+		for(MtSettle settle : settleList){
+			try {
+				settleService.modifySettle(settle);
+				success++;
+			}catch(Exception e){
+				fail++;
+			}
+		}
+		returnMap.put("msg", "同意待定结款单成功"+success+"条\n同意待定结款单失败"+fail+"条");
+		return returnMap;
+	}
+	
+	/**
+	 * @Title refuseSettle
+	 * @Description: 拒绝待定结款单
+	 * @Author Liujf
+	 * @CreateDate 2016年8月10日 下午3:25:20
+	 * @param mtSettle
+	 * @return
+	 * @return Map<String,Object>
+	 */
+	@RequestMapping(value="/refuseSettle")
+    @ResponseBody
+	public Map<String, Object> refuseSettle(
+			@RequestParam(value = "mtSettle", required = false) String mtSettle){
+		List<MtSettle> settleList = JSON.parseArray(mtSettle, MtSettle.class);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		int success = 0;
+		int fail = 0;
+		for(MtSettle settle : settleList){
+			try {
+				settleService.deleteSettle(settle);
+				success++;
+			}catch(Exception e){
+				fail++;
+			}
+		}
+		returnMap.put("msg", "拒绝待定结款单成功"+success+"条\n拒绝待定结款单失败"+fail+"条");
+		return returnMap;
+	}
+}

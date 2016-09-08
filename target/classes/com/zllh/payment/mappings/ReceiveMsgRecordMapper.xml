@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.front.dao.ReceiveMsgRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.payment.model.ReceiveMsgRecord" >
+    <id column="SERIAL_ID" property="serialID" jdbcType="VARCHAR" />
+    <result column="MSG_SENDER" property="msgSender" jdbcType="VARCHAR" />
+    <result column="MSG_RECEVIER" property="msgRecevier" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="TINYINT" />
+    <result column="MSG_SENDER_TIME" property="msgSenderTime" jdbcType="TIMESTAMP" />
+    <result column="LOCK_FLAG" property="lockFlag" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zllh.payment.model.ReceiveMsgRecord" extends="BaseResultMap" >
+    <result column="MSG_CONTEXT" property="msgContext" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SERIAL_ID, MSG_SENDER, MSG_RECEVIER, STATUS, MSG_SENDER_TIME, LOCK_FLAG
+  </sql>
+  <sql id="Blob_Column_List" >
+    MSG_CONTEXT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from receive_msg_record
+    where SERIAL_ID = #{serialID,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from receive_msg_record
+    where SERIAL_ID = #{serialID,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.payment.model.ReceiveMsgRecord" >
+    insert into receive_msg_record (SERIAL_ID, MSG_SENDER, MSG_RECEVIER, 
+      STATUS, MSG_SENDER_TIME, LOCK_FLAG, 
+      MSG_CONTEXT)
+    values (#{serialID,jdbcType=VARCHAR}, #{msgSender,jdbcType=VARCHAR}, #{msgRecevier,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{msgSenderTime,jdbcType=TIMESTAMP}, #{lockFlag,jdbcType=TINYINT}, 
+      #{msgContext,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.payment.model.ReceiveMsgRecord" >
+    insert into receive_msg_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="serialID != null" >
+        SERIAL_ID,
+      </if>
+      <if test="msgSender != null" >
+        MSG_SENDER,
+      </if>
+      <if test="msgRecevier != null" >
+        MSG_RECEVIER,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="msgSenderTime != null" >
+        MSG_SENDER_TIME,
+      </if>
+      <if test="lockFlag != null" >
+        LOCK_FLAG,
+      </if>
+      <if test="msgContext != null" >
+        MSG_CONTEXT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="serialID != null" >
+        #{serialID,jdbcType=VARCHAR},
+      </if>
+      <if test="msgSender != null" >
+        #{msgSender,jdbcType=VARCHAR},
+      </if>
+      <if test="msgRecevier != null" >
+        #{msgRecevier,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="msgSenderTime != null" >
+        #{msgSenderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockFlag != null" >
+        #{lockFlag,jdbcType=TINYINT},
+      </if>
+      <if test="msgContext != null" >
+        #{msgContext,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.payment.model.ReceiveMsgRecord" >
+    update receive_msg_record
+    <set >
+      <if test="msgSender != null" >
+        MSG_SENDER = #{msgSender,jdbcType=VARCHAR},
+      </if>
+      <if test="msgRecevier != null" >
+        MSG_RECEVIER = #{msgRecevier,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="msgSenderTime != null" >
+        MSG_SENDER_TIME = #{msgSenderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lockFlag != null" >
+        LOCK_FLAG = #{lockFlag,jdbcType=TINYINT},
+      </if>
+      <if test="msgContext != null" >
+        MSG_CONTEXT = #{msgContext,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where SERIAL_ID = #{serialID,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zllh.payment.model.ReceiveMsgRecord" >
+    update receive_msg_record
+    set MSG_SENDER = #{msgSender,jdbcType=VARCHAR},
+      MSG_RECEVIER = #{msgRecevier,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
+      MSG_SENDER_TIME = #{msgSenderTime,jdbcType=TIMESTAMP},
+      LOCK_FLAG = #{lockFlag,jdbcType=TINYINT},
+      MSG_CONTEXT = #{msgContext,jdbcType=LONGVARCHAR}
+    where SERIAL_ID = #{serialID,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.payment.model.ReceiveMsgRecord" >
+    update receive_msg_record
+    set MSG_SENDER = #{msgSender,jdbcType=VARCHAR},
+      MSG_RECEVIER = #{msgRecevier,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=TINYINT},
+      MSG_SENDER_TIME = #{msgSenderTime,jdbcType=TIMESTAMP},
+      LOCK_FLAG = #{lockFlag,jdbcType=TINYINT}
+    where SERIAL_ID = #{serialID,jdbcType=VARCHAR}
+  </update>
+  
+   <update id="updateStatusByPrimaryKey" parameterType="map" >
+    update receive_msg_record
+    set STATUS = #{status,jdbcType=TINYINT}
+    where SERIAL_ID = #{serialID,jdbcType=VARCHAR}
+  </update>
+</mapper>

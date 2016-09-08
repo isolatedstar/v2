@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtMaterialBaseMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtMaterialBase" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="mmb_Id" property="mmbId" jdbcType="VARCHAR" />
+    <result column="material_name" property="materialName" jdbcType="CHAR" />
+    <result column="material_type" property="materialType" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_name" property="createName" jdbcType="VARCHAR" />
+    <result column="create_id" property="createId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="DATE" />
+    <result column="mt_id" property="mtId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtMaterialBase" >
+    insert into mt_material_base (id, mmb_Id, material_name, 
+      material_type, remark, create_name, 
+      create_id, create_date, mt_id,status
+      )
+    values (#{id,jdbcType=VARCHAR}, #{mmbId,jdbcType=VARCHAR}, #{materialName,jdbcType=CHAR}, 
+      #{materialType,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{createName,jdbcType=VARCHAR}, 
+      #{createId,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{mtId,jdbcType=VARCHAR},#{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtMaterialBase" >
+    insert into mt_material_base
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mmbId != null" >
+        mmb_Id,
+      </if>
+      <if test="materialName != null" >
+        material_name,
+      </if>
+      <if test="materialType != null" >
+        material_type,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createName != null" >
+        create_name,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="mtId != null" >
+        mt_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbId != null" >
+        #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="materialName != null" >
+        #{materialName,jdbcType=CHAR},
+      </if>
+      <if test="materialType != null" >
+        #{materialType,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createName != null" >
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="mtId != null" >
+        #{mtId,jdbcType=VARCHAR},
+      </if>
+       <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.MtMaterialBase" >
+  		update mt_material_base
+  		<set>
+			  	  <if test="mmbId != null" >
+			        mmb_Id = #{mmbId,jdbcType=VARCHAR},
+			      </if>
+			      <if test="materialName != null" >
+			       material_name =  #{materialName,jdbcType=CHAR},
+			      </if>
+			      <if test="materialType != null" >
+			       material_type =  #{materialType,jdbcType=INTEGER},
+			      </if>
+			      <if test="remark != null" >
+			      remark =  #{remark,jdbcType=VARCHAR},
+			      </if>
+			      <if test="createName != null" >
+			       create_name = #{createName,jdbcType=VARCHAR},
+			      </if>
+			      <if test="createId != null" >
+			       create_id = #{createId,jdbcType=VARCHAR},
+			      </if>
+			      <if test="createDate != null" >
+			       create_date =  #{createDate,jdbcType=DATE},
+			      </if>
+			      <if test="mtId != null" >
+			       mt_id = #{mtId,jdbcType=VARCHAR},
+			      </if>
+			      <if test="status != null" >
+       			    status = #{status,jdbcType=INTEGER},
+      			  </if>
+  		</set>
+  		where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateById" parameterType="java.util.Map">
+  		 update mt_material_base
+  			set 
+  				status =  #{status,jdbcType=INTEGER}
+  			where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <sql id="Base_Column_List">
+  		id, mmb_Id, material_name, 
+      material_type, remark, create_name, 
+      create_id, create_date, mt_id,status
+  </sql>
+  <sql id="base_show">
+  		<if test=" materialName!= null "><![CDATA[ and material_name  like CONCAT(#{materialName,jdbcType=VARCHAR},'%')]]></if>
+  		<if test=" mmbId!= null "><![CDATA[ and  mmb_Id= #{mmbId,jdbcType=VARCHAR}]]></if>
+  		<if test=" materialType!= null "><![CDATA[ and  material_type= #{materialType,jdbcType=INTEGER}]]></if>
+  		<if test=" baseId!= null "><![CDATA[ and  id= #{baseId,jdbcType=INTEGER}]]></if>
+  </sql>
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_material_base
+    where 1=1 and status = 0
+   		<include refid="base_show"></include>
+  </select>
+  <select id="selectBymmbId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_material_base
+    where mmb_Id= #{mmbId,jdbcType=VARCHAR} and status = 0;
+  </select>
+</mapper>

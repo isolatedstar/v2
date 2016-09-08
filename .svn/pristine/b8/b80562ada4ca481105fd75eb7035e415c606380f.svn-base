@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Language" content="zh-CN">
+<title>会员主页</title>
+<link href="/v2/mall/css/mall.css" rel="stylesheet" type="text/css">
+<link href="/v2/mall/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="/v2/mall/css/media2.css" rel="stylesheet" type="text/css">
+<script src="/v2/mall/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script>
+   
+	
+</script>
+    <script>
+        window.onload = function(){
+            var box = document.getElementById('box');
+            var list = document.getElementById('list');
+            var buttons = document.getElementById('buttons').getElementsByTagName('span');
+            var prev = document.getElementById('prev');
+            var next = document.getElementById('next');
+            var index = 1;
+            var time;
+            var animated = false;
+            function showButtons(){
+                for(var i=0; i<buttons.length;i++){
+                    if(buttons[i].className == 'on'){
+                      buttons[i].className = '';
+                }
+            }
+                buttons[index-1].className = 'on';
+            };
+            for(var i=0; i<buttons.length; i++){
+                if(this.className == 'on'){
+                    return;
+                }
+                buttons[i].onclick = function(){
+                    var myIndex = parseInt(this.getAttribute('index'));
+                    var offset = -1280*(myIndex - index);
+                    if(!animated){
+                        animate(offset);
+                    }
+
+                    index = myIndex;
+                    showButtons();
+                };
+            };
+            function animate(offset){
+                animated = true;
+                var newLeft = parseInt(list.style.left) + offset;
+
+                var time = 300; //位移总时间
+                var interval = 10; //位移间隔
+                var speed = offset/(time/interval); //每次移动多少距离
+                function go(){
+                    if( (speed < 0 && parseInt(list.style.left) > newLeft) || ( speed > 0 && parseInt(list.style.left) < newLeft) ){
+                        list.style.left = parseInt(list.style.left) + speed + 'px';
+                        setTimeout(go,interval)
+                    }else {
+                        animated = false;
+                        list.style.left = newLeft + 'px';
+                        if(newLeft > -1280){
+                            list.style.left = -6400 + 'px'
+                        }
+                        if(newLeft < -6400){
+                            list.style.left = -1280 + 'px'
+                        }
+                    }
+                }
+                go();
+            }
+            next.onclick = function(){
+                if(index == 5){
+                    index = 1;
+                }else {
+                    index += 1;
+                }
+                if(!animated){
+                    animate(-1280)
+                }
+                showButtons()
+            };
+            prev.onclick = function(){
+                if(index == 1){
+                    index = 5
+                }else {
+                    index -=1;
+                }
+                if(!animated){
+                    animate(1280);
+                }
+                showButtons()
+            };
+            function play(){
+                time = setInterval(function(){
+                    next.onclick();
+                },3000)
+            }
+            function stop(){
+                clearInterval(time)
+            }
+            box.onmouseover = stop;
+            box.onmouseout = play;
+        };
+    </script>
+    
+
+</head>
+
+<body>
+<div class="h_member">
+	<div class="h_header">
+    	<p>中国农校对接服务网</p>
+        <div class="h_header_right">
+        	<a href="#"><span>向我买</span></a>
+            <a href="#"><span>向我卖</span></a>
+        </div>
+    </div>
+    <!--banner start-->
+    <div id="box">
+        <div id="list" style="left:-1280px;">
+    				 <div class="one">
+                		<img src="/v2/upload/img/newImg/VE/716acd75a2574c3d8cfdfcc8b97bc34a.jpg" alt="1" style="width:1280px; height:400px;"><span>烂肉</span>
+            		</div>
+    				 <div class="one">
+                		<img src="/v2/upload/img/newImg/QS/fc99dc7a63794b2b9f69bec760544750.jpg" alt="2" style="width:1280px; height:400px;"><span>大肉</span>
+            		</div>
+    				 <div class="one">
+                		<img src="/v2/upload/img/newImg/UC/2d2393d6c28943018a75257be483f6e4.jpg" alt="3" style="width:1280px; height:400px;"><span>华嫂</span>
+            		</div>
+			      <div class="one">
+                		<img src="/v2/upload/img/newImg/VE/716acd75a2574c3d8cfdfcc8b97bc34a.jpg" alt="1" style="width:1280px; height:400px;"><span>烂肉</span>
+            		</div>
+        </div>
+        <div id="buttons">
+            		<span index="1" class="on"></span>
+    				 
+            		<span index="2"></span>
+    				 
+            		<span index="3"></span>
+    				 
+        </div>
+        <a href="#" id="next" class="arrow">&gt;</a>
+        <a href="#" id="prev" class="arrow">&lt;</a>
+    </div>
+    <!--banner over-->
+	<div class="h_culture">
+    	<h2>企业介绍</h2>
+        <p>哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈</p>
+    </div>
+    <div class="quality" id="showPic">
+    	<h2>资质展示</h2>
+    				
+					<div class="quality_l">
+			        	<img src="/v2/upload/img/newImg/RK/054364b384364678bf8caf7900e777ce.jpg" style="width:337px;height:246px;"/>
+			            <div>苹果</div>
+			        </div>
+    				
+					<div class="quality_l">
+			        	<img src="/v2/upload/img/newImg/JU/40b2b3e665184936bb65695c9b492869.jpg" style="width:337px;height:246px;"/>
+			            <div>小白菜</div>
+			        </div>
+    				
+					<div class="quality_l">
+			        	<img src="/v2/upload/img/newImg/JI/f5557f2405cd482396a11f228b6b2baa.jpg" style="width:337px;height:246px;"/>
+			            <div>小辣椒</div>
+			        </div>
+    				
+					<div class="quality_l">
+			        	<img src="/v2/upload/img/newImg/FO/bec5359e4f8447d58efedddbd100f1e2.jpg" style="width:337px;height:246px;"/>
+			            <div>大大大大</div>
+			        </div>
+		<div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div class="login">
+    	<p class="login_l">登录商城</p>
+        <div class="login_r">
+			<p>关注我们</p>      
+            <img src="images/images/login_bj_03.png" style="width:38px; height:38px;"/>   
+        </div>
+    </div>
+    <div class="h_footer">
+    	<p>中联联合投资控股集团有限公司版权所有？京ICP证：010026海淀公安局网络备案编号：京公网安备11010802010990</p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtMemberRelationshipMapper">
+
+    <!-- baseMap -->
+    <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtMemberRelationship">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="mmb_id" property="mmbId" jdbcType="VARCHAR"/>
+        <result column="rela_mmb_id" property="relaMmbId" jdbcType="VARCHAR"/>
+        <result column="rela_type" property="relaType" jdbcType="INTEGER"/>
+        <result column="rela_grade" property="relaGrade" jdbcType="INTEGER"/>
+        <result column="biz_type" property="bizType" jdbcType="INTEGER"/>
+        <result column="relaMmb_pageUrl" property="relammbPageurl" jdbcType="VARCHAR"/>
+        <result column="classify_label" property="classifyLabel" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="rela_status" property="relaStatus" jdbcType="INTEGER"/>
+        <result column="creat_user" property="creatUser" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- returnMap -->
+    <resultMap type="com.zllh.mall.common.model.MtMemberRelationship" id="returnMap1" extends="BaseResultMap">
+        <result column="mmb_fname" property="fname" jdbcType="VARCHAR"/>
+        <result column="mmb_sname" property="sname" jdbcType="VARCHAR"/>
+        <result column="bizType1" property="bizType_" jdbcType="VARCHAR"/>
+        <result column="memberId" property="memberId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--根据买或卖的关系判别查询语句不同  查出相应的总数  -->
+    <select id="countMmbRelationshipByCondition" resultType="java.lang.Integer" parameterType="java.util.Map">
+        <!--如果是买关系，那么查询条件传入的mmbid匹配第一个字段也就是mmb_id  -->
+        <if test="bizType!=null and bizType==0">
+            SELECT count(1)
+            FROM
+            mt_member_relationship rela
+            LEFT JOIN mt_member a ON rela.rela_mmb_id = a.id
+            WHERE rela.mmb_id = #{mmbId,jdbcType=VARCHAR} and rela.biz_type = 1002
+        </if>
+        <!--如果是卖关系，那么查询条件传入的mmbid匹配第一个字段也就是mmb_id  -->
+        <if test="bizType!=null and bizType==1">
+            SELECT count(1)
+            FROM
+            mt_member_relationship rela
+            LEFT JOIN mt_member a ON rela.mmb_id = a.id
+            WHERE rela.rela_mmb_id = #{mmbId,jdbcType=VARCHAR} and rela.biz_type = 1002
+        </if>
+
+        <if test="bizType!=null and bizType==2">
+            SELECT count(1)
+            FROM
+            mt_member_relationship rela
+            LEFT JOIN mt_member a ON rela.mmb_id = a.id
+            WHERE rela.rela_mmb_id = #{mmbId,jdbcType=VARCHAR} and rela.biz_type = 1
+        </if>
+        <if test="bizType!=null and bizType==3">
+            SELECT count(1)
+            FROM
+            mt_member_relationship rela
+            LEFT JOIN mt_member a ON rela.rela_mmb_id = a.id
+            WHERE rela.mmb_id = #{mmbId,jdbcType=VARCHAR} and rela.biz_type = 1
+        </if>
+    </select>
+
+    <!--根据条件分页查询关系数据  -->
+    <select id="queryMmbRelationshipsByCon" resultMap="returnMap1" parameterType="java.util.Map">
+        <!--如果是买关系，那么查询条件传入的mmbid匹配第一个字段也就是mmb_id  -->
+        <if test="bizType!=null and bizType==0">
+            SELECT
+            rela.id,
+            rela.mmb_id,
+            rela.rela_mmb_id,
+            rela.rela_type,
+            a.mmb_fname,
+            a.mmb_sname,
+            a.id as memberId
+            FROM
+            mt_member_relationship rela
+            LEFT JOIN mt_member a ON rela.rela_mmb_id = a.id
+            WHERE rela.mmb_id = #{mmbId,jdbcType=VARCHAR} and rela.biz_type = 1002 and rela.rela_status = 0 and
+            rela_type = 1
+            <if test="startFirst != null and startEnd != null">
+                limit #{startFirst},#{startEnd}
+            </if>
+        </if>
+        <!--如果是卖关系，那么查询条件传入的mmbid匹配第一个字段也就是mmb_id  -->
+        <if test="bizType!=null and bizType==1">
+            SELECT
+            rela.id,
+            rela.mmb_id,
+            rela.rela_mmb_id,
+            rela.rela_type,
+            a.mmb_fname,
+            a.mmb_sname,
+            a.id as memberId
+            FROM
+            mt_member_relationship rela
+            LEFT JOIN mt_member a ON rela.mmb_id = a.id
+            WHERE rela.rela_mmb_id = #{mmbId,jdbcType=VARCHAR} and rela.biz_type = 1002 and rela.rela_status = 0 and
+            rela_type = 1
+            <if test="startFirst != null and startEnd != null">
+                limit #{startFirst},#{startEnd}
+            </if>
+        </if>
+        <!--如果是借关系，那么查询条件传入的mmbid匹配第一个字段也就是mmb_id  -->
+        <if test="bizType!=null and bizType==2">
+            SELECT
+            rela.id,
+            rela.mmb_id,
+            rela.rela_mmb_id,
+            rela.rela_type,
+            a.mmb_fname,
+            a.mmb_sname,
+            a.id as memberId
+            FROM
+            mt_member_relationship rela
+            LEFT JOIN mt_member a ON rela.rela_mmb_id = a.id
+            WHERE rela.mmb_id = #{mmbId,jdbcType=VARCHAR} and rela.biz_type = 1 and rela.rela_status = 0 and rela_type =
+            1
+            <if test="startFirst != null and startEnd != null">
+                limit #{startFirst},#{startEnd}
+            </if>
+        </if>
+        <!--如果是贷关系，那么查询条件传入的mmbid匹配第一个字段也就是mmb_id  -->
+        <if test="bizType!=null and bizType==3">
+            SELECT
+            rela.id,
+            rela.mmb_id,
+            rela.rela_mmb_id,
+            rela.rela_type,
+            a.mmb_fname,
+            a.mmb_sname,
+            a.id as memberId
+            FROM
+            mt_member_relationship rela
+            LEFT JOIN mt_member a ON rela.mmb_id = a.id
+            WHERE rela.rela_mmb_id = #{mmbId,jdbcType=VARCHAR} and rela.biz_type = 1 and rela.rela_status = 0 and
+            rela_type = 1
+            <if test="startFirst != null and startEnd != null">
+                limit #{startFirst},#{startEnd}
+            </if>
+        </if>
+    </select>
+
+    <!--根据id删除会员关系  -->
+    <delete id="deleteMmbRelationshipById" parameterType="java.lang.String">
+      delete from mt_member_relationship where
+      id = #{id,jdbcType=VARCHAR}
+  </delete>
+
+    <!--查询待确认会员关系总数  -->
+    <select id="countMmbRelationships" parameterType="java.util.Map" resultType="java.lang.Integer">
+      	SELECT
+			count(*)
+		FROM
+			(
+				(SELECT
+					ship.id AS id,
+					a.mmb_fname AS fname,
+					CASE
+				WHEN ship.biz_type = 1002 THEN
+					'向我采购'
+				END AS bizType,
+				ship.create_time
+			FROM
+				mt_member_relationship ship
+			LEFT JOIN mt_member a ON ship.mmb_id = a.id
+			WHERE
+				ship.rela_mmb_id = #{mmbId,jdbcType=VARCHAR}
+			AND ship.biz_type = 1002
+			AND ship.rela_status = 1)
+			UNION
+				(SELECT
+					ship.id AS id,
+					a.mmb_fname AS fname,
+					CASE
+				WHEN ship.biz_type = 1002 THEN
+					'向我销售'
+				END AS bizType,
+				ship.create_time
+			FROM
+				mt_member_relationship ship
+			LEFT JOIN mt_member a ON ship.rela_mmb_id = a.id
+			WHERE
+				ship.mmb_id = #{mmbId,jdbcType=VARCHAR}
+			AND ship.biz_type = 1002
+			AND ship.rela_status = 1)
+			) a
+   </select>
+
+    <!--根据会员等级查询会员信息  -->
+    <select id="queryMmbRelationshipsByGrade1" resultMap="returnMap1" parameterType="java.util.Map">
+        SELECT
+        ship.id,
+        ship.rela_mmb_id,
+        ship.rela_grade,
+        b.mmb_fname,
+        b.mmb_sname
+        FROM
+        mt_member_relationship ship
+        LEFT JOIN mt_member b ON ship.rela_mmb_id = b.id
+        WHERE ship.rela_type = 0
+        <if test="mmbId!=null">
+            and ship.mmb_id = #{mmbId,jdbcType=VARCHAR}
+        </if>
+
+        <if test=" grade!=null">
+            and ship.rela_grade = #{grade,jdbcType=INTEGER}
+        </if>
+        ORDER BY ship.rela_grade desc,ship.create_time DESC
+    </select>
+
+    <!-- 模糊查询条件判断 -->
+    <sql id="mmbRela_SearchCondition">
+        <if test=" mmbId!= null "><![CDATA[ and ship.mmb_id = #{mmbId,jdbcType=VARCHAR}]]></if>
+        <if test=" relaMmbId!= null "><![CDATA[ and ship.rela_mmb_id = #{relaMmbId,jdbcType=VARCHAR}]]></if>
+        <if test=" relaType!= null "><![CDATA[ and ship.rela_type = #{relaType,jdbcType=INTEGER}]]></if>
+        <if test=" bizType!= null "><![CDATA[ and ship.biz_type = #{bizType,jdbcType=INTEGER}]]></if>
+        <if test=" relaStatus!= null "><![CDATA[ and ship.rela_status = #{relaStatus,jdbcType=INTEGER}]]></if>
+    </sql>
+
+    <!--根据条件查询对象是否存在  -->
+    <select id="queryMmbRelationshipsByCondition" resultMap="returnMap1"
+            parameterType="com.zllh.mall.common.model.MtMemberRelationship">
+        SELECT
+        ship.* FROM
+        mt_member_relationship ship where 1=1
+        <include refid="mmbRela_SearchCondition"/>
+    </select>
+
+
+    <!--根据会员业务类型查询会员信息  -->
+    <select id="queryMmbRelationshipsByGrade" resultMap="returnMap1" parameterType="java.util.Map">
+        SELECT
+        ship.id,
+        ship.rela_mmb_id,
+        b.mmb_fname,
+        b.mmb_sname
+        FROM
+        mt_member_relationship ship
+
+        <!--如果点击的是采购合作业务  -->
+        <if test="mmbId!=null and grade!=null and grade == 1">
+            LEFT JOIN mt_member b ON ship.rela_mmb_id = b.id WHERE ship.rela_type = 0 and ship.rela_grade = 1
+            and ship.mmb_id = #{mmbId,jdbcType=VARCHAR}
+        </if>
+        <!--如果点击的是销售合作业务  -->
+        <if test="mmbId!=null and grade!=null and grade ==2">
+            LEFT JOIN mt_member b ON ship.rela_mmb_id = b.id WHERE ship.rela_type = 0 and ship.rela_grade = 2
+            and ship.mmb_id = #{mmbId,jdbcType=VARCHAR}
+        </if>
+        <!--如果点击的是借合作业务  -->
+        <if test="mmbId!=null and grade!=null and grade ==3">
+            LEFT JOIN mt_member b ON ship.rela_mmb_id = b.id WHERE ship.rela_type = 0 and ship.rela_grade = 3
+            and ship.mmb_id = #{mmbId,jdbcType=VARCHAR}
+        </if>
+        <!--如果点击的是销售合作业务  -->
+        <if test="mmbId!=null and grade!=null and grade ==4">
+            LEFT JOIN mt_member b ON ship.rela_mmb_id = b.id WHERE ship.rela_type = 0 and ship.rela_grade = 4
+            and ship.mmb_id = #{mmbId,jdbcType=VARCHAR}
+        </if>
+        <if test="mmbId!=null and grade!=null and grade ==5">
+            LEFT JOIN mt_member b ON ship.rela_mmb_id = b.id WHERE ship.rela_type = 0 and ship.rela_grade = 5
+            and ship.mmb_id = #{mmbId,jdbcType=VARCHAR}
+        </if>
+
+
+        ORDER BY ship.create_time DESC
+    </select>
+
+    <!--查询待确认会员关系  -->
+    <select id="queryMmbRelationships" resultMap="returnMap1" parameterType="java.util.Map">
+        SELECT
+        a.id,
+        a.fname as mmb_fname,
+        a.bizType as bizType1,
+        a.create_time,
+        a.creat_user
+        FROM
+        (
+        (SELECT
+        ship.id AS id,
+        a.mmb_fname AS fname,
+        CASE
+        WHEN ship.biz_type = 1002 THEN
+        '向我采购'
+        END AS bizType,
+        ship.create_time,
+        ship.creat_user
+        FROM
+        mt_member_relationship ship
+        LEFT JOIN mt_member a ON ship.mmb_id = a.id
+        WHERE
+        ship.rela_mmb_id = #{mmbId,jdbcType=VARCHAR}
+        AND ship.biz_type = 1002
+        AND ship.rela_status = 1
+        AND ship.creat_user!=#{mmbId,jdbcType=VARCHAR})
+        UNION
+        (SELECT
+        ship.id AS id,
+        a.mmb_fname AS fname,
+        CASE
+        WHEN ship.biz_type = 1002 THEN
+        '向我销售'
+        END AS bizType,
+        ship.create_time,
+        ship.creat_user
+        FROM
+        mt_member_relationship ship
+        LEFT JOIN mt_member a ON ship.rela_mmb_id = a.id
+        WHERE
+        ship.mmb_id = #{mmbId,jdbcType=VARCHAR}
+        AND ship.biz_type = 1002
+        AND ship.rela_status = 1
+        AND ship.creat_user!=#{mmbId,jdbcType=VARCHAR})
+        ) a
+        ORDER BY
+        a.create_time DESC
+        <if test="startFirst != null and startEnd != null">
+            limit #{startFirst},#{startEnd}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.zllh.mall.common.model.MtMemberRelationship">
+    insert into mt_member_relationship (id, mmb_id, rela_mmb_id, 
+      rela_type, rela_grade, biz_type, 
+      relaMmb_pageUrl, classify_label, create_time,rela_status,creat_user
+      )
+    values (#{id,jdbcType=VARCHAR}, #{mmbId,jdbcType=VARCHAR}, #{relaMmbId,jdbcType=VARCHAR}, 
+      #{relaType,jdbcType=INTEGER}, #{relaGrade,jdbcType=INTEGER}, #{bizType,jdbcType=INTEGER}, 
+      #{relammbPageurl,jdbcType=VARCHAR}, #{classifyLabel,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+      #{relaStatus,jdbcType=INTEGER},#{creatUser,jdbcType=VARCHAR}
+      )
+  </insert>
+
+    <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtMemberRelationship">
+        insert into mt_member_relationship
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="mmbId != null">
+                mmb_id,
+            </if>
+            <if test="relaMmbId != null">
+                rela_mmb_id,
+            </if>
+            <if test="relaType != null">
+                rela_type,
+            </if>
+            <if test="relaGrade != null">
+                rela_grade,
+            </if>
+            <if test="bizType != null">
+                biz_type,
+            </if>
+            <if test="relammbPageurl != null">
+                relaMmb_pageUrl,
+            </if>
+            <if test="classifyLabel != null">
+                classify_label,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="creatUser != null">
+                creat_user,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="mmbId != null">
+                #{mmbId,jdbcType=VARCHAR},
+            </if>
+            <if test="relaMmbId != null">
+                #{relaMmbId,jdbcType=VARCHAR},
+            </if>
+            <if test="relaType != null">
+                #{relaType,jdbcType=INTEGER},
+            </if>
+            <if test="relaGrade != null">
+                #{relaGrade,jdbcType=INTEGER},
+            </if>
+            <if test="bizType != null">
+                #{bizType,jdbcType=INTEGER},
+            </if>
+            <if test="relammbPageurl != null">
+                #{relammbPageurl,jdbcType=VARCHAR},
+            </if>
+            <if test="classifyLabel != null">
+                #{classifyLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="creatUser != null">
+                #{creatUser,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!--修改会员关系信息 -->
+    <update id="updateMmbRelationship" parameterType="com.zllh.mall.common.model.MtMemberRelationship">
+        update mt_member_relationship
+        <set>
+            <if test="mmbId != null">
+                mmb_id = #{mmbId,jdbcType=VARCHAR},
+            </if>
+            <if test="relaType != null">
+                rela_type = #{relaType,jdbcType=INTEGER},
+            </if>
+            <if test="relaMmbId != null">
+                rela_mmb_id = #{relaMmbId,jdbcType=VARCHAR},
+            </if>
+            <if test="relaGrade != null">
+                rela_grade = #{relaGrade,jdbcType=INTEGER},
+            </if>
+            <if test="bizType != null">
+                biz_type = #{bizType,jdbcType=INTEGER},
+            </if>
+            <if test="relammbPageurl != null">
+                relaMmb_pageUrl = #{relammbPageurl,jdbcType=VARCHAR},
+            </if>
+            <if test="classifyLabel != null">
+                classify_label = #{classifyLabel,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="relaStatus != null">
+                rela_status = #{relaStatus,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+
+
+    <!--插入业务合作前 先删除 -->
+    <delete id="deleteRelaByRelationShip" parameterType="com.zllh.mall.common.model.MtMemberRelationship">
+        delete from mt_member_relationship where rela_type = 1 and biz_type = 1002
+         and mmb_id = #{mmbId,jdbcType=VARCHAR} and rela_mmb_id = #{relaMmbId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--根据条件删除数据  -->
+    <delete id="deleteRelaMmbsByCondition" parameterType="java.util.Map">
+        delete from mt_member_relationship
+        <where>
+            rela_type = 1 and biz_type = 1002
+            <!-- 如果是买关系 -->
+            <if test="type!=null and type==1">
+                and mmb_id = #{mmbId,jdbcType=VARCHAR} and rela_mmb_id = #{relaMmbId,jdbcType=VARCHAR}
+            </if>
+            <!-- 如果是卖关系 -->
+            <if test="type!=null and type==2">
+                and mmb_id = #{relaMmbId,jdbcType=VARCHAR} and rela_mmb_id = #{mmbId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </delete>
+
+    <!--删除买卖或者借贷关系的数据  -->
+    <delete id="deleteMmbRelationships" parameterType="java.util.Map">
+        delete from mt_member_relationship
+        <where>
+            rela_type = 1
+            and biz_type = 1002
+            and <![CDATA[(mmb_id = #{mmbId,jdbcType=VARCHAR} or mmb_id = #{relaMmbId,jdbcType=VARCHAR})]]>
+            and <![CDATA[(rela_mmb_id = #{mmbId,jdbcType=VARCHAR} or rela_mmb_id = #{relaMmbId,jdbcType=VARCHAR} )]]>
+        </where>
+    </delete>
+
+    <select id="queryMmbRelationshipByMid" parameterType="java.lang.String" resultMap="returnMap1">
+	    SELECT DISTINCT
+			a.id as memberId,
+			a.mmb_fname
+		FROM
+			(
+				SELECT
+					member.id,
+					member.mmb_fname
+				FROM
+					mt_member_relationship ship
+				LEFT JOIN mt_member member ON ship.rela_mmb_id = member.id
+				WHERE
+					ship.mmb_id = #{mid,jdbcType=VARCHAR}
+				UNION
+					SELECT
+						member.id,
+						member.mmb_fname
+					FROM
+						mt_member_relationship ship
+					LEFT JOIN mt_member member ON ship.mmb_id = member.id
+					WHERE
+						ship.rela_mmb_id = #{mid,jdbcType=VARCHAR}
+			) a;
+	    
+	</select>
+
+    <select id="getOperationRelaByMmbId" resultType="java.util.HashMap" parameterType="java.lang.String">
+
+	SELECT
+            count(1) nums,
+            '买' buzType
+    FROM
+        mt_member_relationship a
+    WHERE
+        a.mmb_id = #{mmbId,jdbcType=VARCHAR}
+    AND a.biz_type = 1002
+    AND a.rela_type = 1
+    AND a.rela_status = 0
+        UNION
+	SELECT
+		count(1) nums,
+		'卖' buzType
+	FROM
+		mt_member_relationship a
+	WHERE
+		a.rela_mmb_id = #{mmbId,jdbcType=VARCHAR}
+	AND a.biz_type = 1002
+	AND a.rela_type = 1
+	AND a.rela_status = 0
+	  UNION
+    SELECT
+        count(1) nums,
+        '贷' buzType
+    FROM
+        mt_member_relationship a
+    WHERE
+        a.mmb_id = #{mmbId,jdbcType=VARCHAR}
+    AND a.biz_type = 1
+    AND a.rela_type = 1
+    AND a.rela_status = 0
+      UNION
+    SELECT
+        count(1) nums,
+        '借' buzType
+    FROM
+        mt_member_relationship a
+    WHERE
+        a.rela_mmb_id = #{mmbId,jdbcType=VARCHAR}
+    AND a.biz_type = 1
+    AND a.rela_type = 1
+    AND a.rela_status = 0
+
+	</select>
+
+    <!--会员关系 降级为仅关注 1级 -->
+    <update id="lowerToConcernOperationlowerToConcernOperation" parameterType="java.util.HashMap">
+        UPDATE mt_member_relationship a
+        SET a.rela_type = 0,
+            a.rela_grade = 1
+        WHERE
+            a.mmb_id = #{mmbId,jdbcType=VARCHAR}
+        AND a.rela_mmb_id = #{relaMmbId,jdbcType=VARCHAR}
+
+    </update>
+
+    <!--根据条件查询是否有会员关系 -->
+    <select id="getMembRelaByMap" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        SELECT
+        rela.id,
+        rela.mmb_id,
+        rela.rela_mmb_id,
+        rela.rela_type,
+        rela.biz_type
+        FROM
+        mt_member_relationship rela
+        WHERE rela.rela_status = 0
+
+        <if test="bizType != null">
+            and rela.biz_type  = #{bizType,jdbcType=INTEGER}
+        </if>
+
+        <if test="relaType != null">
+            and rela_type = #{relaType,jdbcType=INTEGER}
+        </if>
+
+        <if test="mmbId != null">
+            and mmb_id = #{mmbId,jdbcType=INTEGER}
+        </if>
+        <if test="relaMmbId != null">
+            and rela_mmb_id = #{relaMmbId,jdbcType=INTEGER}
+        </if>
+
+
+    </select>
+
+
+    <!--根据合作协议类型得到 关系会员-->
+    <select id="getMmbRealByContract" resultMap="returnMap1" parameterType="java.util.Map">
+
+        SELECT
+        a.id as memberId,
+        a.mmb_fname
+        FROM
+        mt_member_relationship rela
+
+        <!--如果合作协议是采购协议，那么查询条件传入的mmbid匹配第一个字段也就是mmb_id  -->
+        <if test="contractType != null and contractType ==1">
+            LEFT JOIN mt_member a ON rela.rela_mmb_id = a.id
+            WHERE rela.mmb_id = #{mmbId,jdbcType=VARCHAR}
+            and rela.biz_type = 1002
+            and rela.rela_status = 0
+            and rela_type = 1
+
+        </if>
+
+        <!--如果是卖关系，那么查询条件传入的mmbid匹配第一个字段也就是mmb_id  -->
+        <if test="contractType!=null and contractType==2">
+            LEFT JOIN mt_member a ON rela.mmb_id = a.id
+            WHERE rela.rela_mmb_id = #{mmbId,jdbcType=VARCHAR}
+            and rela.biz_type = 1002
+            and rela.rela_status = 0
+            and rela_type = 1
+
+        </if>
+
+    </select>
+
+    <!--得到各关注等级个数 -->
+    <select id="getConcernRelaNumsByLevel" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+       SELECT
+        COUNT(1)
+        FROM
+        mt_member_relationship rela
+        where rela_type = 0
+        <if test="mmbId !=null">
+           and rela.mmb_id = #{mmbId,jdbcType=VARCHAR}
+        </if>
+        <if test="grade !=null">
+           and rela.rela_grade =  #{grade,jdbcType=INTEGER}
+        </if>
+    </select>
+
+</mapper>

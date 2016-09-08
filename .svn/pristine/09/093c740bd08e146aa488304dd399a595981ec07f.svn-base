@@ -1,0 +1,113 @@
+package com.zllh.mall.common.model;
+
+/**
+ * Created by CFY on 2016/8/29.
+ */
+public class AppData {
+
+
+
+    private String menuType; //菜单类型
+    private String menuDesc; //菜单描述
+    private int  menuNums;   //菜单内容list条数
+
+
+    private String content ; //提示内容
+    private String editTime; //最新编辑时间
+    private String id; //行ID
+
+    private String mmbFname; //会员全称
+
+    public AppData(){
+
+    }
+
+    public AppData(String menuType, String menuDesc, int  menuNums){
+        this.menuType = menuType;
+        this.menuDesc = menuDesc;
+        this.menuNums = menuNums;
+    }
+
+    /**
+     * 待办事宜列表内容 对象
+     * @param menuType
+     * @param id
+     * @param content
+     * @param editTime
+     */
+    public AppData(String menuType, String id, String content, String editTime){
+        this.content = menuType;
+        this.id = id;
+        this.content = content;
+        this.editTime = editTime;
+
+    }
+
+    /**
+     * 关系列表内容 对象
+     * @param menuType
+     * @param id
+     * @param mmbFname
+     */
+    public AppData(String menuType, String id, String mmbFname){
+        this.content = menuType;
+        this.id = id;
+        this.mmbFname = mmbFname;
+    }
+
+    public String getMenuType() {
+        return menuType;
+    }
+
+    public void setMenuType(String menuType) {
+        this.menuType = menuType;
+    }
+
+    public String getMenuDesc() {
+        return menuDesc;
+    }
+
+    public void setMenuDesc(String menuDesc) {
+        this.menuDesc = menuDesc;
+    }
+
+    public int getMenuNums() {
+        return menuNums;
+    }
+
+    public void setMenuNums(int menuNums) {
+        this.menuNums = menuNums;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getEditTime() {
+        return editTime;
+    }
+
+    public void setEditTime(String editTime) {
+        this.editTime = editTime;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getMmbFname() {
+        return mmbFname;
+    }
+
+    public void setMmbFname(String mmbFname) {
+        this.mmbFname = mmbFname;
+    }
+}

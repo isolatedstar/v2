@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtAccountManangerMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtAccountMananger" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="accountNumber" property="accountnumber" jdbcType="VARCHAR" />
+    <result column="openManager" property="openmanager" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phoneNumber" property="phonenumber" jdbcType="VARCHAR" />
+    <result column="accountType" property="accounttype" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, accountNumber, openManager, name, phoneNumber, accountType
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_account_mananger
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKeyId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_account_mananger
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="queryBankByAccountCode" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_account_mananger
+    where accountNumber = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAccountType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_account_mananger
+    where accountType = #{accounttype,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKeyList" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from mt_account_mananger
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from mt_account_mananger
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtAccountMananger" >
+    insert into mt_account_mananger (id, accountNumber, openManager, 
+      name, phoneNumber, accountType
+      )
+    values (#{id,jdbcType=INTEGER}, #{accountnumber,jdbcType=VARCHAR}, #{openmanager,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, #{accounttype,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtAccountMananger" >
+    insert into mt_account_mananger
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountnumber != null" >
+        accountNumber,
+      </if>
+      <if test="openmanager != null" >
+        openManager,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phonenumber != null" >
+        phoneNumber,
+      </if>
+      <if test="accounttype != null" >
+        accountType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountnumber != null" >
+        #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="openmanager != null" >
+        #{openmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null" >
+        #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="accounttype != null" >
+        #{accounttype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.MtAccountMananger" >
+    update mt_account_mananger
+    <set >
+      <if test="accountnumber != null" >
+        accountNumber = #{accountnumber,jdbcType=VARCHAR},
+      </if>
+      <if test="openmanager != null" >
+        openManager = #{openmanager,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phonenumber != null" >
+        phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="accounttype != null" >
+        accountType = #{accounttype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.MtAccountMananger" >
+    update mt_account_mananger
+    set accountNumber = #{accountnumber,jdbcType=VARCHAR},
+      openManager = #{openmanager,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      accountType = #{accounttype,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.payment.front.dao.AcctBalanceMapper">
+	<resultMap id="BaseResultMap" type="com.zllh.payment.model.AccountBalance">
+    	<result column="AMT" property="amt" jdbcType="DECIMAL" />
+    	<result column="LOCK_AMT" property="freezeAmt" jdbcType="DECIMAL" />
+		<result column="AMT_ACCOUNT" property="amtAccount" jdbcType="VARCHAR" />
+		<result column="BANK_NAME" property="bankName" jdbcType="VARCHAR" />
+		<result column="OUT_ACCT_COPY_NAME" property="companyName" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="queryAccountAmt" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select sum(a.AMT) as amt,
+		a.AMT_ACCOUNT,
+		a.BANK_NAME,
+		a.OUT_ACCT_COPY_NAME
+		from in_out_view a
+		where 1=1
+      <if test="list.size() != 0"> 
+	     and  a.AMT_ACCOUNT in (select bank_acct 
+	      	  from acct_mgt where 
+	      <foreach collection="list" item="account" index="index"
+	             separator="OR">
+				(<if test="account.relation == 1" >
+					MASTER_ACCT = #{account.accountOut} or 
+				</if>
+				BANK_ACCT = #{account.accountOut})
+	      </foreach>)
+      </if>
+		group by a.AMT_ACCOUNT
+		<if test="sort != null and order != null">
+	     order by ${sort} ${order}
+	     </if>
+		limit #{pageIndex},#{pageSize}
+	</select>
+	<select id="queryAccountFreezeAmt" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select a.BANK_ACCT as amtAccount,
+		a.LOCK_AMT
+		from freeze a
+		where 1=1
+		<if test="list.size() != 0"> 
+	     and  a.BANK_ACCT in (select bank_acct 
+	      	  from acct_mgt where 
+	      <foreach collection="list" item="account" index="index"
+	             separator="OR">
+				(<if test="account.relation == 1" >
+					MASTER_ACCT = #{account.accountOut} or 
+				</if>
+				BANK_ACCT = #{account.accountOut})
+	      </foreach>)
+      </if>
+	</select>
+	<select id="queryAccountCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
+		select count(a.AMT)
+		from in_out_view a
+		where 1=1
+      <if test="list.size() != 0"> 
+	     and  a.AMT_ACCOUNT in (select bank_acct 
+	      	  from acct_mgt where 
+	      <foreach collection="list" item="account" index="index"
+	             separator="OR">
+				(<if test="account.relation == 1" >
+					MASTER_ACCT = #{account.accountOut} or 
+				</if>
+				BANK_ACCT = #{account.accountOut})
+	      </foreach>)
+      </if>
+	</select>
+</mapper>

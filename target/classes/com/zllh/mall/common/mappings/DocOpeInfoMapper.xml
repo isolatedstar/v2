@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.DocOpeInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.DocOpeInfo" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="DOC_ID" property="docId" jdbcType="VARCHAR" />
+    <result column="DOC_NAME" property="docName" jdbcType="VARCHAR" />
+    <result column="DOC_SUFFIX" property="docSuffix" jdbcType="VARCHAR" />
+    <result column="DOC_OPE_GROUP_NAME" property="docOpeGroupName" jdbcType="VARCHAR" />
+    <result column="DOC_OPE_NAME" property="docOpeName" jdbcType="VARCHAR" />
+    <result column="DOC_OPE_SUB_TYPE" property="docOpeSubType" jdbcType="VARCHAR" />
+    <result column="DOC_OPE_TYPE" property="docOpeType" jdbcType="VARCHAR" />
+    <result column="DOC_OPE_CRE_TIME" property="docOpeCreTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DOC_ID, DOC_NAME, DOC_SUFFIX, DOC_OPE_GROUP_NAME, DOC_OPE_NAME, DOC_OPE_SUB_TYPE, 
+    DOC_OPE_TYPE, DOC_OPE_CRE_TIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from bus_doc_operate_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bus_doc_operate_info
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.DocOpeInfo" >
+    insert into bus_doc_operate_info (ID, DOC_ID, DOC_NAME, 
+      DOC_SUFFIX, DOC_OPE_GROUP_NAME, DOC_OPE_NAME, 
+      DOC_OPE_SUB_TYPE, DOC_OPE_TYPE, DOC_OPE_CRE_TIME
+      )
+    values (#{id,jdbcType=VARCHAR}, #{docId,jdbcType=VARCHAR}, #{docName,jdbcType=VARCHAR}, 
+      #{docSuffix,jdbcType=VARCHAR}, #{docOpeGroupName,jdbcType=VARCHAR}, #{docOpeName,jdbcType=VARCHAR}, 
+      #{docOpeSubType,jdbcType=VARCHAR}, #{docOpeType,jdbcType=VARCHAR}, #{docOpeCreTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.DocOpeInfo" >
+    insert into bus_doc_operate_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="docId != null" >
+        DOC_ID,
+      </if>
+      <if test="docName != null" >
+        DOC_NAME,
+      </if>
+      <if test="docSuffix != null" >
+        DOC_SUFFIX,
+      </if>
+      <if test="docOpeGroupName != null" >
+        DOC_OPE_GROUP_NAME,
+      </if>
+      <if test="docOpeName != null" >
+        DOC_OPE_NAME,
+      </if>
+      <if test="docOpeSubType != null" >
+        DOC_OPE_SUB_TYPE,
+      </if>
+      <if test="docOpeType != null" >
+        DOC_OPE_TYPE,
+      </if>
+      <if test="docOpeCreTime != null" >
+        DOC_OPE_CRE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="docId != null" >
+        #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="docName != null" >
+        #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="docSuffix != null" >
+        #{docSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="docOpeGroupName != null" >
+        #{docOpeGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="docOpeName != null" >
+        #{docOpeName,jdbcType=VARCHAR},
+      </if>
+      <if test="docOpeSubType != null" >
+        #{docOpeSubType,jdbcType=VARCHAR},
+      </if>
+      <if test="docOpeType != null" >
+        #{docOpeType,jdbcType=VARCHAR},
+      </if>
+      <if test="docOpeCreTime != null" >
+        #{docOpeCreTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.mall.common.model.DocOpeInfo" >
+    update bus_doc_operate_info
+    <set >
+      <if test="docId != null" >
+        DOC_ID = #{docId,jdbcType=VARCHAR},
+      </if>
+      <if test="docName != null" >
+        DOC_NAME = #{docName,jdbcType=VARCHAR},
+      </if>
+      <if test="docSuffix != null" >
+        DOC_SUFFIX = #{docSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="docOpeGroupName != null" >
+        DOC_OPE_GROUP_NAME = #{docOpeGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="docOpeName != null" >
+        DOC_OPE_NAME = #{docOpeName,jdbcType=VARCHAR},
+      </if>
+      <if test="docOpeSubType != null" >
+        DOC_OPE_SUB_TYPE = #{docOpeSubType,jdbcType=VARCHAR},
+      </if>
+      <if test="docOpeType != null" >
+        DOC_OPE_TYPE = #{docOpeType,jdbcType=VARCHAR},
+      </if>
+      <if test="docOpeCreTime != null" >
+        DOC_OPE_CRE_TIME = #{docOpeCreTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.mall.common.model.DocOpeInfo" >
+    update bus_doc_operate_info
+    set DOC_ID = #{docId,jdbcType=VARCHAR},
+      DOC_NAME = #{docName,jdbcType=VARCHAR},
+      DOC_SUFFIX = #{docSuffix,jdbcType=VARCHAR},
+      DOC_OPE_GROUP_NAME = #{docOpeGroupName,jdbcType=VARCHAR},
+      DOC_OPE_NAME = #{docOpeName,jdbcType=VARCHAR},
+      DOC_OPE_SUB_TYPE = #{docOpeSubType,jdbcType=VARCHAR},
+      DOC_OPE_TYPE = #{docOpeType,jdbcType=VARCHAR},
+      DOC_OPE_CRE_TIME = #{docOpeCreTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

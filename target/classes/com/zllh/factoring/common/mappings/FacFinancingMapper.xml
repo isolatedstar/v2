@@ -1,0 +1,986 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.factoring.common.dao.FacFinancingMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.factoring.common.model.FacFinancing" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="financing_id" property="financingId" jdbcType="VARCHAR" />
+    <result column="wait_pay_total" property="waitPayTotal" jdbcType="DECIMAL" />
+    <result column="predict_service_fee" property="predictServiceFee" jdbcType="DECIMAL" />
+    <result column="predict_refund_date" property="predictRefundDate" jdbcType="TIMESTAMP" />
+    <result column="predict_interest" property="predictInterest" jdbcType="DECIMAL" />
+    <result column="assure_type" property="assureType" jdbcType="INTEGER" />
+    <result column="bank" property="bank" jdbcType="VARCHAR" />
+    <result column="financing_date" property="financingDate" jdbcType="TIMESTAMP" />
+    <result column="factoring_name_id" property="factoringNameId" jdbcType="INTEGER" />
+    <result column="apply_organization_id" property="applyOrganizationId" jdbcType="VARCHAR" />
+    <result column="proposer_id" property="proposerId" jdbcType="VARCHAR" />
+    <result column="proposer_name" property="proposerName" jdbcType="VARCHAR" />
+    <result column="proposer_date" property="proposerDate" jdbcType="TIMESTAMP" />
+    <result column="accept_operator_id" property="acceptOperatorId" jdbcType="VARCHAR" />
+    <result column="accept_operator_name" property="acceptOperatorName" jdbcType="VARCHAR" />
+    <result column="accept_date" property="acceptDate" jdbcType="TIMESTAMP" />
+    <result column="lock" property="lock" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+    <result column="distributor_theoretical_bank" property="distributorTheoreticalBank" jdbcType="VARCHAR" />
+    <result column="distributor_general_bank" property="distributorGeneralBank" jdbcType="VARCHAR" />
+    <result column="corporate_champion_name" property="corporateChampionName" jdbcType="VARCHAR" />
+    <result column="corporate_championr_theoretical_bank" property="corporateChampionrTheoreticalBank" jdbcType="VARCHAR" />
+    <result column="corporate_championr_general_bank" property="corporateChampionrGeneralBank" jdbcType="VARCHAR" />
+    <result column="expire_rate" property="expireRate" jdbcType="DOUBLE" />
+    <result column="extend_rate" property="extendRate" jdbcType="DOUBLE" />
+    <result column="bloc_account" property="blocAccount" jdbcType="VARCHAR" />
+    <result column="member_id" property="memberId" jdbcType="VARCHAR" />
+    <result column="member_name" property="memberName" jdbcType="VARCHAR" />
+    <result column="acct_name" property="acctName" jdbcType="VARCHAR" />
+    <result column="member_account" property="memberAccount" jdbcType="VARCHAR" />
+    <result column="stt_last_refund_id" property="sttLastRefundId" jdbcType="VARCHAR" />
+    <result column="stt_last_refund_data" property="sttLastRefundData" jdbcType="TIMESTAMP" />
+    <result column="accept_bank_id" property="acceptBankId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, financing_id, wait_pay_total, predict_service_fee, predict_refund_date, predict_interest, 
+    assure_type, bank, financing_date, factoring_name_id, apply_organization_id, proposer_id, 
+    proposer_name, proposer_date, accept_operator_id, accept_operator_name, accept_date, 
+    `lock`, status, distributor_name, distributor_theoretical_bank, distributor_general_bank, 
+    corporate_champion_name, corporate_championr_theoretical_bank, corporate_championr_general_bank, 
+    expire_rate, extend_rate, bloc_account, member_id, member_name, acct_name, member_account, 
+    stt_last_refund_id, stt_last_refund_data, accept_bank_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fac_financing
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fac_financing
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.factoring.common.model.FacFinancing" >
+    insert into fac_financing (id, financing_id, wait_pay_total, 
+      predict_service_fee, predict_refund_date, 
+      predict_interest, assure_type, bank, 
+      financing_date, factoring_name_id, apply_organization_id, 
+      proposer_id, proposer_name, proposer_date, 
+      accept_operator_id, accept_operator_name, accept_date, 
+      `lock`, status, distributor_name, 
+      distributor_theoretical_bank, distributor_general_bank, 
+      corporate_champion_name, corporate_championr_theoretical_bank, 
+      corporate_championr_general_bank, expire_rate, 
+      extend_rate, bloc_account, member_id, 
+      member_name, acct_name, member_account, 
+      stt_last_refund_id, stt_last_refund_data, accept_bank_id)
+    values (#{id,jdbcType=VARCHAR}, #{financingId,jdbcType=VARCHAR}, #{waitPayTotal,jdbcType=DECIMAL}, 
+      #{predictServiceFee,jdbcType=DECIMAL}, #{predictRefundDate,jdbcType=TIMESTAMP}, 
+      #{predictInterest,jdbcType=DECIMAL}, #{assureType,jdbcType=INTEGER}, #{bank,jdbcType=VARCHAR}, 
+      #{financingDate,jdbcType=TIMESTAMP}, #{factoringNameId,jdbcType=INTEGER}, #{applyOrganizationId,jdbcType=VARCHAR}, 
+      #{proposerId,jdbcType=VARCHAR}, #{proposerName,jdbcType=VARCHAR}, #{proposerDate,jdbcType=TIMESTAMP}, 
+      #{acceptOperatorId,jdbcType=VARCHAR}, #{acceptOperatorName,jdbcType=VARCHAR}, #{acceptDate,jdbcType=TIMESTAMP}, 
+      #{lock,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{distributorName,jdbcType=VARCHAR}, 
+      #{distributorTheoreticalBank,jdbcType=VARCHAR}, #{distributorGeneralBank,jdbcType=VARCHAR}, 
+      #{corporateChampionName,jdbcType=VARCHAR}, #{corporateChampionrTheoreticalBank,jdbcType=VARCHAR}, 
+      #{corporateChampionrGeneralBank,jdbcType=VARCHAR}, #{expireRate,jdbcType=DOUBLE}, 
+      #{extendRate,jdbcType=DOUBLE}, #{blocAccount,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, 
+      #{memberName,jdbcType=VARCHAR}, #{acctName,jdbcType=VARCHAR}, #{memberAccount,jdbcType=VARCHAR}, 
+      #{sttLastRefundId,jdbcType=VARCHAR}, #{sttLastRefundData,jdbcType=TIMESTAMP}, #{acceptBankId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.factoring.common.model.FacFinancing" >
+    insert into fac_financing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="financingId != null" >
+        financing_id,
+      </if>
+      <if test="waitPayTotal != null" >
+        wait_pay_total,
+      </if>
+      <if test="predictServiceFee != null" >
+        predict_service_fee,
+      </if>
+      <if test="predictRefundDate != null" >
+        predict_refund_date,
+      </if>
+      <if test="predictInterest != null" >
+        predict_interest,
+      </if>
+      <if test="assureType != null" >
+        assure_type,
+      </if>
+      <if test="bank != null" >
+        bank,
+      </if>
+      <if test="financingDate != null" >
+        financing_date,
+      </if>
+      <if test="factoringNameId != null" >
+        factoring_name_id,
+      </if>
+      <if test="applyOrganizationId != null" >
+        apply_organization_id,
+      </if>
+      <if test="proposerId != null" >
+        proposer_id,
+      </if>
+      <if test="proposerName != null" >
+        proposer_name,
+      </if>
+      <if test="proposerDate != null" >
+        proposer_date,
+      </if>
+      <if test="acceptOperatorId != null" >
+        accept_operator_id,
+      </if>
+      <if test="acceptOperatorName != null" >
+        accept_operator_name,
+      </if>
+      <if test="acceptDate != null" >
+        accept_date,
+      </if>
+      <if test="lock != null" >
+        `lock`,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="distributorName != null" >
+        distributor_name,
+      </if>
+      <if test="distributorTheoreticalBank != null" >
+        distributor_theoretical_bank,
+      </if>
+      <if test="distributorGeneralBank != null" >
+        distributor_general_bank,
+      </if>
+      <if test="corporateChampionName != null" >
+        corporate_champion_name,
+      </if>
+      <if test="corporateChampionrTheoreticalBank != null" >
+        corporate_championr_theoretical_bank,
+      </if>
+      <if test="corporateChampionrGeneralBank != null" >
+        corporate_championr_general_bank,
+      </if>
+      <if test="expireRate != null" >
+        expire_rate,
+      </if>
+      <if test="extendRate != null" >
+        extend_rate,
+      </if>
+      <if test="blocAccount != null" >
+        bloc_account,
+      </if>
+      <if test="memberId != null" >
+        member_id,
+      </if>
+      <if test="memberName != null" >
+        member_name,
+      </if>
+      <if test="acctName != null" >
+        acct_name,
+      </if>
+      <if test="memberAccount != null" >
+        member_account,
+      </if>
+      <if test="sttLastRefundId != null" >
+        stt_last_refund_id,
+      </if>
+      <if test="sttLastRefundData != null" >
+        stt_last_refund_data,
+      </if>
+      <if test="acceptBankId != null" >
+        accept_bank_id
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="financingId != null" >
+        #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="waitPayTotal != null" >
+        #{waitPayTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="predictServiceFee != null" >
+        #{predictServiceFee,jdbcType=DECIMAL},
+      </if>
+      <if test="predictRefundDate != null" >
+        #{predictRefundDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="predictInterest != null" >
+        #{predictInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="assureType != null" >
+        #{assureType,jdbcType=INTEGER},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="financingDate != null" >
+        #{financingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="factoringNameId != null" >
+        #{factoringNameId,jdbcType=INTEGER},
+      </if>
+      <if test="applyOrganizationId != null" >
+        #{applyOrganizationId,jdbcType=VARCHAR},
+      </if>
+      <if test="proposerId != null" >
+        #{proposerId,jdbcType=VARCHAR},
+      </if>
+      <if test="proposerName != null" >
+        #{proposerName,jdbcType=VARCHAR},
+      </if>
+      <if test="proposerDate != null" >
+        #{proposerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptOperatorId != null" >
+        #{acceptOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptOperatorName != null" >
+        #{acceptOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptDate != null" >
+        #{acceptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lock != null" >
+        #{lock,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorTheoreticalBank != null" >
+        #{distributorTheoreticalBank,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorGeneralBank != null" >
+        #{distributorGeneralBank,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateChampionName != null" >
+        #{corporateChampionName,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateChampionrTheoreticalBank != null" >
+        #{corporateChampionrTheoreticalBank,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateChampionrGeneralBank != null" >
+        #{corporateChampionrGeneralBank,jdbcType=VARCHAR},
+      </if>
+      <if test="expireRate != null" >
+        #{expireRate,jdbcType=DOUBLE},
+      </if>
+      <if test="extendRate != null" >
+        #{extendRate,jdbcType=DOUBLE},
+      </if>
+      <if test="blocAccount != null" >
+        #{blocAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null" >
+        #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="acctName != null" >
+        #{acctName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberAccount != null" >
+        #{memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="sttLastRefundId != null" >
+        #{sttLastRefundId,jdbcType=VARCHAR},
+      </if>
+      <if test="sttLastRefundData != null" >
+        #{sttLastRefundData,jdbcType=TIMESTAMP},
+      </if>
+       <if test="acceptBankId != null" >
+        #{acceptBankId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.factoring.common.model.FacFinancing" >
+    update fac_financing
+    <set >
+      <if test="financingId != null" >
+        financing_id = #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="waitPayTotal != null" >
+        wait_pay_total = #{waitPayTotal,jdbcType=DECIMAL},
+      </if>
+      <if test="predictServiceFee != null" >
+        predict_service_fee = #{predictServiceFee,jdbcType=DECIMAL},
+      </if>
+      <if test="predictRefundDate != null" >
+        predict_refund_date = #{predictRefundDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="predictInterest != null" >
+        predict_interest = #{predictInterest,jdbcType=DECIMAL},
+      </if>
+      <if test="assureType != null" >
+        assure_type = #{assureType,jdbcType=INTEGER},
+      </if>
+      <if test="bank != null" >
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="financingDate != null" >
+        financing_date = #{financingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="factoringNameId != null" >
+        factoring_name_id = #{factoringNameId,jdbcType=INTEGER},
+      </if>
+      <if test="applyOrganizationId != null" >
+        apply_organization_id = #{applyOrganizationId,jdbcType=VARCHAR},
+      </if>
+      <if test="proposerId != null" >
+        proposer_id = #{proposerId,jdbcType=VARCHAR},
+      </if>
+      <if test="proposerName != null" >
+        proposer_name = #{proposerName,jdbcType=VARCHAR},
+      </if>
+      <if test="proposerDate != null" >
+        proposer_date = #{proposerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptOperatorId != null" >
+        accept_operator_id = #{acceptOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptOperatorName != null" >
+        accept_operator_name = #{acceptOperatorName,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptDate != null" >
+        accept_date = #{acceptDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lock != null" >
+        `lock` = #{lock,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="distributorName != null" >
+        distributor_name = #{distributorName,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorTheoreticalBank != null" >
+        distributor_theoretical_bank = #{distributorTheoreticalBank,jdbcType=VARCHAR},
+      </if>
+      <if test="distributorGeneralBank != null" >
+        distributor_general_bank = #{distributorGeneralBank,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateChampionName != null" >
+        corporate_champion_name = #{corporateChampionName,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateChampionrTheoreticalBank != null" >
+        corporate_championr_theoretical_bank = #{corporateChampionrTheoreticalBank,jdbcType=VARCHAR},
+      </if>
+      <if test="corporateChampionrGeneralBank != null" >
+        corporate_championr_general_bank = #{corporateChampionrGeneralBank,jdbcType=VARCHAR},
+      </if>
+      <if test="expireRate != null" >
+        expire_rate = #{expireRate,jdbcType=DOUBLE},
+      </if>
+      <if test="extendRate != null" >
+        extend_rate = #{extendRate,jdbcType=DOUBLE},
+      </if>
+      <if test="blocAccount != null" >
+        bloc_account = #{blocAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null" >
+        member_id = #{memberId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberName != null" >
+        member_name = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="acctName != null" >
+        acct_name = #{acctName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberAccount != null" >
+        member_account = #{memberAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="sttLastRefundId != null" >
+        stt_last_refund_id = #{sttLastRefundId,jdbcType=VARCHAR},
+      </if>
+      <if test="sttLastRefundData != null" >
+        stt_last_refund_data = #{sttLastRefundData,jdbcType=TIMESTAMP},
+      </if>
+       <if test="acceptBankId != null" >
+        accept_bank_id = #{acceptBankId,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.factoring.common.model.FacFinancing" >
+    update fac_financing
+    set financing_id = #{financingId,jdbcType=VARCHAR},
+      wait_pay_total = #{waitPayTotal,jdbcType=DECIMAL},
+      predict_service_fee = #{predictServiceFee,jdbcType=DECIMAL},
+      predict_refund_date = #{predictRefundDate,jdbcType=TIMESTAMP},
+      predict_interest = #{predictInterest,jdbcType=DECIMAL},
+      assure_type = #{assureType,jdbcType=INTEGER},
+      bank = #{bank,jdbcType=VARCHAR},
+      financing_date = #{financingDate,jdbcType=TIMESTAMP},
+      factoring_name_id = #{factoringNameId,jdbcType=INTEGER},
+      apply_organization_id = #{applyOrganizationId,jdbcType=VARCHAR},
+      proposer_id = #{proposerId,jdbcType=VARCHAR},
+      proposer_name = #{proposerName,jdbcType=VARCHAR},
+      proposer_date = #{proposerDate,jdbcType=TIMESTAMP},
+      accept_operator_id = #{acceptOperatorId,jdbcType=VARCHAR},
+      accept_operator_name = #{acceptOperatorName,jdbcType=VARCHAR},
+      accept_date = #{acceptDate,jdbcType=TIMESTAMP},
+      `lock` = #{lock,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      distributor_theoretical_bank = #{distributorTheoreticalBank,jdbcType=VARCHAR},
+      distributor_general_bank = #{distributorGeneralBank,jdbcType=VARCHAR},
+      corporate_champion_name = #{corporateChampionName,jdbcType=VARCHAR},
+      corporate_championr_theoretical_bank = #{corporateChampionrTheoreticalBank,jdbcType=VARCHAR},
+      corporate_championr_general_bank = #{corporateChampionrGeneralBank,jdbcType=VARCHAR},
+      expire_rate = #{expireRate,jdbcType=DOUBLE},
+      extend_rate = #{extendRate,jdbcType=DOUBLE},
+      bloc_account = #{blocAccount,jdbcType=VARCHAR},
+      member_id = #{memberId,jdbcType=VARCHAR},
+      member_name = #{memberName,jdbcType=VARCHAR},
+      acct_name = #{acctName,jdbcType=VARCHAR},
+      member_account = #{memberAccount,jdbcType=VARCHAR},
+      stt_last_refund_id = #{sttLastRefundId,jdbcType=VARCHAR},
+      stt_last_refund_data = #{sttLastRefundData,jdbcType=TIMESTAMP},
+      accept_bank_id = #{acceptBankId,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 修改融资单状态-->
+  <update id="updateByPrimaryKey1" parameterType="com.zllh.factoring.common.model.FacFinancing" >
+    update fac_financing
+    set financing_id = #{financingId,jdbcType=VARCHAR},
+      wait_pay_total = #{waitPayTotal,jdbcType=DECIMAL},
+      predict_service_fee = #{predictServiceFee,jdbcType=DECIMAL},
+      predict_refund_date = #{predictRefundDate,jdbcType=TIMESTAMP},
+      predict_interest = #{predictInterest,jdbcType=DECIMAL},
+      assure_type = #{assureType,jdbcType=INTEGER},
+      bank = #{bank,jdbcType=VARCHAR},
+      financing_date = #{financingDate,jdbcType=TIMESTAMP},
+      factoring_name_id = #{factoringNameId,jdbcType=INTEGER},
+      proposer_id = #{proposerId,jdbcType=VARCHAR},
+      proposer_name = #{proposerName,jdbcType=VARCHAR},
+      proposer_date = #{proposerDate,jdbcType=TIMESTAMP},
+      accept_operator_id = #{acceptOperatorId,jdbcType=VARCHAR},
+      accept_operator_name = #{acceptOperatorName,jdbcType=VARCHAR},
+      accept_date = #{acceptDate,jdbcType=TIMESTAMP},
+      `lock` = #{lock,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=INTEGER},
+      distributor_name = #{distributorName,jdbcType=VARCHAR},
+      distributor_theoretical_bank = #{distributorTheoreticalBank,jdbcType=VARCHAR},
+      distributor_general_bank = #{distributorGeneralBank,jdbcType=VARCHAR},
+      corporate_champion_name = #{corporateChampionName,jdbcType=VARCHAR},
+      corporate_championr_theoretical_bank = #{corporateChampionrTheoreticalBank,jdbcType=VARCHAR},
+      corporate_championr_general_bank = #{corporateChampionrGeneralBank,jdbcType=VARCHAR},
+      expire_rate = #{expireRate,jdbcType=DOUBLE},
+      extend_rate = #{extendRate,jdbcType=DOUBLE},
+      bloc_account = #{blocAccount,jdbcType=VARCHAR},
+      member_id = #{memberId,jdbcType=VARCHAR},
+      member_name = #{memberName,jdbcType=VARCHAR},
+      member_account = #{memberAccount,jdbcType=VARCHAR},
+      stt_last_refund_id = #{sttLastRefundId,jdbcType=VARCHAR},
+      stt_last_refund_data = #{sttLastRefundData,jdbcType=TIMESTAMP}
+    where financing_id = #{financingId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 查询还款列表信息 -->
+  <select id="selectFinancingRepaymen" parameterType="java.util.HashMap" resultType="com.zllh.factoring.common.model.model_extend.FacFinancingExtendBean">
+	 SELECT 
+	    fin.financing_id financingId, fin.wait_pay_total waitPayTotal, fin.financing_date financingDate, fin.`lock` `lock`,
+	    fin.predict_service_fee predictServiceFee, fin.expire_rate expireRate, fin.extend_rate extendRate,fin.`status`,
+	    SUM(fingua.surplus_payments_amount) surplusPaymentsAmount, SUM(fingua.refund_amount) refundAmount, 
+	    refun.refund_date refundDate, GROUP_CONCAT(gua.guarantee_id) guaranteeId, GROUP_CONCAT(gua.`lock`) guaLock
+	 FROM fac_financing fin 
+	 JOIN fac_financing_guarantee   fingua ON fin.financing_id = fingua.financing_id AND fin.`status` in(${waitingLoan}, ${accepted}, ${facRefunded})
+	 JOIN fac_guarantee_bill        gua    ON gua.guarantee_id = fingua.guarantee_id
+	 LEFT JOIN fac_refund                refun  ON refun.refund_id  = fin.stt_last_refund_id
+	 <where>
+	 	<if test=" refundStartDate != null and refundStartDate != '' and refundEndDate != null and refundEndDate != ''">
+	 	    AND<![CDATA[ refun.refund_date >= #{refundStartDate, jdbcType=TIMESTAMP} AND refun.refund_date < #{refundEndDate, jdbcType=TIMESTAMP}]]>
+	 	</if>
+	 	<if test=" financingId != null and financingId != ''">
+	 	    AND fin.financing_id = #{financingId, jdbcType=VARCHAR}
+	 	</if>
+	 	<if test=" refundSource != null and refundSource != -1">
+	 		AND refun.refund_source = #{refundSource, jdbcType=VARCHAR}
+	 	</if>
+	 	<if test=" status != null and status != -1">
+	 	    AND fin.`status` = #{status, jdbcType=INTEGER}
+	 	</if>
+	 	and fin.apply_organization_id = #{applyOrganizationId, jdbcType=INTEGER}
+	 </where>
+	 GROUP BY fin.financing_id LIMIT #{beginIndex},#{pageSize}
+  </select>
+  
+  <!-- 查询还款列表信息条数 -->
+  <select id="selectFinancingRepaymenCount" parameterType="java.util.HashMap" resultType="int">
+	 SELECT COUNT(0) FROM
+		 (SELECT 
+		    fin.financing_id financingId, fin.wait_pay_total waitPayTotal, fin.financing_date financingDate, fin.`lock` `lock`,
+		    fin.predict_service_fee predictServiceFee, fin.expire_rate expireRate, fin.extend_rate extendRate,fin.`status`,
+		    SUM(fingua.surplus_payments_amount) surplusPaymentsAmount, SUM(fingua.refund_amount) refundAmount, 
+		    refun.refund_date refundDate, GROUP_CONCAT(gua.guarantee_id) guaranteeId, GROUP_CONCAT(gua.`lock`) guaLock
+		 FROM fac_financing fin 
+		 JOIN fac_financing_guarantee   fingua ON fin.financing_id = fingua.financing_id AND fin.`status` in(${waitingLoan}, ${accepted}, ${facRefunded})
+		 JOIN fac_guarantee_bill        gua    ON gua.guarantee_id = fingua.guarantee_id
+		 LEFT JOIN fac_refund           refun  ON refun.refund_id  = fin.stt_last_refund_id
+		 <where>
+		 	<if test=" refundStartDate != null and refundStartDate != '' and refundEndDate != null and refundEndDate != ''">
+		 	    AND<![CDATA[ refun.refund_date >= #{refundStartDate, jdbcType=TIMESTAMP} AND refun.refund_date < #{refundEndDate, jdbcType=TIMESTAMP}]]>
+		 	</if>
+		 	<if test=" financingId != null and financingId != ''">
+		 	    AND fin.financing_id = #{financingId, jdbcType=VARCHAR}
+		 	</if>
+		 	<if test=" refundSource != null and refundSource != -1">
+		 		AND refun.refund_source = #{refundSource, jdbcType=VARCHAR}
+		 	</if>
+		 	<if test=" status != null and status != -1">
+		 	    AND fin.`status` = #{status, jdbcType=INTEGER}
+		 	</if>
+		 </where>
+		 GROUP BY fin.financing_id) t 
+  </select>
+  
+  <select id="selectFinancingRepaymenByFinId" parameterType="java.lang.String" resultType="com.zllh.factoring.common.model.model_extend.FacFinancingExtendBean">
+	 SELECT 
+	    fin.financing_id financingId, fin.wait_pay_total waitPayTotal, fin.financing_date financingDate, fin.`lock` `lock`,
+	    fin.predict_service_fee predictServiceFee, fin.expire_rate expireRate, fin.extend_rate extendRate,fin.`status`,
+	    SUM(fingua.surplus_payments_amount) surplusPaymentsAmount, SUM(fingua.refund_amount) refundAmount, 
+	    refun.refund_date refundDate, GROUP_CONCAT(gua.guarantee_id) guaranteeId, GROUP_CONCAT(gua.`lock`) guaLock
+	 FROM fac_financing fin 
+	 JOIN fac_financing_guarantee   fingua ON fin.financing_id = fingua.financing_id 
+	 JOIN fac_guarantee_bill        gua    ON gua.guarantee_id = fingua.guarantee_id
+	 LEFT JOIN fac_refund                refun  ON refun.refund_id  = fin.stt_last_refund_id
+	 WHERE fin.financing_id = #{financingId, jdbcType=VARCHAR} GROUP BY fin.financing_id
+  </select>
+  
+  <!-- 认可列表查询 -->
+  <select id="findAllFinancing" parameterType="java.util.HashMap" resultType="com.zllh.factoring.common.model.model_extend.FacFinancingExtendBean">
+  	SELECT 
+	    fin.financing_id financingId, fin.wait_pay_total waitPayTotal, fin.proposer_name proposerName, fin.assure_type assureType, fin.proposer_date,
+		fin.`status` status, fin.accept_operator_name,fin.proposer_date proposerDate,fin.accept_operator_name acceptOperatorName,fin.accept_date acceptDate,fin.`lock` lockFin,
+	    GROUP_CONCAT(gua.guarantee_id) guaranteeId, GROUP_CONCAT(gua.`lock`) guaLock
+	 FROM fac_financing fin 
+	 LEFT JOIN fac_financing_guarantee   fingua ON fin.financing_id = fingua.financing_id 
+	 LEFT JOIN fac_guarantee_bill        gua    ON gua.guarantee_id = fingua.guarantee_id
+	 <where>
+  	<if test="financingId!=null and financingId!='' ">
+  		and fin.financing_id like '%${financingId}%'
+  	</if>
+  	<if test="proposerName!=null and proposerName!='' ">
+  		and fin.proposer_name like '%${proposerName}%'
+  	</if>
+  	<if test="predictRefundDate!=null and predictRefundDate!= '' ">
+  		and fin.predict_refund_date like '%${predictRefundDate}%'
+  	</if>
+  	<if test="assureType!=null and assureType!='' ">
+  		and fin.assure_type = #{assureType, jdbcType=INTEGER}
+  	</if>
+  	<if test="status!=null and status!='' ">
+  		and fin.status = #{status}
+  	</if>
+  	<if test="proposerDate!=null">
+  		and fin.proposer_date like '%${proposerDate}%'
+  	</if>
+  	<if test="acceptDate!=null and acceptDate!='' ">
+  		and fin.accept_date like '%${acceptDate}%'
+  	</if>
+  	<if test="acceptOperatorName!=null and acceptOperatorName!='' ">
+  		and fin.accept_operator_name like '%${acceptOperatorName}%'
+  	</if>
+  	</where>
+  	GROUP BY fin.financing_id
+  	<if test="page==null">
+  		limit 0,10
+  	</if>
+  	<if test="page!=null">
+  		limit ${(page-1)*10},10
+  	</if>
+  </select>
+  
+  <select id="getAllFinancing" parameterType="java.util.HashMap" resultMap="BaseResultMap2">
+  	select * from fac_financing fin,fac_financing_guarantee fin_gua where 1=1 and fin.financing_id=fin_gua.financing_id 
+  	<if test="proposerId">
+  		and fin.proposer_id =#{proposerId, jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="financingId!=null">
+  		and fin.financing_id like '%${financingId}%'
+  	</if>
+  	<if test="proposerName!=null">
+  		and fin.proposer_name like '%${proposerName}%'
+  	</if>
+  	<if test="predictRefundDate!=null">
+  		<if test="predictRefundDate_end>predictRefundDate_start">
+  			<![CDATA[and fin.predict_refund_date > '${predictRefundDate_start}'
+  			and fin.predict_refund_date < '${predictRefundDate_end}']]>
+  		</if>
+  		<if test="predictRefundDate_end==predictRefundDate_start">	
+  			and fin.predict_refund_date like '%${predictRefundDate_end}%'
+  		</if>
+  	</if>
+  	<if test="assureType!=null">
+  		and fin.assure_type = #{assureType, jdbcType=INTEGER}
+  	</if>
+  	<if test="status!=null">
+  		and fin.status = #{status, jdbcType=INTEGER}
+  	</if>
+  	<if test="proposerDate!=null">
+  		<if test="proposerDate_end>proposerDate_start">
+  			<![CDATA[and fin.proposer_date > '${proposerDate_start}'
+  			and fin.proposer_date < '${proposerDate_end}']]>
+  		</if>
+  		<if test="proposerDate_end==proposerDate_start">	
+  			and fin.proposer_date like '%${proposerDate_end}%'
+  		</if>
+  	</if>
+  	<if test="acceptDate!=null">
+  		and fin.accept_date like '%${acceptDate}%'
+  	</if>
+  	<if test="acceptOperatorName!=null">
+  		and fin.accept_operator_name like '%${acceptOperatorName}%'
+  	</if>
+  	<if test="memberId!=null">
+  		and fin.member_id = #{memberId, jdbcType=VARCHAR}
+  	</if>
+  	
+  	group by fin.financing_id 
+  	order by fin.financing_id asc
+  	<if test="page==null">
+  		limit 0,10
+  	</if>
+  	<if test="page!=null">
+  		limit ${(page-1)*10},10
+  	</if>
+  </select>
+  
+  
+  
+  <resultMap type="com.zllh.factoring.common.model.model_extend.FacFinancingGuaranExtendean" id="BaseResultMap2">
+  	<id column="id" property="id" jdbcType="VARCHAR" />
+  	<result column="freeze_amount" property="freezeAmount" jdbcType="DECIMAL" />
+    <result column="payments_amount" property="paymentsAmount" jdbcType="DECIMAL" />
+    <result column="refund_amount" property="refundAmount" jdbcType="DECIMAL" />
+    <result column="lock_amount" property="lockAmount" jdbcType="DECIMAL" />
+  	
+  	<association property="facFinancing" javaType="com.zllh.factoring.common.model.FacFinancing">
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+	    <result column="financing_id" property="financingId" jdbcType="VARCHAR" />
+	    <result column="wait_pay_total" property="waitPayTotal" jdbcType="DECIMAL" />
+	    <result column="predict_service_fee" property="predictServiceFee" jdbcType="DECIMAL" />
+	    <result column="predict_refund_date" property="predictRefundDate" jdbcType="TIMESTAMP" />
+	    <result column="assure_type" property="assureType" jdbcType="INTEGER" />
+	    <result column="bank" property="bank" jdbcType="VARCHAR" />
+	    <result column="financing_date" property="financingDate" jdbcType="TIMESTAMP" />
+	    <result column="factoring_name_id" property="factoringNameId" jdbcType="INTEGER" />
+	    <result column="proposer_id" property="proposerId" jdbcType="VARCHAR" />
+	    <result column="proposer_name" property="proposerName" jdbcType="VARCHAR" />
+	    <result column="proposer_date" property="proposerDate" jdbcType="TIMESTAMP" />
+	    <result column="accept_operator_id" property="acceptOperatorId" jdbcType="VARCHAR" />
+	    <result column="accept_operator_name" property="acceptOperatorName" jdbcType="VARCHAR" />
+	    <result column="accept_date" property="acceptDate" jdbcType="TIMESTAMP" />
+	    <result column="lock" property="lock" jdbcType="INTEGER" />
+	    <result column="status" property="status" jdbcType="INTEGER" />
+	    <result column="distributor_name" property="distributorName" jdbcType="VARCHAR" />
+	    <result column="distributor_theoretical_bank" property="distributorTheoreticalBank" jdbcType="VARCHAR" />
+	    <result column="distributor_general_bank" property="distributorGeneralBank" jdbcType="VARCHAR" />
+	    <result column="corporate_champion_name" property="corporateChampionName" jdbcType="VARCHAR" />
+	    <result column="corporate_championr_theoretical_bank" property="corporateChampionrTheoreticalBank" jdbcType="VARCHAR" />
+	    <result column="corporate_championr_general_bank" property="corporateChampionrGeneralBank" jdbcType="VARCHAR" />
+	    <result column="expire_rate" property="expireRate" jdbcType="DOUBLE" />
+	    <result column="extend_rate" property="extendRate" jdbcType="DOUBLE" />
+	    <result column="bloc_account" property="blocAccount" jdbcType="VARCHAR" />
+	    <result column="apply_organization_id" property="applyOrganizationId" jdbcType="VARCHAR" />
+	    <result column="accept_bank_id" property="acceptBankId" jdbcType="VARCHAR" />
+  	</association>
+  </resultMap>
+  
+  <resultMap type="com.zllh.factoring.common.model.model_extend.FacFinancingExtendBean" id="reMapOne" extends="BaseResultMap">
+  	<collection property="facFinancingGuarantees" javaType="list" ofType="com.zllh.factoring.common.model.model_extend.FacFinancingGuaranteeExtendBean">
+  		<id column="fgid" property="id" jdbcType="VARCHAR" />
+	    <result column="financing_id1" property="financingId" jdbcType="VARCHAR" />
+	    <result column="guarantee_id" property="guaranteeId" jdbcType="VARCHAR" />
+	    <result column="freeze_amount" property="freezeAmount" jdbcType="DECIMAL" />
+	    <result column="payments_amount" property="paymentsAmount" jdbcType="DECIMAL" />
+	    <result column="refund_amount" property="refundAmount" jdbcType="DECIMAL" />
+	    <result column="lock_amount" property="lockAmount" jdbcType="DECIMAL" />
+	    <result column="surplus_freeze_amount" property="surplusFreezeAmount" jdbcType="DECIMAL" />
+	    <result column="surplus_payments_amount" property="surplusPaymentsAmount" jdbcType="DECIMAL" />
+	    <result column="status1" property="status" jdbcType="INTEGER" />
+	    <association property="facGuaranteeBill" javaType="com.zllh.factoring.common.model.FacGuaranteeBill" >
+	    	<id column="guarantee_id1" property="guaranteeId" jdbcType="VARCHAR" />
+		    <result column="guarantee_amount" property="guaranteeAmount" jdbcType="DECIMAL" />
+		    <result column="payment_amount" property="paymentAmount" jdbcType="DECIMAL" />
+		    <result column="non_pay_amount" property="nonPayAmount" jdbcType="DECIMAL" />
+		    <result column="usable_amount" property="usableAmount" jdbcType="DECIMAL" />
+		    <result column="payer_id" property="payerId" jdbcType="VARCHAR" />
+		    <result column="payer_name" property="payerName" jdbcType="VARCHAR" />
+		    <result column="payee_id" property="payeeId" jdbcType="VARCHAR" />
+		    <result column="payee_name" property="payeeName" jdbcType="VARCHAR" />
+		    <result column="guarantee_affirm" property="guaranteeAffirm" jdbcType="INTEGER" />
+		    <result column="proposer_affirm" property="proposerAffirm" jdbcType="INTEGER" />
+		    <result column="thirdparty_affirm" property="thirdpartyAffirm" jdbcType="INTEGER" />
+		    <result column="guaranteeoperate_id" property="guaranteeoperateId" jdbcType="VARCHAR" />
+		    <result column="guarantee_name" property="guaranteeName" jdbcType="VARCHAR" />
+		    <result column="operation_date" property="operationDate" jdbcType="TIMESTAMP" />
+		    <result column="expire_date" property="expireDate" jdbcType="TIMESTAMP" />
+		    <result column="lock1" property="lock" jdbcType="INTEGER" />
+		    <result column="status2" property="status" jdbcType="INTEGER" />
+		    <result column="school_general_account" property="schoolGeneralAccount" jdbcType="VARCHAR" />
+		    <result column="school_theoretical_account" property="schoolTheoreticalAccount" jdbcType="VARCHAR" />
+	    </association>
+  	</collection>
+  </resultMap> 
+  
+  <!-- 根据融资单号查询担保单及担保信息 -->
+  <select id="findFinancingAndGuaranteeByFinId" parameterType="java.lang.String" resultMap="reMapOne">
+  	SELECT 
+		fac.id, fac.financing_id, fac.wait_pay_total, fac.predict_service_fee, fac.predict_refund_date, fac.predict_interest, 
+		fac.assure_type, fac.bank, fac.financing_date, fac.factoring_name_id, fac.apply_organization_id, fac.proposer_id, 
+	    fac.proposer_name, fac.proposer_date, fac.accept_operator_id, fac.accept_operator_name, fac.accept_date, 
+	    fac.`lock`, fac.`status`, fac.distributor_name, fac.distributor_theoretical_bank, fac.distributor_general_bank, 
+	    fac.corporate_champion_name, fac.corporate_championr_theoretical_bank, fac.corporate_championr_general_bank, 
+	    fac.expire_rate, fac.extend_rate, fac.bloc_account, fac.member_id, fac.member_name, fac.acct_name, fac.member_account, fac.stt_last_refund_id, 
+	    fac.stt_last_refund_data,
+		fin.id fgid, fin.financing_id financing_id1, fin.guarantee_id, fin.freeze_amount, fin.payments_amount, fin.refund_amount, fin.lock_amount, 
+    	fin.surplus_freeze_amount, fin.surplus_payments_amount, fin.`status` status1,
+    	gua.guarantee_id guarantee_id1, gua.guarantee_amount, gua.payment_amount, gua.non_pay_amount, gua.usable_amount, gua.payer_id, gua.payer_name, 
+	    gua.payee_id, gua.payee_name, gua.guarantee_affirm, gua.proposer_affirm, gua.thirdparty_affirm, gua.guaranteeoperate_id, 
+	    gua.guarantee_name, gua.operation_date, gua.expire_date, gua.`lock` lock1, gua.`status` status2, gua.school_general_account, 
+	    gua.school_theoretical_account
+  	FROM fac_financing fac JOIN fac_financing_guarantee fin ON fac.financing_id = fin.financing_id 
+  	JOIN fac_guarantee_bill gua ON fin.guarantee_id = gua.guarantee_id WHERE fac.financing_id = #{id, jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据融资单号查询担保单及担保信息 -->
+  <select id="findFinancingAndGuaranteeListByFinIds"  resultMap="reMapOne">
+  	SELECT 
+		fac.id, fac.financing_id, fac.wait_pay_total, fac.predict_service_fee, fac.predict_refund_date, fac.predict_interest, 
+		fac.assure_type, fac.bank, fac.financing_date, fac.factoring_name_id, fac.apply_organization_id, fac.proposer_id, 
+	    fac.proposer_name, fac.proposer_date, fac.accept_operator_id, fac.accept_operator_name, fac.accept_date, 
+	    fac.`lock`, fac.`status`, fac.distributor_name, fac.distributor_theoretical_bank, fac.distributor_general_bank, 
+	    fac.corporate_champion_name, fac.corporate_championr_theoretical_bank, fac.corporate_championr_general_bank, 
+	    fac.expire_rate, fac.extend_rate, fac.bloc_account, fac.member_id, fac.member_name, fac.acct_name, fac.member_account, fac.stt_last_refund_id, 
+	    fac.stt_last_refund_data,
+		fin.id fgid, fin.financing_id financing_id1, fin.guarantee_id, fin.freeze_amount, fin.payments_amount, fin.refund_amount, fin.lock_amount, 
+    	fin.surplus_freeze_amount, fin.surplus_payments_amount, fin.`status` status1,
+    	gua.guarantee_id guarantee_id1, gua.guarantee_amount, gua.payment_amount, gua.non_pay_amount, gua.usable_amount, gua.payer_id, gua.payer_name, 
+	    gua.payee_id, gua.payee_name, gua.guarantee_affirm, gua.proposer_affirm, gua.thirdparty_affirm, gua.guaranteeoperate_id, 
+	    gua.guarantee_name, gua.operation_date, gua.expire_date, gua.`lock` lock1, gua.`status` status2, gua.school_general_account, 
+	    gua.school_theoretical_account
+  	FROM fac_financing fac JOIN fac_financing_guarantee fin ON fac.financing_id = fin.financing_id 
+  	JOIN fac_guarantee_bill gua ON fin.guarantee_id = gua.guarantee_id 
+  	<where>
+  		<foreach collection="array" item="id" index="index" open="fac.financing_id IN(" separator="," close=")">
+  			#{id, jdbcType=VARCHAR}
+  		</foreach>
+  	</where>
+  </select>
+  
+  <!-- 保存融资担保数据 -->
+  <insert id="saveFacFinancingGuarantee" parameterType="com.zllh.factoring.common.model.FacFinancingGuarantee">
+  	insert into fac_financing_guarantee 
+  	<trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="financingId != null" >
+        financing_id,
+      </if>
+      <if test="guaranteeId != null" >
+        guarantee_id,
+      </if>
+      <if test="freezeAmount != null" >
+        freeze_amount,
+      </if>
+      <if test="paymentsAmount != null" >
+        payments_amount,
+      </if>
+      <if test="refundAmount != null" >
+        refund_amount,
+      </if>
+      <if test="lockAmount != null" >
+        lock_amount,
+      </if>
+      <if test="surplusFreezeAmount != null" >
+        surplus_freeze_amount,
+      </if>
+      <if test="surplusPaymentsAmount != null" >
+        surplus_payments_amount,
+      </if>
+      <if test="status != null" >
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="financingId != null" >
+        #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="guaranteeId != null" >
+        #{guaranteeId,jdbcType=VARCHAR},
+      </if>
+      <if test="freezeAmount != null" >
+        #{freezeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="paymentsAmount != null" >
+        #{paymentsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundAmount != null" >
+        #{refundAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lockAmount != null" >
+        #{lockAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusFreezeAmount != null" >
+        #{surplusFreezeAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="surplusPaymentsAmount != null" >
+        #{surplusPaymentsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <!-- 认可列表查询 -->
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fac_financing
+    <where>
+    id=#{id,jdbcType=VARCHAR},
+    </where>
+  </select>
+  
+  <select id  = "getMaxFinancingId" resultType="java.lang.Integer">
+  	select max(cast(financing_id AS SIGNED)) from  fac_financing
+  </select>
+  
+  <delete id="deleteFinancingGuaranteeByFinancingId" parameterType="java.lang.String" >
+    delete from fac_financing
+    where financing_id = #{financingId,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="getAllLength" resultType="java.lang.String">
+  	select count(*) from fac_financing fin where 1=1 
+  	<if test="proposerId">
+  		and fin.proposer_id =#{proposerId, jdbcType=TIMESTAMP}
+  	</if>
+  	<if test="financingId!=null">
+  		and fin.financing_id like '%${financingId}%'
+  	</if>
+  	<if test="proposerName!=null">
+  		and fin.proposer_name like '%${proposerName}%'
+  	</if>
+  	<if test="predictRefundDate!=null">
+  		<if test="predictRefundDate_end>predictRefundDate_start">
+  			<![CDATA[and fin.predict_refund_date > '${predictRefundDate_start}'
+  			and fin.predict_refund_date < '${predictRefundDate_end}']]>
+  		</if>
+  		<if test="predictRefundDate_end==predictRefundDate_start">	
+  			and fin.predict_refund_date like '%${predictRefundDate_end}%'
+  		</if>
+  	</if>
+  	<if test="proposerDate!=null">
+  		<if test="proposerDate_end>proposerDate_start">
+  			<![CDATA[and fin.proposer_date > '${proposerDate_start}'
+  			and fin.proposer_date < '${proposerDate_end}']]>
+  		</if>
+  		<if test="proposerDate_end==proposerDate_start">	
+  			and fin.proposer_date like '%${proposerDate_end}%'
+  		</if>
+  	</if>
+  	<if test="acceptDate!=null">
+  		and fin.accept_date like '%${acceptDate}%'
+  	</if>
+  	<if test="status!=null">
+  		and fin.status = #{status, jdbcType=INTEGER}
+  	</if>
+  	and fin.status != 4
+  </select>
+  
+  <select id="selectByFinId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select *
+    from fac_financing
+    where financing_id = #{financingId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 批量更新 -->
+  <update id="updateFinancingByList">
+    UPDATE fac_financing SET `lock` = CASE id 
+		<foreach collection="list" item="item" index="index">
+	        WHEN #{item.id} THEN `lock` + 1
+		</foreach>
+		 END,
+		 stt_last_refund_id = CASE id 
+		<foreach collection="list" item="item" index="index">
+	        WHEN #{item.id} THEN #{item.sttLastRefundId}
+		</foreach>
+		 END,
+		 <if test="item.status != null">
+			 status = CASE id 
+			<foreach collection="list" item="item" index="index">
+	        	WHEN #{item.id} THEN #{item.status}
+			</foreach>
+			 END,
+		</if>
+		 stt_last_refund_data = CASE id 
+		<foreach collection="list" item="item" index="index">
+	        WHEN #{item.id} THEN #{item.sttLastRefundData}
+		</foreach>
+		 END
+		<where>
+			<foreach collection="list" item="item" index="index" open="( id = " separator="or id =" close=")">
+				#{item.id}
+			</foreach>
+		</where>	
+  </update>
+  
+   <update id="updateByFinId">
+    UPDATE fac_financing SET `status` = #{status,jdbcType=INTEGER} WHERE financing_id = #{financingId,jdbcType=VARCHAR}
+  </update>
+  
+   <resultMap type="com.zllh.factoring.common.model.model_extend.FacFinancingExtendBean" id="reMapTwo" extends="BaseResultMap">
+  	<collection property="facFinancingGuarantees" javaType="list" ofType="com.zllh.factoring.common.model.model_extend.FacFinancingGuaranteeExtendBean">
+  		<id column="fgid" property="id" jdbcType="VARCHAR" />
+	    <result column="financing_id1" property="financingId" jdbcType="VARCHAR" />
+	    <result column="guarantee_id" property="guaranteeId" jdbcType="VARCHAR" />
+	    <result column="freeze_amount" property="freezeAmount" jdbcType="DECIMAL" />
+	    <result column="payments_amount" property="paymentsAmount" jdbcType="DECIMAL" />
+	    <result column="refund_amount" property="refundAmount" jdbcType="DECIMAL" />
+	    <result column="lock_amount" property="lockAmount" jdbcType="DECIMAL" />
+	    <result column="surplus_freeze_amount" property="surplusFreezeAmount" jdbcType="DECIMAL" />
+	    <result column="surplus_payments_amount" property="surplusPaymentsAmount" jdbcType="DECIMAL" />
+	    <result column="status1" property="status" jdbcType="INTEGER" />
+  	</collection>
+  </resultMap>
+  
+  <select id="selectFinancingAndGuaByStatus"  resultMap="reMapTwo">
+  	<![CDATA[SELECT fin.id, financing_id, fin.wait_pay_total, fin.predict_service_fee, fin.predict_refund_date, fin.predict_interest, 
+  	fin.assure_type, fin.bank, fin.financing_date, fin.factoring_name_id, fin.apply_organization_id, fin.proposer_id, 
+    fin.proposer_name, fin.proposer_date, fin.accept_operator_id, fin.accept_operator_name, fin.accept_date, 
+    fin.`lock`, fin.status, fin.distributor_name, fin.distributor_theoretical_bank, fin.distributor_general_bank, 
+    fin.corporate_champion_name, fin.corporate_championr_theoretical_bank, fin.corporate_championr_general_bank, 
+    fin.expire_rate, fin.extend_rate, fin.bloc_account, fin.member_id, fin.member_name, fin.acct_name, fin.member_account, 
+    fin.stt_last_refund_id, fin.stt_last_refund_data,
+    gua.id fgid, gua.financing_id financing_id1, gua.guarantee_id, gua.freeze_amount, gua.payments_amount, gua.refund_amount, gua.lock_amount, 
+    gua.surplus_freeze_amount, gua.surplus_payments_amount, gua.interest, gua.status status1
+    FROM fac_financing fin 
+	JOIN fac_financing_guarantee gua ON fin.financing_id = gua.financing_id 
+	WHERE fin.`status` = #{status, jdbcType=INTEGER} AND gua.surplus_payments_amount <> 0]]>
+  </select>
+  
+  <select id="getFinanaingIdByAcceptBankId" parameterType="java.lang.String" resultMap="BaseResultMap">
+  		select *
+    from fac_financing
+    where accept_bank_id = #{acceptBankId,jdbcType=VARCHAR} 
+  </select>
+  
+</mapper>

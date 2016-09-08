@@ -1,0 +1,120 @@
+.fac_wrap{width:1204px; height:auto; margin:0 auto;}
+/* head */
+.fac_head_all{width:1204px; height:80px;}
+.fac_head{width:1202px; margin:0 auto; height:78px; background:#afd6fa; border:1px solid #ccc;}
+.fac_hleft{float:left; margin:25px 0 0 85px;}
+.fac_hleft img{margin:-20px 20px 0 0;}
+.fac_hleft .fac_title{color:#0099ff; font-weight:700; font-family: "汉仪秀英体简 Bold","汉仪秀英体简"; font-size:40px;font-style:normal;}
+.fac_hright{float:right; margin:55px 85px 0 0;}
+.fac_hright p{display:block; float:left; margin:0 0 0 20px;}
+/* cont */
+#fac_cont{width:1204px; height:auto !important; background:#f2f2f2; padding:30px 0;}
+#fac_cont:after{ content:"."; height:0; visibility:hidden; display:block; clear:both;} 
+/*  menu */
+#fac_menu{float:left;width:150px; height:auto;padding:10px;margin-left:5px;}
+#fac_menu .fac_menu_top{ width:150px; height:65px; background:#cce4f9; font-size:20px; text-align:center; line-height:65px; border:1px #ccc solid; border-bottom:none;
+ 							text-shadow:2px 2px 1px rgba(0,0,0,0.2);}
+#fac_menu ul{ border-bottom:1px solid #ccc;}
+#fac_menu li{cursor:pointer; width:150px; height:40px; border:1px solid #ccc; border-bottom:none; color:#000;  display:block; color:#000; line-height:40px; text-align:center;  background:#f0f5f9;}
+
+.bgs{background:red; color:red;}
+#fac_menu .fac_menu_one{background:#3366ff;}
+#fac_cf_ul .fac_cfbg{background:#e1ebf4;}
+#fac_menu .content{clear:both; width:240px; height:80px; background:#6e6e6e; padding:20px; color:#fff;}
+/* right_cont */
+.fac_content{float:right;width:980px; height:800px; margin:20px 20px 0 0; overflow:hidden;}
+/* bottom */
+
+/* login */
+.login_wrap{width:1204px; height:704px; margin:0 auto; background:url(../images/baol_bg.png) no-repeat;}
+.login_div{position:relative;top:300px; left:600px;}
+.login_div li{display:block; margin-bottom:15px;}
+.login_div li h1{font-size:20px; font-family:"黑体"; font-weight:700;}
+.login_div li:nth-child(2),.login_div li:nth-child(3){width:260px;height:36px; line-height:36px;border:1px solid #e2e3ea; border-top:1px solid #abadb3;text-indent:0.3em;background:#fff;}
+.login_div li input{border:none; width:215px;}
+.login_div li img{float:right; margin:5px 6px 0 0;}
+.login_div button{width:90px; height:40px; line-height:40px; color:#fff;font-size:18px; background:#73add2; border-radius:5px;margin-left:152px;}
+
+/* 页面导航 */
+.fac_wnav{width:860px; height:600px;margin:0 auto;}
+.fac_wnav01{width:860px; height:auto; margin-top:100px;}
+.fac_wnav01 li{display:block; float:left; width:100px;cursor:pointer;padding:0px 10px 5px; border:1px solid #797979;background:#477097;border-radius:10px;text-align:center; margin:0 45px;}
+.fac_wnav01 li a{color:#fff;}
+.fac_wnav01 li:hover{background:#3366ff;}
+.fac_wnav01 li img{margin:8px 0;}
+
+/* 担保登记 */
+.tab_xhline{text-decoration:underline;}
+.db_query_div{height:100px;}
+.db_query li{display:block; float:left;}
+.db_query li:nth-child(2){margin-left:60px;}
+.db_query select{width:150px; height:28px;}
+.db_query li input{height:24px;}
+.fac_fanh{float:right; margin-top:30px; margin-right:10px;}
+/*担保登记10001内页*/
+.inner_a_box{width:800px; height:170px; margin:0 auto; border:1px #999 solid;background:#5fb7f6; margin:80px 0 80px 100px; position:relative; border-radius:0 10px 0 0; display:none;}
+.inner_a_box_content{margin:40px;}
+.pay_button_a_in{ position:absolute; top:-1px; right:-6px; border:1px #797979 solid;}
+/*担保登记10002内页*/
+.inner_a_box_2{width:800px; height:170px; margin:0 auto; border:1px #999 solid;background:#5fb7f6; margin:80px 0 80px 100px; position:relative; border-radius:0 10px 0 0; display:none;}
+.inner_a_box_content_2{margin:40px;}
+.pay_button_a_in_2{ position:absolute; top:-1px; right:-6px; border:1px #797979 solid;}
+/*登记 inner*/
+.a_in_warp{ width:700px; height:auto; margin:0 auto;}
+
+/* 融资管理 */
+.rz_div{width:1018px; height:auto;}
+.rz_div .rz_ul_all{width:94%; height:42px; line-height:42px; margin-bottom:30px;background:#99ccff; border:1px solid #ccc; border-radius:10px;}
+.rz_ul_all li{cursor:pointer;float:left; font-size:14px; font-weight:bold;  margin-right:20px;padding:0 20px; color:#333; }
+.rz_ul_all .rz_ul_one{color:#f0f5f9;}
+.rz_ul_all .rz_cont{clear:both; width:100%; height:80px; }
+.rz_query_div{height:60px;}
+.rz_query li{display:block; float:left;width:250px; }
+.rz_query li input{ height:24px;}
+.rz_query select{width:142px; height:27px;}
+.b_table_p{ text-align:left; padding-left:4px;}
+
+/*直接融资*/
+.fac_top_sech .fac_top_sech2{width:270px;}
+.fac_top_sech .fac_top_button{float:right;}
+.pay_button{width:auto;height:28px;line-height:28px;border-radius:4px;padding:0 5px;font-size:12px;font-weight:bold; background:url(../images/fac_buttoon.png); margin:0 5px;}
+.pay_button:hover{background:#E9E9E9;cursor:pointer;}
+iframe{background:transparent;}
+.pay_button_2{float:right;}
+.clear{clear:both;}
+/*直接金融——inner*/
+.fac_c_bot li{margin:20px;}
+.fac_c_bot input{width:300px;}
+.pay_button_3{margin:40px 20px;}
+.fac_c_bot_bot label{ margin:10px;}
+/*认可管理*/
+.fac_d_warp_top{margin-top:30px;}
+.pay_button_d1{float:right;}
+.pay_button_d2{float:right; margin:40px 10px;}
+.pay_button_d3{float:right; margin:350px 10px 10px;}
+/*融资担保*/
+.pay_button_e1{float:right;margin-top:-30px;}
+.pay_button_e2{float:right;margin:40px 0;}
+/*融资担保内页*/
+.fac_e_warp_inner{width:1000px;height:270px;margin:0 auto; background:#5fb7f6; border:1px #999 solid; position:relative; border-radius:0 10px 0 0;/*display:none;*/}
+.rz_query_div_e_inner_1 ul li{float:left;padding:20px 0 20px 20px;}
+.pay_button_in_2{float:right; margin:20px;}
+.db_wrap_e_in{width:980px;margin:0 auto;}
+.db_wrap_e_in input{width:80px;height:20px;}
+.fac_e_warp_inner_inner{margin-top:30px;}
+.pay_button_in_3{ position:absolute; top:-1px; right:-6px; border:1px #797979 solid;}
+.pay_button_in_4{float:right;margin:40px 0;}
+/*还款管理*/
+.rz_query_f_seh li{margin:20px;}
+.pay_button_f{float:right;margin-top:-45px;margin-right:20px;}
+.sech_top_f_warp{margin-bottom:20px;}
+.form_f_checbox{width:20px;height:20px;}
+.db_wrap_f_form{width:60px; height:20px;}
+
+
+/* 过期处理 */
+.guoq_query_div{height:60px;}
+.guoq_query li{display:block; float:left;}
+.guoq_query li:nth-child(2){margin-left:60px;}
+
+.rz_cont label{ color:#333; font-size:14px;}

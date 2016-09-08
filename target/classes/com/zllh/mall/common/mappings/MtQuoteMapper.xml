@@ -1,0 +1,1052 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.mall.common.dao.MtQuoteMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.mall.common.model.MtQuote" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="mmb_id" property="mmbId" jdbcType="VARCHAR" />
+    <result column="mmb_name" property="mmbName" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="DOUBLE" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="start_end" property="startEnd" jdbcType="TIMESTAMP" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="min_price" property="minPrice" jdbcType="DOUBLE" />
+    <result column="max_price" property="maxPrice" jdbcType="DOUBLE" />
+    <result column="unit_price" property="unitPrice" jdbcType="VARCHAR" />
+    <result column="explan" property="explan" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="title_pic" property="titlePic" jdbcType="VARCHAR" />
+    <result column="rang_type" property="rangType" jdbcType="INTEGER" />
+    <result column="pd_account" property="pdAccount" jdbcType="VARCHAR" />
+    <result column="receice_address" property="receiceAddress" jdbcType="VARCHAR" />
+    <result column="sell_account" property="sellAccount" jdbcType="VARCHAR" />
+    <result column="send_addres" property="sendAddres" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+    
+    <result column="create_name" property="createName" jdbcType="VARCHAR" />
+    <result column="publish_name" property="publishName" jdbcType="VARCHAR" />
+    <result column="createuser_id" property="createuserId" jdbcType="VARCHAR" />
+    <result column="publish_id" property="publishId" jdbcType="VARCHAR" />
+     <result column="imgPath" property="imgPath" jdbcType="VARCHAR" />
+     <result column="mate_id" property="mateId" jdbcType="VARCHAR" />
+   
+  </resultMap>
+  <insert id="insert" parameterType="com.zllh.mall.common.model.MtQuote" >
+    insert into mt_quote (id, type, mmb_id, 
+      mmb_name, goods_id, goods_name, 
+      num, start_time, start_end, 
+      user_id, create_time, min_price, 
+      max_price, unit_price, explan, 
+      status, title_pic, rang_type, 
+      pd_account, receice_address, sell_account, 
+      send_addres,area_id,category_id,create_name,publish_name,createuser_id,publish_id,imgPath,mate_id)
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{mmbId,jdbcType=VARCHAR}, 
+      #{mmbName,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
+      #{num,jdbcType=DOUBLE}, #{startTime,jdbcType=TIMESTAMP}, #{startEnd,jdbcType=TIMESTAMP}, 
+      #{userId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{minPrice,jdbcType=DOUBLE}, 
+      #{maxPrice,jdbcType=DOUBLE}, #{unitPrice,jdbcType=VARCHAR}, #{explan,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{titlePic,jdbcType=VARCHAR}, #{rangType,jdbcType=INTEGER}, 
+      #{pdAccount,jdbcType=VARCHAR}, #{receiceAddress,jdbcType=VARCHAR}, #{sellAccount,jdbcType=VARCHAR}, 
+      #{sendAddres,jdbcType=VARCHAR},#{areaId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR},
+      #{createName,jdbcType=VARCHAR},#{publishName,jdbcType=VARCHAR},#{createuserId,jdbcType=VARCHAR},
+      #{publishId,jdbcType=VARCHAR},#{imgPath,jdbcType=VARCHAR},{mateId,jdbcType=VARCHAR})
+      
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.mall.common.model.MtQuote" >
+    insert into mt_quote
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="mmbId != null" >
+        mmb_id,
+      </if>
+      <if test="mmbName != null" >
+        mmb_name,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="startEnd != null" >
+        start_end,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="minPrice != null" >
+        min_price,
+      </if>
+      <if test="maxPrice != null" >
+        max_price,
+      </if>
+      <if test="unitPrice != null" >
+        unit_price,
+      </if>
+      <if test="explan != null" >
+        explan,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="titlePic != null" >
+        title_pic,
+      </if>
+      <if test="rangType != null" >
+        rang_type,
+      </if>
+      <if test="pdAccount != null" >
+        pd_account,
+      </if>
+      <if test="receiceAddress != null" >
+        receice_address,
+      </if>
+      <if test="sellAccount != null" >
+        sell_account,
+      </if>
+      <if test="sendAddres != null" >
+        send_addres,
+      </if>
+       <if test="areaId!= null" >
+        area_id,
+      </if>
+       <if test="categoryId!= null" >
+        category_id,
+      </if>
+       <if test="createName!= null" >
+        create_name,
+      </if>
+       <if test="publishName!= null" >
+        publish_name,
+      </if>
+       <if test="createuserId!= null" >
+        createuser_id,
+      </if>
+       <if test="publishId!= null" >
+        publish_id,
+      </if>
+       <if test="imgPath!= null" >
+        imgPath,
+      </if>
+       <if test="mateId!= null" >
+        mate_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="mmbId != null" >
+        #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbName != null" >
+        #{mmbName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startEnd != null" >
+        #{startEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="minPrice != null" >
+        #{minPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="maxPrice != null" >
+        #{maxPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="explan != null" >
+        #{explan,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="titlePic != null" >
+        #{titlePic,jdbcType=VARCHAR},
+      </if>
+      <if test="rangType != null" >
+        #{rangType,jdbcType=INTEGER},
+      </if>
+      <if test="pdAccount != null" >
+        #{pdAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="receiceAddress != null" >
+        #{receiceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sellAccount != null" >
+        #{sellAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="sendAddres != null" >
+        #{sendAddres,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=VARCHAR},
+      </if>
+      
+       <if test="createName != null" >
+        #{createName,jdbcType=VARCHAR},
+      </if>
+       <if test="publishName != null" >
+        #{publishName,jdbcType=VARCHAR},
+      </if>
+       <if test="createuserId != null" >
+        #{createuser_id,jdbcType=VARCHAR},
+      </if>
+       <if test="publishId != null" >
+        #{publishId,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPath != null" >
+        #{imgPath,jdbcType=VARCHAR},
+      </if>
+       <if test="mateId != null" >
+        #{mateId,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+    </trim>
+  </insert>
+     <!-- 自己添加 -->
+  
+  <!-- 根据报价Id修改报价状态 -->
+  <update id="updateQuoteByQuoteId" parameterType="java.util.Map" >
+    update mt_quote
+    set 
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 根据报价Id修改报价对象 -->
+   <update id="updateQuate" parameterType="com.zllh.mall.common.model.MtQuote" >
+    update mt_quote
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="mmbId != null" >
+       mmb_id = #{mmbId,jdbcType=VARCHAR},
+      </if>
+      <if test="mmbName != null" >
+       mmb_name =  #{mmbName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+       goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+       goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=DOUBLE},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startEnd != null" >
+        start_end = #{startEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+       create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="minPrice != null" >
+       min_price =  #{minPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="maxPrice != null" >
+         max_price = #{maxPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="explan != null" >
+         explan = #{explan,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="titlePic != null" >
+         title_pic = #{titlePic,jdbcType=VARCHAR},
+      </if> 
+      <if test="rangType != null" >
+        rang_type = #{rangType,jdbcType=INTEGER},
+      </if>
+      <if test="pdAccount != null" >
+       pd_account = #{pdAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="receiceAddress != null" >
+          receice_address = #{receiceAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="sellAccount != null" >
+         sell_account = #{sellAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="sendAddres != null" >
+        send_addres = #{sendAddres,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="createName != null" >
+        create_name = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="publishName != null" >
+        publish_name = #{publishName,jdbcType=VARCHAR},
+      </if>
+      <if test="createuserId!= null" >
+        createuser_id = #{createuserId,jdbcType=VARCHAR},
+      </if>
+      <if test="publishId != null" >
+        publish_id = #{publishId,jdbcType=VARCHAR},
+      </if>
+      
+      <if test="imgPath != null" >
+        imgPath = #{imgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="mateId != null" >
+        mate_id = #{mateId,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- 查询 -->
+  <sql id="Mall_searchQuote">
+  		 
+  		
+        <if test="goodname!= null"><![CDATA[ AND mq.goods_name like CONCAT('%',#{goodname,jdbcType=VARCHAR},'%') ]]></if>
+        <if test="type!= null"><![CDATA[ AND mq.type = #{type,jdbcType=INTEGER} ]]></if>
+      	
+      	<if test=" mmbId != null"><![CDATA[ AND mq.mmb_id  <> #{mmbId,jdbcType=VARCHAR} ]]></if>
+      	<if test=" mmbIduser != null"><![CDATA[ AND mq.mmb_id  = #{mmbIduser,jdbcType=VARCHAR} ]]></if>
+		
+		<if test="startTime!= null "><![CDATA[ AND mq.start_time >= str_to_date(#{startTime},'%Y-%m-%d')  ]]></if>
+		<if test="startEnd!= null and startEnd!= '' "><![CDATA[ AND mq.start_end <= str_to_date(#{startEnd},'%Y-%m-%d') ]]></if>
+		<if test="createTime1!= null "><![CDATA[ AND mq.create_time >= str_to_date(#{createTime1},'%Y-%m-%d')  ]]></if>
+		<if test="createTime2!= null "><![CDATA[ AND mq.create_time <= str_to_date(#{createTime2},'%Y-%m-%d') ]]></if>
+        
+        <if test="status!= null"><![CDATA[ AND mq.status = #{status,jdbcType=INTEGER} ]]></if>
+        <if test="rangType!= null"><![CDATA[ AND mq.rang_type = #{rangType,jdbcType=INTEGER} ]]></if>
+        
+        <if test="categoryId!= null"><![CDATA[ AND mq.category_id = #{categoryId,jdbcType=VARCHAR} ]]></if>
+        <!-- 默认选择匹配对应登陆人地域 -->
+        <if test="areaId!= null"><![CDATA[ AND mq.area_id = #{areaId,jdbcType=VARCHAR} ]]></if>
+        <!-- 关注会员 -->
+        <if test="showMmbId!= null ">  
+			 <![CDATA[ AND mq.mmb_id  in   ]]>
+									<foreach item="item" index="index" collection="showMmbId" 
+                                          open="(" separator="," close=")">
+                                            #{item}
+                                    </foreach>                            
+		</if>
+        <!-- 相关会员 -->
+        <if test="relaMmmbId!= null ">  
+			 <![CDATA[  AND mq.mmb_id  in   ]]>
+									<foreach item="item" index="index" collection="relaMmmbId" 
+                                          open="(" separator="," close=")">
+                                            #{item}
+                                    </foreach>                         
+		</if>
+	
+        
+  </sql>
+  
+  <!-- 并集  关联合作会员 -->
+  <sql id="Mall_searchQuoteMmb">
+  		
+		<if test="mUserId!=null and mmbType!=null">
+             	<![CDATA[ INNER JOIN  (select * from  mt_quote_scope kk where  kk.scope_id = #{mUserId,jdbcType=VARCHAR} and kk.type =#{MmbType,jdbcType=VARCHAR})qs  on  mq.id= qs.quote_id ]]>
+             	 
+        </if>
+  </sql>
+  <!-- 并集  关联群组 -->
+  <sql id="Mall_searchQuoteGroup">
+  		<!-- 相关群组 -->
+				<if test="groupId!= null ">  
+			 		<![CDATA[  inner JOIN (select *  from  mt_mmb_group_rela  mgr  where mgr.group_id in  ]]>
+			 						<foreach item="item" index="index" collection="groupId" 
+                                          open="(" separator="," close=")">
+                                            #{item}
+                                    </foreach>
+                                    <![CDATA[ ) gr on mq.mmb_id = gr.mmb_id ]]>                           
+			  </if> 
+			  <if test="mUserId!=null and groupType!=null">
+             			<![CDATA[ INNER JOIN  (
+             					select nn.* from  mt_quote_scope  nn INNER JOIN (
+             						select * from mt_mmb_group_rela gmm where gmm.mmb_id = #{mUserId,jdbcType=VARCHAR} )  mra on nn.scope_id = mra.group_id  
+             						where nn.type =#{groupType,jdbcType=VARCHAR})bb  
+             					  on  mq.id= bb.quote_id ]]>
+              </if>                         
+  </sql>
+  
+  <sql id="Base_Column_List">
+  		id, type, mmb_id,  mmb_name, goods_id, goods_name,  num, start_time, start_end, user_id, create_time, min_price, 
+      max_price, unit_price, explan, status, title_pic, rang_type, pd_account, receice_address, sell_account, 
+      send_addres,area_id,category_id,create_name,publish_name,createuser_id,publish_id,imgPath,mate_id
+	 
+  </sql>
+  <!-- 查询报价 -->
+
+
+  <select id="searchQuote" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		
+		
+		select DISTINCT
+				mq.id,
+				mq.type,
+				mq.mmb_id,
+				mq.mmb_name,
+				mq.goods_id,
+				mq.goods_name,
+				mq.num,
+				mq.start_time,
+				mq.start_end,
+				mq.user_id,
+				mq.create_time,
+				mq.min_price,
+				mq.max_price,
+				mq.unit_price,
+				mq.explan,
+				mq.status,
+				mq.title_pic,
+				mq.rang_type,
+				mq.pd_account,
+				mq.receice_address,
+				mq.sell_account,
+				mq.send_addres,
+				mq.area_id,
+				mq.category_id,
+				mq.create_name,
+				mq.publish_name,
+				mq.createuser_id,
+				mq.publish_id,
+				mq.imgPath,
+				mq.mate_id
+		from 
+		
+			mt_quote   mq 
+		<!-- 相关会员 -->
+		<if test="mUserId!=null and mmbType!=null">
+             	<![CDATA[ INNER JOIN  (select * from  mt_quote_scope kk where  kk.scope_id = #{mUserId,jdbcType=VARCHAR} and kk.type =#{MmbType,jdbcType=VARCHAR})qs  on  mq.id= qs.quote_id ]]>
+             	 
+        </if>
+		where 
+			1=1
+		
+		<include refid="Mall_searchQuote" /> 
+		
+		
+		 <if test="groupId!= null ">  
+			  UNION 
+			  
+			  select DISTINCT 
+					   	mq.id,
+						mq.type,
+						mq.mmb_id,
+						mq.mmb_name,
+						mq.goods_id,
+						mq.goods_name,
+						mq.num,
+						mq.start_time,
+						mq.start_end,
+						mq.user_id,
+						mq.create_time,
+						mq.min_price,
+						mq.max_price,
+						mq.unit_price,
+						mq.explan,
+						mq.status,
+						mq.title_pic,
+						mq.rang_type,
+						mq.pd_account,
+						mq.receice_address,
+						mq.sell_account,
+						mq.send_addres,
+						mq.area_id,
+						mq.category_id,
+						mq.create_name,
+						mq.publish_name,
+						mq.createuser_id,
+						mq.publish_id,
+						mq.imgPath,
+						mq.mate_id
+			   from mt_quote  mq     
+			   <!-- 并集  关联群组 -->
+			   <!-- 相关群组 -->
+			  <if test="groupId!= null ">  
+			 		<![CDATA[  inner JOIN (select *  from  mt_mmb_group_rela  mgr  where mgr.group_id in  ]]>
+			 						<foreach item="item" index="index" collection="groupId" 
+                                          open="(" separator="," close=")">
+                                            #{item}
+                                    </foreach>
+                                    <![CDATA[ ) gr on mq.mmb_id = gr.mmb_id ]]>                           
+			  </if> 
+			  <if test="mUserId!=null and groupType!=null">
+             			<![CDATA[ INNER JOIN  (
+             					select nn.* from  mt_quote_scope  nn INNER JOIN (
+             						select * from mt_mmb_group_rela gmm where gmm.mmb_id = #{mUserId,jdbcType=VARCHAR} )  mra on nn.scope_id = mra.group_id  
+             						where nn.type =#{groupType,jdbcType=VARCHAR})bb  
+             					  on  mq.id= bb.quote_id ]]>
+             	 
+              </if>
+			  where 1=1  
+			  	<if test="goodname!= null"><![CDATA[ AND mq.goods_name like CONCAT('%',#{goodname,jdbcType=VARCHAR},'%') ]]></if>
+        		<if test="type!= null"><![CDATA[ AND mq.type = #{type,jdbcType=INTEGER} ]]></if>
+      	
+      			<if test="mmbId!= null"><![CDATA[ AND mq.mmb_id  <> #{mmbId,jdbcType=VARCHAR} ]]></if>
+		
+				<if test="startTime!= null "><![CDATA[ AND mq.start_time >= str_to_date(#{startTime},'%Y-%m-%d')  ]]></if>
+				<if test="startEnd!= null "><![CDATA[ AND mq.start_end <= str_to_date(#{startEnd},'%Y-%m-%d') ]]></if>
+				<if test="createTime1!= null "><![CDATA[ AND mq.create_time >= str_to_date(#{createTime1},'%Y-%m-%d')  ]]></if>
+				<if test="createTime2!= null "><![CDATA[ AND mq.create_time <= str_to_date(#{createTime2},'%Y-%m-%d') ]]></if>
+        
+        		<if test="status!= null"><![CDATA[ AND mq.status = #{status,jdbcType=INTEGER} ]]></if>
+        		<if test="rangType!= null"><![CDATA[ AND mq.rang_type = #{rangType,jdbcType=INTEGER} ]]></if>
+        
+        		<if test="categoryId!= null"><![CDATA[ AND mq.category_id = #{categoryId,jdbcType=VARCHAR} ]]></if>
+			 
+			         
+		</if>
+			         
+		
+		 order by create_time DESC
+		<if test="startFirst != null and startEnd1 != null">
+			limit #{startFirst},#{startEnd1}
+		</if>
+		
+  </select>
+
+  <!-- 查询数量 -->
+  <select id="searchQuoteCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		
+		select sum(mm) from (
+		select DISTINCT
+				count(*) as mm
+		from 
+		
+			mt_quote   mq 
+		<!-- 相关会员 -->
+		<if test="mUserId!=null and mmbType!=null">
+             	<![CDATA[ INNER JOIN  (select * from  mt_quote_scope kk where  kk.scope_id = #{mUserId,jdbcType=VARCHAR} and kk.type =#{MmbType,jdbcType=VARCHAR})qs  on  mq.id= qs.quote_id ]]>
+             	 
+        </if>
+		where 
+			1=1
+		  <include refid="Mall_searchQuote" />
+		
+		 <if test="groupId!= null ">  
+			  UNION 
+			  
+			  select DISTINCT 
+			   	count(*) as mm
+			   from mt_quote  mq     
+			   <!-- 并集  关联群组 -->
+			   <!-- 相关群组 -->
+			 <if test="groupId!= null ">  
+			 		<![CDATA[  inner JOIN (select *  from  mt_mmb_group_rela  mgr  where mgr.group_id in  ]]>
+			 						<foreach item="item" index="index" collection="groupId" 
+                                          open="(" separator="," close=")">
+                                            #{item}
+                                    </foreach>
+                                    <![CDATA[ ) gr on mq.mmb_id = gr.mmb_id ]]>                           
+			  </if> 
+			  <if test="mUserId!=null and groupType!=null">
+             			<![CDATA[ INNER JOIN  (
+             					select nn.* from  mt_quote_scope  nn INNER JOIN (
+             						select * from mt_mmb_group_rela gmm where gmm.mmb_id = #{mUserId,jdbcType=VARCHAR} )  mra on nn.scope_id = mra.group_id  
+             						where nn.type =#{groupType,jdbcType=VARCHAR})bb  
+             					  on  mq.id= bb.quote_id ]]>
+             	 
+              </if>
+			  where 1=1  
+			  	<if test="goodname!= null"><![CDATA[ AND mq.goods_name like CONCAT('%',#{goodname,jdbcType=VARCHAR},'%') ]]></if>
+        		<if test="type!= null"><![CDATA[ AND mq.type = #{type,jdbcType=INTEGER} ]]></if>
+      	
+      			<if test="mmbId!= null"><![CDATA[ AND mq.mmb_id  <> #{mmbId,jdbcType=VARCHAR} ]]></if>
+		
+				<if test="startTime!= null "><![CDATA[ AND mq.start_time >= str_to_date(#{startTime},'%Y-%m-%d')  ]]></if>
+				<if test="startEnd!= null "><![CDATA[ AND mq.start_end <= str_to_date(#{startEnd},'%Y-%m-%d') ]]></if>
+				<if test="createTime1!= null "><![CDATA[ AND mq.create_time >= str_to_date(#{createTime1},'%Y-%m-%d')  ]]></if>
+				<if test="createTime2!= null "><![CDATA[ AND mq.create_time <= str_to_date(#{createTime2},'%Y-%m-%d') ]]></if>
+        
+        		<if test="status!= null"><![CDATA[ AND mq.status = #{status,jdbcType=INTEGER} ]]></if>
+        		<if test="rangType!= null"><![CDATA[ AND mq.rang_type = #{rangType,jdbcType=INTEGER} ]]></if>
+        
+        		<if test="categoryId!= null"><![CDATA[ AND mq.category_id = #{categoryId,jdbcType=VARCHAR} ]]></if>
+			
+			         
+		</if>
+		) as bb
+  </select>
+  
+  <!-- 查询商城页面 -->
+  
+  <!-- 查询 -->
+   <!-- 查询 -->
+  <sql id="Mall_searchQuote1">
+  		 
+  		
+        <if test="goodname!= null"><![CDATA[ AND mq.goods_name like CONCAT('%',#{goodname,jdbcType=VARCHAR},'%') ]]></if>
+        <if test="type!= null"><![CDATA[ AND mq.type = #{type,jdbcType=INTEGER} ]]></if>
+		<if test="startTime!= null "><![CDATA[ AND mq.start_time >= str_to_date(#{startTime},'%Y-%m-%d')  ]]></if>
+		<if test="startEnd!= null and startEnd!= '' "><![CDATA[ AND mq.start_end <= str_to_date(#{startEnd},'%Y-%m-%d') ]]></if>
+		<if test="createTime1!= null "><![CDATA[ AND mq.create_time >= str_to_date(#{createTime1},'%Y-%m-%d')  ]]></if>
+		<if test="createTime2!= null "><![CDATA[ AND mq.create_time <= str_to_date(#{createTime2},'%Y-%m-%d') ]]></if>
+        
+        
+        <if test="mmbId!= null"><![CDATA[ AND mq.mmb_id  <> #{mmbId,jdbcType=VARCHAR} ]]></if>
+        <if test="categoryId!= null"><![CDATA[ AND mq.category_id = #{categoryId,jdbcType=VARCHAR} ]]></if>    
+  </sql>
+  
+  <select id="searchShop" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		
+		select DISTINCT 
+					   	mq.id,
+						mq.type,
+						mq.mmb_id,
+						mq.mmb_name,
+						mq.goods_id,
+						mq.goods_name,
+						mq.num,
+						mq.start_time,
+						mq.start_end,
+						mq.user_id,
+						mq.create_time,
+						mq.min_price,
+						mq.max_price,
+						mq.unit_price,
+						mq.explan,
+						mq.status,
+						mq.title_pic,
+						mq.rang_type,
+						mq.pd_account,
+						mq.receice_address,
+						mq.sell_account,
+						mq.send_addres,
+						mq.area_id,
+						mq.category_id,
+						mq.create_name,
+						mq.publish_name,
+						mq.createuser_id,
+						mq.publish_id,
+						mq.imgPath,
+						mq.mate_id
+			   from mt_quote  mq     
+			  
+			  where 1=1 and id="000000000000000000000000"
+		<!-- 公开报价  匹配省份 -->
+		  <if test="areaId!= null">
+			  UNION
+			  select DISTINCT 
+					   	mq.id,
+						mq.type,
+						mq.mmb_id,
+						mq.mmb_name,
+						mq.goods_id,
+						mq.goods_name,
+						mq.num,
+						mq.start_time,
+						mq.start_end,
+						mq.user_id,
+						mq.create_time,
+						mq.min_price,
+						mq.max_price,
+						mq.unit_price,
+						mq.explan,
+						mq.status,
+						mq.title_pic,
+						mq.rang_type,
+						mq.pd_account,
+						mq.receice_address,
+						mq.sell_account,
+						mq.send_addres,
+						mq.area_id,
+						mq.category_id,
+						mq.create_name,
+						mq.publish_name,
+						mq.createuser_id,
+						mq.publish_id,
+						mq.imgPath,
+						mq.mate_id
+			   from mt_quote  mq     
+			  
+			  where 1=1  and mq.rang_type = 0 AND mq.status = 0  AND  mq.start_end>now()
+			  <!-- 默认选择匹配对应登陆人地域 -->
+        	  <if test="areaId!= null"><![CDATA[ AND mq.area_id = #{areaId,jdbcType=VARCHAR} ]]></if>
+			  <include refid="Mall_searchQuote1" />	
+			         
+		</if>
+		<!-- 合作会员 -->
+		<if test="mmbType!=null">
+		 UNION 
+		select DISTINCT
+				mq.id,
+				mq.type,
+				mq.mmb_id,
+				mq.mmb_name,
+				mq.goods_id,
+				mq.goods_name,
+				mq.num,
+				mq.start_time,
+				mq.start_end,
+				mq.user_id,
+				mq.create_time,
+				mq.min_price,
+				mq.max_price,
+				mq.unit_price,
+				mq.explan,
+				mq.status,
+				mq.title_pic,
+				mq.rang_type,
+				mq.pd_account,
+				mq.receice_address,
+				mq.sell_account,
+				mq.send_addres,
+				mq.area_id,
+				mq.category_id,
+				mq.create_name,
+				mq.publish_name,
+				mq.createuser_id,
+				mq.publish_id,
+				mq.imgPath,
+				mq.mate_id
+		from 
+			mt_quote   mq 
+		<!-- 相关会员 -->
+		<if test="mmbType!=null">
+             <![CDATA[ INNER JOIN  (select * from  mt_quote_scope kk where kk.type =#{mmbType,jdbcType=VARCHAR} and kk.scope_id = #{mmbId,jdbcType=VARCHAR})qs  on  mq.id= qs.quote_id ]]>	 
+        </if>
+		where 
+			1=1 and mq.rang_type = 1 AND  mq.start_end>now()
+		<include refid="Mall_searchQuote1" /> 
+		</if>
+		<!-- 关注会员 -->
+		  <if test="actionMal!= null ">  
+			  UNION 
+			  select DISTINCT 
+					   	mq.id,
+						mq.type,
+						mq.mmb_id,
+						mq.mmb_name,
+						mq.goods_id,
+						mq.goods_name,
+						mq.num,
+						mq.start_time,
+						mq.start_end,
+						mq.user_id,
+						mq.create_time,
+						mq.min_price,
+						mq.max_price,
+						mq.unit_price,
+						mq.explan,
+						mq.status,
+						mq.title_pic,
+						mq.rang_type,
+						mq.pd_account,
+						mq.receice_address,
+						mq.sell_account,
+						mq.send_addres,
+						mq.area_id,
+						mq.category_id,
+						mq.create_name,
+						mq.publish_name,
+						mq.createuser_id,
+						mq.publish_id,
+						mq.imgPath,
+						mq.mate_id
+			   from mt_quote  mq     
+			  
+			  	<!-- rela_type==0 关注 rela_type==1 合作    -->
+			  	INNER JOIN mt_member_relationship ship ON ship.rela_mmb_id = mq.mmb_id
+				AND ship.rela_status = 0
+				AND ship.rela_type = 0
+				WHERE
+				ship.mmb_id = #{mmbId,jdbcType=VARCHAR}
+				AND mq.STATUS = 0
+				AND mq.rang_type = 0
+				AND  mq.start_end>now()
+				<include refid="Mall_searchQuote1" />	
+			   
+		</if>
+		<!-- 群组 -->
+		 <if test="groupType!= null ">  
+			  UNION 
+			  select DISTINCT 
+					   	mq.id,
+						mq.type,
+						mq.mmb_id,
+						mq.mmb_name,
+						mq.goods_id,
+						mq.goods_name,
+						mq.num,
+						mq.start_time,
+						mq.start_end,
+						mq.user_id,
+						mq.create_time,
+						mq.min_price,
+						mq.max_price,
+						mq.unit_price,
+						mq.explan,
+						mq.status,
+						mq.title_pic,
+						mq.rang_type,
+						mq.pd_account,
+						mq.receice_address,
+						mq.sell_account,
+						mq.send_addres,
+						mq.area_id,
+						mq.category_id,
+						mq.create_name,
+						mq.publish_name,
+						mq.createuser_id,
+						mq.publish_id,
+						mq.imgPath,
+						mq.mate_id
+			   from mt_quote  mq     
+			   <!-- 相关群组 -->
+			  <if test="type == 1 ">
+				 	INNER JOIN (
+						SELECT
+							nn.*
+						FROM
+							mt_quote_scope nn
+						INNER JOIN (
+							SELECT
+								mt.*
+							FROM
+								mt_group_relationship mt
+							INNER JOIN mt_mmb_group_rela mm ON mm.group_id = mt.group_id
+							WHERE
+								mm.mmb_id = #{mmbId,jdbcType=VARCHAR}
+							AND mm.`status` = 2
+							 <!-- 相关群组 bus_type  1买卖 -->
+							AND  mt.bus_type = 1
+						) mra ON nn.scope_id = mra.rp_group_id
+						WHERE
+							nn.type = #{groupType,jdbcType=VARCHAR}
+					) bb ON mq.id = bb.quote_id 
+			 </if>
+			 
+			  <if test="type == 0 ">
+				 	INNER JOIN (
+						SELECT
+							nn.*
+						FROM
+							mt_quote_scope nn
+						INNER JOIN (
+							SELECT
+								mt.*
+							FROM
+								mt_group_relationship mt
+							INNER JOIN mt_mmb_group_rela mm ON mm.group_id = mt.rp_group_id
+							WHERE
+								mm.mmb_id = #{mmbId,jdbcType=VARCHAR}
+							AND mm.`status` = 2
+							<!-- 相关群组 bus_type  1买卖 -->
+							AND  mt.bus_type = 1
+						) mra ON nn.scope_id = mra.group_id
+						WHERE
+							nn.type = #{groupType,jdbcType=VARCHAR}
+					) bb ON mq.id = bb.quote_id
+			 </if>
+			  where 1=1  and mq.rang_type = 1 AND mq.status = 0 AND  mq.start_end>now()
+			  <include refid="Mall_searchQuote1" />	
+			         
+		</if>
+			         
+		
+		 order by create_time DESC	
+		<if test="startFirst != null and startEnd1 != null">
+			limit #{startFirst},#{startEnd1}
+		</if>
+		
+  </select>
+  <!-- 查询数量 -->
+   <select id="searchShopCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		
+		select sum(mm) from (
+			select DISTINCT
+				count(*) as mm
+		from 
+		
+			mt_quote   mq    
+			  
+			  where 1=1 and id="000000000000000000"
+		<!-- 公开报价  匹配省份 -->
+		  
+		<if test="areaId!= null">	 
+			UNION  
+			  select DISTINCT
+				count(*) as mm
+		from 
+		
+			mt_quote   mq    
+			  
+			  where 1=1  and mq.rang_type = 0 AND mq.status = 0 AND  mq.start_end>now()
+			  <!-- 默认选择匹配对应登陆人地域 -->
+        	  <if test="areaId!= null"><![CDATA[ AND mq.area_id = #{areaId,jdbcType=VARCHAR} ]]></if>
+			  <include refid="Mall_searchQuote1" />	
+			         
+		</if>
+			<!-- 合作会员 -->
+		 <if test="mmbType!= null "> 
+			UNION
+		select DISTINCT
+				count(*) as mm
+		from 
+		
+			mt_quote   mq 
+		<!-- 相关会员 
+		<if test="type!= null and type == 1">
+					INNER JOIN mt_member_relationship ship on ship.rela_mmb_id = mq.mmb_id and ship.rela_status = 0 and ship.rela_type=0
+					where ship.mmb_id = #{mmbId,jdbcType=VARCHAR} and mq.status = 0  and mq.rang_type = 0 AND mq.status = 0
+		</if>
+		<if test="type != null and type == 0">
+			INNER JOIN mt_member_relationship ship on ship.mmb_id = mq.mmb_id and ship.rela_status = 0 and ship.rela_type=0
+			where ship.rela_mmb_id = #{mmbId,jdbcType=VARCHAR} and mq.status = 0 and mq.rang_type = 0 AND mq.status = 0
+		</if>
+		-->
+		<if test="mmbType!=null">
+             <![CDATA[ INNER JOIN  (select * from  mt_quote_scope kk where kk.type =#{mmbType,jdbcType=VARCHAR} and kk.scope_id = #{mmbId,jdbcType=VARCHAR})qs  on  mq.id= qs.quote_id ]]>	 
+        </if>
+		where 
+			1=1 and mq.rang_type = 1 AND mq.status = 0 AND  mq.start_end>now()
+		<include refid="Mall_searchQuote1" /> 
+		</if>
+		<!-- 关注会员 -->
+		  <if test="actionMal!= null ">  
+			  UNION 
+			  select DISTINCT
+				count(*) as mm
+		from 
+		
+			mt_quote   mq      
+			  
+			  	<!-- rela_type==0 关注 rela_type==合作 -->
+			  	INNER JOIN mt_member_relationship ship ON ship.rela_mmb_id = mq.mmb_id
+				AND ship.rela_status = 0
+				AND ship.rela_type = 0
+				WHERE
+				ship.mmb_id = #{mmbId,jdbcType=VARCHAR}
+				AND mq.STATUS = 0
+				AND mq.rang_type = 0 AND  mq.start_end>now()
+             	
+				<include refid="Mall_searchQuote1" />	
+			   
+		</if>
+		<!-- 群组 -->
+		 <if test="groupType!= null ">  
+			  UNION 
+			 select DISTINCT
+				count(*) as mm
+			from 
+			
+				mt_quote   mq     
+		   <!-- 相关群组 -->
+		 <if test="type == 1 ">
+				 	INNER JOIN (
+						SELECT
+							nn.*
+						FROM
+							mt_quote_scope nn
+						INNER JOIN (
+							SELECT
+								mt.*
+							FROM
+								mt_group_relationship mt
+							INNER JOIN mt_mmb_group_rela mm ON mm.group_id = mt.group_id
+							WHERE
+								mm.mmb_id = #{mmbId,jdbcType=VARCHAR}
+							AND mm.`status` = 2
+							<!-- 相关群组 bus_type  1买卖 -->
+							AND  mt.bus_type = 1
+						) mra ON nn.scope_id = mra.rp_group_id
+						WHERE
+							nn.type = #{groupType,jdbcType=VARCHAR}
+					) bb ON mq.id = bb.quote_id
+			 </if>
+			 
+			  <if test="type == 0 ">
+				 	INNER JOIN (
+						SELECT
+							nn.*
+						FROM
+							mt_quote_scope nn
+						INNER JOIN (
+							SELECT
+								mt.*
+							FROM
+								mt_group_relationship mt
+							INNER JOIN mt_mmb_group_rela mm ON mm.group_id = mt.rp_group_id
+							WHERE
+								mm.mmb_id = #{mmbId,jdbcType=VARCHAR}
+							AND mm.`status` = 2
+							<!-- 相关群组 bus_type  1买卖 -->
+							AND  mt.bus_type = 1
+						) mra ON nn.scope_id = mra.group_id
+						WHERE
+							nn.type = #{groupType,jdbcType=VARCHAR}
+					) bb ON mq.id = bb.quote_id
+			 </if>
+			  where 1=1  and mq.rang_type = 1 AND mq.status = 0  AND  mq.start_end>now()
+			  <include refid="Mall_searchQuote1" />	
+			         
+		</if>
+		) as bb
+   </select>
+  <select id="searchQuoteById" resultMap="BaseResultMap" parameterType="java.lang.String">
+  		select 
+  		<include refid="Base_Column_List" />
+  		from mt_quote where id = #{quoteId,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

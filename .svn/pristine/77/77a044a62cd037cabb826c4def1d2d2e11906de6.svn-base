@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zllh.factoring.common.dao.FacFreezePaymentMapper" >
+  <resultMap id="BaseResultMap" type="com.zllh.factoring.common.model.FacFreezePayment" >
+    <id column="freeze_id" property="freezeId" jdbcType="VARCHAR" />
+    <result column="financing_id" property="financingId" jdbcType="VARCHAR" />
+    <result column="frozena_mount" property="frozenaMount" jdbcType="DECIMAL" />
+    <result column="frozen_date" property="frozenDate" jdbcType="TIMESTAMP" />
+    <result column="operator_id" property="operatorId" jdbcType="VARCHAR" />
+    <result column="operator" property="operator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    freeze_id, financing_id, frozena_mount, frozen_date, operator_id, operator
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fac_freeze_payment
+    where freeze_id = #{freezeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from fac_freeze_payment
+    where freeze_id = #{freezeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zllh.factoring.common.model.FacFreezePayment" >
+    insert into fac_freeze_payment (freeze_id, financing_id, frozena_mount, 
+      frozen_date, operator_id, operator
+      )
+    values (#{freezeId,jdbcType=VARCHAR}, #{financingId,jdbcType=VARCHAR}, #{frozenaMount,jdbcType=DECIMAL}, 
+      #{frozenDate,jdbcType=TIMESTAMP}, #{operatorId,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zllh.factoring.common.model.FacFreezePayment" >
+    insert into fac_freeze_payment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="freezeId != null" >
+        freeze_id,
+      </if>
+      <if test="financingId != null" >
+        financing_id,
+      </if>
+      <if test="frozenaMount != null" >
+        frozena_mount,
+      </if>
+      <if test="frozenDate != null" >
+        frozen_date,
+      </if>
+      <if test="operatorId != null" >
+        operator_id,
+      </if>
+      <if test="operator != null" >
+        operator,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="freezeId != null" >
+        #{freezeId,jdbcType=VARCHAR},
+      </if>
+      <if test="financingId != null" >
+        #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="frozenaMount != null" >
+        #{frozenaMount,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenDate != null" >
+        #{frozenDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zllh.factoring.common.model.FacFreezePayment" >
+    update fac_freeze_payment
+    <set >
+      <if test="financingId != null" >
+        financing_id = #{financingId,jdbcType=VARCHAR},
+      </if>
+      <if test="frozenaMount != null" >
+        frozena_mount = #{frozenaMount,jdbcType=DECIMAL},
+      </if>
+      <if test="frozenDate != null" >
+        frozen_date = #{frozenDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operatorId != null" >
+        operator_id = #{operatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where freeze_id = #{freezeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zllh.factoring.common.model.FacFreezePayment" >
+    update fac_freeze_payment
+    set financing_id = #{financingId,jdbcType=VARCHAR},
+      frozena_mount = #{frozenaMount,jdbcType=DECIMAL},
+      frozen_date = #{frozenDate,jdbcType=TIMESTAMP},
+      operator_id = #{operatorId,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR}
+    where freeze_id = #{freezeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

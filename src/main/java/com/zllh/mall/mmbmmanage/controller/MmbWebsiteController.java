@@ -27,6 +27,7 @@ import com.zllh.mall.common.model.MtMuser;
 import com.zllh.mall.mmbmmanage.service.IMMBService;
 import com.zllh.mall.mmbmmanage.service.IMmbWebsiteService;
 import com.zllh.utils.base.Utils;
+import com.zllh.utils.common.StringUtil;
 /**
  * @ClassName: MmbWebsiteController
  * @Description: 会员主页
@@ -338,6 +339,7 @@ public class MmbWebsiteController extends BaseController {
 		if(flag){
 			MtMmbWebsite mmb =web.searchBymmbId(mUser.getMmbId());
 			path = mmb.getMmbPath();
+			path = StringUtil.toLinux(path);
 		}
 		System.out.println(path);
 		return path;

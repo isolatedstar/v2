@@ -14,7 +14,7 @@ if(userExtendBean!=null){
 <head>
 <base href="<%=basePath%>">
 
-<title>待审批订单</title>
+<title>我的待审批订单</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="<%=basePath%>mall/css/bootstrap.css" rel="stylesheet" >
 <link href="<%=basePath%>mall/css/theme.css" rel="stylesheet">
@@ -30,7 +30,7 @@ if(userExtendBean!=null){
 			<!-- col-sm-12 -->
 			<div class="col-sm-12 ">
 				<div class="panel panel-default article-bj">
-					<div class="panel-heading box-shodm">待审批订单</div>
+					<div class="panel-heading box-shodm">我的待审批订单</div>
 						<form id="queryPendingOrderForm">
 							<div class="row wrapper form-margin">
 								<div class="col-md-4">

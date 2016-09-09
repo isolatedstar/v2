@@ -1,5 +1,6 @@
 package com.zllh.mall.mmbmmanage.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 
 
@@ -175,7 +177,7 @@ public class MmbWebSiteServiceImpl implements IMmbWebsiteService {
 		if(web==null){
     		return flag;
     	}
-		String baseDir=servletContext.getRealPath("/");//项目的根目录
+		String baseDir=servletContext.getRealPath(File.separator);//项目的根目录
 		System.out.println(baseDir);
     	String dateDir= AutoCreateDir.baseTypeFilePath;//项目中存放生成的html文件的目录
     	dateDir = dateDir.replaceAll("\\\\", "/");
@@ -204,7 +206,7 @@ public class MmbWebSiteServiceImpl implements IMmbWebsiteService {
 		data.put("pic",list2 );
 		//生成的二维码相对路径
 		String  imgPath = AutoCreateDir.baseImgPath;
-		String basepath = servletContext.getRealPath("/");
+		String basepath = servletContext.getRealPath(File.separator);
 		//二维码存放的绝对路径
 		String baseImgPath = (basepath+imgPath).replaceAll("\\\\", "/");
 		//生成二维码
@@ -231,8 +233,8 @@ public class MmbWebSiteServiceImpl implements IMmbWebsiteService {
 		 * fileName  文件名（不含html）
 		 * dateDir   项目中存放生成的html文件的目录
 		 */
-		CreateHtml.createHTML(data, servletContext,"mmb_view.ftl", web.getMmbName(),"/"+dateDir.substring(0,dateDir.length()-1));//生成模板
-		web.setMmbPath("/"+dateDir+ fileName);//设置预览url
+		CreateHtml.createHTML(data, servletContext,"mmb_view.ftl", web.getMmbName(),File.separator+dateDir.substring(0,dateDir.length()-1));//生成模板
+		web.setMmbPath(File.separator+dateDir+ fileName);//设置预览url
 		String ssssss = web.getMmbPath();
 		int num = mmbWeb.updateSelective(web);
 		//修改mmb表的字段
@@ -285,7 +287,7 @@ public class MmbWebSiteServiceImpl implements IMmbWebsiteService {
 
 	@Override
 	public boolean deleteMMbHome(String mmbName,ServletContext servletContext) {
-		String baseDir=servletContext.getRealPath("/");//项目的根目录
+		String baseDir=servletContext.getRealPath(File.separator);//项目的根目录
 		baseDir = baseDir.replaceAll("\\\\", "/");
 		boolean flag = UploadFileUtils.deleteFile(mmbName,baseDir);
 		
@@ -308,7 +310,7 @@ public class MmbWebSiteServiceImpl implements IMmbWebsiteService {
 		if(web==null){
     		return flag;
     	}
-		String basepath=servletContext.getRealPath("/");//项目的根目录
+		String basepath=servletContext.getRealPath(File.separator);//项目的根目录
 		String fileName=web.getMmbName()+".html";//生成的静态文件名称（包含html）
 		String dateDir= AutoCreateDir.baseTypeFilePath;//项目中存放生成的html文件的目录
 		dateDir = dateDir.replaceAll("\\\\", "/");
@@ -359,8 +361,8 @@ public class MmbWebSiteServiceImpl implements IMmbWebsiteService {
 		data.put("mmbLogo",web.getMmbLogo());
 		//生成子页面
 		String contextName =  web.getMmbId()+"condext";//生成子页面名称
-		String contextPath = "/"+dateDir+contextName+".html";//生成子页面路径
-		String showPath = "/"+dateDir+fileName;//生成主页面路径
+		String contextPath = File.separator+dateDir+contextName+".html";//生成子页面路径
+		String showPath = File.separator+dateDir+fileName;//生成主页面路径
 		data.put("contextPath",contextPath);
 		data.put("showPath",showPath);
 		/**
@@ -370,7 +372,8 @@ public class MmbWebSiteServiceImpl implements IMmbWebsiteService {
 		 * fileName  文件名（不含html）
 		 * dateDir   项目中存放生成的html文件的目录
 		 */
-		CreateHtml.addHTML(data, servletContext,"mmb_context.ftl", contextName,"/"+dateDir.substring(0,dateDir.length()-1),templatePath);//生成模板
+		String putPath = File.separator+dateDir.substring(0,dateDir.length()-1);
+		CreateHtml.addHTML(data, servletContext,"mmb_context.ftl", contextName,putPath,templatePath);//生成模板
 		
 		
 		
@@ -402,8 +405,8 @@ public class MmbWebSiteServiceImpl implements IMmbWebsiteService {
 		 * fileName  文件名（不含html）
 		 * dateDir   项目中存放生成的html文件的目录
 		 */
-		CreateHtml.addHTML(data, servletContext,"mmb_index.ftl", web.getMmbName(),"/"+dateDir.substring(0,dateDir.length()-1),templatePath);//生成模板
-		web.setMmbPath(showPath);//设置预览url
+		CreateHtml.addHTML(data, servletContext,"mmb_index.ftl", web.getMmbName(),File.separator+dateDir.substring(0,dateDir.length()-1),templatePath);//生成模板
+		web.setMmbPath("/"+dateDir+fileName);//设置预览url
 		int num = mmbWeb.updateSelective(web);
 		//修改mmb表的字段
 		MtMember mb = new MtMember();

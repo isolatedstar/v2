@@ -6,6 +6,7 @@
  */
 package com.zllh.utils.common;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -198,6 +199,14 @@ public class StringUtil {
 	public static String toSql(String src) {
 		src = src.replace("\\", "\\\\");
 		src = src.replace("'", "\\'");
+		return src;
+	}
+	
+	
+	public static String toLinux(String src) {
+		src = src.replace("\\\\", "/");
+		src = src.replace("/", File.separator);
+		src = src.trim();
 		return src;
 	}
 

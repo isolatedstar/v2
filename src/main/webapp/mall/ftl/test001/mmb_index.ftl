@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="Content-Language" content="zh-CN">
-<title>中国农校对接服务网</title>
+<title>${mmb.mmbFname!}</title>
 <link href="${rootUrl}${templatePath}css/pulic.css" rel="stylesheet" type="text/css">
 <link href="${rootUrl}${templatePath}css/index.css" rel="stylesheet" type="text/css">
 <link href="${rootUrl}${templatePath}css/font-awesome.min.css" rel="stylesheet" type="text/css">

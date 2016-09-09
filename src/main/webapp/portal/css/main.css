@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
-html, body, h2 {
+html, body, h4 {
 	margin: 0;
 }
 
@@ -30,7 +30,7 @@ img {
 	padding: 0 0 0 10px;
 }
 
-#popHead h2 {
+#popHead h4 {
 	font-size: 14px;
 	color: #666;
 	line-height: 32px;

@@ -20,12 +20,15 @@
 			$("#loginAfter").show();
 			$("#purchase").show();
 			$("#sell").show();
+			$("#main").show();
 		}else{
 			$("#loginAfter").hide();
 			$("#loginBefor").show();
 			$("#purchase").hide();
 			$("#sell").hide();
+			$("#main").hide();
 		}
+		
 	});
 	
 	function login(){
@@ -48,6 +51,7 @@
 					$("#loginAfter").show();
 					$("#purchase").show();
 					$("#sell").show();
+					$("#main").show();
 				}
 			}
 		});
@@ -87,15 +91,13 @@
   	<div id="pop" style="display:none;">
 	  	<div id="popHead">
 			<a id="popClose" title="关闭">关闭</a>
-			<h2>赞助广告</h2>
+			<h4>推荐</h4>
 		</div>
 		<div id="popContent">
-		<iframe src="homePage.jsp" frameborder="0" height="100%"></iframe>
+		<iframe src="${pageContext.request.contextPath}/mmbAdvert/toMmbAdvert_Auth.do" frameborder="0" height="100%"></iframe>
 		</div>
 	</div>
-	<script>
-	  var popad=new Pop();
-	</script>
+	<script> var popad=new Pop(); </script>
 </div>
 
 <!--=== Header v1 ===--> 
@@ -196,8 +198,8 @@
 <!--=== 推荐企业 ===-->
 <div class="conmpany">
 <div class="container "  style="min-width:1180px;">
-    <div class="row">
-        <div class="col-xs-12" > 
+    <div class="row" >
+        <div class="col-xs-12" style="border-bottom:3px #e49d04 solid;padding-bottom:20px;"> 
             <div class="myCompany" >
             <img src="${pageContext.request.contextPath}/portal/image/company_icon.png">
             <h2>推荐企业</h2>
@@ -210,7 +212,7 @@
    		 </div>
     </div>
 </div>
-<iframe id='bj_com' name='iffcom' class="ifr" src="company.html" width="100%" height="100%" frameborder="0" marginheight="0px;" marginwidth="0" scrolling="auto" onLoad="iFrameHeight()"></iframe>
+<iframe id='bj_com' name='iffcom' class="ifr" src="${pageContext.request.contextPath}/portal/html/company.html" width="100%" height="100%" frameborder="0" marginheight="0px;" marginwidth="0" scrolling="auto" onLoad="iFrameHeight()" style="margin-top:15px; "></iframe>
 </div>
 <script>
 function iFrameHeight() {   

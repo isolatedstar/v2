@@ -1,4 +1,4 @@
-/*header样式*/
+/*header鏍峰紡*/
 .c-body{
 	margin:0 auto;
 	min-width:1200px;}
@@ -50,10 +50,10 @@
 #phone{
 	margin-left:50px;
 }
-/*banner样式*/
+/*banner鏍峰紡*/
 
 
-/*推荐企业样式*/
+/*鎺ㄨ崘浼佷笟鏍峰紡*/
 .conmpany{
 	margin-top:30px;
 	}
@@ -75,18 +75,18 @@
 	margin-left:20px;
 	margin-top:15px;}
 .myCompanyDetail{
-	border-top:3px #e49d04 solid;
-	margin-top:10px;
 	margin-bottom:60px;
 	width:100%;
 	}
 .myCompanyDetail img{
-	margin-top:20px;}
-.lovesContent{position:relative;text-align:center; margin:6px auto; }
-.lovesContent dl{width:280px;height:160px;}
+	margin-top:20px;
+	width:360px;
+	height:200px;}
+.lovesContent{position:relative;text-align:center; margin:0px auto; margin-bottom:20px; }
+.lovesContent dl{width:360px;height:200px;}
 .lovesContent dd{line-height:28px;}
 .loveTitle{padding-bottom:5px;font-weight:bold;color:#333}
-.lovesContent img{width:280px;height:160px;border:1px solid #dcdcdc;}
+.lovesContent img{width:360px;height:200px;border:1px solid #dcdcdc;}
 .loveClassify{text-align:left; }
 .lovesContent dl.lovesContentshow{display:none;position:absolute;left:0;top:20px;;z-index:1;background-color:#333;opacity:0.8;filter:alpha(opacity=80);}
 .lovesContent:hover dl.lovesContentshow{display:block}
@@ -187,7 +187,7 @@
 	padding-left:7%;}
 .trade-v3 img{
 	vertical-align:middle;}	
-/*推荐企业样式*/
+/*鎺ㄨ崘浼佷笟鏍峰紡*/
 .cooperation{
 	margin-top:40px;
 	height:600px;}
@@ -247,4 +247,4 @@
 	width:100%;
 	background:#f6f9fe;
 	}
-/*footer样式*/
+/*footer鏍峰紡*/

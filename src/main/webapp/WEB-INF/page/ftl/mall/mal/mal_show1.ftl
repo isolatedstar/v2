@@ -739,7 +739,7 @@
 	function childCloseImg(){
 		//关闭目录与资料路内容div
 		//$("#treeview1").hide();
-		//$("#resourceInfo").hide();
+		$("#resourceInfo").hide();
 		parent.$("#childPage").modal('hide');	
 	}
 	
@@ -1024,6 +1024,7 @@
 				parent.showCarousel1();
 			}
 		}
+		
 	}
 	//预览
 	function seeMal(id){
@@ -1039,13 +1040,7 @@
 			dataType : 'json',
 			success : function(data) {
 				if(data!=null&&data.length>0){
-					if (data.substr(0,1)=='/'){
-						data=data.substr(1);
-					}
-					
-					var path = '${Request.basePath}'+data;
-					//alert(path);
-					//newwindow.location.href = path;
+					var path = '${ctx}'+data;
 					window.open(path);
 				}
 				

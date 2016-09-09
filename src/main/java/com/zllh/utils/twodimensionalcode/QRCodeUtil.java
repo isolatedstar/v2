@@ -25,6 +25,7 @@ import com.google.zxing.Result;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.zllh.utils.common.StringUtil;
 
 
 public class QRCodeUtil {
@@ -107,10 +108,15 @@ public class QRCodeUtil {
             boolean needCompress) throws Exception {
         BufferedImage image = QRCodeUtil.createImage(content, imgPath,
                 needCompress);
+        content = StringUtil.toLinux(content);
+        imgPath =  StringUtil.toLinux(imgPath);
+        destPath =  StringUtil.toLinux(destPath);
         mkdirs(destPath);
         //String file = new Random().nextInt(99999999)+".jpg";
         String file = s+".jpg";
-        ImageIO.write(image, FORMAT_NAME, new File(destPath+"/"+file));
+        String path = destPath+File.separator+file;
+        path = StringUtil.toLinux(path);
+        ImageIO.write(image, FORMAT_NAME, new File(path));
     }
 
    

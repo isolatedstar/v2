@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.zllh.mall.common.dao.MtMaterialMapper;
 import com.zllh.mall.common.model.MtMaterial;
 import com.zllh.mall.material.service.MaterialService;
+import com.zllh.utils.common.StringUtil;
 import com.zllh.utils.common.UUIDCreater;
 import com.zllh.utils.pic.ImageUtils;
 import com.zllh.utils.pic.RepConstants;
@@ -38,8 +39,8 @@ public class MaterialServiceImp implements MaterialService{
 		//生成新的文件名称
 		String newfileName=ImageUtils.createNewPictureName(mmt.getMaterialName(),mmt.getId());
 		//图片上传的具体地址
-		path=path+"/"+mmt.getDivId()+"/"+ImageUtils.gethash(newfileName);
-		minpath=path+"/"+"min";
+		path=path+File.separator+mmt.getDivId()+File.separator+ImageUtils.gethash(newfileName);
+		minpath=path+File.separator+"min";
 		//上传文件到服务器的特定目录下
 		try {
 			UploadFileUtils.upload4CopyFile(newfileName, basedir+path, file);
@@ -48,11 +49,11 @@ public class MaterialServiceImp implements MaterialService{
 			e.printStackTrace();
 		}
 		
-		String imgurl=path+"/"+newfileName;
+		String imgurl=path+File.separator+newfileName;
 		/*****************************************************第三步根据文件类别进行处理************************************************/
 		//如果是图片资源，按照特定的比例压缩图片并上传到服务器的特定目录下
 		if(mmt.getType()==RepConstants.filePIC){
-    		ImageUtils.Tosmallerpic(basedir+path+"/"+newfileName,basedir+minpath+newfileName,RepConstants.ratio,RepConstants.per);
+    		ImageUtils.Tosmallerpic(basedir+path+File.separator+newfileName,basedir+minpath+newfileName,RepConstants.ratio,RepConstants.per);
         }
 		//图片上传位置
 		mmt.setMaterialPath(imgurl);
@@ -121,10 +122,10 @@ public class MaterialServiceImp implements MaterialService{
 				//生成新的文件名称
 				String newfileName=ImageUtils.createNewPictureName(fileName,mal.getDivId());
 				//图片上传的具体地址
-				path=path+"/"+mal.getDivId()+"/"+ImageUtils.gethash(newfileName);
+				path=path+File.separator+mal.getDivId()+File.separator+ImageUtils.gethash(newfileName);
 				mal.setMaterialName(fileName);
 				mal.setMaterialPath(path);
-				minpath=path+"/"+"min";
+				minpath=path+File.separator+"min";
 				/*****************************************************第二步将文件上传到服务器上************************************************/
 				//上传文件到服务器的特定目录下
 				try {
@@ -133,21 +134,21 @@ public class MaterialServiceImp implements MaterialService{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String imgurl=path+"/"+newfileName;
+				String imgurl=path+File.separator+newfileName;
 				//如果是图片资源，按照特定的比例压缩图片并上传到服务器的特定目录下
 				if(mal.getType()==1){
-		    		ImageUtils.Tosmallerpic(basedir+path+"/"+newfileName,basedir+minpath+"/min_"+newfileName,RepConstants.ratio,RepConstants.per);
+		    		ImageUtils.Tosmallerpic(basedir+path+File.separator+newfileName,basedir+minpath+File.separator+"min_"+newfileName,RepConstants.ratio,RepConstants.per);
 		        }
 				//如果是视频资源需要进行截图
 				if(mal.getType()==2){
 					
-					String svapaht=basedir+minpath+"/min_nnnn.jpg";
+					String svapaht=basedir+minpath+File.separator+"min_nnnn.jpg";
 					// 判断输出的文件夹路径是否存在，不存在则创建
 					File svafile = new File(svapaht);
 					if (!svafile.getParentFile().exists()) {
 						svafile.getParentFile().mkdirs();
 					}
-					VideoUtils.processImg(basedir+path+"/"+newfileName,RepConstants.ffmpegexePath,svapaht);
+					VideoUtils.processImg(basedir+path+File.separator+newfileName,RepConstants.ffmpegexePath,svapaht);
 				 }
 				mal.setId(UUIDCreater.getUUID());
 				matericalMapper.insertSelective(mal);
@@ -188,10 +189,11 @@ public class MaterialServiceImp implements MaterialService{
 		//获取项目路径
 				
 		basepath = basepath.substring(0,basepath.length()-1);
-		basepath = basepath.replaceAll("\\\\", "/");
+		basepath = StringUtil.toLinux(basepath);
 		// 设置临时文件存储位置
-		String mp = "/"+RepConstants.getStringRandom(2);
+		String mp = File.separator+RepConstants.getStringRandom(2);
 		String base = basepath+path+mp;
+		base = StringUtil.toLinux(base);
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		// 设置内存缓冲区，超过后写入临时文件
 		factory.setSizeThreshold(10240000);
@@ -206,7 +208,7 @@ public class MaterialServiceImp implements MaterialService{
 		// 设置整个request的最大值
 		upload.setSizeMax(10002400000l);
 		upload.setHeaderEncoding("UTF-8");
-		String mm =request.getSession().getServletContext().getRealPath("/");
+		String mm =request.getSession().getServletContext().getRealPath(File.separator);
 		System.out.println("==================="+mm);
 		try {
 			List<?> items = upload.parseRequest(request);
@@ -235,9 +237,9 @@ public class MaterialServiceImp implements MaterialService{
 					if(mal.getType()==1){
 						//生成缩略图
 						fileName = base + File.separator + mal.getId()+tt;
-						String  minfileName = base+"/"+"min" + File.separator + mal.getId()+tt;
+						String  minfileName = base+File.separator+"min" + File.separator + mal.getId()+tt;
 						ImageUtils.Tosmallerpic(fileName,minfileName,RepConstants.ratio,RepConstants.per);
-						malPath = path+mp+"/"+"min" +File.separator + mal.getId()+tt;
+						malPath = path+mp+File.separator+"min" +File.separator + mal.getId()+tt;
 						malPath = malPath.replaceAll("\\\\", "/");
 						mal.setPicPath(malPath);
 					}

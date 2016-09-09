@@ -81,6 +81,9 @@ public class OrderServiceImpl implements IOrderService{
 			order.setSellersName(record.getSellersName());
 			order.setStopStatus(record.getStopStatus());
 			order.setStatus(record.getStatus());
+			order.setCreateTime(record.getCreateTime());
+			order.setUserId(userId);
+			order.setUserName(userName);
 			order.setWorkflowType(record.getWorkflowTypeId());
 			order.setExecuteStatus(record.getExecuteStatus());
 			this.calculateStatus(order);
@@ -649,9 +652,6 @@ public class OrderServiceImpl implements IOrderService{
 		int mo = 0;
 		int mot = 0;
 		MtOrder order = mtOrderMapper.selectByPrimaryKey(getpaymoney.getOrderId());
-		this.calculateStatus(order);
-		this.calculateExecute(order);
-		mot = mtOrderMapper.updateByObject(order);
 		getpaymoney.setGetmoneyTime(new Date());
 		String getmoneyCode = mtOrdertitleMapper.selectByPrimaryKey(order.getOredertitleCode()).getPayAccount();
 		getpaymoney.setGetmoneyCode(getmoneyCode);
@@ -661,6 +661,9 @@ public class OrderServiceImpl implements IOrderService{
 		//收款状态为收退款
 		getpaymoney.setGetDirct(2);
 		mo = mtGetpaymoneyMapper.updateByObject(getpaymoney);
+		this.calculateStatus(order);
+		this.calculateExecute(order);
+		mot = mtOrderMapper.updateByObject(order);
 		if (mo > 0 && mot > 0) {
 			result = true;
 		}else{

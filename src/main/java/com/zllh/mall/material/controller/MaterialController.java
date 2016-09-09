@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
+
 import com.zllh.base.controller.BaseController;
 import com.zllh.common.common.model.model_extend.UserExtendBean;
 import com.zllh.mall.common.model.MtMaterial;
@@ -39,6 +40,7 @@ import com.zllh.mall.common.model.MtMuser;
 import com.zllh.mall.material.service.MaterialService;
 import com.zllh.utils.base.Utils;
 import com.zllh.utils.common.DateUtil;
+import com.zllh.utils.common.StringUtil;
 import com.zllh.utils.common.UUIDCreater;
 import com.zllh.utils.pic.ImageUtils;
 import com.zllh.utils.pic.RepConstants;
@@ -173,7 +175,7 @@ public class MaterialController extends BaseController {
 		mal.setType(Integer.parseInt(type));
 		//状态 0启用
 		mal.setMaterialStatus(0);
-		String path = request.getSession().getServletContext().getRealPath("/");
+		String path = request.getSession().getServletContext().getRealPath(File.separator);
 		materialService.uploadMal(file, fileFileName, mal, path);
 		return null;
 	}
@@ -225,6 +227,7 @@ public class MaterialController extends BaseController {
 		if(type==1){
 			path = mal.getMaterialPath();
 		}
+		path = StringUtil.toLinux(path);
 		return path;
 	}
 	
@@ -253,7 +256,7 @@ public class MaterialController extends BaseController {
 		//上传临时文件目录
 		String path = RepConstants.getUploadimgpath(mal.getType());
 		//获取项目路径
-		String basepath =request.getSession().getServletContext().getRealPath("/");
+		String basepath =request.getSession().getServletContext().getRealPath(File.separator);
 		basepath = basepath.substring(0,basepath.length()-1);
 		basepath = basepath.replaceAll("\\\\", "/");
 		// 设置临时文件存储位置
@@ -274,7 +277,7 @@ public class MaterialController extends BaseController {
 		// 设置整个request的最大值
 		upload.setSizeMax(10002400000l);
 		upload.setHeaderEncoding("UTF-8");
-		String mm =request.getSession().getServletContext().getRealPath("/");
+		String mm =request.getSession().getServletContext().getRealPath(File.separator);
 		System.out.println("==================="+mm);
 		try {
 			List<?> items = upload.parseRequest(request);
@@ -332,7 +335,7 @@ public class MaterialController extends BaseController {
 		//状态 0启用
 		mal.setMaterialStatus(0);
 		//获取项目路径
-		String basepath = request.getSession().getServletContext().getRealPath("/");
+		String basepath = request.getSession().getServletContext().getRealPath(File.separator);
 		System.out.println(basepath);
 		materialService.createMal(mal, basepath, request);
 		return null;

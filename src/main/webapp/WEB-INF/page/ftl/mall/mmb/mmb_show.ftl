@@ -91,7 +91,12 @@
 	     }
 	     $tr.after(trHtml);
 	  };
-	  
+	  function childCloseImg(){
+		//关闭目录与资料路内容div
+		//childBase.$("#treeview1").hide();
+		childBase.$("#resourceInfo").hide();
+			
+		}
 	  //homepage点击上传按钮
 	function homeImg(){
 		//给子页面getType赋值  表示为会员轮播图片新增	
@@ -557,11 +562,9 @@
 				//data = eval(data);		
 				if(data!=null&&data!=""){
 					
-					if (data.substr(0,1)=='/'){
-						data=data.substr(1);
-					}
 					
-					var path = '${Request.basePath}'+data;
+					
+					var path = '${ctx}'+data;
 					window.open(path);
 				}
 			},
@@ -714,7 +717,7 @@
 	         </form>
 	        <form id="remark02" 　method="post">
 	        <li class="list-group-item">会员简介：
-	        	<textarea class="form-control validate[required,maxSize[800]]" rows="3"    id="introduce"></textarea>
+	        	<textarea class="form-control validate[required,maxSize[400]]" rows="3"    id="introduce"></textarea>
 	        </li>
 	        <li class="list-group-item">
 		        <p class="text-right" >

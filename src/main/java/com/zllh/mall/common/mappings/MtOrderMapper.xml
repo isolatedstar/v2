@@ -94,12 +94,12 @@
 		t.buyers_id,
 		t.buyers_name, t.sellers_id,
 		t.sellers_name, t.status, t.remark,
-		t.workflow_type,t.stop_status,t.execute_status
+		t.workflow_type,t.stop_status,t.execute_status,t.create_time
 		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
 		where t.sellers_id = #{memberId,jdbcType=VARCHAR}
 		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
 		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
-		and t.exe_sendgoods_num > 0 and t.execute_status = 1 and t.status = 4
+		and t.exe_sendgoods_num > 0 and t.execute_status = 1 and t.status = 4 order by t.create_time DESC 
 		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
 	</select>
 	<select id="searchGetMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -118,12 +118,12 @@
 		t.buyers_id,
 		t.buyers_name, t.sellers_id,
 		t.sellers_name, t.status, t.remark,
-		t.workflow_type,t.stop_status,t.execute_status
+		t.workflow_type,t.stop_status,t.execute_status,t.create_time
 		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
 		where t.buyers_id = #{memberId,jdbcType=VARCHAR}
 		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
 		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
-		and t.exe_getgoods_num > 0 and t.execute_status = 1 and t.status = 4
+		and t.exe_getgoods_num > 0 and t.execute_status = 1 and t.status = 4 order by t.create_time DESC 
 		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
 	</select>
 	<select id="searchReturnMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -142,12 +142,12 @@
 		t.buyers_id,
 		t.buyers_name, t.sellers_id,
 		t.sellers_name, t.status, t.remark,
-		t.workflow_type,t.stop_status,t.execute_status
+		t.workflow_type,t.stop_status,t.execute_status,t.create_time
 		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
 		where t.buyers_id = #{memberId,jdbcType=VARCHAR}
 		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
 		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
-		and t.exe_returngoods_num > 0 and t.execute_status = 1 and t.status = 4
+		and t.exe_returngoods_num > 0 and t.execute_status = 1 and t.status = 4 order by t.create_time DESC 
 		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
 	</select>
 	<select id="searchGetReturnMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -166,12 +166,12 @@
 		t.buyers_id,
 		t.buyers_name, t.sellers_id,
 		t.sellers_name, t.status, t.remark,
-		t.workflow_type,t.stop_status,t.execute_status
+		t.workflow_type,t.stop_status,t.execute_status,t.create_time
 		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
 		where t.sellers_id = #{memberId,jdbcType=VARCHAR}
 		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
 		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
-		and t.exe_getreturngoods_num > 0 and t.execute_status = 1 and t.status = 4
+		and t.exe_getreturngoods_num > 0 and t.execute_status = 1 and t.status = 4 order by t.create_time DESC 
 		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
 	</select>
 	<select id="searchPayMoneyMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -190,12 +190,12 @@
 		t.buyers_id,
 		t.buyers_name, t.sellers_id,
 		t.sellers_name, t.status, t.remark,
-		t.workflow_type,t.stop_status,t.execute_status
+		t.workflow_type,t.stop_status,t.execute_status,t.create_time
 		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
 		where t.buyers_id = #{memberId,jdbcType=VARCHAR}
 		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
 		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
-		and t.exe_paymoney_num > 0 and t.execute_status = 1 and t.status = 4
+		and t.exe_paymoney_num > 0 and t.execute_status = 1 and t.status = 4 order by t.create_time DESC 
 		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
 	</select>
 	<select id="searchPayMoneyMtOrderForSettle" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -214,14 +214,14 @@
 		t.buyers_id,
 		t.buyers_name, t.sellers_id,
 		t.sellers_name, t.status, t.remark,
-		t.workflow_type,t.stop_status,t.execute_status
+		t.workflow_type,t.stop_status,t.execute_status,t.create_time
 		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
 		<where>
 			<if test="buyersId != null" >and t.buyers_id = #{buyersId,jdbcType=VARCHAR}</if>
 			<if test="sellersId != null" >and t.sellers_id = #{sellersId,jdbcType=VARCHAR}</if>
 			<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
 			<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
-			and t.exe_paymoney_num > 0 and t.execute_status = 1 and t.status = 4
+			and t.exe_paymoney_num > 0 and t.execute_status = 1 and t.status = 4 order by t.create_time DESC 
 		</where>
 		order by m.ordertitle_code
 			<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
@@ -242,12 +242,12 @@
 		t.buyers_id,
 		t.buyers_name, t.sellers_id,
 		t.sellers_name, t.status, t.remark,
-		t.workflow_type,t.stop_status,t.execute_status
+		t.workflow_type,t.stop_status,t.execute_status,t.create_time
 		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
 		where t.sellers_id = #{memberId,jdbcType=VARCHAR}
 		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
 		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
-		and t.exe_getmoney_num > 0 and t.execute_status = 1 and t.status = 4
+		and t.exe_getmoney_num > 0 and t.execute_status = 1 and t.status = 4 order by t.create_time DESC 
 		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
 	</select>
 	<select id="searchRefundMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -266,12 +266,12 @@
 		t.buyers_id,
 		t.buyers_name, t.sellers_id,
 		t.sellers_name, t.status, t.remark,
-		t.workflow_type,t.stop_status,t.execute_status
+		t.workflow_type,t.stop_status,t.execute_status,t.create_time
 		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
 		where t.sellers_id = #{memberId,jdbcType=VARCHAR}
 		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
 		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
-		and t.exe_refund_num > 0 and t.execute_status = 1 and t.status = 4
+		and t.exe_refund_num > 0 and t.execute_status = 1 and t.status = 4 order by t.create_time DESC 
 		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
 	</select>
 	<select id="searchGetRefundMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">
@@ -290,12 +290,12 @@
 		t.buyers_id,
 		t.buyers_name, t.sellers_id,
 		t.sellers_name, t.status, t.remark,
-		t.workflow_type,t.stop_status,t.execute_status
+		t.workflow_type,t.stop_status,t.execute_status,t.create_time
 		from mt_order t join mt_ordertitle m on t.oredertitle_code = m.id
 		where t.buyers_id = #{memberId,jdbcType=VARCHAR}
 		<if test="ordertitleNumber != null" >and m.ordertitle_code = #{ordertitleNumber,jdbcType=INTEGER}</if>
 		<if test="goodsName != null" >and t.goods_name = #{goodsName,jdbcType=VARCHAR}</if>
-		and t.exe_getrefund_num > 0 and t.execute_status = 1 and t.status = 4
+		and t.exe_getrefund_num > 0 and t.execute_status = 1 and t.status = 4 order by t.create_time DESC 
 		<if test="startFirst != null and startEnd != null">limit #{startFirst},#{startEnd}</if>
 	</select>
 	<select id="searchSettleMtOrder" parameterType="java.util.Map" resultMap="BaseResultMap">

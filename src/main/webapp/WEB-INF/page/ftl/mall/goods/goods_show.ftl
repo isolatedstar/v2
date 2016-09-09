@@ -134,6 +134,12 @@ $(document).ready(function(e) {
 	}
 	
 	//****************************************上传**********************************************************
+	function childCloseImg(){
+		//关闭目录与资料路内容div
+		//childBase.$("#treeview1").hide();
+		childBase.$("#resourceInfo").hide();
+			
+	}
 	//  嵌入资料库相关方法
 	//新增页面点击上传按钮
 	//给子页面getType赋值  表示为商品新增页面	
@@ -1961,7 +1967,7 @@ $(document).ready(function(e) {
                         <div class="panel-heading box-shodm ">
                         资源库信息
                         <button type="button" class="close" 
-                           data-dismiss="modal" aria-hidden="true" >
+                           data-dismiss="modal" aria-hidden="true" onclick="childCloseImg();" >
                               &times;
                         </button>
                         

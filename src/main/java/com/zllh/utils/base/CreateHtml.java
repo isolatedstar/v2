@@ -24,6 +24,8 @@ import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.zllh.utils.common.StringUtil;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -58,7 +60,7 @@ public class CreateHtml {
 			Template t = cfg.getTemplate(ftlName, "utf-8");
 			t.setEncoding("utf-8");
 			//判断根目录是否存在，不存在的话创建
-			rootPath = servletContext.getRealPath("/") + htmPath;
+			rootPath = servletContext.getRealPath(File.separator) + htmPath;
 			File file = new File(rootPath);
 			//文件不存在的话创建
             if(!file.exists()){
@@ -98,6 +100,8 @@ public class CreateHtml {
 			ServletContext servletContext, String ftlName, String fileName,
 			String htmPath,String templatePath) {
 		boolean flag = false;
+		htmPath = StringUtil.toLinux(htmPath);
+		templatePath = StringUtil.toLinux(templatePath);
 		//设置fremaker参数
 		Configuration cfg = new Configuration();
 		cfg.setServletContextForTemplateLoading(servletContext, templatePath);// ftl的基本路径
@@ -109,7 +113,8 @@ public class CreateHtml {
 			Template t = cfg.getTemplate(ftlName, "utf-8");
 			t.setEncoding("utf-8");
 			//判断根目录是否存在，不存在的话创建
-			rootPath = servletContext.getRealPath("/") + htmPath;
+			rootPath = servletContext.getRealPath(File.separator) + htmPath;
+			rootPath = StringUtil.toLinux(rootPath);
 			File file = new File(rootPath);
 			//文件不存在的话创建
             if(!file.exists()){
@@ -182,8 +187,8 @@ public class CreateHtml {
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String ymd = sdf.format(new Date());
-		savePath += ymd + "/";
-		saveUrl += ymd + "/";
+		savePath += ymd + File.separator;
+		saveUrl += ymd + File.separator;
 		File dirFile = new File(savePath);
 		if (!dirFile.exists()) {
 			dirFile.mkdirs();
